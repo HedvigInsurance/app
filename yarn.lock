@@ -4048,17 +4048,18 @@ https-proxy-agent@^2.2.1:
     agent-base "^4.1.0"
     debug "^3.1.0"
 
-husky@^1.0.0-rc.1:
-  version "1.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-1.0.0-rc.1.tgz#f7c54541ac56e3bd2d0b10752ef4ff62a4a03262"
+husky@^1.0.0-rc.4:
+  version "1.0.0-rc.4"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-1.0.0-rc.4.tgz#3f37031bd3ee0140addfb356c5339790126487eb"
   dependencies:
     cosmiconfig "^4.0.0"
     execa "^0.9.0"
+    find-up "^2.1.0"
     is-ci "^1.1.0"
     pkg-dir "^2.0.0"
     pupa "^1.0.0"
     read-pkg "^3.0.0"
-    run-node "^0.2.0"
+    run-node "^1.0.0"
     slash "^2.0.0"
 
 iconv-lite@0.4.19, iconv-lite@^0.4.8:
@@ -7554,9 +7555,9 @@ run-async@^2.2.0:
   dependencies:
     is-promise "^2.1.0"
 
-run-node@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/run-node/-/run-node-0.2.0.tgz#b26e942e94205dedbe532cddf0fd1dbd56649af6"
+run-node@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/run-node/-/run-node-1.0.0.tgz#46b50b946a2aa2d4947ae1d886e9856fd9cabe5e"
 
 rx-lite-aggregates@^4.0.8:
   version "4.0.8"
