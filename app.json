@@ -12,18 +12,36 @@
     "scheme": "hedvig-test",
     "sdkVersion": "27.0.0",
     "privacy": "unlisted",
+    "githubUrl": "https://github.com/HedvigInsurance/app",
     "ios": {
       "buildNumber": "1.3.1",
       "bundleIdentifier": "com.hedvig.test.app",
+      "associatedDomains": [
+        "applinks:hedvig.app.link",
+        "applinks:hedvig-alternate.app.link",
+        "applinks:hedvig.test-app.link",
+        "applinks:hedvig-alternate.test-app.link",
+        "applinks:app.hedvig.com"
+      ],
       "infoPlist": {
         "NSCameraUsageDescription": "Hedvig använder kamera för att ta bilder av dina försäkrade föremål",
         "NSMicrophoneUsageDescription": "Hedvig använder mikrofonen till att spela in meddelanden från dig"
+      },
+      "config": {
+        "branch": {
+          "apiKey": "key_test_jmu0ijecJKU5YhL4CdSEbgndBuksumyt"
+        }
       }
     },
     "android": {
       "package": "com.hedvig.test.app",
       "permissions": ["CAMERA", "RECORD_AUDIO", "READ_INTERNAL_STORAGE", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"],
-      "versionCode": 19
+      "versionCode": 19,
+      "config": {
+        "branch": {
+          "apiKey": "key_test_jmu0ijecJKU5YhL4CdSEbgndBuksumyt"
+        }
+      }
     },
     "orientation": "portrait",
     "notification": {
