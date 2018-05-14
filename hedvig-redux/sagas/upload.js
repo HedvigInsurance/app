@@ -1,11 +1,10 @@
-import { takeEvery, put, select } from 'redux-saga/effects';
+import { put, select, takeEvery } from 'redux-saga/effects';
 import uuidv4 from 'uuid/v4';
-
 import { UPLOAD, UPLOAD_STARTED, UPLOAD_SUCCEEDED } from '../actions/types';
+import { envConfig } from '../env-config';
 import { upload } from '../services/Upload';
-import config from '../config.json';
 
-const UPLOAD_URL = config.s3_bucket_url;
+const { UPLOAD_URL } = envConfig;
 
 const uploadHandler = function*(action) {
   if (action.payload.addToken) {

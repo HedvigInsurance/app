@@ -7,17 +7,15 @@ before_install:
 - npm install exp --global
 
 install:
-- make install
+- ./scripts/bootstrap.sh
 
 script:
-- make lint
-- make test
+- yarn lint
+- yarn test
 
 after_success:
-- make test-deploy
-- make production-deploy
+- ./scripts/travis-publish-test.sh
 
 notifications:
   email: false
   webhooks: https://www.travisbuddy.com
-

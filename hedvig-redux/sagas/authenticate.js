@@ -1,7 +1,7 @@
 import * as R from 'ramda';
-import { takeEvery, put } from 'redux-saga/effects';
+import { put, takeEvery } from 'redux-saga/effects';
 import { AUTHENTICATE, RECEIVED_TOKEN, VALIDATE_TOKEN } from '../actions/types';
-import { baseURL } from '../services/environment';
+import { envConfig } from '../env-config';
 
 const authenticate = function*(action) {
   let requestOpts = {
@@ -14,7 +14,10 @@ const authenticate = function*(action) {
       'Content-Type': 'application/json; charset=utf-8',
     };
   }
-  let authResponse = yield fetch(`${baseURL}/helloHedvig`, requestOpts);
+  let authResponse = yield fetch(
+    `${envConfig.API_BASE_URL}/helloHedvig`,
+    requestOpts,
+  );
   if (authResponse.status === 200) {
     let token = yield authResponse.text();
     yield put({ type: RECEIVED_TOKEN, payload: token });
@@ -30,7 +33,7 @@ const authenticateSaga = function*() {
 
 const validateToken = function*(action) {
   let token = action.payload;
-  let validateResponse = yield fetch(`${baseURL}/member/me`, {
+  let validateResponse = yield fetch(`${envConfig.API_BASE_URL}/member/me`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,

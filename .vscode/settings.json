@@ -1,0 +1,10 @@
+{
+  "files.autoSave": "off",
+  "editor.formatOnSave": true,
+  "editor.snippetSuggestions": "top",
+  "prettier.eslintIntegration": true,
+  "search.exclude": {
+    "**/node_modules": true
+  },
+  "npm.enableScriptExplorer": true
+}

@@ -7,6 +7,7 @@ module.exports = {
   env: {
     browser: true,
     jest: true,
+    node: true,
   },
   plugins: ['react'],
   extends: [
@@ -30,5 +31,6 @@ module.exports = {
   },
   globals: {
     __DEV__: false,
+    Promise: false,
   },
 };

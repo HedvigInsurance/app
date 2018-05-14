@@ -1,7 +1,7 @@
-import { take, takeEvery, put, select } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
-import { baseURL } from '../services/environment';
+import { put, select, take, takeEvery } from 'redux-saga/effects';
 import { API, API_ERROR, STATUS_MESSAGE } from '../actions/types';
+import { envConfig } from '../env-config';
 
 const api = function*(action) {
   let state = yield select();
@@ -30,7 +30,7 @@ const api = function*(action) {
       if (action.payload.body) {
         requestOptions.body = action.payload.body;
       }
-      response = yield fetch(baseURL + url, requestOptions);
+      response = yield fetch(envConfig.API_BASE_URL + url, requestOptions);
 
       if (response.status === HTTP_UNAUTHORIZED) {
         yield put({

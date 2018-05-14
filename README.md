@@ -1,5 +1,24 @@
 [![Build Status](https://travis-ci.org/HedvigInsurance/app.svg?branch=marketing-carousel)](https://travis-ci.org/HedvigInsurance/app)
 
+# Project setup
+
+* Install Node.js
+  * Mac
+    * `brew install nodenv`
+    * `brew install node-build`
+    * `nodenv install --list`
+    * `nodenv install X.X.LATEST`
+    * `nodenv global X.X.LATEST`
+    * `nodenv rehash`
+* Install [direnv](https://direnv.net/) (autoloads env variables in .envrc)
+  * Mac
+    * `brew install direnv`
+* Install [Yarn](https://yarnpkg.com/lang/en/docs/install/)
+  * Mac
+    * `brew install yarn`
+* Create env-config and install dependencies
+  * `./scripts/bootstrap.sh`
+
 # Project changes
 
 ## Massive git rename
@@ -8,6 +27,8 @@ Every single file in this repo was git mv'd so they lost their history.
 
 * Log commits pre rename: `git log --follow`
 * GitLens VSCode extension will automagically follow renames
+
+# Publishing changes
 
 ## Deploying to TestFlight
 

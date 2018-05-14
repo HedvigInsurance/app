@@ -1,6 +1,9 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
-hedvig-redux/config.json
+hedvig-redux/env-config.test.json
+hedvig-redux/env-config.development.json
+hedvig-redux/env-config.production.json
+app.production.json
 
 # dependencies
 node_modules/
@@ -20,6 +23,7 @@ coverage/
 .env.development.local
 .env.test.local
 .env.production.local
+.envrc
 
 # logs
 logs
