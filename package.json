@@ -33,7 +33,7 @@
   "dependencies": {
     "@expo/react-native-action-sheet": "^1.0.2",
     "@expo/vector-icons": "^6.3.1",
-    "babel-eslint": "^8.2.1",
+    "babel-eslint": "^8.2.3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.12",
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
