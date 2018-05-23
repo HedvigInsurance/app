@@ -1,4 +1,4 @@
-import { LOADED_USER } from '../actions/types';
+import { LOADED_USER, DELETE_TRACKING_ID } from '../actions/types';
 import * as R from 'ramda';
 
 const reducer = (
@@ -30,6 +30,8 @@ const reducer = (
       } else {
         return state;
       }
+    case DELETE_TRACKING_ID:
+      return { currentUser: { ...state.currentUser, trackingId: null } };
     default:
       return state;
   }

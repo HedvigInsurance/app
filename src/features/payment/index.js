@@ -6,7 +6,6 @@ import { NavigationActions } from 'react-navigation';
 
 import { NavBar } from '../../components/NavBar';
 import { NavigateBackButton } from '../../components/Button';
-
 class Payment extends React.Component {
   static propTypes = {
     url: PropTypes.string,
@@ -79,11 +78,12 @@ export default connect(
         type: 'PAYMENT/REQUEST_PAYMENT_REGISTRATION',
         payload: { id },
       }),
-    onPaymentSuccess: () =>
+    onPaymentSuccess: () => {
       dispatch({
         type: 'PAYMENT/ON_PAYMENT_SUCCESS',
         payload: { onFinish: () => dispatch(NavigationActions.back()) },
-      }),
+      });
+    },
     onPaymentFailure: () =>
       dispatch({
         type: 'PAYMENT/ON_PAYMENT_FAILURE',

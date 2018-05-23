@@ -2,6 +2,7 @@ import { API, UPDATE_CASHBACK } from '../actions/types';
 import * as cashbackActions from '../actions/cashback';
 import * as userActions from '../actions/user';
 import { take, takeEvery, put } from 'redux-saga/effects';
+import { LOADED_USER } from '../actions/types';
 
 const updateCashback = function*({ payload: selectedItem, continuation }) {
   // Use this to return the whole cashbackAlternatives list with selected: true
@@ -29,7 +30,7 @@ const updateCashback = function*({ payload: selectedItem, continuation }) {
   // Also get user profile as this includes some selected cashback info
   yield put(userActions.getCurrentUser());
   if (continuation) {
-    yield take('LOADED_USER');
+    yield take(LOADED_USER);
     yield put(continuation());
   }
 };

@@ -13,6 +13,8 @@
     "sdkVersion": "27.0.0",
     "privacy": "unlisted",
     "githubUrl": "https://github.com/HedvigInsurance/app",
+    "facebookAppId": "170982226921693",
+    "facebookDisplayName": "Hedvig",
     "ios": {
       "buildNumber": "1.3.2",
       "bundleIdentifier": "com.hedvig.test.app",

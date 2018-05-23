@@ -2,7 +2,6 @@ import { AsyncStorage } from 'react-native';
 import { types } from '../../hedvig-redux';
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { NavigationActions } from 'react-navigation';
-
 import { SEEN_MARKETING_CAROUSEL_KEY } from '../constants';
 
 const handleLogout = function*() {
@@ -20,7 +19,9 @@ const handleLogout = function*() {
   // Delete existing token from frontend
   yield put({ type: types.DELETE_TOKEN, payload: {} });
 
-  // yield take("LOGOUT_REQUESTED") <-- Don't wait == Fire and forget
+  // Delete trackingId from currentUser and reset session in Segment
+  yield put({ type: types.DELETE_TRACKING_ID });
+
   // Get a new token
   yield put({ type: types.AUTHENTICATE, payload: {} });
 

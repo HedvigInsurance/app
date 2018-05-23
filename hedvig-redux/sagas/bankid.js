@@ -6,7 +6,7 @@ import {
   DEPRECATED_BANKID_COLLECT_RESPONSE,
   DEPRECATED_BANKID_COLLECT_COMPLETE,
 } from '../actions/types';
-import * as chatActions from '../actions/chat';
+import { getMessages } from '../actions/chat';
 
 const COLLECT_DELAY_MS = 1000;
 
@@ -43,7 +43,7 @@ const collectHandler = function*() {
       isDone(state.deprecatedBankId.response, state.deprecatedBankId.tryCount)
     ) {
       yield put({ type: DEPRECATED_BANKID_COLLECT_COMPLETE });
-      yield put(chatActions.getMessages());
+      yield put(getMessages());
     } else {
       yield call(delay, COLLECT_DELAY_MS);
       yield put({

@@ -43,6 +43,7 @@ const typesList = [
   'LOGOUT',
   'ADD_LISTENER',
   'SHOW_ACTION_SHEET',
+  'DELETE_TRACKING_ID',
 ];
 
 const typesMap = {};

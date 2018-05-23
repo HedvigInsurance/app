@@ -1,5 +1,6 @@
 import { takeEvery, put, take } from 'redux-saga/effects';
 import { getMessages } from '../actions/chat';
+import { TRACK_PAYMENT_ADDED } from '../../src/features/analytics/actions';
 
 const startPayment = function*(action) {
   yield put({
@@ -32,6 +33,12 @@ const finalizePayment = function*(action) {
   });
 
   yield take(['PAYMENT/FINALIZE_PAYMENT_SUCCESS', 'API_ERROR']);
+  yield put({
+    type: TRACK_PAYMENT_ADDED,
+    payload: {
+      payment_method: 'Trustly',
+    },
+  });
   yield put(getMessages());
   return action.payload.onFinish();
 };

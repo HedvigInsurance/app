@@ -14,6 +14,12 @@ import Swiper from 'react-native-swiper';
 import { connect } from 'react-redux';
 
 import { insuranceActions, eventActions } from '../../../hedvig-redux';
+import {
+  TRACK_OFFER_OPENED,
+  TRACK_OFFER_CLOSED,
+  TRACK_OFFER_STEP_VIEWED,
+  TRACK_OFFER_STEP_COMPLETED,
+} from '../../features/analytics/actions';
 
 import { IS_VIEWING_OFFER } from '../../constants';
 import { Loader } from '../../components/Loader';
@@ -109,6 +115,18 @@ class OfferSwiper extends React.Component {
     // Routing to Offer view from BaseRouter when
     // the app has been force closed and lost its state
     AsyncStorage.setItem(IS_VIEWING_OFFER, 'true');
+
+    this.props.trackOfferOpen(this.props.insurance.newTotalPrice);
+    this.props.trackOfferStepViewed(this.props.activeOfferScreenIndex);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.activeOfferScreenIndex !== prevProps.activeOfferScreenIndex
+    ) {
+      this.props.trackOfferStepCompleted(prevProps.activeOfferScreenIndex);
+      this.props.trackOfferStepViewed(this.props.activeOfferScreenIndex);
+    }
   }
 
   hasLoaded(insurance) {
@@ -230,6 +248,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return dispatch({ type: OFFER_SET_ACTIVE_SCREEN, payload: { index } });
     },
     closeOffer: () => {
+      dispatch({
+        type: TRACK_OFFER_CLOSED,
+      });
       dispatch(
         eventActions.event(
           {
@@ -250,6 +271,24 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       ownProps.navigation.goBack();
     },
     navigate: (params) => ownProps.navigation.navigate(params),
+    trackOfferOpen: (pricePerMonth) =>
+      dispatch({
+        type: TRACK_OFFER_OPENED,
+        payload: {
+          revenue: pricePerMonth,
+          currency: 'SEK',
+        },
+      }),
+    trackOfferStepViewed: (step) =>
+      dispatch({
+        type: TRACK_OFFER_STEP_VIEWED,
+        payload: { step },
+      }),
+    trackOfferStepCompleted: (step) =>
+      dispatch({
+        type: TRACK_OFFER_STEP_COMPLETED,
+        payload: { step },
+      }),
   };
 };
 

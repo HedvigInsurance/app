@@ -11,9 +11,9 @@ const PRODUCTION = 'production';
 const { releaseChannel = DEVELOPMENT } = Expo.Constants.manifest;
 
 export const envConfig = {
-  [DEVELOPMENT]: developmentConfig,
-  [TEST]: testConfig,
-  [PRODUCTION]: productionConfig,
+  [DEVELOPMENT]: { ...developmentConfig },
+  [TEST]: { ...testConfig },
+  [PRODUCTION]: { ...productionConfig },
 }[releaseChannel];
 
 if (!envConfig) {

@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import { AppState, Platform, AsyncStorage } from 'react-native';
 import { Provider } from 'react-redux';
-import { Notifications } from 'expo';
+import { Notifications, DangerZone } from 'expo';
 import Sentry from 'sentry-expo';
 import createRavenMiddleware from 'raven-for-redux';
 import {
@@ -11,8 +11,11 @@ import {
 } from '@expo/react-native-action-sheet';
 import { persistReducer, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/es/integration/react';
+import { createMiddleware } from 'redux-beacon';
+import logger from '@redux-beacon/logger';
 
 import * as hedvigRedux from './hedvig-redux';
+import { envConfig } from './hedvig-redux/env-config';
 
 import { theme } from './src/style-theme';
 import nav from './src/reducers/nav';
@@ -48,19 +51,52 @@ import {
   registerPushSaga,
 } from './src/sagas/pushNotifications';
 import { chatStartSaga, chatLoginSaga } from './src/features/marketing/saga';
+import {
+  DEEP_LINK_OPENED,
+  DEEP_LINK_INSTALL_PARAMS,
+} from './src/features/deep-linking/actions';
 import { getOrLoadToken } from './src/services/TokenStorage';
 import navigationMiddleware from './src/middleware/navigation';
+import {
+  setTrackingIdentitySaga,
+  trackDeepLinkOpenedSaga,
+  trackDeepLinkInstallSaga,
+} from './src/features/analytics/saga';
+import {
+  trackEvent,
+  trackScreenView,
+  resetSession,
+  identify,
+  SegmentReduxTarget,
+} from './src/features/analytics/SegmentRedux';
+import {
+  SegmentTracker,
+  SemanticEvents,
+} from './src/features/analytics/SegmentTracker';
+import {
+  TRACK_SET_IDENTITY,
+  TRACK_INSTALL_ATTRIBUTED,
+  TRACK_DEEP_LINK_OPENED,
+  TRACK_OFFER_OPENED,
+  TRACK_OFFER_CLOSED,
+  TRACK_OFFER_STEP_VIEWED,
+  TRACK_OFFER_STEP_COMPLETED,
+  TRACK_OFFER_SIGNED,
+  TRACK_PAYMENT_ADDED,
+} from './src/features/analytics/actions';
+
+const { Branch } = DangerZone;
 
 // Fix HMR
 let SentryInstance = Sentry;
 let ravenMiddleware;
 if (!__DEV__) {
-  SentryInstance.config(
-    'https://11b25670dab44c79bfd36ec805fda14a@sentry.io/271600',
-  ).install();
+  SentryInstance.config(envConfig.SENTRY_DSN, {
+    environment: envConfig.ENVIRONMENT,
+  }).install();
 
-  ravenMiddleware = createRavenMiddleware(Sentry, {
-    stateTransformer: (state) => ({ user: state.user }),
+  ravenMiddleware = createRavenMiddleware(SentryInstance, {
+    stateTransformer: (state) => ({ user: state.user.currentUser }),
   });
 } else {
   SentryInstance = {
@@ -68,10 +104,61 @@ if (!__DEV__) {
   };
 }
 
-// Disable warnings about deprecated lifecycle hooks in React 16.3.x+
-// https://blog.expo.io/expo-sdk-v26-0-0-is-now-available-2be6d9805b31
-// https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html
-console.disableYellowBox = true; // eslint-disable-line no-console
+// Map Redux actions to Segment analytics event
+const eventsMap = {
+  'Navigation/NAVIGATE': trackScreenView(({ routeName }) => ({
+    screenName: routeName,
+  })),
+  [hedvigRedux.types.DELETE_TRACKING_ID]: resetSession(),
+  [TRACK_SET_IDENTITY]: identify(({ payload }) => ({
+    userId: payload.userId,
+    customTraits: payload.customTraits,
+  })),
+  [TRACK_INSTALL_ATTRIBUTED]: trackEvent(({ payload }) => ({
+    eventName: SemanticEvents.Mobile.InstallAttributed,
+    customProperties: payload,
+  })),
+  [TRACK_DEEP_LINK_OPENED]: trackEvent(({ payload }) => ({
+    eventName: SemanticEvents.Mobile.DeepLinkOpened,
+    customProperties: payload,
+  })),
+  [TRACK_OFFER_OPENED]: trackEvent(({ payload }) => ({
+    eventName: SemanticEvents.Ecommerce.CheckoutStarted,
+    customProperties: payload,
+  })),
+  [TRACK_OFFER_CLOSED]: trackEvent(({ payload }) => ({
+    eventName: 'Checkout Closed',
+    customProperties: payload,
+  })),
+  [TRACK_OFFER_STEP_VIEWED]: trackEvent(({ payload }) => ({
+    eventName: SemanticEvents.Ecommerce.CheckoutStepViewed,
+    customProperties: payload,
+  })),
+  [TRACK_OFFER_STEP_COMPLETED]: trackEvent(({ payload }) => ({
+    eventName: SemanticEvents.Ecommerce.CheckoutStepCompleted,
+    customProperties: payload,
+  })),
+  [TRACK_OFFER_SIGNED]: trackEvent(({ payload }) => ({
+    eventName: SemanticEvents.Ecommerce.OrderCompleted,
+    customProperties: payload,
+  })),
+  [TRACK_PAYMENT_ADDED]: trackEvent(({ payload }) => ({
+    eventName: SemanticEvents.Ecommerce.PaymentInfoEntered,
+    customProperties: payload,
+  })),
+};
+
+const segmentMiddleware = createMiddleware(
+  eventsMap,
+  SegmentReduxTarget(
+    envConfig.SEGMENT_ANDROID_WRITE_KEY,
+    envConfig.SEGMENT_IOS_WRITE_KEY,
+    SegmentTracker,
+  ),
+  {
+    logger,
+  },
+);
 
 export class App extends React.Component {
   constructor() {
@@ -81,7 +168,7 @@ export class App extends React.Component {
       storage: AsyncStorage,
       whitelist: ['intent'],
     };
-    const additionalMiddleware = [navigationMiddleware];
+    const additionalMiddleware = [segmentMiddleware, navigationMiddleware];
     if (ravenMiddleware) {
       additionalMiddleware.push(ravenMiddleware);
     }
@@ -116,12 +203,16 @@ export class App extends React.Component {
         bankIdSignCancelSaga,
         bankIdCollectCompleteSaga,
         bankIdAppStateChangeSaga,
+        setTrackingIdentitySaga,
+        trackDeepLinkOpenedSaga,
+        trackDeepLinkInstallSaga,
       ],
-      additionalMiddleware: additionalMiddleware,
+      additionalMiddleware,
       raven: SentryInstance,
     });
     window.store = this.store;
     this.persistor = persistStore(this.store);
+    this._unsubscribeFromBranch = null;
   }
 
   _handleAppStateChange = (nextAppState) => {
@@ -144,6 +235,30 @@ export class App extends React.Component {
       ),
     );
 
+    Branch.getFirstReferringParams().then((params) => {
+      this.store.dispatch({
+        type: DEEP_LINK_INSTALL_PARAMS,
+        payload: {
+          branchParams: params,
+        },
+      });
+    });
+
+    this._unsubscribeFromBranch = Branch.subscribe(({ error, params }) => {
+      if (error) {
+        SentryInstance.captureException(error);
+        console.error('Error from Branch', error); // eslint-disable-line no-console
+        return;
+      }
+
+      this.store.dispatch({
+        type: DEEP_LINK_OPENED,
+        payload: {
+          branchParams: params,
+        },
+      });
+    });
+
     Notifications.addListener(this._handleNotification);
   }
 
@@ -158,6 +273,11 @@ export class App extends React.Component {
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
+
+    if (this._unsubscribeFromBranch) {
+      this._unsubscribeFromBranch();
+      this._unsubscribeFromBranch = null;
+    }
   }
 
   render() {
