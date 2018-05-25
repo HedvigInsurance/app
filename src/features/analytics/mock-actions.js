@@ -49,6 +49,11 @@ export const openDeepLink = {
   },
 };
 
+export const openSomeDeepLink = {
+  type: 'DEEP_LINK_OPENED',
+  payload: {},
+};
+
 export const installParams = {
   type: 'DEEP_LINK_INSTALL_PARAMS',
   payload: {

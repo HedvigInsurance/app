@@ -1,9 +1,6 @@
 import { put, takeEvery, select } from 'redux-saga/effects';
 import { types } from '../../../hedvig-redux';
-import {
-  DEEP_LINK_OPENED,
-  DEEP_LINK_INSTALL_PARAMS,
-} from '../deep-linking/actions';
+import { DEEP_LINK_OPENED } from '../deep-linking/actions';
 import {
   TRACK_SET_IDENTITY,
   TRACK_INSTALL_ATTRIBUTED,
@@ -66,6 +63,7 @@ const buildCampaignParams = (params) => {
 const trackDeepLinkOpened = function*({ payload }) {
   let { branchParams } = payload;
   branchParams = branchParams || {};
+  const url = branchParams['+url'] || branchParams['~referring_link'];
 
   // Track all uri opens (e.g. opening app from bank id with hedvig://)
   // Adding this to allow debugging installs which are only triggered in production
@@ -74,14 +72,30 @@ const trackDeepLinkOpened = function*({ payload }) {
     type: TRACK_DEEP_LINK_OPENED,
     payload: {
       provider: 'Branch Metrics',
-      url: branchParams['+url'],
+      url,
       branchParams,
     },
   });
 
-  // Only attribute installs that have a channel set (e.g. Facebook)
+  const campaignParams = buildCampaignParams(branchParams);
+  if (Object.keys(campaignParams).length > 0) {
+    yield put({
+      type: types.API,
+      payload: {
+        SUCCESS: 'REGISTER_CAMPAIGN_SUCCESS',
+        url: '/hedvig/register_campaign',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json; charset=utf-8',
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(campaignParams, null, 2),
+      },
+    });
+  }
+
   // https://segment.com/docs/spec/mobile/#install-attributed
-  if (branchParams['+is_first_session'] && branchParams['~channel']) {
+  if (branchParams['+is_first_session']) {
     yield put({
       type: TRACK_INSTALL_ATTRIBUTED,
       payload: {
@@ -93,32 +107,10 @@ const trackDeepLinkOpened = function*({ payload }) {
           medium: branchParams['~feature'],
           term: branchParams['~keywords'],
         },
-        url: branchParams['+url'],
+        url,
       },
     });
   }
-};
-
-const trackDeepLinkInstall = function*({ payload }) {
-  let { branchParams } = payload;
-  branchParams = branchParams || {};
-
-  const params = buildCampaignParams(branchParams);
-  if (!Object.keys(params).length) return;
-
-  yield put({
-    type: types.API,
-    payload: {
-      SUCCESS: 'REGISTER_CAMPAIGN_SUCCESS',
-      url: '/hedvig/register_campaign',
-      method: 'POST',
-      headers: {
-        Accept: 'application/json; charset=utf-8',
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      body: JSON.stringify(params, null, 2),
-    },
-  });
 };
 
 export const setTrackingIdentitySaga = function*() {
@@ -130,8 +122,4 @@ export const setTrackingIdentitySaga = function*() {
 
 export const trackDeepLinkOpenedSaga = function*() {
   yield takeEvery(DEEP_LINK_OPENED, trackDeepLinkOpened);
-};
-
-export const trackDeepLinkInstallSaga = function*() {
-  yield takeEvery(DEEP_LINK_INSTALL_PARAMS, trackDeepLinkInstall);
 };

@@ -51,16 +51,12 @@ import {
   registerPushSaga,
 } from './src/sagas/pushNotifications';
 import { chatStartSaga, chatLoginSaga } from './src/features/marketing/saga';
-import {
-  DEEP_LINK_OPENED,
-  DEEP_LINK_INSTALL_PARAMS,
-} from './src/features/deep-linking/actions';
+import { DEEP_LINK_OPENED } from './src/features/deep-linking/actions';
 import { getOrLoadToken } from './src/services/TokenStorage';
 import navigationMiddleware from './src/middleware/navigation';
 import {
   setTrackingIdentitySaga,
   trackDeepLinkOpenedSaga,
-  trackDeepLinkInstallSaga,
 } from './src/features/analytics/saga';
 import {
   trackEvent,
@@ -205,7 +201,6 @@ export class App extends React.Component {
         bankIdAppStateChangeSaga,
         setTrackingIdentitySaga,
         trackDeepLinkOpenedSaga,
-        trackDeepLinkInstallSaga,
       ],
       additionalMiddleware,
       raven: SentryInstance,
@@ -234,15 +229,6 @@ export class App extends React.Component {
           this.props.showActionSheetWithOptions(options, callback),
       ),
     );
-
-    Branch.getFirstReferringParams().then((params) => {
-      this.store.dispatch({
-        type: DEEP_LINK_INSTALL_PARAMS,
-        payload: {
-          branchParams: params,
-        },
-      });
-    });
 
     this._unsubscribeFromBranch = Branch.subscribe(({ error, params }) => {
       if (error) {
