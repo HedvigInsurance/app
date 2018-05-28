@@ -22,8 +22,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const EditMessageButtonContainer = connect(mapStateToProps, mapDispatchToProps)(
-  EditMessageButton,
-);
+const EditMessageButtonContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EditMessageButton);
 
 export default EditMessageButtonContainer;

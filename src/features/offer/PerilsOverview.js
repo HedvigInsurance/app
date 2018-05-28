@@ -140,8 +140,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const PerilsOverviewContainer = connect(null, mapDispatchToProps)(
-  PerilsOverview,
-);
+const PerilsOverviewContainer = connect(
+  null,
+  mapDispatchToProps,
+)(PerilsOverview);
 
 export { PerilsOverviewContainer as PerilsOverview };

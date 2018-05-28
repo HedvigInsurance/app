@@ -48,6 +48,9 @@ class OfferScreen extends React.Component {
   }
 }
 
-const OfferContainer = connect(null, null)(OfferScreen);
+const OfferContainer = connect(
+  null,
+  null,
+)(OfferScreen);
 
 export default OfferContainer;

@@ -456,8 +456,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const ConnectedMarketingCarousel = connect(mapStateToProps, mapDispatchToProps)(
-  MarketingCarousel,
-);
+const ConnectedMarketingCarousel = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MarketingCarousel);
 
 export { ConnectedMarketingCarousel as MarketingCarousel };

@@ -22,8 +22,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const DateInputContainer = connect(mapStateToProps, mapDispatchToProps)(
-  DateInput,
-);
+const DateInputContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DateInput);
 
 export default DateInputContainer;

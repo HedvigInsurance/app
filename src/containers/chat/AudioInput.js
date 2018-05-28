@@ -38,8 +38,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const AudioInputContainer = connect(mapStateToProps, mapDispatchToProps)(
-  AudioInput,
-);
+const AudioInputContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AudioInput);
 
 export default AudioInputContainer;

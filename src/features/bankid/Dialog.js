@@ -350,6 +350,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const DialogContainer = connect(mapStateToProps, mapDispatchToProps)(Dialog);
+const DialogContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Dialog);
 
 export { DialogContainer as Dialog };

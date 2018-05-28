@@ -19,8 +19,9 @@ const mapDispatchToProps = () => {
   return {};
 };
 
-const LoadingIndicatorContainer = connect(mapStateToProps, mapDispatchToProps)(
-  LoadingIndicator,
-);
+const LoadingIndicatorContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LoadingIndicator);
 
 export default LoadingIndicatorContainer;

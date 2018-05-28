@@ -37,6 +37,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const ChatContainer = connect(mapStateToProps, mapDispatchToProps)(Chat);
+const ChatContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Chat);
 
 export default ChatContainer;

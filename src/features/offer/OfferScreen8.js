@@ -313,6 +313,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const OfferContainer = connect(null, mapDispatchToProps)(OfferScreen);
+const OfferContainer = connect(
+  null,
+  mapDispatchToProps,
+)(OfferScreen);
 
 export default OfferContainer;

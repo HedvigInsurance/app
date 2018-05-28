@@ -292,8 +292,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-const OfferSwiperContainer = connect(mapStateToProps, mapDispatchToProps)(
-  OfferSwiper,
-);
+const OfferSwiperContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(OfferSwiper);
 
 export { OfferSwiperContainer as OfferSwiper };

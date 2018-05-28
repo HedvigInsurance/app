@@ -27,8 +27,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const SingleSelectInputContainer = connect(mapStateToProps, mapDispatchToProps)(
-  SingleSelectInput,
-);
+const SingleSelectInputContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SingleSelectInput);
 
 export default SingleSelectInputContainer;

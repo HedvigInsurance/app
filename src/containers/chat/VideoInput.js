@@ -12,8 +12,9 @@ const mapDispatchToProps = () => {
   return {};
 };
 
-const VideoInputContainer = connect(mapStateToProps, mapDispatchToProps)(
-  VideoInput,
-);
+const VideoInputContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VideoInput);
 
 export default VideoInputContainer;

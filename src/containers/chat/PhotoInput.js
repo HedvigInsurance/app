@@ -25,8 +25,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const PhotoInputContainer = connect(mapStateToProps, mapDispatchToProps)(
-  PhotoInput,
-);
+const PhotoInputContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PhotoInput);
 
 export default PhotoInputContainer;

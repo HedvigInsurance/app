@@ -20,8 +20,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const ParagraphInputContainer = connect(mapStateToProps, mapDispatchToProps)(
-  ParagraphInput,
-);
+const ParagraphInputContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ParagraphInput);
 
 export default ParagraphInputContainer;

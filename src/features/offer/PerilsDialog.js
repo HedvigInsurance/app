@@ -211,8 +211,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const PerilsDialogContainer = connect(mapStateToProps, mapDispatchToProps)(
-  PerilsDialog,
-);
+const PerilsDialogContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PerilsDialog);
 
 export { PerilsDialogContainer as PerilsDialog };

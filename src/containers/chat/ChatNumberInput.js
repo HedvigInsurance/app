@@ -22,8 +22,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const ChatNumberInputContainer = connect(mapStateToProps, mapDispatchToProps)(
-  ChatNumberInput,
-);
+const ChatNumberInputContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ChatNumberInput);
 
 export default ChatNumberInputContainer;

@@ -122,4 +122,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export const Router = connect(mapStateToProps, mapDispatchToProps)(BaseRouter);
+export const Router = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BaseRouter);

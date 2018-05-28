@@ -50,10 +50,13 @@ class UnconnectedPollingMessage extends React.Component {
   }
 }
 
-const PollingMessage = connect(undefined, (dispatch) => ({
-  startPolling: () => dispatch({ type: types.START_POLLING_MESSAGES }),
-  stopPolling: () => dispatch({ type: types.STOP_POLLING_MESSAGES }),
-}))(UnconnectedPollingMessage);
+const PollingMessage = connect(
+  undefined,
+  (dispatch) => ({
+    startPolling: () => dispatch({ type: types.START_POLLING_MESSAGES }),
+    stopPolling: () => dispatch({ type: types.STOP_POLLING_MESSAGES }),
+  }),
+)(UnconnectedPollingMessage);
 
 const getInputComponent = function(messages, navigation) {
   if (messages.length === 0) {

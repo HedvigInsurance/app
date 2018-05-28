@@ -14,6 +14,9 @@ const mapStateToProps = (state, ownProps) => {
   }
 };
 
-const AvatarContainer = connect(mapStateToProps, undefined)(Avatar);
+const AvatarContainer = connect(
+  mapStateToProps,
+  undefined,
+)(Avatar);
 
 export default AvatarContainer;
