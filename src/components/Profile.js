@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Share, Image, StyleSheet } from 'react-native';
+import { View, Share, Image, StyleSheet, Linking } from 'react-native';
 import { HeaderRightChat } from './NavBar';
 import {
   StyledProfileContainer,
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 });
-
 export default class Profile extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'Min Profil',
@@ -133,6 +132,26 @@ export default class Profile extends React.Component {
     }
   }
 
+  _maybeCertificate() {
+    const { certificateUrl } = this.props.insurance;
+    if (certificateUrl) {
+      return this._userRow({
+        title: 'Mitt försäkringsbrev',
+        icon: (
+          <Image
+            style={{
+              width: 40,
+              height: 40,
+            }}
+            source={require('../../assets/icons/profil/insurance-certificate.png')}
+          />
+        ),
+        text: 'Tryck för att läsa',
+        onPress: () => Linking.openURL(certificateUrl),
+      });
+    }
+  }
+
   _shareRow() {
     return this._userRow({
       title: 'Rekommendera en vän',
@@ -166,6 +185,7 @@ export default class Profile extends React.Component {
           {this._maybePersonalInfo()}
           {this._safetyIncreasers()}
           {this._maybeBankAccount()}
+          {this._maybeCertificate()}
         </View>
       );
     }
