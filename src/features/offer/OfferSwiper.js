@@ -8,7 +8,6 @@ import {
   AsyncStorage,
   Dimensions,
   TouchableOpacity,
-  SafeAreaView,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { connect } from 'react-redux';
@@ -34,6 +33,13 @@ import OfferScreen5 from './OfferScreen5';
 import OfferScreen6 from './OfferScreen6';
 import OfferScreen7 from './OfferScreen7';
 import OfferScreen8 from './OfferScreen8';
+
+import {
+  verticalSizeClass,
+  V_SPACIOUS,
+  V_REGULAR,
+  V_COMPACT,
+} from '../../services/DimensionSizes';
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get(
   'window',
@@ -66,7 +72,11 @@ const styles = StyleSheet.create({
     marginRight: 5.5,
   },
   swiperPagination: {
-    bottom: 15,
+    bottom: {
+      [V_SPACIOUS]: 18,
+      [V_REGULAR]: 15,
+      [V_COMPACT]: 15,
+    }[verticalSizeClass],
   },
   button: {
     flexDirection: 'row',
@@ -80,7 +90,11 @@ const styles = StyleSheet.create({
     height: 47,
     zIndex: 200,
     elevation: 1,
-    marginBottom: 26,
+    marginBottom: {
+      [V_SPACIOUS]: 29,
+      [V_REGULAR]: 26,
+      [V_COMPACT]: 26,
+    }[verticalSizeClass],
   },
   buttonIsFirst: {
     backgroundColor: '#fff',
@@ -187,19 +201,19 @@ class OfferSwiper extends React.Component {
               alignItems: 'flex-end',
             }}
             dot={
-              <SafeAreaView key={'dot'}>
+              <View key={'dot'}>
                 <View style={styles.swiperDot} />
-              </SafeAreaView>
+              </View>
             }
             activeDot={
-              <SafeAreaView key={'activeDot'}>
+              <View key={'activeDot'}>
                 <View style={styles.swiperDotIsActive} />
-              </SafeAreaView>
+              </View>
             }
             paginationStyle={styles.swiperPagination}
             onIndexChanged={(index) => this.props.setActiveOfferScreen(index)}
             nextButton={
-              <SafeAreaView key={'nextButton'}>
+              <View key={'nextButton'}>
                 <View style={[styles.button, isFirst && styles.buttonIsFirst]}>
                   <Text style={[styles.label, isFirst && styles.labelIsFirst]}>
                     {isFirst ? 'Berätta mer' : 'Gå vidare'}
@@ -211,7 +225,7 @@ class OfferSwiper extends React.Component {
                     />
                   )}
                 </View>
-              </SafeAreaView>
+              </View>
             }
             prevButton={<View key={'prevButton'} />}
             width={viewportWidth}

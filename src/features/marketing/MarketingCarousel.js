@@ -9,7 +9,6 @@ import {
   StatusBar,
   StyleSheet,
   ImageBackground,
-  SafeAreaView,
   Linking,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
@@ -298,19 +297,19 @@ export default class MarketingCarousel extends React.Component {
               this.props.setActiveMarketingScreen(index)
             }
             dot={
-              <SafeAreaView key={'dot'}>
+              <View key={'dot'}>
                 <View
                   style={[
                     marketingCarouselStyles.swiperDot,
                     isFirst && marketingCarouselStyles.swiperDotIsFirst,
                   ]}
                 />
-              </SafeAreaView>
+              </View>
             }
             activeDot={
-              <SafeAreaView key={'activeDot'}>
+              <View key={'activeDot'}>
                 <View style={marketingCarouselStyles.swiperDotIsActive} />
-              </SafeAreaView>
+              </View>
             }
             paginationStyle={marketingCarouselStyles.swiperPagination}
             loop={false}
@@ -368,10 +367,14 @@ export default class MarketingCarousel extends React.Component {
           </Swiper>
         </View>
 
-        <View style={marketingCarouselStyles.footerContainer}>
-          <SafeAreaView key={'footer'}>
+        <View
+          style={marketingCarouselStyles.footerContainer}
+          key="marketing-footer-container"
+        >
+          <View key="marketing-footer">
             {isFirst && (
               <TouchableOpacity
+                key="marketing-footer-policy"
                 style={marketingCarouselStyles.footerLoginContainer}
                 onPress={() => {
                   Linking.openURL('https://www.hedvig.com/privacy/');
@@ -384,7 +387,7 @@ export default class MarketingCarousel extends React.Component {
             )}
 
             <TouchableOpacity
-              key={'cta'}
+              key="marketing-footer-cta"
               onPress={() => this.props.startChat()}
               style={[
                 marketingCarouselStyles.footerCtaButton,
@@ -403,7 +406,7 @@ export default class MarketingCarousel extends React.Component {
             </TouchableOpacity>
             <View
               style={marketingCarouselStyles.footerLoginContainer}
-              key={'login'}
+              key="marketing-footer-login"
             >
               <View>
                 <Text
@@ -421,7 +424,7 @@ export default class MarketingCarousel extends React.Component {
                 </Text>
               </TouchableOpacity>
             </View>
-          </SafeAreaView>
+          </View>
         </View>
       </View>
     );
