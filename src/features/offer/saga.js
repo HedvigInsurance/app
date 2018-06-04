@@ -10,7 +10,7 @@ const handleCheckout = function*() {
   yield put({ type: BANKID_SIGN });
   yield take(BANKID_SIGN_COMPLETE);
 
-  const { conversation, insurance } = yield select();
+  const { conversation, insurance, analytics } = yield select();
   const { intent } = conversation;
   yield put(chatActions.getMessages({ intent }));
 
@@ -19,6 +19,7 @@ const handleCheckout = function*() {
     type: TRACK_OFFER_SIGNED,
     payload: {
       revenue: insurance.currentTotalPrice,
+      order_id: analytics.orderId,
       currency: 'SEK',
     },
   });

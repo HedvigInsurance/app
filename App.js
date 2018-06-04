@@ -13,6 +13,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { createMiddleware } from 'redux-beacon';
 import logger from '@redux-beacon/logger';
+import uuidv4 from 'uuid/v4';
 
 import * as hedvigRedux from './hedvig-redux';
 import { envConfig } from './hedvig-redux/env-config';
@@ -58,6 +59,7 @@ import {
   setTrackingIdentitySaga,
   trackDeepLinkOpenedSaga,
 } from './src/features/analytics/saga';
+import analyticsReducer from './src/features/analytics/reducer';
 import {
   trackEvent,
   trackScreenView,
@@ -71,6 +73,7 @@ import {
 } from './src/features/analytics/SegmentTracker';
 import {
   TRACK_SET_IDENTITY,
+  TRACK_SET_ORDER_ID,
   TRACK_INSTALL_ATTRIBUTED,
   TRACK_DEEP_LINK_OPENED,
   TRACK_OFFER_OPENED,
@@ -164,6 +167,11 @@ export class App extends React.Component {
       storage: AsyncStorage,
       whitelist: ['intent'],
     };
+    const analyticsPersistConfig = {
+      key: 'analytics',
+      storage: AsyncStorage,
+      whitelist: ['orderId'],
+    };
     const additionalMiddleware = [segmentMiddleware, navigationMiddleware];
     if (ravenMiddleware) {
       additionalMiddleware.push(ravenMiddleware);
@@ -175,6 +183,7 @@ export class App extends React.Component {
           conversationPersistConfig,
           conversationReducer,
         ),
+        analytics: persistReducer(analyticsPersistConfig, analyticsReducer),
         appState: appStateChangeReducer,
         status: statusMessageReducer,
         router: routerReducer,
@@ -215,8 +224,20 @@ export class App extends React.Component {
   };
 
   componentDidMount() {
+    const state = this.store.getState();
     if (Platform.OS === 'android') {
       this.store.dispatch({ type: 'PUSH_NOTIFICATIONS/REGISTER_PUSH' });
+    }
+
+    // Persist analytics orderId for reliable ecommerce event tracking
+    // Storing in AsyncStorage so you get a new id each time you re-install the app
+    if (!state.analytics.orderId) {
+      this.store.dispatch({
+        type: TRACK_SET_ORDER_ID,
+        payload: {
+          orderId: uuidv4(),
+        },
+      });
     }
 
     AppState.addEventListener('change', this._handleAppStateChange);

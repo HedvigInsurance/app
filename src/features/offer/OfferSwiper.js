@@ -130,16 +130,24 @@ class OfferSwiper extends React.Component {
     // the app has been force closed and lost its state
     AsyncStorage.setItem(IS_VIEWING_OFFER, 'true');
 
-    this.props.trackOfferOpen(this.props.insurance.newTotalPrice);
-    this.props.trackOfferStepViewed(this.props.activeOfferScreenIndex);
+    const { orderId } = this.props.analytics;
+    this.props.trackOfferOpen(this.props.insurance.newTotalPrice, orderId);
+    this.props.trackOfferStepViewed(this.props.activeOfferScreenIndex, orderId);
   }
 
   componentDidUpdate(prevProps) {
+    const { orderId } = this.props.analytics;
     if (
       this.props.activeOfferScreenIndex !== prevProps.activeOfferScreenIndex
     ) {
-      this.props.trackOfferStepCompleted(prevProps.activeOfferScreenIndex);
-      this.props.trackOfferStepViewed(this.props.activeOfferScreenIndex);
+      this.props.trackOfferStepCompleted(
+        prevProps.activeOfferScreenIndex,
+        orderId,
+      );
+      this.props.trackOfferStepViewed(
+        this.props.activeOfferScreenIndex,
+        orderId,
+      );
     }
   }
 
@@ -150,7 +158,7 @@ class OfferSwiper extends React.Component {
   }
 
   render() {
-    const { insurance } = this.props;
+    const { insurance, analytics } = this.props;
     if (!this.hasLoaded(insurance)) {
       return <Loader />;
     }
@@ -178,7 +186,7 @@ class OfferSwiper extends React.Component {
           {activeOfferScreenIndex === 0 ? (
             <View style={styles.closeOffer}>
               <TouchableOpacity
-                onPress={() => this.props.closeOffer()}
+                onPress={() => this.props.closeOffer(analytics.orderId)}
                 hitSlop={hitSlop}
               >
                 <Image
@@ -247,10 +255,11 @@ class OfferSwiper extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const insurance = state.insurance;
-  const { activeOfferScreenIndex } = state.offer;
+  const { insurance, analytics, offer } = state;
+  const { activeOfferScreenIndex } = offer;
   return {
     insurance,
+    analytics,
     activeOfferScreenIndex,
   };
 };
@@ -261,9 +270,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setActiveOfferScreen: (index) => {
       return dispatch({ type: OFFER_SET_ACTIVE_SCREEN, payload: { index } });
     },
-    closeOffer: () => {
+    closeOffer: (orderId) => {
       dispatch({
         type: TRACK_OFFER_CLOSED,
+        payload: {
+          order_id: orderId,
+        },
       });
       dispatch(
         eventActions.event(
@@ -285,23 +297,24 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       ownProps.navigation.goBack();
     },
     navigate: (params) => ownProps.navigation.navigate(params),
-    trackOfferOpen: (pricePerMonth) =>
+    trackOfferOpen: (pricePerMonth, orderId) =>
       dispatch({
         type: TRACK_OFFER_OPENED,
         payload: {
           revenue: pricePerMonth,
           currency: 'SEK',
+          order_id: orderId,
         },
       }),
-    trackOfferStepViewed: (step) =>
+    trackOfferStepViewed: (step, orderId) =>
       dispatch({
         type: TRACK_OFFER_STEP_VIEWED,
-        payload: { step },
+        payload: { step, order_id: orderId },
       }),
-    trackOfferStepCompleted: (step) =>
+    trackOfferStepCompleted: (step, orderId) =>
       dispatch({
         type: TRACK_OFFER_STEP_COMPLETED,
-        payload: { step },
+        payload: { step, order_id: orderId },
       }),
   };
 };
