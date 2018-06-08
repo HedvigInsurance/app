@@ -7,7 +7,10 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import {
+  createStackNavigator,
+  createMaterialTopTabNavigator,
+} from 'react-navigation';
 import { Constants } from 'expo';
 
 import { MarketingCarousel } from '../../../features/marketing/MarketingCarousel';
@@ -102,7 +105,7 @@ const AppContainerWrapper = (Component) => {
   };
 };
 
-const ConversationNavigator = StackNavigator(
+const ConversationNavigator = createStackNavigator(
   {
     Chat: {
       screen: AppContainerWrapper(ChatDialogContainer),
@@ -173,7 +176,7 @@ class AccountTabBar extends React.Component {
   }
 }
 
-const AccountTabNavigator = TabNavigator(
+const AccountTabNavigator = createMaterialTopTabNavigator(
   {
     Dashboard: {
       screen: ({ navigation }) => (
@@ -193,7 +196,7 @@ const AccountTabNavigator = TabNavigator(
   },
 );
 
-const AccountNavigator = StackNavigator(
+const AccountNavigator = createStackNavigator(
   {
     AccountTabs: {
       screen: AccountTabNavigator,
@@ -232,7 +235,7 @@ const AccountContainer = ({ navigation }) => {
 
 AccountContainer.router = AccountNavigator.router;
 
-const BaseNavigator = StackNavigator(
+const BaseNavigator = createStackNavigator(
   {
     Loading: {
       screen: Loading,
