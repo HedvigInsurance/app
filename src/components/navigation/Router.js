@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, AsyncStorage, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { NavigationActions, addNavigationHelpers } from 'react-navigation';
-import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
+import { NavigationActions } from 'react-navigation';
+import {
+  createReduxBoundAddListener,
+  initializeListeners,
+} from 'react-navigation-redux-helpers';
 
 import { insuranceActions } from '../../../hedvig-redux';
 import BaseNavigator from './base-navigator/BaseNavigator';
@@ -15,28 +18,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const ReduxBaseNavigator = ({ dispatch, nav, addListener }) => {
-  return (
-    <BaseNavigator
-      navigation={addNavigationHelpers({
-        dispatch: dispatch,
-        state: nav,
-        addListener,
-      })}
-    />
-  );
-};
-
-const ConnectedReduxBaseNavigator = connect(({ nav }, ownProps) => ({
-  ...ownProps,
-  nav,
-}))(ReduxBaseNavigator);
-
 class BaseRouter extends React.Component {
   constructor(props) {
     super(props);
     // Hooking up react-navigation + redux
-    this.addListener = createReduxBoundAddListener('root');
+    initializeListeners('root', this.props.nav);
     this._doRedirection = this._doRedirection.bind(this);
   }
 
@@ -69,6 +55,8 @@ class BaseRouter extends React.Component {
   }
 
   async componentDidMount() {
+    initializeListeners('root', this.props.nav);
+
     this.props.getInsurance();
 
     if (this.props.hasRedirected) return;
@@ -89,18 +77,25 @@ class BaseRouter extends React.Component {
   }
 
   render() {
+    const navigation = {
+      dispatch: this.props.dispatch,
+      state: this.props.nav,
+      addListener: createReduxBoundAddListener('root'),
+    };
+
     return (
       <View style={styles.container}>
-        <ConnectedReduxBaseNavigator addListener={this.addListener} />
+        <BaseNavigator navigation={navigation} />
       </View>
     );
   }
 }
 
-const mapStateToProps = ({ insurance, router }, ownProps) => {
+const mapStateToProps = ({ insurance, router, nav }, ownProps) => {
   return {
     ...ownProps,
     insurance,
+    nav,
     hasRedirected: router.hasRedirected,
   };
 };
@@ -108,6 +103,7 @@ const mapStateToProps = ({ insurance, router }, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getInsurance: () => dispatch(insuranceActions.getInsurance()),
+    dispatch,
     redirectToRoute: (options) => {
       dispatch({ type: REDIRECTED_INITIAL_ROUTE });
       return dispatch(

@@ -24,6 +24,8 @@ import { apiAndNavigateToChatSaga } from './src/sagas/apiAndNavigate';
 import { tokenStorageSaga } from './src/sagas/TokenStorage';
 import { logoutSaga } from './src/sagas/logout';
 import { ThemeProvider } from 'styled-components';
+// Note: createReactNavigationReduxMiddleware must be run before createNavigationPropConstructor
+import navigationMiddleware from './src/middleware/navigation';
 import { Router } from './src/components/navigation/Router';
 import { ErrorBoundary } from './src/components/ErrorBoundary';
 import WithAssets from './src/components/WithAssets';
@@ -54,7 +56,6 @@ import {
 import { chatStartSaga, chatLoginSaga } from './src/features/marketing/saga';
 import { DEEP_LINK_OPENED } from './src/features/deep-linking/actions';
 import { getOrLoadToken } from './src/services/TokenStorage';
-import navigationMiddleware from './src/middleware/navigation';
 import {
   setTrackingIdentitySaga,
   trackDeepLinkOpenedSaga,
