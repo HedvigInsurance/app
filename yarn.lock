@@ -3402,11 +3402,10 @@ exit@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
 
-exp@^55.0.4:
-  version "55.0.4"
-  resolved "https://registry.yarnpkg.com/exp/-/exp-55.0.4.tgz#3a7668915449656426bb78acc014f9b1dba13e8e"
+exp@^56.0.0:
+  version "56.0.0"
+  resolved "https://registry.yarnpkg.com/exp/-/exp-56.0.0.tgz#4f0690a0188439ed982b9306e6782fbc282cd20a"
   dependencies:
-    "@babel/code-frame" "^7.0.0-beta.44"
     "@expo/bunyan" "^1.8.10"
     "@expo/json-file" "^8.0.0"
     "@expo/simple-spinner" "^1.0.2"
@@ -3432,8 +3431,9 @@ exp@^55.0.4:
     slash "^1.0.0"
     source-map-support "^0.4.1"
     untildify "^3.0.2"
+    validator "^10.4.0"
     wordwrap "^1.0.0"
-    xdl "50.4.2"
+    xdl "50.8.0"
   optionalDependencies:
     "@expo/traveling-fastlane-darwin" "1.5.0"
     "@expo/traveling-fastlane-linux" "1.5.0"
@@ -9243,6 +9243,10 @@ urix@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/urix/-/urix-0.1.0.tgz#da937f7a62e21fec1fd18d49b35c2935067a6c72"
 
+url-join@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/url-join/-/url-join-4.0.0.tgz#4d3340e807d3773bda9991f8305acdcc2a665d2a"
+
 url-join@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/url-join/-/url-join-1.1.0.tgz#741c6c2f4596c4830d6718460920d0c92202dc78"
@@ -9307,6 +9311,10 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
+
+validator@^10.4.0:
+  version "10.5.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-10.5.0.tgz#1debbe1e6f5fd0c920ed2af47516f3762033939c"
 
 vary@~1.1.2:
   version "1.1.2"
@@ -9582,9 +9590,9 @@ xdl@48.1.4:
     xmldom "^0.1.27"
     yesno "^0.0.1"
 
-xdl@50.4.2:
-  version "50.4.2"
-  resolved "https://registry.yarnpkg.com/xdl/-/xdl-50.4.2.tgz#e1f47535d4690ea639a1fedfee1ff2a61c5bf3e0"
+xdl@50.8.0:
+  version "50.8.0"
+  resolved "https://registry.yarnpkg.com/xdl/-/xdl-50.8.0.tgz#0440e7e7350dc8283dbbf42c20413df2abe0393a"
   dependencies:
     "@expo/bunyan" "3.0.2"
     "@expo/json-file" "^8.0.0"
@@ -9648,6 +9656,7 @@ xdl@50.4.2:
     tar "^4.0.2"
     tree-kill "^1.1.0"
     url "^0.11.0"
+    url-join "4.0.0"
     util.promisify "^1.0.0"
     uuid "^3.0.1"
     xmldom "^0.1.27"
