@@ -36,7 +36,7 @@
     "@hedviginsurance/react-native-floating-action": "^1.11.0",
     "@redux-beacon/logger": "^1.0.0",
     "babel-eslint": "^8.2.3",
-    "babel-plugin-flow-react-proptypes": "^24.0.1",
+    "babel-plugin-flow-react-proptypes": "^24.1.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.14",
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2016": "^6.24.1",
