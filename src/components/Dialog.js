@@ -34,6 +34,8 @@ export default class Dialog extends React.Component {
     message: PropTypes.object.isRequired, // TODO Better definition of message type
   };
 
+  isMounted = true;
+
   state = {
     visible: false,
   };
@@ -53,13 +55,17 @@ export default class Dialog extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.isMounted = false;
+  }
+
   open() {
-    if (this.state.visible) return;
+    if (this.state.visible || !this.isMounted) return;
     this.setState({ visible: true });
   }
 
   close() {
-    if (!this.state.visible) return;
+    if (!this.state.visible || !this.isMounted) return;
     this.setState({ visible: false });
     this.props.emptyDialog();
   }
