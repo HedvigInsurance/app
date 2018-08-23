@@ -6467,9 +6467,9 @@ react-native-iphone-x-helper@^1.0.1, react-native-iphone-x-helper@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.0.3.tgz#7a2f1e0574e899a0f1d426e6167fd98990083214"
 
-react-native-navigation@^2.0.2485:
-  version "2.0.2485"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.0.2485.tgz#bf1ce63bf282314f84843cc086cdc94ac1f31746"
+react-native-navigation@^2.0.2492:
+  version "2.0.2492"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.0.2492.tgz#c2a40ed78c038185d58a239d8f5b3b2f95f7ca20"
   dependencies:
     hoist-non-react-statics "2.x.x"
     lodash "4.x.x"
