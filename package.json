@@ -85,7 +85,7 @@
     "react-native-popup-dialog": "^0.15.0",
     "react-native-root-toast": "^3.0.1",
     "react-native-schemes-manager": "^1.0.5",
-    "react-native-sentry": "^0.38.3",
+    "react-native-sentry": "^0.39.0",
     "react-native-snap-carousel": "^3.7.0",
     "react-native-sound": "^0.10.9",
     "react-native-status-bar-height": "^2.0.0",
