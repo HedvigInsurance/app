@@ -6556,9 +6556,9 @@ react-native-swiper@^1.5.13:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-version@^2.6.3:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/react-native-version/-/react-native-version-2.6.3.tgz#9d4b1310f9297428c32c2594fe4533160ae31f53"
+react-native-version@^2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/react-native-version/-/react-native-version-2.6.4.tgz#efc5f1a13f22d3c615337724dd14576cd17d3a7c"
   dependencies:
     chalk "^1.1.3"
     commander "^2.9.0"

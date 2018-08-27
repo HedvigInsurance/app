@@ -91,7 +91,7 @@
     "react-native-status-bar-height": "^2.0.0",
     "react-native-svg": "^6.5.2",
     "react-native-swiper": "^1.5.13",
-    "react-native-version": "^2.6.3",
+    "react-native-version": "^2.6.4",
     "react-primitives": "^0.6.0",
     "react-redux": "^5.0.6",
     "react-test-renderer": "16.4.0",
