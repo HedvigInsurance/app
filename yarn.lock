@@ -2163,10 +2163,6 @@ base-64@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
 
-base64-js@0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-0.0.8.tgz#1101e9544f4a76b1bc3b26d452ca96d7a35e7978"
-
 base64-js@1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.1.2.tgz#d6400cac1c4c660976d90d07a04351d89395f5e8"
@@ -2223,21 +2219,11 @@ bowser@^1.7.3:
   version "1.9.4"
   resolved "https://registry.yarnpkg.com/bowser/-/bowser-1.9.4.tgz#890c58a2813a9d3243704334fa81b96a5c150c9a"
 
-bplist-creator@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/bplist-creator/-/bplist-creator-0.0.4.tgz#4ac0496782e127a85c1d2026a4f5eb22a7aff991"
-  dependencies:
-    stream-buffers "~0.2.3"
-
 bplist-creator@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/bplist-creator/-/bplist-creator-0.0.7.tgz#37df1536092824b87c42f957b01344117372ae45"
   dependencies:
     stream-buffers "~2.2.0"
-
-bplist-parser@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/bplist-parser/-/bplist-parser-0.0.6.tgz#38da3471817df9d44ab3892e27707bbbd75a11b9"
 
 bplist-parser@0.1.1:
   version "0.1.1"
@@ -5651,7 +5637,7 @@ lodash@4.x.x, lodash@^4.13.1, lodash@^4.15.0, lodash@^4.16.5, lodash@^4.16.6, lo
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
-lodash@^3.10.0, lodash@^3.5.0:
+lodash@^3.10.0:
   version "3.10.1"
   resolved "http://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
@@ -6818,10 +6804,6 @@ pbxproj-dom@^1.0.11:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/pbxproj-dom/-/pbxproj-dom-1.0.11.tgz#3136c6d6da61c24396f01cafaf9c4124668f4c05"
 
-pegjs@0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/pegjs/-/pegjs-0.9.0.tgz#f6aefa2e3ce56169208e52179dfe41f89141a369"
-
 pegjs@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/pegjs/-/pegjs-0.10.0.tgz#cf8bafae6eddff4b5a7efb185269eaaf4610ddbd"
@@ -6882,15 +6864,6 @@ please-upgrade-node@^3.0.2, please-upgrade-node@^3.1.1:
   dependencies:
     semver-compare "^1.0.0"
 
-plist@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/plist/-/plist-1.2.0.tgz#084b5093ddc92506e259f874b8d9b1afb8c79593"
-  dependencies:
-    base64-js "0.0.8"
-    util-deprecate "1.0.2"
-    xmlbuilder "4.0.0"
-    xmldom "0.1.x"
-
 plist@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/plist/-/plist-2.0.1.tgz#0a32ca9481b1c364e92e18dc55c876de9d01da8b"
@@ -6899,20 +6872,20 @@ plist@2.0.1:
     xmlbuilder "8.2.2"
     xmldom "0.1.x"
 
+plist@3.0.1, plist@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/plist/-/plist-3.0.1.tgz#a9b931d17c304e8912ef0ba3bdd6182baf2e1f8c"
+  dependencies:
+    base64-js "^1.2.3"
+    xmlbuilder "^9.0.7"
+    xmldom "0.1.x"
+
 plist@^2.0.1, plist@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/plist/-/plist-2.1.0.tgz#57ccdb7a0821df21831217a3cad54e3e146a1025"
   dependencies:
     base64-js "1.2.0"
     xmlbuilder "8.2.2"
-    xmldom "0.1.x"
-
-plist@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/plist/-/plist-3.0.1.tgz#a9b931d17c304e8912ef0ba3bdd6182baf2e1f8c"
-  dependencies:
-    base64-js "^1.2.3"
-    xmlbuilder "^9.0.7"
     xmldom "0.1.x"
 
 plugin-error@^0.1.2:
@@ -7640,16 +7613,16 @@ react-native-branch@^2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.3.3.tgz#4fefc733b6c2cbf996f47c7af733d6e10e32a3ca"
 
-react-native-code-push@^5.4.1:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-5.4.1.tgz#8502c44075bb4f1ac2d64991912056691a89f049"
+react-native-code-push@^5.4.2:
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-5.4.2.tgz#a43f976f983b9866005aac50fe7c1e915ab23943"
   dependencies:
     code-push "2.0.6"
     glob "^5.0.15"
     hoist-non-react-statics "^2.3.1"
     inquirer "1.1.2"
-    plist "1.2.0"
-    xcode "0.9.2"
+    plist "3.0.1"
+    xcode "1.0.0"
 
 react-native-debugger-open@^0.3.15:
   version "0.3.17"
@@ -8605,14 +8578,6 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
-simple-plist@0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/simple-plist/-/simple-plist-0.1.4.tgz#10eb51b47e33c556eb8ec46d5ee64d64e717db5d"
-  dependencies:
-    bplist-creator "0.0.4"
-    bplist-parser "0.0.6"
-    plist "1.2.0"
-
 simple-plist@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/simple-plist/-/simple-plist-0.2.1.tgz#71766db352326928cf3a807242ba762322636723"
@@ -8852,10 +8817,6 @@ statuses@~1.4.0:
 stealthy-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
-
-stream-buffers@~0.2.3:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/stream-buffers/-/stream-buffers-0.2.6.tgz#181c08d5bb3690045f69401b9ae6a7a0cf3313fc"
 
 stream-buffers@~2.2.0:
   version "2.2.0"
@@ -9331,7 +9292,7 @@ use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
 
-util-deprecate@1.0.2, util-deprecate@~1.0.1:
+util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
 
@@ -9551,12 +9512,12 @@ ws@^5.2.0:
   dependencies:
     async-limiter "~1.0.0"
 
-xcode@0.9.2:
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/xcode/-/xcode-0.9.2.tgz#b8969a2d7bf8b5feafbad162bd97de39f16e2907"
+xcode@1.0.0, xcode@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/xcode/-/xcode-1.0.0.tgz#e1f5b1443245ded38c180796df1a10fdeda084ec"
   dependencies:
-    pegjs "0.9.0"
-    simple-plist "0.1.4"
+    pegjs "^0.10.0"
+    simple-plist "^0.2.1"
     uuid "3.0.1"
 
 xcode@^0.9.1:
@@ -9567,23 +9528,9 @@ xcode@^0.9.1:
     simple-plist "^0.2.1"
     uuid "3.0.1"
 
-xcode@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/xcode/-/xcode-1.0.0.tgz#e1f5b1443245ded38c180796df1a10fdeda084ec"
-  dependencies:
-    pegjs "^0.10.0"
-    simple-plist "^0.2.1"
-    uuid "3.0.1"
-
 xml-name-validator@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"
-
-xmlbuilder@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-4.0.0.tgz#98b8f651ca30aa624036f127d11cc66dc7b907a3"
-  dependencies:
-    lodash "^3.5.0"
 
 xmlbuilder@8.2.2:
   version "8.2.2"
