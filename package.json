@@ -35,7 +35,7 @@
     ]
   },
   "dependencies": {
-    "@babel/core": "^7.0.0-rc.1",
+    "@babel/core": "^7.0.1",
     "@emotion/primitives": "^9.2.7",
     "@hedviginsurance/brand": "^1.3.0",
     "@hedviginsurance/podspec-generator": "^0.2.3",
