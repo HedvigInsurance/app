@@ -3648,6 +3648,12 @@ hoist-non-react-statics@2.x.x, hoist-non-react-statics@^2.3.1, hoist-non-react-s
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
 
+hoist-non-react-statics@3.x.x:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.0.1.tgz#fba3e7df0210eb9447757ca1a7cb607162f0a364"
+  dependencies:
+    react-is "^16.3.2"
+
 home-or-tmp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/home-or-tmp/-/home-or-tmp-2.0.0.tgz#e36c3f2d2cae7d746a857e38d18d5f32a7882db8"
@@ -6355,7 +6361,7 @@ react-dom@16.4.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-is@^16.4.2, react-is@^16.5.2:
+react-is@^16.3.2, react-is@^16.4.2, react-is@^16.5.2:
   version "16.5.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.5.2.tgz#e2a7b7c3f5d48062eb769fcb123505eb928722e3"
 
@@ -6411,11 +6417,11 @@ react-native-iphone-x-helper@^1.0.1, react-native-iphone-x-helper@^1.0.3:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.1.0.tgz#3a881720900bd8d1c67de2c465ea9aa9296180a7"
 
-react-native-navigation@2.0.2485:
-  version "2.0.2485"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.0.2485.tgz#bf1ce63bf282314f84843cc086cdc94ac1f31746"
+react-native-navigation@2.0.2556:
+  version "2.0.2556"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.0.2556.tgz#7aa832d1c6b79b0b8e605656bacbb979d4605bb1"
   dependencies:
-    hoist-non-react-statics "2.x.x"
+    hoist-non-react-statics "3.x.x"
     lodash "4.x.x"
     prop-types "15.x.x"
     react-lifecycles-compat "2.0.0"
