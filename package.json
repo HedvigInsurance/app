@@ -117,7 +117,7 @@
     "react-native-sentry": "^0.39.0",
     "react-native-snap-carousel": "^3.7.0",
     "react-native-sound": "^0.10.9",
-    "react-native-status-bar-height": "^2.0.0",
+    "react-native-status-bar-height": "^2.1.0",
     "react-native-svg": "^6.5.2",
     "react-native-swiper": "^1.5.13",
     "react-native-version": "^2.6.3",
