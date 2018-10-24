@@ -4650,10 +4650,10 @@ graphql-import@0.7.1:
     lodash "^4.17.4"
     resolve-from "^4.0.0"
 
-graphql-schema-typescript@^1.2.3:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/graphql-schema-typescript/-/graphql-schema-typescript-1.2.6.tgz#476cc8d12ce77542650979541a4288dedd00bebe"
-  integrity sha512-tKDdURbxmGGkUzh9EH4CJy6ektaMRAnApTNeUV9RU/GqRa4W6ECSGN3SW6IdU2KmmQ658raoYd3ZQXYSjk4fQQ==
+graphql-schema-typescript@^1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/graphql-schema-typescript/-/graphql-schema-typescript-1.2.8.tgz#5e6dc305d44290f0925cd577f65f7e0438aa6693"
+  integrity sha512-WqlC9X0rV9jNOCE03mwRV4frpcICDJH3wm26AQcb5ba1NWVj8GadlZq2GaKI34wTtv02LhKAlhDaBqLjI3i+cQ==
   dependencies:
     yargs "^11.0.0"
 
