@@ -7966,10 +7966,10 @@ react-native-mock-render@^0.1.2:
     react-timer-mixin "^0.13.3"
     warning "^2.1.0"
 
-react-native-navigation@2.0.2582:
-  version "2.0.2582"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.0.2582.tgz#cb2b15ed68b618f6ff2adb67e716352af0147d03"
-  integrity sha512-CtGzfUDMaIT9NsfyugSPR7ojD7Tu2lhZ/koiSJTtLSRUekDCWSsFxy8DFjHibCod3+3H/AnAoER/QzPAkZJ2aw==
+react-native-navigation@2.0.2616:
+  version "2.0.2616"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.0.2616.tgz#8f6db84ebd484db4e7ec9f4b2f4f900b3df6488c"
+  integrity sha512-s+NpqWmtbUuLPIbABsj2jUu6Bv1QCuOa0sj+moVoPb8cVqrfOnvOrpRSFQGWH+HXVvn9mY2ObIDcXukx3MyxFA==
   dependencies:
     hoist-non-react-statics "3.x.x"
     lodash "4.x.x"
