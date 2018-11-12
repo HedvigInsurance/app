@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.1.2",
-    "@hedviginsurance/brand": "^1.3.1",
+    "@hedviginsurance/brand": "^1.5.0",
     "@hedviginsurance/podspec-generator": "^0.2.3",
     "@hedviginsurance/react-native": "^0.57.41",
     "@hedviginsurance/react-native-config": "^0.11.6",
