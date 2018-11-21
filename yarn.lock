@@ -1009,10 +1009,10 @@
   resolved "https://registry.yarnpkg.com/@types/react-native-permissions/-/react-native-permissions-1.1.1.tgz#297f39ed19234045e1dc1cd0abd85b86bdf9c606"
   integrity sha512-+xLVH6kefg9hpJKxQhRcaYHckhbQCxDrU6HEaTzf3gMbn4I4aunjxkqeSMAofrHFNOnOS/phnsTbifoDATjk3w==
 
-"@types/react-native-video@^2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@types/react-native-video/-/react-native-video-2.0.7.tgz#e7a41c3c2eac82ee116e9dae20cc0934cfef45f7"
-  integrity sha512-dj3ZGF16zy3nBO9wgX4HsmFdpdlQW2llwSo5lO8zl9sYiEBdBhrDHm26pjXaQZ5GDKpYOczQYHNOjgLWbNOG7A==
+"@types/react-native-video@^2.0.8":
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/@types/react-native-video/-/react-native-video-2.0.8.tgz#cbb9fe015f6573d2bd2aef2090803dde76fb8e4c"
+  integrity sha512-Dutf20ph/mxMNgt7TLSyN0v49SiG7YZH3WwU+SxoE8IGBbn/MhBqyfzU+09cbmZ1OG0nQg9rEJXNIowwQOVXLw==
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
