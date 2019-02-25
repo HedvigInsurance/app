@@ -153,7 +153,7 @@
     "react-native-video": "3.0.0",
     "react-primitives": "^0.5.1",
     "react-redux": "^5.0.6",
-    "react-spring": "^5.8.0",
+    "react-spring": "^8.0.7",
     "redux": "^4.0.0",
     "redux-beacon": "^2.0.3",
     "redux-devtools-extension": "^2.13.5",
