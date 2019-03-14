@@ -69,9 +69,9 @@ export const ChatButton: React.SFC = () => (
                               layout: {
                                 backgroundColor: 'transparent',
                               },
-                            }
-                          }
-                        })
+                            },
+                          },
+                        });
                       });
                     }}
                   >

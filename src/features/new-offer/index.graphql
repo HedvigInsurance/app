@@ -1,9 +1,11 @@
 query NewOffer {
-    insurance {
-        address
-        monthlyCost
-        personsInHousehold
-        insuredAtOtherCompany
-        type
-    }
+  insurance {
+    activeFrom
+    requestedStartDate
+    address
+    monthlyCost
+    personsInHousehold
+    insuredAtOtherCompany
+    type
+  }
 }

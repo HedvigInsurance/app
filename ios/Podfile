@@ -89,6 +89,8 @@ target 'hedvig' do
   pod 'Firebase/Core'
   pod 'AcknowList'
 
+  pod 'react-native-date-picker', :path => '../node_modules/react-native-date-picker'
+
   post_install do |installer|
     system("cd hedvig/ugglan; ../../Pods/SwiftGen/bin/swiftgen")
     system("cd hedvig/ugglan; sh scripts/update-translations.sh")

@@ -1,17 +1,19 @@
 query OfferPerils {
-    insurance {
-      address
-      type
-      perilCategories {
+  insurance {
+    id
+    activeFrom
+    address
+    type
+    perilCategories {
+      title
+      description
+      iconUrl
+      perils {
+        id
         title
+        imageUrl
         description
-        iconUrl
-        perils {
-          id
-          title
-          imageUrl
-          description
-        }
       }
     }
+  }
 }

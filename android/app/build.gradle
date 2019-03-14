@@ -82,6 +82,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-date-picker')
     implementation project(':react-native-document-picker')
     implementation project(':react-native-fast-image')
     implementation project(':react-native-image-picker')

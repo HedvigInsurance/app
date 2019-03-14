@@ -1,4 +1,6 @@
 include ':app'
+include ':react-native-date-picker'
+project(':react-native-date-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-date-picker/android')
 include ':react-native-document-picker'
 project(':react-native-document-picker').projectDir = new File(rootProject.projectDir, '../node_modules/@hedviginsurance/react-native-document-picker/android')
 include ':react-native-fast-image'

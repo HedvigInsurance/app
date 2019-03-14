@@ -14,9 +14,11 @@ export const setLayout = ({
     topBar: {
       title: {
         fontFamily: fonts.CIRCULAR,
+        fontSize: 17,
       },
       subtitle: {
         fontFamily: fonts.CIRCULAR,
+        fontSize: 13,
       },
       largeTitle: {
         fontFamily: fonts.SORAY,

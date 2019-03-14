@@ -6,6 +6,7 @@ import { register as registerCashbackPicker } from './cashback-picker';
 import { register as registerOfferChat } from './offer-chat';
 import { register as registerFilePicker } from './file-picker';
 import { register as registerPeril } from './peril';
+import { register as registerChangeStartDate } from './change-start-date';
 
 export const register = (registerComponent) => {
   registerHedvigLogoTitle(registerComponent);
@@ -16,4 +17,5 @@ export const register = (registerComponent) => {
   registerOfferChat(registerComponent);
   registerFilePicker(registerComponent);
   registerPeril(registerComponent);
+  registerChangeStartDate(registerComponent);
 };

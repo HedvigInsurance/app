@@ -77,6 +77,7 @@ public class MainApplication extends NavigationApplication implements HasSupport
     protected List<ReactPackage> getPackages() {
         return Arrays.asList(
                 new MainReactPackage(),
+            new DatePickerPackage(),
                 new ReactNativeDocumentPicker(),
                 new FastImageViewPackage(),
                 new ImagePickerPackage(),

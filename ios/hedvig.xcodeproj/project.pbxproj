@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		2ACE4012D5344BA68AE83CA9 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E11984458714DEDB8081244 /* libz.tbd */; };
 		2D2264F55C8B79DD33D62300 /* libPods-hedvig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7D1DC928F6C1DB18EBE8064 /* libPods-hedvig.a */; };

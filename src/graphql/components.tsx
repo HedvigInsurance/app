@@ -10,12 +10,12 @@
 
 export type DateTime = any;
 
+export type Uuid = any;
+
 /** A String-representation of `java.time.LocalDate`, ex:  `"2018-09-26"` */
 export type LocalDate = any;
 
 export type Object = any;
-
-export type Uuid = any;
 
 /** The `Upload` scalar type represents a file upload. */
 export type Upload = any;
@@ -225,6 +225,8 @@ export interface Asset extends Node {
 }
 
 export interface Insurance {
+  id?: Uuid | null;
+
   address?: string | null;
 
   postalNumber?: string | null;
@@ -250,6 +252,8 @@ export interface Insurance {
   policyUrl?: string | null;
 
   currentInsurerName?: string | null;
+
+  requestedStartDate?: LocalDate | null;
 
   perilCategories?: PerilCategory[] | null;
 }
@@ -557,6 +561,8 @@ export interface Mutation {
   updateEmail: Member;
 
   updatePhoneNumber: Member;
+
+  requestStartDate: boolean;
 
   createDontPanicSession: DontPanicSession;
 
@@ -4002,6 +4008,9 @@ export interface UpdateEmailMutationArgs {
 export interface UpdatePhoneNumberMutationArgs {
   input: string;
 }
+export interface RequestStartDateMutationArgs {
+  requestedStartDate: LocalDate;
+}
 export interface CreateDontPanicSessionMutationArgs {
   name: string;
 
@@ -4351,6 +4360,10 @@ export type NewOfferQuery = {
 export type NewOfferInsurance = {
   __typename?: 'Insurance';
 
+  activeFrom?: LocalDate | null;
+
+  requestedStartDate?: LocalDate | null;
+
   address?: string | null;
 
   monthlyCost?: number | null;
@@ -4372,6 +4385,10 @@ export type OfferPerilsQuery = {
 
 export type OfferPerilsInsurance = {
   __typename?: 'Insurance';
+
+  id?: Uuid | null;
+
+  activeFrom?: LocalDate | null;
 
   address?: string | null;
 
@@ -4529,6 +4546,8 @@ export function MessagesHOC<
 export const NewOfferDocument = gql`
   query NewOffer {
     insurance {
+      activeFrom
+      requestedStartDate
       address
       monthlyCost
       personsInHousehold
@@ -4565,6 +4584,8 @@ export function NewOfferHOC<
 export const OfferPerilsDocument = gql`
   query OfferPerils {
     insurance {
+      id
+      activeFrom
       address
       type
       perilCategories {

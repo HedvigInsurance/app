@@ -153,6 +153,7 @@ export const NewOffer: React.SFC = () => (
                         insuredAtOtherCompany={
                           data!.insurance.insuredAtOtherCompany!
                         }
+                        requestedStartDate={data!.insurance.requestedStartDate!}
                         type={data!.insurance.type!}
                       />
                     </FeaturesContainer>
