@@ -22,6 +22,7 @@ import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.react.AsyncStorageNative
 import com.hedvig.app.util.whenApiVersion
+import com.ice.restring.Restring
 import dagger.android.AndroidInjection
 import io.branch.rnbranch.RNBranchModule
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -70,6 +71,10 @@ class MainActivity : AppCompatActivity(), DefaultHardwareBackBtnHandler, Permiss
         get() = (application as ReactApplication).reactNativeHost
 
     private val navController by lazy { findNavController(R.id.rootNavigationHost) }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(Restring.wrapContext(newBase))
+    }
 
     override fun onStart() {
         super.onStart()

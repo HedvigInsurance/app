@@ -21,3 +21,6 @@ include ':react-native-analytics-segment-io'
 project(':react-native-analytics-segment-io').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-analytics-segment-io/android')
 include ':lottie-react-native'
 project(':lottie-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/lottie-react-native/src/android')
+
+include ':restring'
+project(':restring').projectDir = new File('../../restring/restring')
