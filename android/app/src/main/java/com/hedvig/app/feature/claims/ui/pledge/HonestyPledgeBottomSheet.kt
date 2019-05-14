@@ -1,46 +1,26 @@
 package com.hedvig.app.feature.claims.ui.pledge
 
 import android.app.Dialog
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.view.LayoutInflater
 import androidx.navigation.findNavController
 import com.hedvig.app.R
-import com.hedvig.app.di.viewmodel.ViewModelFactory
 import com.hedvig.app.feature.claims.service.ClaimsTracker
 import com.hedvig.app.feature.claims.ui.ClaimsViewModel
 import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.view.setHapticClickListener
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.bottom_sheet_honesty_pledge.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
+    val tracker: ClaimsTracker by inject()
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
-    lateinit var tracker: ClaimsTracker
-
-    lateinit var claimsViewModel: ClaimsViewModel
+    val claimsViewModel: ClaimsViewModel by sharedViewModel()
 
     val navController by lazy { requireActivity().findNavController(R.id.rootNavigationHost) }
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        claimsViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(ClaimsViewModel::class.java)
-        }
-    }
 
     override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
 

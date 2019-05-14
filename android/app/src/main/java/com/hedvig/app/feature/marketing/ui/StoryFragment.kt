@@ -1,8 +1,6 @@
 package com.hedvig.app.feature.marketing.ui
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -25,38 +23,20 @@ import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
 import com.hedvig.app.BuildConfig
 import com.hedvig.app.R
-import com.hedvig.app.di.viewmodel.ViewModelFactory
 import com.hedvig.app.feature.marketing.service.MarketingTracker
 import com.hedvig.app.util.extensions.view.performOnTapHapticFeedback
 import com.hedvig.app.util.extensions.view.show
-import dagger.android.support.AndroidSupportInjection
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class StoryFragment : Fragment() {
 
-    @Inject
-    lateinit var cache: SimpleCache
+    val cache: SimpleCache by inject()
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    val tracker: MarketingTracker by inject()
 
-    @Inject
-    lateinit var tracker: MarketingTracker
-
-    private lateinit var marketingStoriesViewModel: MarketingStoriesViewModel
+    val marketingStoriesViewModel: MarketingStoriesViewModel by sharedViewModel()
     private var player: SimpleExoPlayer? = null
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        marketingStoriesViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(MarketingStoriesViewModel::class.java)
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val position = arguments?.getInt(POSITION_KEY) ?: return View(context)

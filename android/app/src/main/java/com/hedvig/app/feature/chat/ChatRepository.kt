@@ -3,10 +3,11 @@ package com.hedvig.app.feature.chat
 import android.content.Context
 import android.net.Uri
 import com.google.gson.GsonBuilder
-import com.hedvig.app.service.FileService
-import com.hedvig.app.util.extensions.into
+import com.hedvig.app.BuildConfig
 import com.hedvig.app.feature.chat.dto.UploadData
 import com.hedvig.app.feature.chat.dto.UploadResponse
+import com.hedvig.app.service.FileService
+import com.hedvig.app.util.extensions.into
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
@@ -15,12 +16,9 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import java.io.File
-import javax.inject.Inject
-import javax.inject.Named
 
-class ChatRepository @Inject constructor(
+class ChatRepository(
     private val okHttpClient: OkHttpClient,
-    @Named("GRAPHQL_URL") private val graphqlUrl: String,
     private val fileService: FileService,
     private val context: Context
 ) {
@@ -41,7 +39,7 @@ class ChatRepository @Inject constructor(
 
         val request = Request
             .Builder()
-            .url(graphqlUrl)
+            .url(BuildConfig.GRAPHQL_URL)
             .post(requestBody)
             .build()
 

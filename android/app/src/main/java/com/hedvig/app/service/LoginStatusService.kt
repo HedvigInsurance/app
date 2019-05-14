@@ -9,9 +9,8 @@ import com.hedvig.app.util.extensions.isLoggedIn
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import com.hedvig.app.util.react.AsyncStorageNative
 import io.reactivex.Observable
-import javax.inject.Inject
 
-class LoginStatusService @Inject constructor(
+class LoginStatusService(
     private val apolloClient: ApolloClient,
     private val asyncStorageNative: AsyncStorageNative,
     private val context: Context

@@ -1,8 +1,6 @@
 package com.hedvig.app.feature.offer
 
 import android.app.Dialog
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -22,22 +20,16 @@ import com.facebook.react.ReactRootView
 import com.facebook.react.common.LifecycleState
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler
 import com.hedvig.app.R
-import com.hedvig.app.di.viewmodel.ViewModelFactory
 import com.hedvig.app.feature.chat.ChatViewModel
 import com.hedvig.app.react.NativeRoutingModule
 import com.hedvig.app.react.NativeRoutingModule.Companion.NAVIGATE_ROUTING_EXTRA_NAME_ACTION
 import com.hedvig.app.react.NativeRoutingModule.Companion.NAVIGATE_ROUTING_EXTRA_VALUE_LOGOUT_AND_RESTART_APPLICATION
 import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.showRestartDialog
-import dagger.android.support.AndroidSupportInjection
-import javax.inject.Inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class OfferChatOverlayFragment : DialogFragment(), DefaultHardwareBackBtnHandler {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var chatViewModel: ChatViewModel
+    val chatViewModel: ChatViewModel by sharedViewModel()
     private lateinit var dialogView: ViewGroup
 
     private var mReactRootView: ReactRootView? = null
@@ -50,19 +42,6 @@ class OfferChatOverlayFragment : DialogFragment(), DefaultHardwareBackBtnHandler
 
     override fun getTheme(): Int {
         return R.style.DialogTheme
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        AndroidSupportInjection.inject(this)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        chatViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(ChatViewModel::class.java)
-        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

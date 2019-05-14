@@ -1,8 +1,6 @@
 package com.hedvig.app.feature.profile.ui.charity
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -15,7 +13,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.R
-import com.hedvig.app.di.viewmodel.ViewModelFactory
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.util.extensions.setupLargeTitle
@@ -23,32 +20,15 @@ import com.hedvig.app.util.extensions.showBottomSheetDialog
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_charity.*
 import kotlinx.android.synthetic.main.loading_spinner.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class CharityFragment : Fragment() {
+    val tracker: ProfileTracker by inject()
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
-    lateinit var tracker: ProfileTracker
-
-    private lateinit var profileViewModel: ProfileViewModel
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        profileViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
-        }
-    }
+    val profileViewModel: ProfileViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_charity, container, false)

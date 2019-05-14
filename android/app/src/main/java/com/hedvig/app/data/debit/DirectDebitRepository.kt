@@ -9,7 +9,7 @@ import com.hedvig.android.owldroid.type.DirectDebitStatus
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class DirectDebitRepository @Inject constructor(private val apolloClient: ApolloClient) {
+class DirectDebitRepository(private val apolloClient: ApolloClient) {
     private lateinit var directDebitQuery: DirectDebitQuery
 
     fun fetchDirectDebit(): Observable<Response<DirectDebitQuery.Data>> {

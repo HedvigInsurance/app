@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.upstream.cache.CacheUtil
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
+import com.hedvig.app.BuildConfig
 import com.hedvig.app.util.extensions.head
 import com.hedvig.app.util.extensions.tail
 import kotlinx.coroutines.Dispatchers
@@ -20,14 +21,11 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import javax.inject.Inject
-import javax.inject.Named
 
-class MarketingStoriesRepository @Inject constructor(
+class MarketingStoriesRepository(
     private val apolloClient: ApolloClient,
     private val context: Context,
-    private val cache: SimpleCache,
-    @Named("APPLICATION_ID") private val applicationId: String
+    private val cache: SimpleCache
 ) {
 
     fun fetchMarketingStories(completion: (result: List<MarketingStoriesQuery.MarketingStory>) -> Unit) {
@@ -79,7 +77,7 @@ class MarketingStoriesRepository @Inject constructor(
                             context,
                             Util.getUserAgent(
                                 context,
-                                applicationId
+                                BuildConfig.APPLICATION_ID
                             )
                         )
                         CacheUtil.cache(

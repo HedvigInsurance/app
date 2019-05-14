@@ -1,8 +1,6 @@
 package com.hedvig.app.feature.profile.ui.aboutapp
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -10,43 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.hedvig.app.BuildConfig
 import com.hedvig.app.R
-import com.hedvig.app.di.viewmodel.ViewModelFactory
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.interpolateTextKey
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_about_app.*
-import javax.inject.Inject
-import javax.inject.Named
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class AboutAppFragment : Fragment() {
 
-    @Inject
-    @field:Named("VERSION_NUMBER")
-    lateinit var appVersion: String
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    lateinit var profileViewModel: ProfileViewModel
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
+    val profileViewModel: ProfileViewModel by sharedViewModel()
 
     private val navController: NavController by lazy {
         requireActivity().findNavController(R.id.rootNavigationHost)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        profileViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -65,7 +41,7 @@ class AboutAppFragment : Fragment() {
 
         versionNumber.text = interpolateTextKey(
             resources.getString(R.string.PROFILE_ABOUT_APP_VERSION),
-            "VERSION_NUMBER" to appVersion
+            "VERSION_NUMBER" to BuildConfig.VERSION_NAME
         )
 
         profileViewModel.data.observe(this, Observer { data ->

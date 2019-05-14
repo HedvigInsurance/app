@@ -3,9 +3,9 @@ package com.hedvig.app.feature.profile.ui
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.net.Uri
+import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.data.chat.ChatRepository
 import com.hedvig.app.feature.profile.data.ProfileRepository
-import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.service.Referrals
 import com.hedvig.app.service.RemoteConfig
 import com.hedvig.app.service.RemoteConfigData
@@ -17,9 +17,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.zipWith
 import timber.log.Timber
-import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(
+class ProfileViewModel(
     private val profileRepository: ProfileRepository,
     private val referrals: Referrals,
     private val remoteConfig: RemoteConfig,

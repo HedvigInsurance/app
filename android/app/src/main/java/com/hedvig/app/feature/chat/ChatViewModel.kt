@@ -6,9 +6,8 @@ import com.hedvig.app.util.LiveEvent
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import timber.log.Timber
-import javax.inject.Inject
 
-class ChatViewModel @Inject constructor(
+class ChatViewModel(
     private val userRepository: UserRepository,
     private val chatRepository: ChatRepository
 ) : ViewModel() {

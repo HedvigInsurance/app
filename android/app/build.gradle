@@ -73,7 +73,9 @@ android {
         }
 
         staging {
-
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         debug {
@@ -173,12 +175,10 @@ dependencies {
     // Animated GIF support
     implementation 'com.facebook.fresco:animated-gif:1.11.0'
 
-    // Dagger
-    def dagger_version = "2.22.1"
-    implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    // Koin
+    def koin_version = "2.0.0-GA"
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
 
     implementation 'net.ypresto.timbertreeutils:timbertreeutils:1.0.0'
 

@@ -8,7 +8,7 @@ import com.hedvig.app.R
 import io.reactivex.Single
 import javax.inject.Inject
 
-class Referrals @Inject constructor(val context: Context) {
+class Referrals(val context: Context) {
     fun generateFirebaseLink(memberId: String, remoteConfigData: RemoteConfigData): Single<Uri> {
         return Single.create { subscriber ->
             FirebaseDynamicLinks

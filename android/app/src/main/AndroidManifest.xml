@@ -85,13 +85,6 @@
             android:name="io.branch.sdk.BranchKey"
             android:value="@string/BRANCH_KEY" />
 
-        <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
-            android:enabled="false"
-            android:exported="false"
-            tools:replace="android:authorities" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_hedvig_symbol_android" />

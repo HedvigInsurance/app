@@ -1,8 +1,6 @@
 package com.hedvig.app.feature.profile.ui.payment
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.SpannableString
@@ -15,46 +13,32 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.app.R
-import com.hedvig.app.di.viewmodel.ViewModelFactory
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.util.CustomTypefaceSpan
-import com.hedvig.app.util.extensions.*
+import com.hedvig.app.util.extensions.compatColor
+import com.hedvig.app.util.extensions.compatFont
+import com.hedvig.app.util.extensions.compatSetTint
+import com.hedvig.app.util.extensions.concat
+import com.hedvig.app.util.extensions.proxyNavigate
+import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.viewmodel.DirectDebitViewModel
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_payment.*
 import kotlinx.android.synthetic.main.loading_spinner.*
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 import java.util.Calendar
-import javax.inject.Inject
 
 class PaymentFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var profileViewModel: ProfileViewModel
-    private lateinit var directDebitViewModel: DirectDebitViewModel
+    val profileViewModel: ProfileViewModel by sharedViewModel()
+    val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
 
     private val navController: NavController by lazy {
         requireActivity().findNavController(R.id.rootNavigationHost)
-    }
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        profileViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
-        }
-        directDebitViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(DirectDebitViewModel::class.java)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =

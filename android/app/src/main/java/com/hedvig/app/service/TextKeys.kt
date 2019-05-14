@@ -8,9 +8,8 @@ import com.hedvig.android.owldroid.graphql.TextKeysQuery
 import com.ice.restring.Restring
 import com.ice.restring.RestringUtil
 import timber.log.Timber
-import javax.inject.Inject
 
-class TextKeys @Inject constructor(val apolloClient: ApolloClient) {
+class TextKeys(val apolloClient: ApolloClient) {
     fun refreshTextKeys() {
         val textKeysQuery = TextKeysQuery
             .builder()

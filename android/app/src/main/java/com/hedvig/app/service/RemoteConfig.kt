@@ -5,10 +5,8 @@ import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
-const val DEFAULT_INCENTIVE = 100L
 
-@Singleton
-class RemoteConfig @Inject constructor() {
+class RemoteConfig {
     private val firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
 
     init {
@@ -35,6 +33,9 @@ class RemoteConfig @Inject constructor() {
                     emitter.onError(error)
                 }
         }
+    }
+    companion object {
+        const val DEFAULT_INCENTIVE = 100L
     }
 }
 

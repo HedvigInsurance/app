@@ -14,13 +14,11 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hedvig.app.R
 import com.hedvig.app.util.whenApiVersion
-import dagger.android.AndroidInjection
 import timber.log.Timber
 
 class PushNotificationService : FirebaseMessagingService() {
     override fun onCreate() {
         super.onCreate()
-        AndroidInjection.inject(this)
         setupNotificationChannel()
     }
 
