@@ -229,6 +229,9 @@
 		EB384A16228593D700D226D1 /* SignalProvider+Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A15228593D700D226D1 /* SignalProvider+Loader.swift */; };
 		EB384A1822859F1D00D226D1 /* CallMeChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A1722859F1D00D226D1 /* CallMeChat.swift */; };
 		EB384A1A22859FE700D226D1 /* TriggerCallMeChat.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EB384A1922859FE700D226D1 /* TriggerCallMeChat.graphql */; };
+		EB384A3C228C403E00D226D1 /* UIViewController+TabBarBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A3B228C403D00D226D1 /* UIViewController+TabBarBadge.swift */; };
+		EB384A3E228C407100D226D1 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A3D228C407100D226D1 /* Logger.swift */; };
+		EB384A40228C407600D226D1 /* WhenEnabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A3F228C407600D226D1 /* WhenEnabled.swift */; };
 		EB433C96221D49C1000156D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */; };
 		EB4695BE220051BF0004C75D /* Pods-Hedvig-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */; };
 		EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4695CD220083800004C75D /* RCTApolloClient.swift */; };
@@ -500,6 +503,9 @@
 		EB384A15228593D700D226D1 /* SignalProvider+Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProvider+Loader.swift"; sourceTree = "<group>"; };
 		EB384A1722859F1D00D226D1 /* CallMeChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallMeChat.swift; sourceTree = "<group>"; };
 		EB384A1922859FE700D226D1 /* TriggerCallMeChat.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = TriggerCallMeChat.graphql; sourceTree = "<group>"; };
+		EB384A3B228C403D00D226D1 /* UIViewController+TabBarBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+TabBarBadge.swift"; sourceTree = "<group>"; };
+		EB384A3D228C407100D226D1 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		EB384A3F228C407600D226D1 /* WhenEnabled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WhenEnabled.swift; path = hedvig/ugglan/Src/Generic/WhenEnabled.swift; sourceTree = SOURCE_ROOT; };
 		EB3A235521A57EE4007F52B6 /* hedvig-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hedvig-Bridging-Header.h"; sourceTree = "<group>"; };
 		EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Pods-Hedvig-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -1051,6 +1057,7 @@
 			isa = PBXGroup;
 			children = (
 				EB11E9CD2277047700D95365 /* DelayedDisposer.swift */,
+				EB384A3D228C407100D226D1 /* Logger.swift */,
 				EB11E9CE2277047700D95365 /* ActivityBarButton.swift */,
 				EB11E9CF2277047700D95365 /* Viewables */,
 				EB11E9E12277047700D95365 /* MailView.swift */,
@@ -1098,6 +1105,7 @@
 		EB11E9E32277047700D95365 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EB384A3B228C403D00D226D1 /* UIViewController+TabBarBadge.swift */,
 				EB384A15228593D700D226D1 /* SignalProvider+Loader.swift */,
 				EB11EB312277388C00D95365 /* DateFormatter+ISO8601.swift */,
 				EB384A13228593CD00D226D1 /* ApolloClient+InsuranceIsActiveSignal.swift */,
@@ -1153,6 +1161,7 @@
 		EB11EA032277047700D95365 /* Styling */ = {
 			isa = PBXGroup;
 			children = (
+				EB384A3F228C407600D226D1 /* WhenEnabled.swift */,
 				EB11EA042277047700D95365 /* TextStyle.swift */,
 				EB11EA052277047700D95365 /* TableViewFormStyle.swift */,
 				EB11EA062277047700D95365 /* DefaultStyling.swift */,
@@ -1643,6 +1652,7 @@
 				EB11ED31227ADBDE00D95365 /* HonestyPledge.swift in Sources */,
 				EB11ED37227ADBDE00D95365 /* DismissCardAnimationController.swift in Sources */,
 				EB11EAA92277047700D95365 /* MarkdownText.swift in Sources */,
+				EB384A3C228C403E00D226D1 /* UIViewController+TabBarBadge.swift in Sources */,
 				EB11EABD2277047700D95365 /* CollectionKit+UpdateRows.swift in Sources */,
 				EB11EAB72277047700D95365 /* UIView+RadiusMask.swift in Sources */,
 				EB11EA9C2277047700D95365 /* ActivityBarButton.swift in Sources */,
@@ -1677,6 +1687,7 @@
 				EB11EA5B2277047700D95365 /* DraggableOverlay.swift in Sources */,
 				EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */,
 				EB11EA842277047700D95365 /* AddressCircle.swift in Sources */,
+				EB384A40228C407600D226D1 /* WhenEnabled.swift in Sources */,
 				EB11EA4E2277047700D95365 /* StoriesIndicator.swift in Sources */,
 				EBCAA8C422843E00003C4833 /* ChatButton.swift in Sources */,
 				EB11EA852277047700D95365 /* MyHome.swift in Sources */,
@@ -1736,6 +1747,7 @@
 				EB11EAF62277047800D95365 /* API.swift in Sources */,
 				EB11EAD72277047800D95365 /* TranslationsRepo.swift in Sources */,
 				EB11EA9E2277047700D95365 /* MultilineLabel.swift in Sources */,
+				EB384A3E228C407100D226D1 /* Logger.swift in Sources */,
 				EB11EA562277047700D95365 /* SkipToPreviousButton.swift in Sources */,
 				EB11EA622277047700D95365 /* MyCharityRow.swift in Sources */,
 				EBCAA8B12281DF35003C4833 /* TriggerFreeTextChat.graphql in Sources */,
