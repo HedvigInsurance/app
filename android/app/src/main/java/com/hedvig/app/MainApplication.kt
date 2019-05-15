@@ -97,9 +97,6 @@ class MainApplication : Application(), ReactApplication {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
-        WorkManager
-            .initialize(this, Configuration.Builder().setWorkerFactory(workerFactory).build())
-
         Restring.init(this)
         try {
             textKeys.refreshTextKeys()
