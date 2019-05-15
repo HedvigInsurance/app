@@ -31,6 +31,9 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            url "https://dl.bintray.com/hedvig/hedvig-restring"
+        }
         google()
         mavenLocal()
         jcenter()
