@@ -22,12 +22,12 @@ import com.hedvig.app.util.extensions.onChange
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
+import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.validateEmail
 import com.hedvig.app.util.validatePhoneNumber
 import kotlinx.android.synthetic.main.fragment_my_info.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import kotlinx.android.synthetic.main.sphere_container.*
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class MyInfoFragment : Fragment() {
@@ -129,10 +129,10 @@ class MyInfoFragment : Fragment() {
             contactDetailsContainer.show()
 
             profileData?.let { data ->
-                sphereText.text = resources.getString(
-                    R.string.first_last_name,
-                    data.member().firstName(),
-                    data.member().lastName()
+                sphereText.text = interpolateTextKey(
+                    resources.getString(R.string.PROFILE_MY_INFO_NAME_SPHERE),
+                    "FIRST_NAME" to data.member().firstName(),
+                    "LAST_NAME" to data.member().lastName()
                 )
                 setupEmailInput(data.member().email() ?: "")
                 setupPhoneNumberInput(data.member().phoneNumber() ?: "")
