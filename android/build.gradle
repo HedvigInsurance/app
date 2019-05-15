@@ -70,16 +70,10 @@ subprojects {
                 }
             }
         }
-
-        if ((project.plugins.hasPlugin('android') || project.plugins.hasPlugin('android-library'))) {
-            android {
-                variantFilter { variant ->
-                    def names = variant.flavors*.name
-                    if (names.contains("reactNative51") || names.contains("reactNative55")) {
-                        setIgnore(true)
-                    }
-                }
-            }
-        }
     }
+}
+
+ext {
+    defaultLanguage = "sv_SE"
+    excludedLanguages = ["en_SE"]
 }

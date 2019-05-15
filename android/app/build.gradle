@@ -49,6 +49,9 @@ android {
         ndk {
             abiFilters 'armeabi-v7a', 'x86'
         }
+
+        buildConfigField("String", "DEFAULT_LANGUAGE", "\"${rootProject.ext.defaultLanguage}\"")
+        buildConfigField("String[]", "EXCLUDED_LANGUAGES", "{\"${rootProject.ext.excludedLanguages.join("\",\"")}\"}")
     }
 
     compileOptions {
@@ -225,8 +228,8 @@ apply plugin: 'com.hedvig.textkeys'
 
 textkeys {
     graphqlEndpoint = 'https://api-euwest.graphcms.com/v1/cjmawd9hw036a01cuzmjhplka/master'
-    defaultLanguageCode = 'sv_SE'
-    excludedLanguages = ['en_SE']
+    defaultLanguageCode = rootProject.ext.defaultLanguage
+    excludedLanguages = rootProject.ext.excludedLanguages
 }
 
 task updateSchema(type: Exec) {

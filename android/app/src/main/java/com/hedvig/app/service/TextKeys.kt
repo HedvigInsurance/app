@@ -5,6 +5,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.hedvig.android.owldroid.graphql.TextKeysQuery
+import com.hedvig.app.BuildConfig
 import com.ice.restring.Restring
 import com.ice.restring.RestringUtil
 import timber.log.Timber
@@ -30,7 +31,7 @@ class TextKeys(val apolloClient: ApolloClient) {
                     val data = response.data()?.languages()
 
                     data
-                        ?.filter { !EXCLUDED_LANGUAGES.contains(it.code()) }
+                        ?.filter { !BuildConfig.EXCLUDED_LANGUAGES.contains(it.code()) }
                         ?.forEach { language ->
                             language.translations()
                                 ?.filter { it.key()?.value() != null }
@@ -44,7 +45,7 @@ class TextKeys(val apolloClient: ApolloClient) {
                                 ?.toMutableMap()
                                 ?.let { textKeys ->
                                     Restring.setStrings(formatLanguageCode(language.code()), textKeys)
-                                    if (language.code() == DEFAULT_LANGUAGE) {
+                                    if (language.code() == BuildConfig.DEFAULT_LANGUAGE) {
                                         Restring.setStrings(RestringUtil.DEFAULT_LANGUAGE, textKeys)
                                     }
                                 }
@@ -54,9 +55,6 @@ class TextKeys(val apolloClient: ApolloClient) {
     }
 
     companion object {
-        private val EXCLUDED_LANGUAGES = listOf("en_SE")
-        private const val DEFAULT_LANGUAGE = "sv_SE"
-
         fun formatLanguageCode(languageCode: String): String = languageCode.replace("_", "-r")
     }
 }
