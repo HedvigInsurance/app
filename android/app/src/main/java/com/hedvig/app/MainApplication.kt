@@ -12,8 +12,10 @@ import com.facebook.react.shell.MainReactPackage
 import com.facebook.soloader.SoLoader
 import com.hedvig.app.react.ActivityStarterReactPackage
 import com.hedvig.app.react.NativeRoutingPackage
+import com.hedvig.app.service.TextKeys
 import com.hedvig.app.util.react.AsyncStorageNative
 import com.horcrux.svg.SvgPackage
+import com.ice.restring.Restring
 import com.imagepicker.ImagePickerPackage
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.leo_pharma.analytics.AnalyticsPackage
@@ -36,6 +38,8 @@ class MainApplication : Application(), ReactApplication {
     val apolloClient: ApolloClient by inject()
 
     val asyncStorageNative: AsyncStorageNative by inject()
+
+    val textKeys: TextKeys by inject()
 
     private val mReactNativeHost = object : ReactNativeHost(this) {
         override fun getUseDeveloperSupport() = BuildConfig.DEBUG
@@ -92,5 +96,12 @@ class MainApplication : Application(), ReactApplication {
         }
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+
+        Restring.init(this)
+        try {
+            textKeys.refreshTextKeys()
+        } catch (exception: Exception) {
+            Timber.e(exception)
+        }
     }
 }
