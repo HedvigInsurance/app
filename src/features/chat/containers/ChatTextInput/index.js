@@ -141,7 +141,12 @@ class ChatTextInput extends React.Component {
                               ref={(ref) => (this.ref = ref)}
                               style={[styles.textInput]}
                               autoFocus
-                              autoCapitalize="none"
+                              autoCapitalize={
+                                this.props.message.body.textContentType ===
+                                'emailAddress'
+                                  ? 'none'
+                                  : 'sentences'
+                              }
                               placeholder={
                                 keyboardType === 'numeric' ||
                                 !richTextChatCompatible
