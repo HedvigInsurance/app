@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.hedvig.app.R
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
+import com.hedvig.app.feature.chat.ChatFragment
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.makeACall
 import com.hedvig.app.util.extensions.proxyNavigate
@@ -45,7 +46,7 @@ class EmergencyFragment : BaseCommonClaimFragment() {
         thirdEmergencyButton.setHapticClickListener {
             tracker.emergencyChat()
             claimsViewModel.triggerFreeTextChat {
-                navController.proxyNavigate(R.id.action_claimsEmergencyFragment_to_chatFragment)
+                navigateToChat()
             }
         }
     }
@@ -57,7 +58,7 @@ class EmergencyFragment : BaseCommonClaimFragment() {
         firstEmergencyButton.setHapticClickListener {
             tracker.emergencyClick()
             claimsViewModel.triggerCallMeChat {
-                navController.proxyNavigate(R.id.action_claimsEmergencyFragment_to_chatFragment)
+                navigateToChat()
             }
         }
         secondEmergencyButton.setHapticClickListener {
@@ -70,6 +71,12 @@ class EmergencyFragment : BaseCommonClaimFragment() {
         firstEmergencyButton.disable()
         secondEmergencyButton.disable()
     }
+
+    private fun navigateToChat() =
+        navController.proxyNavigate(
+            R.id.action_claimsEmergencyFragment_to_chatFragment,
+            Bundle().apply { putBoolean(ChatFragment.ARGS_SHOW_CLOSE, true) }
+        )
 
     companion object {
         private val GLOBAL_ASSISTANCE_URI = Uri.parse("tel:+4538489461")

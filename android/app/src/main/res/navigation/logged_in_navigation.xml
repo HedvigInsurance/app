@@ -134,10 +134,9 @@
         <action
             android:id="@+id/action_claimsCommonClaimFragment_to_chatFragment"
             app:destination="@+id/chatFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_in_down"
+            app:popExitAnim="@anim/slide_in_down"
             app:popUpTo="@+id/claimsCommonClaimFragment" />
 
     </fragment>
@@ -150,10 +149,9 @@
         <action
             android:id="@+id/action_claimsEmergencyFragment_to_chatFragment"
             app:destination="@id/chatFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_in_down"
+            app:popExitAnim="@anim/slide_in_down"
             app:popUpTo="@+id/claimsEmergencyFragment" />
 
     </fragment>

@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.navigation.findNavController
 import com.hedvig.app.R
+import com.hedvig.app.feature.chat.ChatFragment
 import com.hedvig.app.feature.claims.ui.ClaimsViewModel
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.view.updatePadding
@@ -38,7 +39,7 @@ abstract class BaseTabFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         baseTabViewModel.triggerFreeTextChat {
             navController.proxyNavigate(R.id.action_loggedInFragment_to_chatFragment, Bundle().apply {
-                putBoolean("show_close", true)
+                putBoolean(ChatFragment.ARGS_SHOW_CLOSE, true)
             })
         }
         return true
