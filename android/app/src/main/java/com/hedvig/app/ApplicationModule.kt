@@ -2,7 +2,6 @@ package com.hedvig.app
 
 import android.content.Context
 import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.Logger
 import com.apollographql.apollo.cache.normalized.NormalizedCacheFactory
 import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCache
@@ -57,14 +56,6 @@ val applicationModule = module {
         )
     }
     single<AsyncStorageNative> { AsyncStorageNativeImpl(get()) }
-    single<Logger?> { if (isDebug()) ApolloTimberLogger() else null }
-    single {
-        if (isDebug()) {
-            HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message ->
-                Timber.tag("OkHttp").i(message)
-            }).setLevel(HttpLoggingInterceptor.Level.BODY)
-        } else null
-    }
     single<NormalizedCacheFactory<LruNormalizedCache>> {
         LruNormalizedCacheFactory(
             EvictionPolicy.builder().maxSizeBytes(
@@ -89,7 +80,11 @@ val applicationModule = module {
                 }
                 chain.proceed(builder.build())
             }
-        get<HttpLoggingInterceptor?>()?.let { builder.addInterceptor(it) }
+        if (isDebug()) {
+            builder.addInterceptor(HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message ->
+                Timber.tag("OkHttp").i(message)
+            }).setLevel(HttpLoggingInterceptor.Level.BODY))
+        }
         builder.build()
     }
     single {
@@ -100,7 +95,9 @@ val applicationModule = module {
             .addCustomTypeAdapter(CustomType.LOCALDATE, PromiscuousLocalDateAdapter())
             .normalizedCache(get())
 
-        get<Logger?>().let { builder.logger(it) }
+        if (isDebug()) {
+            builder.logger(ApolloTimberLogger())
+        }
         builder.build()
     }
 }

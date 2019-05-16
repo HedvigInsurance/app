@@ -6,6 +6,7 @@ import android.support.annotation.IdRes
 import android.view.LayoutInflater
 import androidx.navigation.findNavController
 import com.hedvig.app.R
+import com.hedvig.app.feature.chat.ChatFragment
 import com.hedvig.app.feature.claims.service.ClaimsTracker
 import com.hedvig.app.feature.claims.ui.ClaimsViewModel
 import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
@@ -32,7 +33,11 @@ class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
             tracker.pledgeHonesty(arguments?.getString(ARGS_CLAIM_KEY))
             claimsViewModel.triggerClaimsChat {
                 dismiss()
-                arguments?.getInt(ARGS_NAVIGATION_ACTION)?.let { navController.proxyNavigate(it) }
+                arguments?.getInt(ARGS_NAVIGATION_ACTION)?.let {
+                    navController.proxyNavigate(it, Bundle().apply {
+                        putBoolean(ChatFragment.ARGS_SHOW_CLOSE, true)
+                    })
+                }
             }
         }
     }

@@ -25,10 +25,15 @@ import com.hedvig.app.react.NativeRoutingModule
 import com.hedvig.app.react.NativeRoutingModule.Companion.NAVIGATE_ROUTING_EXTRA_NAME_ACTION
 import com.hedvig.app.react.NativeRoutingModule.Companion.NAVIGATE_ROUTING_EXTRA_VALUE_LOGOUT_AND_RESTART_APPLICATION
 import com.hedvig.app.util.extensions.localBroadcastManager
+import com.hedvig.app.util.extensions.setIsLoggedIn
+import com.hedvig.app.util.react.AsyncStorageNative
 import com.hedvig.app.util.showRestartDialog
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class OfferChatOverlayFragment : DialogFragment(), DefaultHardwareBackBtnHandler {
+    val asyncStorageNative: AsyncStorageNative by inject()
+
     val chatViewModel: ChatViewModel by sharedViewModel()
     private lateinit var dialogView: ViewGroup
 
@@ -77,6 +82,7 @@ class OfferChatOverlayFragment : DialogFragment(), DefaultHardwareBackBtnHandler
         val resetButton = dialogView.findViewById<ImageView>(R.id.resetChatButton)
         resetButton.setOnClickListener {
             requireContext().showRestartDialog {
+                asyncStorageNative.deleteKey("@hedvig:isViewingOffer")
                 chatViewModel.logout { broadcastLogout() }
             }
         }
