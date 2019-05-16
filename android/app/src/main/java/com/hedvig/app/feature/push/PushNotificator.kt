@@ -22,13 +22,13 @@ class PushNotificator(
                 NotificationManager.IMPORTANCE_HIGH
             ).apply { description = context.resources.getString(R.string.NOTIFICATION_CHANNEL_DESCRIPTION) }
         )
-        //notificationManager?.createNotificationChannel((
-        //    NotificationChannel(
-        //        REFERRAL_COMPLETED_NOTIFICATION_CHANNEL_ID,
-        //        "TODO",
-        //        NotificationManager.IMPORTANCE_HIGH
-        //    ).apply { description = "TODO" }
-        //))
+        notificationManager?.createNotificationChannel((
+            NotificationChannel(
+                REFERRAL_COMPLETED_NOTIFICATION_CHANNEL_ID,
+                context.resources.getString(R.string.NOTIFICATION_REFERRAL_CHANNEL_NAME),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply { description = context.resources.getString(R.string.NOTIFICATION_REFERRAL_CHANNEL_DESCRIPTION }
+        ))
     }
 
     fun sendChatMessageNotification() {
@@ -60,12 +60,16 @@ class PushNotificator(
         val notification = NotificationCompat
             .Builder(context, REFERRAL_COMPLETED_NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_hedvig_symbol_android)
-            .setContentTitle("TODO")
-            .setContentText("TODO")
+            .setContentTitle(context.resources.getString(R.string.NOTIFICATION_REFERRAL_COMPLETED_TITLE))
+            .setContentText(context.resources.getString(R.string.NOTIFICATION_REFERRAL_COMPLETED_CONTENT))
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setAutoCancel(true)
             .setChannelId(REFERRAL_COMPLETED_NOTIFICATION_CHANNEL_ID)
             .build()
+
+        NotificationManagerCompat
+            .from(context)
+            .notify(REFERRAL_COMPLETED_NOTIFICATION_ID, notification)
     }
 
     companion object {
