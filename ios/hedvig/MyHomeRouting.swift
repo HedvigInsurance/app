@@ -9,8 +9,5 @@
 import Foundation
 
 struct MyHomeRouting {
-    static func openChat(viewController: UIViewController) {
-        let chatOverlay = DraggableOverlay(presentable: Chat())
-        viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
-    }
+    static func openChat(viewController _: UIViewController) {}
 }

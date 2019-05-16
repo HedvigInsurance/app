@@ -10,7 +10,6 @@ import {
 import { connect } from 'react-redux';
 import KeyboardSpacer from '@hedviginsurance/react-native-keyboard-spacer';
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import { Navigation } from 'react-native-navigation';
 
 import { StyledAvatarContainer } from '../styles/chat';
 import Avatar from '../containers/Avatar';
@@ -151,7 +150,8 @@ const showOffer = async (componentId) => {
     NativeModules.ActivityStarter.navigateToOfferFromChat();
     return;
   }
-  Navigation.push(componentId, NEW_OFFER_SCREEN);
+
+  NativeModules.NativeRouting.showOffer();
 };
 
 class MessageList extends React.Component {

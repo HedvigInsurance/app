@@ -7,8 +7,6 @@ import logger from '@redux-beacon/logger';
 import uuidv4 from 'uuid/v4';
 import Branch from 'react-native-branch';
 import Config from '@hedviginsurance/react-native-config';
-import { Navigation } from 'react-native-navigation';
-import { openDebugLayout } from 'src/navigation/screens/debug/layout';
 
 import * as hedvigRedux from '../hedvig-redux';
 
@@ -189,15 +187,6 @@ let store = hedvigRedux.configureStore({
   raven: SentryInstance,
 });
 
-Navigation.events().registerComponentDidAppearListener(({ componentName }) => {
-  store.dispatch({
-    type: 'Navigation/NAVIGATE',
-    payload: {
-      screenName: componentName,
-    },
-  });
-});
-
 let persistor = persistStore(store);
 
 Branch.subscribe(({ error, params }) => {
@@ -206,10 +195,6 @@ Branch.subscribe(({ error, params }) => {
   }
 
   const url = params['+non_branch_link'] || '';
-
-  if (url.includes('debug')) {
-    openDebugLayout();
-  }
 
   store.dispatch({
     type: DEEP_LINK_OPENED,

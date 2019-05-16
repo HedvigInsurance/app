@@ -1,7 +1,12 @@
 import * as React from 'react';
-import { Navigation } from 'react-native-navigation';
 import { connect } from 'react-redux';
-import { View, AppState, NativeModules, Platform } from 'react-native';
+import {
+  View,
+  AppState,
+  Platform,
+  NativeModules,
+  NativeEventEmitter,
+} from 'react-native';
 import styled from '@sampettersson/primitives';
 import { Mount, Update, Unmount } from 'react-lifecycle-components';
 import { Container, EffectMap, EffectProps } from 'constate';
@@ -12,10 +17,6 @@ import InputComponent from './components/InputComponent';
 import { Loader } from '../../components/Loader';
 import { chatActions, dialogActions } from '../../../hedvig-redux';
 import * as selectors from './state/selectors';
-import { NavigationOptions } from '../../navigation/options';
-import { NavigationEvents } from 'src/navigation/events';
-import { getMainLayout } from 'src/navigation/layouts/mainLayout';
-import { setLayout } from 'src/navigation/layouts/setLayout';
 import {
   RESTART_BUTTON,
   CLOSE_BUTTON,
@@ -25,7 +26,6 @@ import {
 
 import { Message } from './types';
 import { KeyboardAvoidingOnAndroid } from 'src/components/KeyboardAvoidingOnAndroid';
-import { NEW_OFFER_SCREEN } from 'src/navigation/screens/new-offer';
 import { PixelRatio } from 'react-native';
 import { client } from 'src/graphql/client';
 
@@ -94,50 +94,13 @@ const Response = styled(View)({
   paddingTop: 0,
 });
 
-const getNavigationOptions = (
-  onboardingDone: boolean,
-  isModal: boolean,
-  showReturnToOfferButton: boolean,
-) => {
-  if (onboardingDone) {
-    if (isModal) {
-      return {
-        topBar: {
-          leftButtons: [CLOSE_BUTTON],
-          rightButtons: [],
-        },
-      };
-    }
-
-    return {
-      topBar: {
-        leftButtons: [GO_TO_DASHBOARD_BUTTON],
-        rightButtons: [],
-      },
-    };
-  } else if (showReturnToOfferButton) {
-    return {
-      topBar: {
-        leftButtons: [],
-        rightButtons: [SHOW_OFFER_BUTTON],
-      },
-    };
-  } else {
-    return {
-      topBar: {
-        leftButtons: [],
-        rightButtons: [RESTART_BUTTON],
-      },
-    };
-  }
-};
-
 const showOffer = async (componentId: string) => {
   if (Platform.OS === 'android') {
     NativeModules.ActivityStarter.navigateToOfferFromChat();
     return;
   }
-  Navigation.push(componentId, NEW_OFFER_SCREEN);
+
+  NativeModules.NativeRouting.showOffer();
 };
 
 const handleAppStateChange = (
@@ -178,25 +141,6 @@ const Chat: React.SFC<ChatProps> = ({
   <Container effects={effects} initialState={initialState}>
     {({ startPolling, stopPolling }) => (
       <BackgroundView>
-        <NavigationEvents
-          onNavigationButtonPressed={(event: any) => {
-            if (event.buttonId === RESTART_BUTTON.id) {
-              resetConversation();
-            }
-
-            if (event.buttonId === CLOSE_BUTTON.id) {
-              Navigation.dismissModal(componentId);
-            }
-
-            if (event.buttonId === GO_TO_DASHBOARD_BUTTON.id) {
-              setLayout(getMainLayout());
-            }
-
-            if (event.buttonId === SHOW_OFFER_BUTTON.id) {
-              showOffer(componentId);
-            }
-          }}
-        />
         <Mount
           on={() => {
             getMessages(intent);
@@ -205,6 +149,14 @@ const Chat: React.SFC<ChatProps> = ({
               handleAppStateChange(appState, getMessages, intent);
             });
             startPolling(getMessages, intent);
+
+            const nativeRoutingEvents = new NativeEventEmitter(
+              NativeModules.NativeRouting,
+            );
+
+            nativeRoutingEvents.addListener('NativeRoutingRestartChat', () => {
+              resetConversation();
+            });
           }}
         >
           {null}
@@ -251,29 +203,21 @@ const Chat: React.SFC<ChatProps> = ({
         >
           {null}
         </Unmount>
-        <NavigationOptions
-          options={getNavigationOptions(
-            onboardingDone,
-            isModal,
-            showReturnToOfferButton,
-          )}
-        >
-          <KeyboardAvoidingOnAndroidIfModal isModal={isModal}>
-            <Messages>
-              {messages.length ? (
-                <MessageList componentId={componentId} />
-              ) : (
-                <Loader />
-              )}
-            </Messages>
-            <Response>
-              <InputComponent
-                showOffer={() => showOffer(componentId)}
-                messages={messages}
-              />
-            </Response>
-          </KeyboardAvoidingOnAndroidIfModal>
-        </NavigationOptions>
+        <KeyboardAvoidingOnAndroidIfModal isModal={isModal}>
+          <Messages>
+            {messages.length ? (
+              <MessageList componentId={componentId} />
+            ) : (
+              <Loader />
+            )}
+          </Messages>
+          <Response>
+            <InputComponent
+              showOffer={() => showOffer(componentId)}
+              messages={messages}
+            />
+          </Response>
+        </KeyboardAvoidingOnAndroidIfModal>
       </BackgroundView>
     )}
   </Container>

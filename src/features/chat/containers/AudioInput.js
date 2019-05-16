@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import Permissions from 'react-native-permissions';
 import { connect } from 'react-redux';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import Sound from 'react-native-sound';
@@ -94,6 +93,7 @@ class AudioInput extends React.Component {
   };
 
   requestPermissions = async () => {
+    // TODO
     const status = await Permissions.check('microphone');
     if (status !== 'authorized') {
       const requestStatus = await Permissions.request('microphone', {

@@ -3,7 +3,6 @@ import { Alert, Linking } from 'react-native';
 import { createUploadLink } from 'apollo-upload-client';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
-import { Navigation } from 'react-native-navigation';
 
 import { getToken } from './context';
 

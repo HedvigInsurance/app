@@ -16,12 +16,11 @@ import { AnimationValueProvider } from 'animated-react-native-components';
 import { Spacing } from 'src/components/Spacing';
 import { ScrollContent } from 'src/features/new-offer/components/scroll-content';
 import { Checkout } from 'src/features/new-offer/components/checkout';
-import { NavigationOptions } from 'src/navigation/options';
 import { TranslationsConsumer } from 'src/components/translations/consumer';
 import { SignButton } from 'src/features/new-offer/components/sign-button';
 import { NEW_OFFER_OPTIONS } from 'src/navigation/screens/new-offer/options';
 import { AndroidHeader } from 'src/features/new-offer/android-header';
-import { Provider } from 'constate'
+import { Provider } from 'constate';
 
 import { NewOfferComponent } from 'src/graphql/components';
 
@@ -150,7 +149,9 @@ export const NewOffer: React.SFC = () => (
                       <FeaturesContainer animatedValue={animatedValue}>
                         <FeaturesBubbles
                           onPress={() => bounceScrollView()}
-                          personsInHousehold={data!.insurance.personsInHousehold!}
+                          personsInHousehold={
+                            data!.insurance.personsInHousehold!
+                          }
                           insuredAtOtherCompany={
                             data!.insurance.insuredAtOtherCompany!
                           }
@@ -170,19 +171,6 @@ export const NewOffer: React.SFC = () => (
                 </>
               )}
             </AnimationValueProvider>
-            <TranslationsConsumer textKey="OFFER_TITLE">
-              {(title) => (
-                <NavigationOptions
-                  options={{
-                    ...NEW_OFFER_OPTIONS,
-                    topBar: {
-                      title: { text: title },
-                      subtitle: { text: data!.insurance.address! },
-                    },
-                  }}
-                />
-              )}
-            </TranslationsConsumer>
           </>
         )
       }

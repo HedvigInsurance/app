@@ -22,8 +22,6 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 import { BlurSwitchContainer } from '../../components/BlurSwitchContainer';
 import { InputHeightContainer } from '../InputHeight';
 
-import { hasNotificationsPermission } from './firebase';
-
 const styles = StyleSheet.create({
   textInput: {
     flex: 1,

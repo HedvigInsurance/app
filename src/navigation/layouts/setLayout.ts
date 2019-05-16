@@ -1,4 +1,3 @@
-import { Navigation } from 'react-native-navigation';
 import { colors, fonts } from '@hedviginsurance/brand';
 
 export const setLayout = ({
@@ -38,7 +37,7 @@ export const setLayout = ({
     },
     layout: {
       backgroundColor: 'white',
-      orientation: ['portrait']
+      orientation: ['portrait'],
     },
   });
 

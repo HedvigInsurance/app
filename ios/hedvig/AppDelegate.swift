@@ -32,12 +32,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         commonClaimEmergencyOpenFreeTextChat = { viewController in
-            let chatOverlay = DraggableOverlay(presentable: Chat())
+            let chatOverlay = DraggableOverlay(presentable: FreeTextChat())
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
         }
 
         dashboardOpenFreeTextChat = { viewController in
-            let chatOverlay = DraggableOverlay(presentable: Chat())
+            let chatOverlay = DraggableOverlay(presentable: FreeTextChat())
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
         }
 
@@ -66,11 +66,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let rootNavigationController = UINavigationController()
         rootNavigationController.setNavigationBarHidden(true, animated: false)
-        rootNavigationController.view = { () -> UIView in
-            let view = UIView()
-            view.backgroundColor = UIColor.white
-            return view
-        }()
         window?.rootViewController = rootNavigationController
         window?.windowLevel = .normal
         window?.backgroundColor = UIColor.white
@@ -90,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         splashWindow?.makeKeyAndVisible()
 
         FirebaseApp.configure()
-        RNFirebaseNotifications.configure()
+        // RNFirebaseNotifications.configure()
 
         RNBranch.initSession(launchOptions: launchOptions, isReferrable: true)
 
@@ -116,55 +111,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         DefaultStyling.installCustom()
 
-        loadApolloAndReactNative(
-            hasLoadedCallbacker: hasLoadedCallbacker,
-            launchOptions: launchOptions
-        )
+        RCTApolloClient.getClient().delay(by: 0.05).onValue { _ in
+            guard let window = self.window else {
+                log.error("Window missing?!")
+                return
+            }
+
+            if let disposable = ApplicationState.presentRootViewController(window) {
+                self.bag += disposable
+
+                window.makeKeyAndVisible()
+                hasLoadedCallbacker.callAll()
+
+                return
+            }
+
+            self.bag += rootNavigationController.present(Marketing()).disposable
+
+            window.makeKeyAndVisible()
+            hasLoadedCallbacker.callAll()
+        }
 
         return true
     }
 
     func loadApolloAndReactNative(
-        hasLoadedCallbacker: Callbacker<Void>? = nil,
-        launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
-    ) {
-        var jsCodeLocation: URL
-
-        #if DEBUG
-            jsCodeLocation = RCTBundleURLProvider.sharedSettings()!.jsBundleURL(
-                forBundleRoot: "index",
-                fallbackResource: nil
-            )
-            hasLoadedCallbacker?.callAll()
-        #else
-            jsCodeLocation = CodePush.bundleURL()
-        #endif
-
-        RCTApolloClient.getClient().delay(by: 0.05).onValue { _ in
-            ReactNativeNavigation.bootstrapBrownField(
-                jsCodeLocation,
-                launchOptions: launchOptions,
-                bridgeManagerDelegate: nil,
-                window: self.window
-            )
-
-            let bridge = ReactNativeNavigation.getBridge()
-
-            self.window?.makeKeyAndVisible()
-
-            let nativeRouting = bridge?.module(forName: "NativeRouting") as! NativeRouting
-
-            self.bag += combineLatest(
-                nativeRouting.appHasLoadedSignal,
-                RemoteConfigContainer.shared.fetched.plain()
-            ).onValue { _ in
-                hasLoadedCallbacker?.callAll()
-            }
-
-            MarketingScreenComponent.register()
-            LoggedInScreenComponent.register()
-        }
-    }
+        hasLoadedCallbacker _: Callbacker<Void>? = nil,
+        launchOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) {}
 
     func applicationWillTerminate(_: UIApplication) {
         applicationWillTerminateCallbacker.callAll()
@@ -172,23 +146,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func logout() {
         window?.makeKeyAndVisible()
-        ReactNativeNavigation.getBridge()?.invalidate()
+        // ReactNativeNavigation.getBridge()?.invalidate()
         bag.dispose()
         RCTAsyncLocalStorage().clearAllData()
         loadApolloAndReactNative()
     }
 
-    func application(_: UIApplication, didReceive notification: UILocalNotification) {
-        RNFirebaseNotifications.instance().didReceive(notification)
-    }
+    // func application(_: UIApplication, didReceive notification: UILocalNotification) {
+    //    RNFirebaseNotifications.instance().didReceive(notification)
+    // }
 
-    func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        RNFirebaseNotifications.instance().didReceiveRemoteNotification(userInfo, fetchCompletionHandler: completionHandler)
-    }
+    // func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    //    RNFirebaseNotifications.instance().didReceiveRemoteNotification(userInfo, fetchCompletionHandler: completionHandler)
+    // }
 
-    func application(_: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-        RNFirebaseMessaging.instance().didRegister(notificationSettings)
-    }
+    // func application(_: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
+    //    RNFirebaseMessaging.instance().didRegister(notificationSettings)
+    // }
 
     func handleDynamicLink(_ dynamicLink: DynamicLink?) -> Bool {
         guard let dynamicLink = dynamicLink else { return false }

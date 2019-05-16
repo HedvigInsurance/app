@@ -46,7 +46,6 @@
     "@hedviginsurance/react-native-floating-action": "1.13.1",
     "@hedviginsurance/react-native-fs": "2.12.2",
     "@hedviginsurance/react-native-keyboard-spacer": "0.4.9",
-    "@hedviginsurance/react-native-navigation": "2.1.8",
     "@redux-beacon/logger": "^1.0.0",
     "@sampettersson/primitives": "^9.2.16",
     "@types/apollo-upload-client": "^8.1.1",
@@ -91,6 +90,7 @@
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-react-native": "^3.2.1",
     "eslint-plugin-react-native-a11y": "^1.0.0",
+    "events": "^3.0.0",
     "generator-to-promise": "^1.0.0",
     "get-closest": "^0.0.4",
     "graphql": "^14.0.2",
@@ -123,12 +123,10 @@
     "react-native-audio": "^4.1.3",
     "react-native-blur": "^3.2.2",
     "react-native-branch": "2.3.5",
-    "react-native-code-push": "^5.4.1",
     "react-native-collapsible": "^1.3.0",
     "react-native-debugger-open": "^0.3.15",
     "react-native-device-info": "^0.22.5",
     "react-native-fast-image": "^5.0.11",
-    "react-native-firebase": "^5.0.0",
     "react-native-gesture-handler": "^1.0.9",
     "react-native-heic-converter": "^1.1.1",
     "react-native-hyperlink": "^0.0.14",
@@ -136,9 +134,7 @@
     "react-native-image-progress": "^1.1.1",
     "react-native-iphone-x-helper": "^1.2.0",
     "react-native-mock-render": "^0.1.2",
-    "react-native-navigation": "2.2.1-snapshot.61",
     "react-native-paper": "^2.1.3",
-    "react-native-permissions": "^1.1.1",
     "react-native-progress": "^3.5.0",
     "react-native-root-toast": "^3.0.1",
     "react-native-schemes-manager": "^1.0.5",
@@ -160,7 +156,6 @@
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-persist": "^5.9.1",
     "redux-saga": "^0.16.0",
-    "rn-fetch-blob": "^0.10.12",
     "schedule": "0.4.0",
     "subscriptions-transport-ws": "^0.9.15",
     "ts-jest": "^23.10.1",
@@ -183,12 +178,7 @@
       "Release - Development",
       "Release - Staging",
       "Release - Production"
-    ],
-    "settings": {
-      "fix-script": {
-        "nodeCommand": "$NODE_BINARY ../node_modules/@sentry/cli/bin/sentry-cli react-native xcode"
-      }
-    }
+    ]
   },
   "version": "2.7.0",
   "devDependencies": {

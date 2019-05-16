@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Dimensions, Image, StyleSheet, Linking } from 'react-native';
 import { default as SnapCarousel } from 'react-native-snap-carousel';
-import { Navigation } from 'react-native-navigation';
 import {
   StyledCarouselContainer,
   StyledAlignedCarouselItems,

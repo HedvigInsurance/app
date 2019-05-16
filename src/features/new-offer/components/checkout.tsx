@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Platform } from 'react-native'
+import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { OFFER_CHECKOUT } from 'src/features/offer/state/actions';
 import { NavigationEvents } from 'src/navigation/events';
@@ -8,6 +8,7 @@ import { Mount, Update } from 'react-lifecycle-components';
 
 import { TRACK_OFFER_OPENED } from 'src/features/analytics/actions';
 import { AndroidOfferState } from './android-offer-state';
+import { signButtonEvents } from 'src/features/new-offer/components/sign-button';
 
 interface CheckoutProps {
   monthlyCost: number;
@@ -22,36 +23,37 @@ export const CheckoutComp: React.SFC<CheckoutProps> = ({
   trackOfferOpen,
   monthlyCost,
 }) => (
-    <>
-      <Mount on={() => trackOfferOpen(monthlyCost, orderId)}>{null}</Mount>
-      {Platform.OS === 'ios' ? (
-        <NavigationEvents
-          onGlobalEvent={(event: { id: string }) => {
-            if (event.id === 'SignButtonPressed') {
-              checkout();
-            }
-          }}
-        />
-      ) : (
-          <AndroidOfferState>
-            {({ isCheckingOut, setIsCheckingOut }) => (
-              <Update<boolean>
-                was={() => {
-                  if (isCheckingOut) {
-                    setIsCheckingOut(false)
-                    checkout()
-                  }
-                }}
-                watched={isCheckingOut}
-              >
-                {null}
-              </Update>
-            )}
-          </AndroidOfferState>
-        )}
-      <Dialog />
-    </>
-  );
+  <>
+    <Mount on={() => trackOfferOpen(monthlyCost, orderId)}>{null}</Mount>
+    <AndroidOfferState>
+      {({ isCheckingOut, setIsCheckingOut }) => (
+        <>
+          <Update<boolean>
+            was={() => {
+              if (isCheckingOut) {
+                setIsCheckingOut(false);
+                checkout();
+              }
+            }}
+            watched={isCheckingOut}
+          >
+            {null}
+          </Update>
+          <Mount
+            on={() => {
+              signButtonEvents.on('checkout', () => {
+                checkout();
+              });
+            }}
+          >
+            {null}
+          </Mount>
+        </>
+      )}
+    </AndroidOfferState>
+    <Dialog />
+  </>
+);
 
 const mapDispatchToProps = (dispatch: any) => {
   return {

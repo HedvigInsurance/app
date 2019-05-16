@@ -11,8 +11,6 @@ import UIKit
 
 struct DashboardRouting {
     static func openChat(viewController: UIViewController, chatActionUrl _: String) {
-        let bridge = ReactNativeNavigation.getBridge()
-        let nativeRouting = bridge?.module(forName: "NativeRouting") as! NativeRouting
-        nativeRouting.sendOpenFreeTextChat()
+        // TODO:
     }
 }

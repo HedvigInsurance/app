@@ -1,6 +1,5 @@
 import { AsyncStorage, Platform, NativeModules } from 'react-native';
 import { call, takeLatest, take, put, select } from 'redux-saga/effects';
-import { Navigation } from 'react-native-navigation';
 
 import { chatActions } from '../../../../hedvig-redux';
 import { TRACK_OFFER_SIGNED } from '../../../features/analytics/actions';

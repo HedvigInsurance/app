@@ -1,5 +1,4 @@
 import { Platform } from 'react-native';
-import { Navigation } from 'react-native-navigation';
 import { registerExternalComponentId } from './../native-routing';
 
 export const getMarketingLayout = () =>
@@ -31,9 +30,11 @@ export const getMarketingLayout = () =>
       };
     },
     android: () => {
-      Navigation.events().registerComponentDidAppearListener(({ componentId, componentName }) => {
-        registerExternalComponentId(componentId, componentName)
-      })
+      Navigation.events().registerComponentDidAppearListener(
+        ({ componentId, componentName }) => {
+          registerExternalComponentId(componentId, componentName);
+        },
+      );
 
       return {
         root: {
@@ -41,18 +42,18 @@ export const getMarketingLayout = () =>
             children: [
               {
                 externalComponent: {
-                  name: 'marketingScreen'
-                }
+                  name: 'marketingScreen',
+                },
               },
             ],
             options: {
               topBar: {
                 visible: false,
                 drawBehind: true,
-              }
-            }
+              },
+            },
           },
         },
-      }
-    }
+      };
+    },
   })();

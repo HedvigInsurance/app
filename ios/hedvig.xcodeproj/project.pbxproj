@@ -223,7 +223,7 @@
 		EB11ED37227ADBDE00D95365 /* DismissCardAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11ED27227ADBDE00D95365 /* DismissCardAnimationController.swift */; };
 		EB11ED39227B3BB500D95365 /* TriggerClaimChat.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EB11ED38227B3BB500D95365 /* TriggerClaimChat.graphql */; };
 		EB11ED3B227B3CC200D95365 /* ClaimChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11ED3A227B3CC200D95365 /* ClaimChat.swift */; };
-		EB265B1C221ADE14009DA493 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB265B1B221ADE14009DA493 /* Chat.swift */; };
+		EB265B1C221ADE14009DA493 /* OnboardingChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB265B1B221ADE14009DA493 /* OnboardingChat.swift */; };
 		EB265B1E221AF1F0009DA493 /* MyHomeRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB265B1D221AF1EF009DA493 /* MyHomeRouting.swift */; };
 		EB384A14228593CD00D226D1 /* ApolloClient+InsuranceIsActiveSignal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A13228593CD00D226D1 /* ApolloClient+InsuranceIsActiveSignal.swift */; };
 		EB384A16228593D700D226D1 /* SignalProvider+Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A15228593D700D226D1 /* SignalProvider+Loader.swift */; };
@@ -232,6 +232,12 @@
 		EB384A3C228C403E00D226D1 /* UIViewController+TabBarBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A3B228C403D00D226D1 /* UIViewController+TabBarBadge.swift */; };
 		EB384A3E228C407100D226D1 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A3D228C407100D226D1 /* Logger.swift */; };
 		EB384A40228C407600D226D1 /* WhenEnabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A3F228C407600D226D1 /* WhenEnabled.swift */; };
+		EB384A42228C6E1200D226D1 /* FreeTextChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A41228C6E1100D226D1 /* FreeTextChat.swift */; };
+		EB384A44228D4D0C00D226D1 /* Offer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A43228D4D0C00D226D1 /* Offer.swift */; };
+		EB384A46228D4F8A00D226D1 /* ReactNativeContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A45228D4F8A00D226D1 /* ReactNativeContainer.swift */; };
+		EB384A48228D6E7600D226D1 /* Offer.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EB384A47228D6E7600D226D1 /* Offer.graphql */; };
+		EB384A4A228DB23000D226D1 /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A49228DB22F00D226D1 /* ApplicationState.swift */; };
+		EB384A4C228DC6AB00D226D1 /* OfferChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A4B228DC6AB00D226D1 /* OfferChat.swift */; };
 		EB433C96221D49C1000156D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */; };
 		EB4695BE220051BF0004C75D /* Pods-Hedvig-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */; };
 		EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4695CD220083800004C75D /* RCTApolloClient.swift */; };
@@ -259,36 +265,31 @@
 		EBCAA8C622843E24003C4833 /* UIBarButtonItem+Viewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAA8C522843E24003C4833 /* UIBarButtonItem+Viewable.swift */; };
 		EBCAA8CB22846FE6003C4833 /* UIViewController+PreferredContentSizeSignal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAA8CA22846FE6003C4833 /* UIViewController+PreferredContentSizeSignal.swift */; };
 		EBD5C968223933D20049A78A /* ClearDirectDebitStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD5C967223933D20049A78A /* ClearDirectDebitStatus.swift */; };
-		EBD675FA21FF4F0F00050E86 /* LoggedInScreenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD675F921FF4F0E00050E86 /* LoggedInScreenComponent.swift */; };
-		EBECC19F21B8112D00716BEA /* MarketingScreenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBECC19E21B8112D00716BEA /* MarketingScreenComponent.swift */; };
 		EBECC26621B9230000716BEA /* NativeRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBECC26521B9230000716BEA /* NativeRouting.swift */; };
 		EBECC26821B92E4800716BEA /* NativeRouting.m in Sources */ = {isa = PBXBuildFile; fileRef = EBECC26721B92E4800716BEA /* NativeRouting.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		08E5427420879B64DB0FAC97 /* Pods-hedvig.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.staging.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.staging.xcconfig"; sourceTree = "<group>"; };
-		14DAAD861ADCC674F81A246E /* Pods-hedvig.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.release.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.release.xcconfig"; sourceTree = "<group>"; };
+		145BD66FE060E4C404626149 /* Pods-hedvig.debug - development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.debug - development.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.debug - development.xcconfig"; sourceTree = "<group>"; };
 		1E11984458714DEDB8081244 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		2DCF4132F2BAB8D3F906C415 /* Pods-hedvig.debug - staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.debug - staging.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.debug - staging.xcconfig"; sourceTree = "<group>"; };
-		2EE5FB9DB54A633C563A341F /* Pods-hedvig.release - staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.release - staging.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.release - staging.xcconfig"; sourceTree = "<group>"; };
-		40A4E138DA01BAEEA68F884C /* Pods-hedvig.debug - dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.debug - dev.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.debug - dev.xcconfig"; sourceTree = "<group>"; };
+		20072E5F8C6B0EAA997CBD1A /* Pods-hedvig.release - production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.release - production.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.release - production.xcconfig"; sourceTree = "<group>"; };
 		446808BB14A544DA8419781D /* SoRay-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SoRay-ExtraBold.ttf"; path = "../assets/fonts/SoRay-ExtraBold.ttf"; sourceTree = "<group>"; };
 		4CB76B2DDD2F4C42A9C41DF6 /* CircularStd-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CircularStd-Bold.ttf"; path = "../assets/fonts/CircularStd-Bold.ttf"; sourceTree = "<group>"; };
+		5228FC7BBECEA97BFA77D562 /* Pods-hedvig.release - development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.release - development.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.release - development.xcconfig"; sourceTree = "<group>"; };
 		559CCAD6211F1AC10080C272 /* hedvig.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = hedvig.entitlements; sourceTree = "<group>"; };
 		559CCAEF2121B3530080C272 /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
 		559CCAF12121B42C0080C272 /* staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = staging.xcconfig; sourceTree = "<group>"; };
 		559CCAF22121B4620080C272 /* release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		55A1D9EC211DB2FA00547027 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7B57D15156864FA4B906A3EC /* CircularStd-Book.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CircularStd-Book.ttf"; path = "../assets/fonts/CircularStd-Book.ttf"; sourceTree = "<group>"; };
-		7CDE8491802332E881E48B7F /* Pods-hedvig.debug - production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.debug - production.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.debug - production.xcconfig"; sourceTree = "<group>"; };
-		ABC3DF484F2DAA91A9A81943 /* Pods-hedvig.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.debug.xcconfig"; sourceTree = "<group>"; };
+		83A077794D771D15504FC9E0 /* Pods-hedvig.release - staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.release - staging.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.release - staging.xcconfig"; sourceTree = "<group>"; };
+		A281C30BA39C06CBD5F9B8EC /* Pods-hedvig.debug - staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.debug - staging.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.debug - staging.xcconfig"; sourceTree = "<group>"; };
+		ACBFB1A6F0450ECB42BF7149 /* Pods-hedvig.debug - production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.debug - production.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.debug - production.xcconfig"; sourceTree = "<group>"; };
 		B56386411DB9693800A0598C /* Hedvig Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hedvig Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B56386481DB9693800A0598C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B56386501DB9693800A0598C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B563865C1DB96A5E00A0598C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BA6B49A7D50CBF7527166E28 /* Pods-hedvig.release - dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.release - dev.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.release - dev.xcconfig"; sourceTree = "<group>"; };
 		D398F87383C7495A9938B698 /* Merriweather-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Merriweather-Light.ttf"; path = "../assets/fonts/Merriweather-Light.ttf"; sourceTree = "<group>"; };
-		D5671F6FBF53920F1E91F718 /* Pods-hedvig.release - production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.release - production.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.release - production.xcconfig"; sourceTree = "<group>"; };
 		E7D1DC928F6C1DB18EBE8064 /* libPods-hedvig.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hedvig.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB11E94E2277047700D95365 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB11E9512277047700D95365 /* LoggedIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedIn.swift; sourceTree = "<group>"; };
@@ -496,16 +497,22 @@
 		EB11ED25227ADBDE00D95365 /* CardControllerTransitioningDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardControllerTransitioningDelegate.swift; sourceTree = "<group>"; };
 		EB11ED27227ADBDE00D95365 /* DismissCardAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissCardAnimationController.swift; sourceTree = "<group>"; };
 		EB11ED38227B3BB500D95365 /* TriggerClaimChat.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = TriggerClaimChat.graphql; sourceTree = "<group>"; };
-		EB11ED3A227B3CC200D95365 /* ClaimChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClaimChat.swift; sourceTree = "<group>"; };
-		EB265B1B221ADE14009DA493 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		EB11ED3A227B3CC200D95365 /* ClaimChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClaimChat.swift; path = ../ClaimChat.swift; sourceTree = "<group>"; };
+		EB265B1B221ADE14009DA493 /* OnboardingChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingChat.swift; path = ../OnboardingChat.swift; sourceTree = "<group>"; };
 		EB265B1D221AF1EF009DA493 /* MyHomeRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHomeRouting.swift; sourceTree = "<group>"; };
 		EB384A13228593CD00D226D1 /* ApolloClient+InsuranceIsActiveSignal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ApolloClient+InsuranceIsActiveSignal.swift"; sourceTree = "<group>"; };
 		EB384A15228593D700D226D1 /* SignalProvider+Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProvider+Loader.swift"; sourceTree = "<group>"; };
-		EB384A1722859F1D00D226D1 /* CallMeChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallMeChat.swift; sourceTree = "<group>"; };
+		EB384A1722859F1D00D226D1 /* CallMeChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CallMeChat.swift; path = ../CallMeChat.swift; sourceTree = "<group>"; };
 		EB384A1922859FE700D226D1 /* TriggerCallMeChat.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = TriggerCallMeChat.graphql; sourceTree = "<group>"; };
 		EB384A3B228C403D00D226D1 /* UIViewController+TabBarBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+TabBarBadge.swift"; sourceTree = "<group>"; };
 		EB384A3D228C407100D226D1 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		EB384A3F228C407600D226D1 /* WhenEnabled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WhenEnabled.swift; path = hedvig/ugglan/Src/Generic/WhenEnabled.swift; sourceTree = SOURCE_ROOT; };
+		EB384A41228C6E1100D226D1 /* FreeTextChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FreeTextChat.swift; path = ../FreeTextChat.swift; sourceTree = "<group>"; };
+		EB384A43228D4D0C00D226D1 /* Offer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Offer.swift; sourceTree = "<group>"; };
+		EB384A45228D4F8A00D226D1 /* ReactNativeContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactNativeContainer.swift; sourceTree = "<group>"; };
+		EB384A47228D6E7600D226D1 /* Offer.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Offer.graphql; sourceTree = "<group>"; };
+		EB384A49228DB22F00D226D1 /* ApplicationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
+		EB384A4B228DC6AB00D226D1 /* OfferChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OfferChat.swift; path = ../OfferChat.swift; sourceTree = "<group>"; };
 		EB3A235521A57EE4007F52B6 /* hedvig-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hedvig-Bridging-Header.h"; sourceTree = "<group>"; };
 		EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Pods-Hedvig-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -535,12 +542,8 @@
 		EBCAA8C522843E24003C4833 /* UIBarButtonItem+Viewable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Viewable.swift"; sourceTree = "<group>"; };
 		EBCAA8CA22846FE6003C4833 /* UIViewController+PreferredContentSizeSignal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+PreferredContentSizeSignal.swift"; sourceTree = "<group>"; };
 		EBD5C967223933D20049A78A /* ClearDirectDebitStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearDirectDebitStatus.swift; sourceTree = "<group>"; };
-		EBD675F921FF4F0E00050E86 /* LoggedInScreenComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInScreenComponent.swift; sourceTree = "<group>"; };
-		EBECC19E21B8112D00716BEA /* MarketingScreenComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketingScreenComponent.swift; sourceTree = "<group>"; };
 		EBECC26521B9230000716BEA /* NativeRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeRouting.swift; sourceTree = "<group>"; };
 		EBECC26721B92E4800716BEA /* NativeRouting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NativeRouting.m; sourceTree = "<group>"; };
-		EE9E45FE503F4AA1B6290424 /* Pods-hedvig.release - development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.release - development.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.release - development.xcconfig"; sourceTree = "<group>"; };
-		FE838C28F7895ED6D2053AD7 /* Pods-hedvig.debug - development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.debug - development.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.debug - development.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -569,17 +572,12 @@
 		22BE85EFBA2F70EA99DAE0CA /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				ABC3DF484F2DAA91A9A81943 /* Pods-hedvig.debug.xcconfig */,
-				14DAAD861ADCC674F81A246E /* Pods-hedvig.release.xcconfig */,
-				08E5427420879B64DB0FAC97 /* Pods-hedvig.staging.xcconfig */,
-				2EE5FB9DB54A633C563A341F /* Pods-hedvig.release - staging.xcconfig */,
-				40A4E138DA01BAEEA68F884C /* Pods-hedvig.debug - dev.xcconfig */,
-				2DCF4132F2BAB8D3F906C415 /* Pods-hedvig.debug - staging.xcconfig */,
-				BA6B49A7D50CBF7527166E28 /* Pods-hedvig.release - dev.xcconfig */,
-				7CDE8491802332E881E48B7F /* Pods-hedvig.debug - production.xcconfig */,
-				FE838C28F7895ED6D2053AD7 /* Pods-hedvig.debug - development.xcconfig */,
-				D5671F6FBF53920F1E91F718 /* Pods-hedvig.release - production.xcconfig */,
-				EE9E45FE503F4AA1B6290424 /* Pods-hedvig.release - development.xcconfig */,
+				ACBFB1A6F0450ECB42BF7149 /* Pods-hedvig.debug - production.xcconfig */,
+				145BD66FE060E4C404626149 /* Pods-hedvig.debug - development.xcconfig */,
+				A281C30BA39C06CBD5F9B8EC /* Pods-hedvig.debug - staging.xcconfig */,
+				20072E5F8C6B0EAA997CBD1A /* Pods-hedvig.release - production.xcconfig */,
+				5228FC7BBECEA97BFA77D562 /* Pods-hedvig.release - development.xcconfig */,
+				83A077794D771D15504FC9E0 /* Pods-hedvig.release - staging.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -611,17 +609,12 @@
 				559CCAEF2121B3530080C272 /* debug.xcconfig */,
 				559CCAD6211F1AC10080C272 /* hedvig.entitlements */,
 				55A1D9EC211DB2FA00547027 /* GoogleService-Info.plist */,
-				EBD675F921FF4F0E00050E86 /* LoggedInScreenComponent.swift */,
 				B56386481DB9693800A0598C /* AppDelegate.swift */,
 				B56386501DB9693800A0598C /* Assets.xcassets */,
 				EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */,
 				B563865B1DB96A5E00A0598C /* Supporting */,
 				559CCAF12121B42C0080C272 /* staging.xcconfig */,
 				559CCAF22121B4620080C272 /* release.xcconfig */,
-				EB265B1B221ADE14009DA493 /* Chat.swift */,
-				EB11ED3A227B3CC200D95365 /* ClaimChat.swift */,
-				EB384A1722859F1D00D226D1 /* CallMeChat.swift */,
-				EBECC19E21B8112D00716BEA /* MarketingScreenComponent.swift */,
 				EBECC26721B92E4800716BEA /* NativeRouting.m */,
 				EBECC26521B9230000716BEA /* NativeRouting.swift */,
 				EBCAA815228086BC003C4833 /* DashboardRouting.swift */,
@@ -629,6 +622,9 @@
 				EB4695CD220083800004C75D /* RCTApolloClient.swift */,
 				EB265B1D221AF1EF009DA493 /* MyHomeRouting.swift */,
 				EBD5C967223933D20049A78A /* ClearDirectDebitStatus.swift */,
+				EB384A43228D4D0C00D226D1 /* Offer.swift */,
+				EB384A45228D4F8A00D226D1 /* ReactNativeContainer.swift */,
+				EB384A49228DB22F00D226D1 /* ApplicationState.swift */,
 			);
 			path = hedvig;
 			sourceTree = "<group>";
@@ -1238,6 +1234,7 @@
 				EB11ED38227B3BB500D95365 /* TriggerClaimChat.graphql */,
 				EBCAA8B02281DF35003C4833 /* TriggerFreeTextChat.graphql */,
 				EB384A1922859FE700D226D1 /* TriggerCallMeChat.graphql */,
+				EB384A47228D6E7600D226D1 /* Offer.graphql */,
 			);
 			path = GraphQL;
 			sourceTree = "<group>";
@@ -1357,6 +1354,19 @@
 			path = Transitions;
 			sourceTree = "<group>";
 		};
+		EB384A4E228DC6CD00D226D1 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				EB265B1B221ADE14009DA493 /* OnboardingChat.swift */,
+				EB384A4B228DC6AB00D226D1 /* OfferChat.swift */,
+				EB11ED3A227B3CC200D95365 /* ClaimChat.swift */,
+				EB384A1722859F1D00D226D1 /* CallMeChat.swift */,
+				EB384A41228C6E1100D226D1 /* FreeTextChat.swift */,
+			);
+			name = Chat;
+			path = hedvig/Chat;
+			sourceTree = SOURCE_ROOT;
+		};
 		EBCAA8B32282255B003C4833 /* ChatPreview */ = {
 			isa = PBXGroup;
 			children = (
@@ -1369,6 +1379,7 @@
 		EBECC1A621B811F400716BEA /* ugglan */ = {
 			isa = PBXGroup;
 			children = (
+				EB384A4E228DC6CD00D226D1 /* Chat */,
 				EB11E94C2277047700D95365 /* Src */,
 			);
 			path = ugglan;
@@ -1469,6 +1480,7 @@
 				EB11EAEE2277047800D95365 /* CancelDirectDebitRequest.graphql in Resources */,
 				AC5BB2AB4E954E429F91AB9E /* Merriweather-Light.ttf in Resources */,
 				EB11EAE62277047800D95365 /* MyInfo.graphql in Resources */,
+				EB384A48228D6E7600D226D1 /* Offer.graphql in Resources */,
 				EB11EAE42277047800D95365 /* SelectCharity.graphql in Resources */,
 				EB11EAEB2277047800D95365 /* SelectedCharity.graphql in Resources */,
 				559CCAF02121B3530080C272 /* debug.xcconfig in Resources */,
@@ -1559,7 +1571,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export DEVELOPMENT_BUILD_CONFIGURATIONS=\"+(Debug - Development|Debug- Staging|Debug - Production|Debug)\"\nexport NODE_BINARY=node\n$NODE_BINARY ../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native-schemes-manager/lib/react-native-xcode.sh";
+			shellScript = "export DEVELOPMENT_BUILD_CONFIGURATIONS=\"+(Debug - Development|Debug- Staging|Debug - Production|Debug)\"\nexport NODE_BINARY=node\n../node_modules/react-native-schemes-manager/lib/react-native-xcode.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1578,6 +1590,7 @@
 				EBCAA8AF2281C2F2003C4833 /* UIView+LayoutSuperviews.swift in Sources */,
 				EBCAA8AD2281C28E003C4833 /* MoreInfoExpandableRow.swift in Sources */,
 				EBCAA89D2281C28E003C4833 /* MyProtectionSection.swift in Sources */,
+				EB384A46228D4F8A00D226D1 /* ReactNativeContainer.swift in Sources */,
 				EB11EA6F2277047700D95365 /* MyInfo.swift in Sources */,
 				EB11EA942277047700D95365 /* Licenses.swift in Sources */,
 				EB11EAD52277047700D95365 /* Viewable.swift in Sources */,
@@ -1644,6 +1657,7 @@
 				EB11EAA12277047700D95365 /* ButtonSection.swift in Sources */,
 				EB11EADB2277047800D95365 /* CoreSignal+Animation.swift in Sources */,
 				EB11EA8E2277047700D95365 /* CharityOption.swift in Sources */,
+				EB384A42228C6E1200D226D1 /* FreeTextChat.swift in Sources */,
 				EB11ED32227ADBDE00D95365 /* CommonClaimEmergency.swift in Sources */,
 				EB11EA902277047700D95365 /* MemberIdRow.swift in Sources */,
 				EB11EAC82277047700D95365 /* UIViewController+Previewing.swift in Sources */,
@@ -1651,16 +1665,16 @@
 				EB11EAB92277047700D95365 /* UIView+addConstraint.swift in Sources */,
 				EB11ED31227ADBDE00D95365 /* HonestyPledge.swift in Sources */,
 				EB11ED37227ADBDE00D95365 /* DismissCardAnimationController.swift in Sources */,
+				EB384A44228D4D0C00D226D1 /* Offer.swift in Sources */,
 				EB11EAA92277047700D95365 /* MarkdownText.swift in Sources */,
 				EB384A3C228C403E00D226D1 /* UIViewController+TabBarBadge.swift in Sources */,
 				EB11EABD2277047700D95365 /* CollectionKit+UpdateRows.swift in Sources */,
 				EB11EAB72277047700D95365 /* UIView+RadiusMask.swift in Sources */,
 				EB11EA9C2277047700D95365 /* ActivityBarButton.swift in Sources */,
-				EB265B1C221ADE14009DA493 /* Chat.swift in Sources */,
+				EB265B1C221ADE14009DA493 /* OnboardingChat.swift in Sources */,
 				EB11EA7D2277047700D95365 /* BankDetailsSection.swift in Sources */,
 				EB11EA6A2277047700D95365 /* EmailRow.swift in Sources */,
 				EB11EA792277047700D95365 /* ReferralsTitle.swift in Sources */,
-				EBD675FA21FF4F0F00050E86 /* LoggedInScreenComponent.swift in Sources */,
 				EB11EA9F2277047700D95365 /* CircleLabel.swift in Sources */,
 				EB11EAA32277047700D95365 /* PDFViewer.swift in Sources */,
 				EB11ED35227ADBDE00D95365 /* CardControllerTransitioningDelegate.swift in Sources */,
@@ -1670,6 +1684,7 @@
 				EB11EACA2277047700D95365 /* CollectionKit+ScrollTo.swift in Sources */,
 				B56386491DB9693800A0598C /* AppDelegate.swift in Sources */,
 				EB11EAAF2277047700D95365 /* DynamicString.swift in Sources */,
+				EB384A4C228DC6AB00D226D1 /* OfferChat.swift in Sources */,
 				EB11EB072277209000D95365 /* HedvigFonts.swift in Sources */,
 				EB11EA8C2277047700D95365 /* CharityPicker.swift in Sources */,
 				EB11ED0B227ADB9300D95365 /* LocalizationLocale+CurrentLocale.swift in Sources */,
@@ -1700,6 +1715,7 @@
 				EB11EA862277047700D95365 /* CharityInformationButton.swift in Sources */,
 				EB11EA582277047700D95365 /* MarketingStory.swift in Sources */,
 				EB11EAD42277047700D95365 /* ActivityView.swift in Sources */,
+				EB384A4A228DB23000D226D1 /* ApplicationState.swift in Sources */,
 				EB11EA922277047700D95365 /* About.swift in Sources */,
 				EBCAA8C622843E24003C4833 /* UIBarButtonItem+Viewable.swift in Sources */,
 				EB384A1822859F1D00D226D1 /* CallMeChat.swift in Sources */,
@@ -1785,7 +1801,6 @@
 				EB11EAA52277047700D95365 /* Spacing.swift in Sources */,
 				EB11EAB32277047700D95365 /* SignalProvider+LazyBindTo.swift in Sources */,
 				EB11EA5E2277047700D95365 /* ProfileSection.swift in Sources */,
-				EBECC19F21B8112D00716BEA /* MarketingScreenComponent.swift in Sources */,
 				EB11EA462277047700D95365 /* MarketingPresentationStyle.swift in Sources */,
 				EB11EA742277047700D95365 /* Feedback.swift in Sources */,
 				EB11EA4B2277047700D95365 /* MemberActionButtons.swift in Sources */,
@@ -1917,7 +1932,7 @@
 		};
 		B56386591DB9693800A0598C /* Debug - Production */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7CDE8491802332E881E48B7F /* Pods-hedvig.debug - production.xcconfig */;
+			baseConfigurationReference = ACBFB1A6F0450ECB42BF7149 /* Pods-hedvig.debug - production.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.com.hedvig.app;
 				BRANCH_KEY = "$(BRANCH_KEY)";
@@ -1953,8 +1968,6 @@
 					"\"${PODS_ROOT}/Headers/Public/RNAudio\"",
 					"\"${PODS_ROOT}/Headers/Public/RNSound\"",
 					"\"${PODS_ROOT}/Headers/Public/React\"",
-					"\"${PODS_ROOT}/Headers/Public/ReactNativePermissions\"",
-					"\"${PODS_ROOT}/Headers/Public/SSZipArchive\"",
 					"\"${PODS_ROOT}/Headers/Public/Segment-Facebook-App-Events\"",
 					"\"${PODS_ROOT}/Headers/Public/Sentry\"",
 					"\"${PODS_ROOT}/Headers/Public/SentryReactNative\"",
@@ -1981,7 +1994,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(PRODUCT_NAME)\"",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Apollo/Apollo.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Disk/Disk.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/DynamicColor/DynamicColor.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FlowFramework/Flow.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Katana/Katana.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/PinLayout/PinLayout.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/SSZipArchive/SSZipArchive.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream/Starscream.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Tempura/Tempura.modulemap\" $(inherited) \"-D\" \"COCOAPODS\" -D \"DEBUG\"";
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Apollo/Apollo.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Disk/Disk.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/DynamicColor/DynamicColor.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FlowFramework/Flow.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Katana/Katana.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/PinLayout/PinLayout.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream/Starscream.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Tempura/Tempura.modulemap\" $(inherited) \"-D\" \"COCOAPODS\" -D \"DEBUG\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hedvig.app;
 				PRODUCT_NAME = "$(PRODUCT_NAME)";
 				PROVISIONING_PROFILE = "ec3e0828-e3fc-4165-afbc-b60504392532";
@@ -1995,7 +2008,7 @@
 		};
 		B563865A1DB9693800A0598C /* Release - Production */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D5671F6FBF53920F1E91F718 /* Pods-hedvig.release - production.xcconfig */;
+			baseConfigurationReference = 20072E5F8C6B0EAA997CBD1A /* Pods-hedvig.release - production.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.com.hedvig.app;
 				BRANCH_KEY = "$(BRANCH_KEY)";
@@ -2088,7 +2101,7 @@
 		};
 		EB99BB802129E5D1003AD933 /* Debug - Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2DCF4132F2BAB8D3F906C415 /* Pods-hedvig.debug - staging.xcconfig */;
+			baseConfigurationReference = A281C30BA39C06CBD5F9B8EC /* Pods-hedvig.debug - staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.com.hedvig.test.app;
 				BRANCH_KEY = "$(BRANCH_KEY)";
@@ -2124,11 +2137,7 @@
 					"\"${PODS_ROOT}/Headers/Public/RNAudio\"",
 					"\"${PODS_ROOT}/Headers/Public/RNSound\"",
 					"\"${PODS_ROOT}/Headers/Public/React\"",
-					"\"${PODS_ROOT}/Headers/Public/ReactNativePermissions\"",
-					"\"${PODS_ROOT}/Headers/Public/SSZipArchive\"",
 					"\"${PODS_ROOT}/Headers/Public/Segment-Facebook-App-Events\"",
-					"\"${PODS_ROOT}/Headers/Public/Sentry\"",
-					"\"${PODS_ROOT}/Headers/Public/SentryReactNative\"",
 					"\"${PODS_ROOT}/Headers/Public/glog\"",
 					"\"${PODS_ROOT}/Headers/Public/lottie-ios\"",
 					"\"${PODS_ROOT}/Headers/Public/lottie-react-native\"",
@@ -2137,7 +2146,6 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-config\"",
 					"\"${PODS_ROOT}/Headers/Public/rn-fetch-blob\"",
 					"\"${PODS_ROOT}/Headers/Public/yoga\"",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 				);
 				INFOPLIST_FILE = hedvig/Supporting/Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
@@ -2152,7 +2160,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(PRODUCT_NAME)\"",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Apollo/Apollo.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Disk/Disk.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/DynamicColor/DynamicColor.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FlowFramework/Flow.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/SSZipArchive/SSZipArchive.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream/Starscream.modulemap\" $(inherited) \"-D\" \"COCOAPODS\" -D \"DEBUG\"";
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Apollo/Apollo.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Disk/Disk.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/DynamicColor/DynamicColor.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FlowFramework/Flow.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream/Starscream.modulemap\" $(inherited) \"-D\" \"COCOAPODS\" -D \"DEBUG\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hedvig.test.app;
 				PRODUCT_NAME = "$(PRODUCT_NAME)";
 				PROVISIONING_PROFILE = "ec3e0828-e3fc-4165-afbc-b60504392532";
@@ -2223,7 +2231,7 @@
 		};
 		EB99BB822129E5DE003AD933 /* Debug - Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE838C28F7895ED6D2053AD7 /* Pods-hedvig.debug - development.xcconfig */;
+			baseConfigurationReference = 145BD66FE060E4C404626149 /* Pods-hedvig.debug - development.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.com.hedvig.dev.app;
 				BRANCH_KEY = "$(BRANCH_KEY)";
@@ -2244,7 +2252,6 @@
 					"\"${PODS_ROOT}/Headers/Public/Base64\"",
 					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
 					"\"${PODS_ROOT}/Headers/Public/Branch-SDK\"",
-					"\"${PODS_ROOT}/Headers/Public/CodePush\"",
 					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
 					"\"${PODS_ROOT}/Headers/Public/FBSDKCoreKit\"",
 					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
@@ -2259,8 +2266,6 @@
 					"\"${PODS_ROOT}/Headers/Public/RNAudio\"",
 					"\"${PODS_ROOT}/Headers/Public/RNSound\"",
 					"\"${PODS_ROOT}/Headers/Public/React\"",
-					"\"${PODS_ROOT}/Headers/Public/ReactNativePermissions\"",
-					"\"${PODS_ROOT}/Headers/Public/SSZipArchive\"",
 					"\"${PODS_ROOT}/Headers/Public/Segment-Facebook-App-Events\"",
 					"\"${PODS_ROOT}/Headers/Public/Sentry\"",
 					"\"${PODS_ROOT}/Headers/Public/SentryReactNative\"",
@@ -2272,7 +2277,6 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-config\"",
 					"\"${PODS_ROOT}/Headers/Public/rn-fetch-blob\"",
 					"\"${PODS_ROOT}/Headers/Public/yoga\"",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 				);
 				INFOPLIST_FILE = hedvig/Supporting/Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
@@ -2287,7 +2291,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(PRODUCT_NAME)\"",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Apollo/Apollo.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Disk/Disk.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/DynamicColor/DynamicColor.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FlowFramework/Flow.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/SSZipArchive/SSZipArchive.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream/Starscream.modulemap\" $(inherited) \"-D\" \"COCOAPODS\" -D \"DEBUG\"";
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Apollo/Apollo.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Disk/Disk.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/DynamicColor/DynamicColor.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FlowFramework/Flow.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream/Starscream.modulemap\" $(inherited) \"-D\" \"COCOAPODS\" -D \"DEBUG\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hedvig.dev.app;
 				PRODUCT_NAME = "$(PRODUCT_NAME)";
 				PROVISIONING_PROFILE = "ec3e0828-e3fc-4165-afbc-b60504392532";
@@ -2352,7 +2356,7 @@
 		};
 		EB99BB842129E5E5003AD933 /* Release - Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE9E45FE503F4AA1B6290424 /* Pods-hedvig.release - development.xcconfig */;
+			baseConfigurationReference = 5228FC7BBECEA97BFA77D562 /* Pods-hedvig.release - development.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.com.hedvig.dev.app;
 				BRANCH_KEY = "$(BRANCH_KEY)";
@@ -2440,7 +2444,7 @@
 		};
 		EBC15BE4212714AC00D0E296 /* Release - Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2EE5FB9DB54A633C563A341F /* Pods-hedvig.release - staging.xcconfig */;
+			baseConfigurationReference = 83A077794D771D15504FC9E0 /* Pods-hedvig.release - staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.com.hedvig.test.app;
 				BRANCH_KEY = "$(BRANCH_KEY)";

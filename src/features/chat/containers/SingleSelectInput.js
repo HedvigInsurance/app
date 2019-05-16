@@ -3,7 +3,6 @@ import { Platform, NativeModules } from 'react-native';
 import PropTypes from 'prop-types';
 import { Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { Navigation } from 'react-native-navigation';
 
 import { chatActions } from '../../../../hedvig-redux';
 import { AnimatedSingleSelectOptionButton } from '../components/Button';

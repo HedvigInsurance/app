@@ -1,6 +1,5 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import codePush from 'react-native-code-push';
 import { Provider } from 'react-redux';
 import { Provider as ConstateProvider } from 'constate';
 import { PersistGate } from 'redux-persist/es/integration/react';
@@ -44,8 +43,5 @@ export const HOC = (options) => (Component) => {
     }
   }
 
-  if (Platform.OS === 'android') {
-    return gestureHandlerRootHOC(Screen);
-  }
-  return gestureHandlerRootHOC(__DEV__ ? Screen : codePush(Screen));
+  return gestureHandlerRootHOC(Screen);
 };

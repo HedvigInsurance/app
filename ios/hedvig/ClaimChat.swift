@@ -45,11 +45,8 @@ extension ClaimChat: Presentable {
         loaderBag += view.add(loadingIndicator)
 
         bag += client.perform(mutation: TriggerClaimChatMutation(claimTypeId: claimTypeId)).valueSignal.compactMap { $0.data?.triggerClaimChat }.onValue { _ in
-            let reactView = RNNReactView(
-                bridge: ReactNativeNavigation.getBridge(),
-                moduleName: "ChatScreen",
-                initialProperties: ["componentId": "1", "intent": ""]
-            )
+            let jsCodeLocation = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index", fallbackResource: nil)
+            let reactView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "ChatScreen", initialProperties: nil)
 
             if let reactView = reactView {
                 view.addSubview(reactView)
