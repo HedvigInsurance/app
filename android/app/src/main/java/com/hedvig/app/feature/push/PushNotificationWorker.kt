@@ -1,4 +1,4 @@
-package com.hedvig.app.service
+package com.hedvig.app.feature.push
 
 import android.content.Context
 import androidx.work.Worker

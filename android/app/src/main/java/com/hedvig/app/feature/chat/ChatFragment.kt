@@ -30,11 +30,10 @@ import com.hedvig.app.util.newBroadcastReceiver
 import com.hedvig.app.util.showRestartDialog
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
-    val chatViewModel: ChatViewModel by sharedViewModel()
+    private val chatViewModel: ChatViewModel by sharedViewModel()
 
     private var reactRootView: ReactRootView? = null
 

@@ -28,6 +28,7 @@ import com.hedvig.app.feature.marketing.ui.MarketingStoriesViewModel
 import com.hedvig.app.feature.profile.data.ProfileRepository
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
+import com.hedvig.app.feature.push.PushNotificator
 import com.hedvig.app.service.FileService
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.service.Referrals
@@ -120,6 +121,7 @@ val serviceModule = module {
     single { Referrals(get()) }
     single { RemoteConfig() }
     single { TextKeys(get()) }
+    single { PushNotificator(get()) }
 }
 
 val repositoriesModule = module {
