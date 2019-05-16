@@ -123,6 +123,7 @@ class MyInfoFragment : Fragment() {
 
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
+            setHasOptionsMenu(true)
             loadingSpinner.remove()
             sphereContainer.show()
 
