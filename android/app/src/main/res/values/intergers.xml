@@ -3,5 +3,4 @@
     <integer name="slide_in_animation_duration">225</integer>
     <integer name="fade_in_animation_duration">225</integer>
     <integer name="screen_slide_transition_duration">200</integer>
-
 </resources>
