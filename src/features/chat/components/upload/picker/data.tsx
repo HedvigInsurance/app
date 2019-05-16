@@ -79,7 +79,7 @@ const loadPhotos = async ({
   CameraRoll.getPhotos({
     first: 10,
     after: photos!.page_info ? photos!.page_info!.end_cursor : undefined,
-    assetType: 'All',
+    assetType: Platform.OS === 'ios' ? 'All' : 'Photos'
   })
     .then((cameraRoll) => {
       setLoading(false);

@@ -8,9 +8,8 @@ import com.hedvig.app.feature.claims.data.ClaimsRepository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import timber.log.Timber
-import javax.inject.Inject
 
-class ClaimsViewModel @Inject constructor(
+class ClaimsViewModel(
     private val claimsRepository: ClaimsRepository,
     private val chatRepository: ChatRepository
 ) : ViewModel() {

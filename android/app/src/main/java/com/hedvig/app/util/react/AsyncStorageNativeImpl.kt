@@ -5,9 +5,8 @@ import android.content.Context
 import android.database.Cursor
 import com.facebook.react.modules.storage.ReactDatabaseSupplier
 import timber.log.Timber
-import javax.inject.Inject
 
-class AsyncStorageNativeImpl @Inject constructor(
+class AsyncStorageNativeImpl(
     private val context: Context
 ) : AsyncStorageNative {
 

@@ -22,14 +22,14 @@ import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.react.AsyncStorageNative
 import com.hedvig.app.util.whenApiVersion
-import dagger.android.AndroidInjection
+import com.ice.restring.Restring
 import io.branch.rnbranch.RNBranchModule
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
+import org.koin.android.ext.android.inject
 import timber.log.Timber
-import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), DefaultHardwareBackBtnHandler, PermissionAwareActivity {
 
@@ -52,14 +52,11 @@ class MainActivity : AppCompatActivity(), DefaultHardwareBackBtnHandler, Permiss
         reactInstanceManager.onActivityResult(this, requestCode, resultCode, data)
     }
 
-    @Inject
-    lateinit var asyncStorageNative: AsyncStorageNative
+    val asyncStorageNative: AsyncStorageNative by inject()
 
-    @Inject
-    lateinit var firebaseAnalytics: FirebaseAnalytics
+    val firebaseAnalytics: FirebaseAnalytics by inject()
 
-    @Inject
-    lateinit var loggedInService: LoginStatusService
+    val loggedInService: LoginStatusService by inject()
 
     private val disposables = CompositeDisposable()
 
@@ -70,6 +67,10 @@ class MainActivity : AppCompatActivity(), DefaultHardwareBackBtnHandler, Permiss
         get() = (application as ReactApplication).reactNativeHost
 
     private val navController by lazy { findNavController(R.id.rootNavigationHost) }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(Restring.wrapContext(newBase))
+    }
 
     override fun onStart() {
         super.onStart()
@@ -115,8 +116,6 @@ class MainActivity : AppCompatActivity(), DefaultHardwareBackBtnHandler, Permiss
         whenApiVersion(Build.VERSION_CODES.M) {
             window.statusBarColor = compatColor(R.color.off_white)
         }
-        AndroidInjection.inject(this)
-
 
         disposables += loggedInService
             .getLoginStatus()

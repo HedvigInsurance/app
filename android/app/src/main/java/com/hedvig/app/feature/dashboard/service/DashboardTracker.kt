@@ -2,9 +2,8 @@ package com.hedvig.app.feature.dashboard.service
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
-import javax.inject.Inject
 
-class DashboardTracker @Inject constructor(
+class DashboardTracker(
     private val firebaseAnalytics: FirebaseAnalytics
 ) {
     fun perilClick(perilId: String?) = firebaseAnalytics.logEvent(

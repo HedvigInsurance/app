@@ -7,7 +7,7 @@ import com.hedvig.android.owldroid.graphql.TriggerFreeTextChatMutation
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class ChatRepository @Inject constructor(private val apolloClient: ApolloClient) {
+class ChatRepository(private val apolloClient: ApolloClient) {
     fun triggerFreeTextChat(): Observable<Response<TriggerFreeTextChatMutation.Data>> {
         val triggerFreeTextChatMutation = TriggerFreeTextChatMutation.builder().build()
 

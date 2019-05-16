@@ -22,24 +22,27 @@
             android:id="@+id/action_loggedInFragment_to_chatFragment"
             app:destination="@id/loggedInChatFragment"
             app:enterAnim="@anim/slide_in_up"
-            app:exitAnim="@anim/slide_in_down"
-            app:popExitAnim="@anim/slide_in_down"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/stay_in_place"
+            app:popExitAnim="@anim/slide_out_down"
             app:popUpTo="@+id/loggedInFragment" />
 
         <action
             android:id="@+id/action_loggedInFragment_to_commonClaimsFragment"
             app:destination="@+id/claimsCommonClaimFragment"
             app:enterAnim="@anim/slide_in_up"
-            app:exitAnim="@anim/slide_in_down"
-            app:popExitAnim="@anim/slide_in_down"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/stay_in_place"
+            app:popExitAnim="@anim/slide_out_down"
             app:popUpTo="@+id/loggedInFragment" />
 
         <action
             android:id="@+id/action_loggedInFragment_to_emergencyFragment"
             app:destination="@+id/claimsEmergencyFragment"
             app:enterAnim="@anim/slide_in_up"
-            app:exitAnim="@anim/slide_in_down"
-            app:popExitAnim="@anim/slide_in_down"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/stay_in_place"
+            app:popExitAnim="@anim/slide_out_down"
             app:popUpTo="@+id/loggedInFragment" />
 
         <action
@@ -134,10 +137,10 @@
         <action
             android:id="@+id/action_claimsCommonClaimFragment_to_chatFragment"
             app:destination="@+id/chatFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/stay_in_place"
+            app:popExitAnim="@anim/slide_out_down"
             app:popUpTo="@+id/claimsCommonClaimFragment" />
 
     </fragment>
@@ -150,10 +153,10 @@
         <action
             android:id="@+id/action_claimsEmergencyFragment_to_chatFragment"
             app:destination="@id/chatFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/stay_in_place"
+            app:popExitAnim="@anim/slide_out_down"
             app:popUpTo="@+id/claimsEmergencyFragment" />
 
     </fragment>
@@ -176,10 +179,10 @@
         <action
             android:id="@+id/action_myHomeFragment_to_chatFragment"
             app:destination="@id/chatFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/stay_in_place"
+            app:popExitAnim="@anim/slide_out_down"
             app:popUpTo="@+id/myHomeFragment" />
 
     </fragment>

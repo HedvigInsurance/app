@@ -7,7 +7,6 @@ import KeyboardSpacer from '@hedviginsurance/react-native-keyboard-spacer';
 import mime from 'mime-types';
 import { Container } from 'constate';
 import { connect } from 'react-redux';
-import firebase from 'react-native-firebase';
 
 import { chatActions, dialogActions } from '../../../../../hedvig-redux';
 import { SendButton } from '../../components/Button';
@@ -22,6 +21,8 @@ import { Buttons } from '../../components/pickers/buttons';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { BlurSwitchContainer } from '../../components/BlurSwitchContainer';
 import { InputHeightContainer } from '../InputHeight';
+
+import { hasNotificationsPermission } from './firebase';
 
 const styles = StyleSheet.create({
   textInput: {
@@ -140,7 +141,12 @@ class ChatTextInput extends React.Component {
                               ref={(ref) => (this.ref = ref)}
                               style={[styles.textInput]}
                               autoFocus
-                              autoCapitalize="none"
+                              autoCapitalize={
+                                this.props.message.body.textContentType ===
+                                'emailAddress'
+                                  ? 'none'
+                                  : 'sentences'
+                              }
                               placeholder={
                                 keyboardType === 'numeric' ||
                                 !richTextChatCompatible
@@ -252,7 +258,7 @@ const mapDispatchToProps = (dispatch) => {
         });
       }
 
-      const enabled = await firebase.messaging().hasPermission();
+      const enabled = await hasNotificationsPermission();
 
       if (!enabled) {
         dispatch(

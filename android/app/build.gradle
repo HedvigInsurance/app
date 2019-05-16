@@ -19,8 +19,6 @@ apply from: '../../node_modules/react-native/react.gradle'
 apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 
 def enableSeparateBuildPerCPUArchitecture = false
-def enableProguardInReleaseBuilds = false
-
 
 apollo {
     generateModelBuilder = true
@@ -44,13 +42,16 @@ android {
         minSdkVersion 21
         multiDexEnabled true
         versionCode 43
-        versionName '2.8.0'
+        versionName '2.8.1'
 
         resValue "string", "build_config_package", "com.hedvig.app"
         vectorDrawables.useSupportLibrary = true
         ndk {
             abiFilters 'armeabi-v7a', 'x86'
         }
+
+        buildConfigField("String", "DEFAULT_LANGUAGE", "\"${rootProject.ext.defaultLanguage}\"")
+        buildConfigField("String[]", "EXCLUDED_LANGUAGES", "{\"${rootProject.ext.excludedLanguages.join("\",\"")}\"}")
     }
 
     compileOptions {
@@ -69,12 +70,15 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled enableProguardInReleaseBuilds
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         staging {
-
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         debug {
@@ -102,20 +106,14 @@ android {
 dependencies {
     implementation project(':react-native-image-picker')
     implementation project(':react-native-fs')
-    implementation project(':react-native-video')
-    implementation project(':react-native-gesture-handler')
-    implementation project(':react-native-device-info')
     implementation project(':react-native-svg')
     implementation project(':react-native-config')
-    implementation project(':rn-fetch-blob')
     implementation project(':react-native-sound')
     implementation project(':react-native-sentry')
-    implementation project(':react-native-firebase')
     implementation project(':react-native-branch')
     implementation project(':react-native-audio')
     implementation project(':react-native-analytics-segment-io')
     implementation project(':lottie-react-native')
-
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
@@ -123,7 +121,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
-
 
     // Android support
     def support_version = "28.0.0"
@@ -162,11 +159,11 @@ dependencies {
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
     stagingImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
 
-    implementation "com.google.firebase:firebase-core:16.0.8"
-    implementation "com.google.firebase:firebase-dynamic-links:16.1.8"
-    implementation "com.google.firebase:firebase-firestore:18.2.0"
-    implementation 'com.google.firebase:firebase-config:16.5.0'
-    implementation "com.google.firebase:firebase-messaging:17.5.0"
+    implementation "com.google.firebase:firebase-core:16.0.9"
+    implementation "com.google.firebase:firebase-dynamic-links:17.0.0"
+    implementation "com.google.firebase:firebase-firestore:19.0.0"
+    implementation 'com.google.firebase:firebase-config:17.0.0'
+    implementation "com.google.firebase:firebase-messaging:18.0.0"
 
     // Segment
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
@@ -179,12 +176,10 @@ dependencies {
     // Animated GIF support
     implementation 'com.facebook.fresco:animated-gif:1.11.0'
 
-    // Dagger
-    def dagger_version = "2.22.1"
-    implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    // Koin
+    def koin_version = "2.0.0-GA"
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
 
     implementation 'net.ypresto.timbertreeutils:timbertreeutils:1.0.0'
 
@@ -212,7 +207,7 @@ dependencies {
     implementation 'com.caverock:androidsvg-aar:1.3'
 
     // Restring
-    implementation 'com.ice.restring:restring:1.0.0'
+    implementation 'com.hedvig.restring:restring:0.0.1'
 
     // Glide
     implementation "com.github.bumptech.glide:glide:4.9.0"
@@ -233,8 +228,8 @@ apply plugin: 'com.hedvig.textkeys'
 
 textkeys {
     graphqlEndpoint = 'https://api-euwest.graphcms.com/v1/cjmawd9hw036a01cuzmjhplka/master'
-    defaultLanguageCode = 'sv_SE'
-    excludedLanguages = ['en_SE']
+    defaultLanguageCode = rootProject.ext.defaultLanguage
+    excludedLanguages = rootProject.ext.excludedLanguages
 }
 
 task updateSchema(type: Exec) {

@@ -2,8 +2,6 @@ package com.hedvig.app.feature.marketing.ui
 
 import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.animation.FastOutSlowInInterpolator
@@ -17,21 +15,27 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import com.hedvig.app.R
-import com.hedvig.app.di.viewmodel.ViewModelFactory
 import com.hedvig.app.feature.marketing.service.MarketingTracker
 import com.hedvig.app.util.OnSwipeListener
 import com.hedvig.app.util.SimpleOnSwipeListener
-import com.hedvig.app.util.extensions.*
+import com.hedvig.app.util.extensions.compatColor
+import com.hedvig.app.util.extensions.compatSetTint
+import com.hedvig.app.util.extensions.doOnEnd
+import com.hedvig.app.util.extensions.hideStatusBar
+import com.hedvig.app.util.extensions.proxyNavigate
+import com.hedvig.app.util.extensions.setDarkNavigationBar
+import com.hedvig.app.util.extensions.setLightNavigationBar
+import com.hedvig.app.util.extensions.showStatusBar
 import com.hedvig.app.util.extensions.view.doOnLayout
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.percentageFade
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_marketing.*
 import kotlinx.android.synthetic.main.loading_spinner.*
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
-import javax.inject.Inject
 
 class MarketingFragment : Fragment() {
 
@@ -47,13 +51,9 @@ class MarketingFragment : Fragment() {
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    val tracker: MarketingTracker by inject()
 
-    @Inject
-    lateinit var tracker: MarketingTracker
-
-    private lateinit var marketingStoriesViewModel: MarketingStoriesViewModel
+    val marketingStoriesViewModel: MarketingStoriesViewModel by sharedViewModel()
 
     private var buttonsAnimator: ValueAnimator? = null
     private var blurDismissAnimator: ValueAnimator? = null
@@ -61,18 +61,6 @@ class MarketingFragment : Fragment() {
 
     private val navController: NavController by lazy {
         requireActivity().findNavController(R.id.rootNavigationHost)
-    }
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        marketingStoriesViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(MarketingStoriesViewModel::class.java)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =

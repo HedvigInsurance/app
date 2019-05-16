@@ -1,8 +1,6 @@
 package com.hedvig.app.feature.profile.ui.coinsured
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.SpannableString
@@ -13,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.hedvig.app.R
-import com.hedvig.app.di.viewmodel.ViewModelFactory
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.util.CustomTypefaceSpan
 import com.hedvig.app.util.extensions.compatColor
@@ -23,29 +20,13 @@ import com.hedvig.app.util.extensions.concat
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_coinsured.*
 import kotlinx.android.synthetic.main.loading_spinner.*
-import javax.inject.Inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class CoinsuredFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var profileViewModel: ProfileViewModel
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        profileViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
-        }
-    }
+    val profileViewModel: ProfileViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_coinsured, container, false)

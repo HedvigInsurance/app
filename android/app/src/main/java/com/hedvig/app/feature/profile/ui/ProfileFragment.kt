@@ -1,8 +1,6 @@
 package com.hedvig.app.feature.profile.ui
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,47 +12,27 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.R
-import com.hedvig.app.di.viewmodel.ViewModelFactory
-import com.hedvig.app.util.extensions.*
+import com.hedvig.app.feature.loggedin.BaseTabFragment
+import com.hedvig.app.util.extensions.localBroadcastManager
+import com.hedvig.app.util.extensions.proxyNavigate
+import com.hedvig.app.util.extensions.setIsLoggedIn
+import com.hedvig.app.util.extensions.setupLargeTitle
+import com.hedvig.app.util.extensions.triggerRestartCurrentActivity
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.react.AsyncStorageNative
 import com.hedvig.app.viewmodel.DirectDebitViewModel
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.loading_spinner.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseTabFragment() {
+    val asyncStorageNative: AsyncStorageNative by inject()
 
-    @Inject
-    lateinit var asyncStorageNative: AsyncStorageNative
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var profileViewModel: ProfileViewModel
-    private lateinit var directDebitViewModel: DirectDebitViewModel
-
-    private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.rootNavigationHost)
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        AndroidSupportInjection.inject(this)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        profileViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
-        }
-        directDebitViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(DirectDebitViewModel::class.java)
-        }
-    }
+    val profileViewModel: ProfileViewModel by sharedViewModel()
+    val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_profile, container, false)
@@ -62,7 +40,6 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupLargeTitle(R.string.PROFILE_TITLE, R.font.circular_bold)
 
         populateData()
         loadReferralFeature()
@@ -92,6 +69,8 @@ class ProfileFragment : Fragment() {
             loadingSpinner.remove()
             rowContainer.show()
             logout.show()
+
+            setupLargeTitle(R.string.PROFILE_TITLE, R.font.circular_bold)
 
             profileData?.let { data ->
                 setupMyInfoRow(data)

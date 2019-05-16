@@ -2,15 +2,14 @@ package com.hedvig.app.feature.dashboard.ui
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.hedvig.android.owldroid.graphql.DashboardQuery
 import com.hedvig.app.data.chat.ChatRepository
 import com.hedvig.app.feature.dashboard.data.DashboardRepository
-import com.hedvig.android.owldroid.graphql.DashboardQuery
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import timber.log.Timber
-import javax.inject.Inject
 
-class DashboardViewModel @Inject constructor(
+class DashboardViewModel(
     val dashboardRepository: DashboardRepository,
     val chatRepository: ChatRepository
 ) : ViewModel() {
@@ -29,11 +28,5 @@ class DashboardViewModel @Inject constructor(
             .subscribe({ response ->
                 response.data()?.let { data.postValue(it) }
             }, { Timber.e(it) })
-    }
-
-    fun triggerFreeTextChat(done: () -> Unit) {
-        disposables += chatRepository
-            .triggerFreeTextChat()
-            .subscribe({ done() }, { Timber.e(it) })
     }
 }

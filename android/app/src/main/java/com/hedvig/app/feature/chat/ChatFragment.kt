@@ -1,8 +1,6 @@
 package com.hedvig.app.feature.chat
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
@@ -18,7 +16,6 @@ import com.facebook.react.ReactRootView
 import com.facebook.react.common.LifecycleState
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler
 import com.hedvig.app.R
-import com.hedvig.app.di.viewmodel.ViewModelFactory
 import com.hedvig.app.feature.marketing.ui.MarketingFragment
 import com.hedvig.app.react.ActivityStarterModule.Companion.BROADCAST_RELOAD_CHAT
 import com.hedvig.app.react.NativeRoutingModule.Companion.NAVIGATE_ROUTING_EXTRA_NAME_ACTION
@@ -31,17 +28,13 @@ import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.newBroadcastReceiver
 import com.hedvig.app.util.showRestartDialog
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var chatViewModel: ChatViewModel
+    val chatViewModel: ChatViewModel by sharedViewModel()
 
     private var reactRootView: ReactRootView? = null
 
@@ -54,19 +47,6 @@ class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
     private var broadcastReceiver: BroadcastReceiver? = null
 
     private val navController by lazy { requireActivity().findNavController(R.id.rootNavigationHost) }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        AndroidSupportInjection.inject(this)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        chatViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(ChatViewModel::class.java)
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_chat, container, false)

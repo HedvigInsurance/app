@@ -4,7 +4,6 @@ import uuidv4 from 'uuid/v4';
 import { UPLOAD, UPLOAD_STARTED, UPLOAD_SUCCEEDED } from '../actions/types';
 import { upload } from '../services/Upload';
 
-// TODO Rewrite this to use rn-fetch-blob, and cut out the obsolete web code
 const uploadHandler = function*(action) {
   if (action.payload.addToken) {
     const state = yield select();

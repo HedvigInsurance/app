@@ -73,11 +73,6 @@
             </intent-filter>
         </service>
 
-
-        <activity
-            android:name="com.facebook.react.devsupport.DevSettingsActivity"
-            android:theme="@style/Theme.Exponent.Splash" />
-
         <receiver
             android:name="io.branch.referral.InstallListener"
             android:exported="true">
@@ -89,13 +84,6 @@
         <meta-data
             android:name="io.branch.sdk.BranchKey"
             android:value="@string/BRANCH_KEY" />
-
-        <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
-            android:enabled="false"
-            android:exported="false"
-            tools:replace="android:authorities" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

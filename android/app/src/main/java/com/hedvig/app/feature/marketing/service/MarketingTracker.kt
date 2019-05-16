@@ -2,9 +2,8 @@ package com.hedvig.app.feature.marketing.service
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
-import javax.inject.Inject
 
-class MarketingTracker @Inject constructor(
+class MarketingTracker(
     private val firebaseAnalytics: FirebaseAnalytics
 ) {
     fun viewedStory(storyIndex: Int) = firebaseAnalytics.logEvent(

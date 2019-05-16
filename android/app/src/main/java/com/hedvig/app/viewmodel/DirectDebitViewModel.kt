@@ -8,7 +8,7 @@ import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 
-class DirectDebitViewModel @Inject constructor(
+class DirectDebitViewModel(
     private val directDebitRepository: DirectDebitRepository
 ) : ViewModel() {
     val data: MutableLiveData<DirectDebitQuery.Data> = MutableLiveData()

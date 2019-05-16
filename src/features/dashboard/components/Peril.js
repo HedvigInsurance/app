@@ -1,11 +1,3 @@
-/* global require */
-import React from 'react';
-import { TouchableOpacity, Image, View, Text, StyleSheet } from 'react-native';
-import { Navigation } from 'react-native-navigation';
-
-import { colors } from '@hedviginsurance/brand';
-import { PERIL_SCREEN } from '../../../navigation/screens/dashboard/peril';
-
 const meLegalTrouble = require('../../../../assets/icons/perils/you/juridisk_tvist.png');
 const meAssault = require('../../../../assets/icons/perils/you/overfall.png');
 const meIllness = require('../../../../assets/icons/perils/you/sjuk_pa_resa.png');
@@ -64,64 +56,3 @@ export const PERIL_IMAGE_MAP = {
   'STUFF.SUBLET.BRF.WEATHER': stuffWeather,
   'STUFF.SUBLET.RENT.WEATHER': stuffWeather,
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: 50,
-    marginLeft: 22,
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  icon: {
-    width: 40,
-    height: 40,
-  },
-  title: {
-    marginTop: 5,
-    fontFamily: 'CircularStd-Book',
-    fontSize: 12,
-    color: colors.DARK_GRAY,
-    textAlign: 'center',
-  },
-});
-
-export class Peril extends React.Component {
-  render() {
-    return (
-      <TouchableOpacity
-        onPress={() =>
-          Navigation.showModal({
-            stack: {
-              children: [
-                {
-                  component: {
-                    ...PERIL_SCREEN.component,
-                    passProps: {
-                      title: this.props.categoryTitle,
-                      items: this.props.categoryPerils.map((i) => ({
-                        ...i,
-                        imageUrl: undefined,
-                        itemSrc: PERIL_IMAGE_MAP[i.id],
-                      })),
-                      initialSlideIndex: this.props.perilIndex,
-                    },
-                  },
-                },
-              ],
-            },
-          })
-        }
-        accessibilityComponentType="button"
-        accessibilityTraits="image"
-      >
-        <View style={styles.container}>
-          <Image
-            source={PERIL_IMAGE_MAP[this.props.peril.id]}
-            style={styles.icon}
-          />
-          <Text style={styles.title}>{this.props.peril.title}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}

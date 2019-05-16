@@ -5,9 +5,8 @@ import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.DashboardQuery
 import io.reactivex.Observable
-import javax.inject.Inject
 
-class DashboardRepository @Inject constructor(
+class DashboardRepository(
     val apolloClient: ApolloClient
 ) {
     fun fetchDashboard(): Observable<Response<DashboardQuery.Data>> {

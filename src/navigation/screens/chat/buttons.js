@@ -1,30 +1,20 @@
-import { Platform } from 'react-native';
 import { colors } from '@hedviginsurance/brand';
 
 export const RESTART_BUTTON = {
   id: 'RESTART_BUTTON',
-  icon: Platform.select({
-    ios: require('../../../../assets/icons/navigation/topBar/ios/restart.png'),
-    android: require('../../../../assets/icons/navigation/topBar/android/restart.png'),
-  }),
+  icon: require('../../../../assets/icons/navigation/topBar/ios/restart.png'),
   color: colors.DARK_GRAY,
 };
 
 export const GO_TO_DASHBOARD_BUTTON = {
   id: 'GO_TO_DASHBOARD',
-  icon: Platform.select({
-    ios: require('../../../../assets/icons/navigation/topBar/ios/to_dashboard.png'),
-    android: require('../../../../assets/icons/navigation/topBar/android/to_dashboard.png'),
-  }),
+  icon: require('../../../../assets/icons/navigation/topBar/ios/to_dashboard.png'),
   color: colors.DARK_GRAY,
 };
 
 export const CLOSE_BUTTON = {
   id: 'CLOSE_BUTTON',
-  icon: Platform.select({
-    ios: require('../../../../assets/icons/navigation/topBar/ios/close.png'),
-    android: require('../../../../assets/icons/navigation/topBar/android/close.png'),
-  }),
+  icon: require('../../../../assets/icons/navigation/topBar/ios/close.png'),
   color: colors.DARK_GRAY,
 };
 

@@ -1,8 +1,6 @@
 package com.hedvig.app.feature.profile.ui.myinfo
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.view.menu.ActionMenuItemView
@@ -16,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.hedvig.app.R
-import com.hedvig.app.di.viewmodel.ViewModelFactory
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.compatSetTint
@@ -25,36 +22,19 @@ import com.hedvig.app.util.extensions.onChange
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
+import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.validateEmail
 import com.hedvig.app.util.validatePhoneNumber
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_my_info.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import kotlinx.android.synthetic.main.sphere_container.*
-import javax.inject.Inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class MyInfoFragment : Fragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var profileViewModel: ProfileViewModel
+    val profileViewModel: ProfileViewModel by sharedViewModel()
 
     private var emailTextWatcher: TextWatcher? = null
     private var phoneNumberTextWatcher: TextWatcher? = null
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-        profileViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_my_info, container, false)
@@ -143,16 +123,17 @@ class MyInfoFragment : Fragment() {
 
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
+            setHasOptionsMenu(true)
             loadingSpinner.remove()
             sphereContainer.show()
 
             contactDetailsContainer.show()
 
             profileData?.let { data ->
-                sphereText.text = resources.getString(
-                    R.string.first_last_name,
-                    data.member().firstName(),
-                    data.member().lastName()
+                sphereText.text = interpolateTextKey(
+                    resources.getString(R.string.PROFILE_MY_INFO_NAME_SPHERE),
+                    "FIRST_NAME" to data.member().firstName(),
+                    "LAST_NAME" to data.member().lastName()
                 )
                 setupEmailInput(data.member().email() ?: "")
                 setupPhoneNumberInput(data.member().phoneNumber() ?: "")

@@ -1,7 +1,6 @@
 import { AsyncStorage, Platform, NativeModules } from 'react-native';
 import { call, takeLatest, take, put, select } from 'redux-saga/effects';
 import { Navigation } from 'react-native-navigation';
-import firebase from 'react-native-firebase';
 
 import { chatActions } from '../../../../hedvig-redux';
 import { TRACK_OFFER_SIGNED } from '../../../features/analytics/actions';
@@ -10,8 +9,7 @@ import { OFFER_CHECKOUT } from './actions';
 
 import { getChatLayout } from 'src/navigation/layouts/chatLayout';
 import { userDidSign } from 'src/navigation/native-routing';
-
-const Analytics = Platform.OS === 'ios' ? firebase.analytics() : {};
+import { logEcommercePurchase } from './firebase';
 
 const handleCheckout = function*() {
   yield put({ type: BANKID_SIGN });
@@ -29,19 +27,11 @@ const handleCheckout = function*() {
 
   userDidSign();
 
-  if (Platform.OS === 'ios') {
-    Analytics.logEvent('ecommerce_purchase', {
-      transaction_id: analytics.orderId,
-      value: insurance.currentTotalPrice,
-      currency: 'SEK',
-    });
-  } else {
-    NativeModules.ActivityStarter.logEvent('ecommerce_purchase', {
-      transaction_id: analytics.orderId,
-      value: insurance.currentTotalPrice,
-      currency: 'SEK',
-    });
-  }
+  logEcommercePurchase({
+    transaction_id: analytics.orderId,
+    value: insurance.currentTotalPrice,
+    currency: 'SEK',
+  });
 
   yield put({
     type: TRACK_OFFER_SIGNED,

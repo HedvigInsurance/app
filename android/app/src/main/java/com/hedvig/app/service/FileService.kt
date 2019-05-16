@@ -5,9 +5,8 @@ import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
-import javax.inject.Inject
 
-class FileService @Inject constructor(
+class FileService(
     private val context: Context
 ) {
     fun getFileName(uri: Uri): String? {

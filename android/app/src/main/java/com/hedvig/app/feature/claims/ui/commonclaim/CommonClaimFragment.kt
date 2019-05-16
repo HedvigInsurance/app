@@ -10,6 +10,7 @@ import com.hedvig.app.feature.claims.ui.commonclaim.bulletpoint.BulletPointsAdap
 import com.hedvig.app.feature.claims.ui.pledge.HonestyPledgeBottomSheet
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
+import com.hedvig.app.BuildConfig
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.view.disable
@@ -44,7 +45,7 @@ class CommonClaimFragment : BaseCommonClaimFragment() {
                     tracker.createClaimClick(data.title())
                     HonestyPledgeBottomSheet
                         .newInstance(data.title(), R.id.action_claimsCommonClaimFragment_to_chatFragment)
-                        .show(requireFragmentManager(), "honestyPledge")
+                        .show(childFragmentManager, "honestyPledge")
                 }
             }
             else -> {
@@ -57,7 +58,7 @@ class CommonClaimFragment : BaseCommonClaimFragment() {
         bulletPointsRecyclerView.adapter =
             BulletPointsAdapter(
                 layout.bulletPoints(),
-                baseUrl,
+                BuildConfig.BASE_URL,
                 requestBuilder
             )
     }

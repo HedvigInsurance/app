@@ -12,11 +12,10 @@ import com.hedvig.android.owldroid.graphql.StartDirectDebitRegistrationMutation
 import com.hedvig.android.owldroid.graphql.UpdateEmailMutation
 import com.hedvig.android.owldroid.graphql.UpdatePhoneNumberMutation
 import io.reactivex.Observable
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ProfileRepository @Inject constructor(private val apolloClient: ApolloClient) {
+class ProfileRepository(private val apolloClient: ApolloClient) {
     private lateinit var profileQuery: ProfileQuery
     fun fetchProfile(): Observable<ProfileQuery.Data?> {
         profileQuery = ProfileQuery

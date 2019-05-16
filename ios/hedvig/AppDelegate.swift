@@ -8,6 +8,8 @@ import Foundation
 import Presentation
 import UIKit
 
+let log = Logger.self
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     let bag = DisposeBag()

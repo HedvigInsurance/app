@@ -2,14 +2,10 @@ package com.hedvig.app.feature.chat
 
 import android.app.Activity
 import android.app.Dialog
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import com.hedvig.app.R
-import com.hedvig.app.di.viewmodel.ViewModelFactory
 import com.hedvig.app.react.ActivityStarterModule
 import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
 import com.hedvig.app.util.extensions.localBroadcastManager
@@ -17,28 +13,12 @@ import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.file_upload_dialog.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var chatViewModel: ChatViewModel
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        AndroidSupportInjection.inject(this)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        chatViewModel = requireActivity().run {
-            ViewModelProviders.of(this, viewModelFactory).get(ChatViewModel::class.java)
-        }
-    }
+    val chatViewModel: ChatViewModel by sharedViewModel()
 
     override fun setupDialog(dialog: Dialog, style: Int) {
         val view = LayoutInflater

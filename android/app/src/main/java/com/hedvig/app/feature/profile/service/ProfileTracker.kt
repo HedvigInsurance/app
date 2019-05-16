@@ -2,9 +2,8 @@ package com.hedvig.app.feature.profile.service
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
-import javax.inject.Inject
 
-class ProfileTracker @Inject constructor(
+class ProfileTracker(
     private val firebaseAnalytics: FirebaseAnalytics
 ) {
     fun clickReferral(incentive: Int?) = firebaseAnalytics.logEvent(
