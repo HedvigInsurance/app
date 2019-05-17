@@ -3,11 +3,11 @@ package com.hedvig.app.service
 import android.content.Context
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
-import com.hedvig.android.owldroid.type.InsuranceStatus
-import com.hedvig.app.util.extensions.isLoggedIn
-import com.hedvig.app.util.extensions.setIsLoggedIn
-import com.hedvig.app.util.react.AsyncStorageNative
+import com.hedvig.common.owldroid.InsuranceStatusQuery
+import com.hedvig.common.owldroid.type.InsuranceStatus
+import com.hedvig.common.util.extensions.isLoggedIn
+import com.hedvig.common.util.extensions.setIsLoggedIn
+import com.hedvig.common.util.react.AsyncStorageNative
 import io.reactivex.Observable
 
 class LoginStatusService(

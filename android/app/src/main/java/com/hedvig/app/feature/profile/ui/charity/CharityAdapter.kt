@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import com.hedvig.app.R
-import com.hedvig.android.owldroid.graphql.ProfileQuery
-import com.hedvig.app.util.interpolateTextKey
+import com.hedvig.common.owldroid.ProfileQuery
+import com.hedvig.common.util.interpolateTextKey
 import kotlinx.android.synthetic.main.cashback_option.view.*
 
 class CharityAdapter(

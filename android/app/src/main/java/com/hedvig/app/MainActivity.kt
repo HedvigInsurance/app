@@ -17,11 +17,11 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.hedvig.app.service.LoginStatus
 import com.hedvig.app.service.LoginStatusService
-import com.hedvig.app.util.NavigationAnalytics
-import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.proxyNavigate
-import com.hedvig.app.util.react.AsyncStorageNative
-import com.hedvig.app.util.whenApiVersion
+import com.hedvig.common.util.NavigationAnalytics
+import com.hedvig.common.util.extensions.compatColor
+import com.hedvig.common.util.extensions.proxyNavigate
+import com.hedvig.common.util.react.AsyncStorageNative
+import com.hedvig.common.util.whenApiVersion
 import com.ice.restring.Restring
 import io.branch.rnbranch.RNBranchModule
 import io.reactivex.android.schedulers.AndroidSchedulers

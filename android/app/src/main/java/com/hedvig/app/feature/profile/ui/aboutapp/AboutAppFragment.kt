@@ -11,9 +11,9 @@ import androidx.navigation.findNavController
 import com.hedvig.app.BuildConfig
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
-import com.hedvig.app.util.extensions.proxyNavigate
-import com.hedvig.app.util.extensions.setupLargeTitle
-import com.hedvig.app.util.interpolateTextKey
+import com.hedvig.common.util.extensions.proxyNavigate
+import com.hedvig.app.util.setupLargeTitle
+import com.hedvig.common.util.interpolateTextKey
 import kotlinx.android.synthetic.main.fragment_about_app.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 

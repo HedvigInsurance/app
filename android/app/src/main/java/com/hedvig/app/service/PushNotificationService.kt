@@ -13,7 +13,7 @@ import androidx.work.WorkManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hedvig.app.R
-import com.hedvig.app.util.whenApiVersion
+import com.hedvig.common.util.whenApiVersion
 import timber.log.Timber
 
 class PushNotificationService : FirebaseMessagingService() {

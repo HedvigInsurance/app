@@ -14,15 +14,14 @@ import android.webkit.WebViewClient
 import androidx.navigation.findNavController
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
-import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.compatSetTint
-import com.hedvig.app.util.extensions.observe
-import com.hedvig.app.util.extensions.view.remove
-import com.hedvig.app.util.extensions.view.show
+import com.hedvig.common.util.extensions.compatColor
+import com.hedvig.common.util.extensions.compatSetTint
+import com.hedvig.common.util.extensions.observe
+import com.hedvig.common.util.extensions.view.remove
+import com.hedvig.common.util.extensions.view.show
 import com.hedvig.app.viewmodel.DirectDebitViewModel
 import kotlinx.android.synthetic.main.fragment_trustly.*
 import kotlinx.android.synthetic.main.loading_spinner.*
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class TrustlyFragment : Fragment() {

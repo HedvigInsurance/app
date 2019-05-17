@@ -6,10 +6,10 @@ import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.Gravity
 import com.hedvig.app.R
-import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.compatDrawable
-import com.hedvig.app.util.extensions.view.remove
-import com.hedvig.app.util.extensions.view.show
+import com.hedvig.common.util.extensions.compatColor
+import com.hedvig.common.util.extensions.compatDrawable
+import com.hedvig.common.util.extensions.view.remove
+import com.hedvig.common.util.extensions.view.show
 import kotlinx.android.synthetic.main.profile_menu_row.view.*
 
 class ProfileMenuRow : ConstraintLayout {

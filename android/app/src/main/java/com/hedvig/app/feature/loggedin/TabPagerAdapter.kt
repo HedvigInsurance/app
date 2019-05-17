@@ -8,7 +8,7 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.claims.ui.ClaimsFragment
 import com.hedvig.app.feature.dashboard.ui.DashboardFragment
 import com.hedvig.app.feature.profile.ui.ProfileFragment
-import com.hedvig.app.util.extensions.byOrdinal
+import com.hedvig.common.util.extensions.byOrdinal
 
 class TabPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
     override fun getItem(page: Int): Fragment = when (byOrdinal<LoggedInTabs>(page)) {

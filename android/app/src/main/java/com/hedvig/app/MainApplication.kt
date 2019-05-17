@@ -13,7 +13,7 @@ import com.facebook.soloader.SoLoader
 import com.hedvig.app.react.ActivityStarterReactPackage
 import com.hedvig.app.react.NativeRoutingPackage
 import com.hedvig.app.service.TextKeys
-import com.hedvig.app.util.react.AsyncStorageNative
+import com.hedvig.common.util.react.AsyncStorageNative
 import com.horcrux.svg.SvgPackage
 import com.ice.restring.Restring
 import com.imagepicker.ImagePickerPackage

@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.hedvig.app.R
-import com.hedvig.app.util.extensions.compatFont
+import com.hedvig.common.util.extensions.compatFont
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_licenses.*
 

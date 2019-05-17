@@ -10,8 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.hedvig.app.R
-import com.hedvig.app.util.extensions.setupLargeTitle
-import com.hedvig.app.util.whenApiVersion
+import com.hedvig.app.util.setupLargeTitle
+import com.hedvig.common.util.whenApiVersion
 import kotlinx.android.synthetic.main.fragment_feedback.*
 
 class FeedbackFragment : Fragment() {

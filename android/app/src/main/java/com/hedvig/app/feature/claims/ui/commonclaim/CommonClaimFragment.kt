@@ -8,16 +8,16 @@ import android.view.ViewGroup
 import com.hedvig.app.R
 import com.hedvig.app.feature.claims.ui.commonclaim.bulletpoint.BulletPointsAdapter
 import com.hedvig.app.feature.claims.ui.pledge.HonestyPledgeBottomSheet
-import com.hedvig.android.owldroid.graphql.CommonClaimQuery
-import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.app.BuildConfig
-import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.setupLargeTitle
-import com.hedvig.app.util.extensions.view.disable
-import com.hedvig.app.util.extensions.view.enable
-import com.hedvig.app.util.extensions.view.setHapticClickListener
-import com.hedvig.app.util.lightenColor
-import com.hedvig.app.util.mapppedColor
+import com.hedvig.common.owldroid.CommonClaimQuery
+import com.hedvig.common.owldroid.type.InsuranceStatus
+import com.hedvig.common.util.extensions.compatColor
+import com.hedvig.app.util.setupLargeTitle
+import com.hedvig.common.util.extensions.view.disable
+import com.hedvig.common.util.extensions.view.enable
+import com.hedvig.common.util.extensions.view.setHapticClickListener
+import com.hedvig.common.util.lightenColor
+import com.hedvig.common.util.mapppedColor
 import kotlinx.android.synthetic.main.common_claim_first_message.*
 import kotlinx.android.synthetic.main.fragment_common_claim.*
 

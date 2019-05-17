@@ -12,10 +12,10 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheUtil
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
-import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
+import com.hedvig.common.owldroid.MarketingStoriesQuery
 import com.hedvig.app.BuildConfig
-import com.hedvig.app.util.extensions.head
-import com.hedvig.app.util.extensions.tail
+import com.hedvig.common.util.extensions.head
+import com.hedvig.common.util.extensions.tail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

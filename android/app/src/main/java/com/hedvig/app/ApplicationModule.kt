@@ -9,7 +9,7 @@ import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.hedvig.android.owldroid.type.CustomType
+import com.hedvig.common.owldroid.type.CustomType
 import com.hedvig.app.data.debit.DirectDebitRepository
 import com.hedvig.app.feature.chat.ChatRepository
 import com.hedvig.app.feature.chat.ChatViewModel
@@ -32,10 +32,10 @@ import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.service.Referrals
 import com.hedvig.app.service.RemoteConfig
 import com.hedvig.app.service.TextKeys
-import com.hedvig.app.util.apollo.ApolloTimberLogger
-import com.hedvig.app.util.apollo.PromiscuousLocalDateAdapter
-import com.hedvig.app.util.react.AsyncStorageNative
-import com.hedvig.app.util.react.AsyncStorageNativeImpl
+import com.hedvig.common.util.apollo.ApolloTimberLogger
+import com.hedvig.common.util.apollo.PromiscuousLocalDateAdapter
+import com.hedvig.common.util.react.AsyncStorageNative
+import com.hedvig.common.util.react.AsyncStorageNativeImpl
 import com.hedvig.app.viewmodel.DirectDebitViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

@@ -10,8 +10,8 @@ import androidx.navigation.findNavController
 import com.hedvig.app.R
 import com.hedvig.app.feature.chat.ChatFragment
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
-import com.hedvig.app.util.extensions.proxyNavigate
-import com.hedvig.app.util.whenApiVersion
+import com.hedvig.common.util.extensions.proxyNavigate
+import com.hedvig.common.util.whenApiVersion
 import kotlinx.android.synthetic.main.dialog_change_home_info.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 

@@ -10,8 +10,8 @@ import androidx.navigation.findNavController
 import com.hedvig.app.R
 import com.hedvig.app.feature.chat.ChatFragment
 import com.hedvig.app.feature.claims.ui.ClaimsViewModel
-import com.hedvig.app.util.extensions.proxyNavigate
-import com.hedvig.app.util.extensions.view.updatePadding
+import com.hedvig.common.util.extensions.proxyNavigate
+import com.hedvig.common.util.extensions.view.updatePadding
 import kotlinx.android.synthetic.main.app_bar.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 

@@ -13,10 +13,10 @@ import com.facebook.react.ReactRootView
 import com.facebook.react.common.LifecycleState
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler
 import com.hedvig.app.R
-import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.setDarkNavigationBar
-import com.hedvig.app.util.extensions.setLightStatusBarText
-import com.hedvig.app.util.extensions.statusBarColor
+import com.hedvig.common.util.extensions.compatColor
+import com.hedvig.common.util.extensions.setDarkNavigationBar
+import com.hedvig.common.util.extensions.setLightStatusBarText
+import com.hedvig.app.util.statusBarColor
 
 class OfferFragment : Fragment(), DefaultHardwareBackBtnHandler {
 

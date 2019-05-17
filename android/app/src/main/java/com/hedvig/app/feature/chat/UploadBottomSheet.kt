@@ -7,14 +7,13 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import com.hedvig.app.R
 import com.hedvig.app.react.ActivityStarterModule
-import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
-import com.hedvig.app.util.extensions.localBroadcastManager
-import com.hedvig.app.util.extensions.observe
-import com.hedvig.app.util.extensions.view.remove
-import com.hedvig.app.util.extensions.view.setHapticClickListener
-import com.hedvig.app.util.extensions.view.show
+import com.hedvig.common.ui.fragment.RoundedBottomSheetDialogFragment
+import com.hedvig.app.util.localBroadcastManager
+import com.hedvig.common.util.extensions.observe
+import com.hedvig.common.util.extensions.view.remove
+import com.hedvig.common.util.extensions.view.setHapticClickListener
+import com.hedvig.common.util.extensions.view.show
 import kotlinx.android.synthetic.main.file_upload_dialog.*
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class UploadBottomSheet : RoundedBottomSheetDialogFragment() {

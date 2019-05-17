@@ -4,13 +4,13 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.hedvig.android.owldroid.graphql.BankAccountQuery
-import com.hedvig.android.owldroid.graphql.LogoutMutation
-import com.hedvig.android.owldroid.graphql.ProfileQuery
-import com.hedvig.android.owldroid.graphql.SelectCashbackMutation
-import com.hedvig.android.owldroid.graphql.StartDirectDebitRegistrationMutation
-import com.hedvig.android.owldroid.graphql.UpdateEmailMutation
-import com.hedvig.android.owldroid.graphql.UpdatePhoneNumberMutation
+import com.hedvig.common.owldroid.BankAccountQuery
+import com.hedvig.common.owldroid.LogoutMutation
+import com.hedvig.common.owldroid.ProfileQuery
+import com.hedvig.common.owldroid.SelectCashbackMutation
+import com.hedvig.common.owldroid.StartDirectDebitRegistrationMutation
+import com.hedvig.common.owldroid.UpdateEmailMutation
+import com.hedvig.common.owldroid.UpdatePhoneNumberMutation
 import io.reactivex.Observable
 import javax.inject.Singleton
 

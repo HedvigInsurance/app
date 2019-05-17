@@ -3,7 +3,7 @@ package com.hedvig.app.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.hedvig.app.data.debit.DirectDebitRepository
-import com.hedvig.android.owldroid.graphql.DirectDebitQuery
+import com.hedvig.common.owldroid.DirectDebitQuery
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject

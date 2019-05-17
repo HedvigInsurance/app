@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.hedvig.app.R
-import com.hedvig.app.util.extensions.compatDrawable
+import com.hedvig.common.util.extensions.compatDrawable
 import kotlinx.android.synthetic.main.peril_view.view.*
 
 class PerilView : LinearLayout {

@@ -7,7 +7,7 @@ import com.hedvig.app.BuildConfig
 import com.hedvig.app.feature.chat.dto.UploadData
 import com.hedvig.app.feature.chat.dto.UploadResponse
 import com.hedvig.app.service.FileService
-import com.hedvig.app.util.extensions.into
+import com.hedvig.common.util.extensions.into
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType

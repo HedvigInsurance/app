@@ -24,8 +24,8 @@ import com.google.android.exoplayer2.util.Util
 import com.hedvig.app.BuildConfig
 import com.hedvig.app.R
 import com.hedvig.app.feature.marketing.service.MarketingTracker
-import com.hedvig.app.util.extensions.view.performOnTapHapticFeedback
-import com.hedvig.app.util.extensions.view.show
+import com.hedvig.common.util.extensions.view.performOnTapHapticFeedback
+import com.hedvig.common.util.extensions.view.show
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 

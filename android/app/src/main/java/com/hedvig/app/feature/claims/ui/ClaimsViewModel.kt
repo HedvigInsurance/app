@@ -2,9 +2,9 @@ package com.hedvig.app.feature.claims.ui
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.app.data.chat.ChatRepository
 import com.hedvig.app.feature.claims.data.ClaimsRepository
+import com.hedvig.common.owldroid.CommonClaimQuery
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import timber.log.Timber

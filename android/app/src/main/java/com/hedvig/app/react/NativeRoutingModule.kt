@@ -15,8 +15,8 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.firestore.FirebaseFirestore
-import com.hedvig.android.owldroid.graphql.MemberIdQuery
-import com.hedvig.app.util.extensions.setIsLoggedIn
+import com.hedvig.common.owldroid.MemberIdQuery
+import com.hedvig.common.util.extensions.setIsLoggedIn
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import timber.log.Timber

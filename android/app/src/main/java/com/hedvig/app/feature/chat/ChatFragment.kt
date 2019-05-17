@@ -21,16 +21,15 @@ import com.hedvig.app.react.ActivityStarterModule.Companion.BROADCAST_RELOAD_CHA
 import com.hedvig.app.react.NativeRoutingModule.Companion.NAVIGATE_ROUTING_EXTRA_NAME_ACTION
 import com.hedvig.app.react.NativeRoutingModule.Companion.NAVIGATE_ROUTING_EXTRA_VALUE_RESTART_CHAT_ON_BOARDING
 import com.hedvig.app.react.NativeRoutingModule.Companion.ON_BOARDING_INTENT_FILER
-import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.localBroadcastManager
-import com.hedvig.app.util.extensions.statusBarColor
-import com.hedvig.app.util.extensions.view.remove
-import com.hedvig.app.util.extensions.view.show
-import com.hedvig.app.util.newBroadcastReceiver
+import com.hedvig.common.util.extensions.compatColor
+import com.hedvig.app.util.localBroadcastManager
+import com.hedvig.app.util.statusBarColor
+import com.hedvig.common.util.extensions.view.remove
+import com.hedvig.common.util.extensions.view.show
+import com.hedvig.common.util.newBroadcastReceiver
 import com.hedvig.app.util.showRestartDialog
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {

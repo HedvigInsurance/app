@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.RequestBuilder
 import com.hedvig.app.R
-import com.hedvig.android.owldroid.graphql.CommonClaimQuery
+import com.hedvig.common.owldroid.CommonClaimQuery
 import kotlinx.android.synthetic.main.claim_bulletpoint_row.view.*
 import org.jetbrains.annotations.NotNull
 

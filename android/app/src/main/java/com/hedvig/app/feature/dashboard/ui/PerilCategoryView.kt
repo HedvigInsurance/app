@@ -12,10 +12,10 @@ import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.hedvig.app.R
 import com.hedvig.app.ui.view.HedvigCardView
-import com.hedvig.app.util.extensions.compatDrawable
-import com.hedvig.app.util.extensions.view.animateCollapse
-import com.hedvig.app.util.extensions.view.animateExpand
-import com.hedvig.app.util.extensions.view.show
+import com.hedvig.common.util.extensions.compatDrawable
+import com.hedvig.common.util.extensions.view.animateCollapse
+import com.hedvig.common.util.extensions.view.animateExpand
+import com.hedvig.common.util.extensions.view.show
 import kotlinx.android.synthetic.main.peril_category_view.view.*
 
 class PerilCategoryView : HedvigCardView {

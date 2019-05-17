@@ -3,10 +3,10 @@ package com.hedvig.app.feature.claims.data
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.hedvig.android.owldroid.graphql.CommonClaimQuery
-import com.hedvig.android.owldroid.graphql.TriggerCallMeChatMutation
-import com.hedvig.android.owldroid.graphql.TriggerClaimChatMutation
-import com.hedvig.android.owldroid.type.TriggerClaimChatInput
+import com.hedvig.common.owldroid.CommonClaimQuery
+import com.hedvig.common.owldroid.TriggerCallMeChatMutation
+import com.hedvig.common.owldroid.TriggerClaimChatMutation
+import com.hedvig.common.owldroid.type.TriggerClaimChatInput
 import io.reactivex.Observable
 import javax.inject.Singleton
 

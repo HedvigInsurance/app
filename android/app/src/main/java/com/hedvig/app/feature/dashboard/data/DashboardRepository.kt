@@ -3,7 +3,7 @@ package com.hedvig.app.feature.dashboard.data
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.hedvig.android.owldroid.graphql.DashboardQuery
+import com.hedvig.common.owldroid.DashboardQuery
 import io.reactivex.Observable
 
 class DashboardRepository(

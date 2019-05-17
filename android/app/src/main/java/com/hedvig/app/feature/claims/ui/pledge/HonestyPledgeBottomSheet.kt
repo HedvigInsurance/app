@@ -9,9 +9,9 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.chat.ChatFragment
 import com.hedvig.app.feature.claims.service.ClaimsTracker
 import com.hedvig.app.feature.claims.ui.ClaimsViewModel
-import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
-import com.hedvig.app.util.extensions.proxyNavigate
-import com.hedvig.app.util.extensions.view.setHapticClickListener
+import com.hedvig.common.ui.fragment.RoundedBottomSheetDialogFragment
+import com.hedvig.common.util.extensions.proxyNavigate
+import com.hedvig.common.util.extensions.view.setHapticClickListener
 import kotlinx.android.synthetic.main.bottom_sheet_honesty_pledge.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel

@@ -5,9 +5,9 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.hedvig.android.owldroid.graphql.NewSessionMutation
-import com.hedvig.android.owldroid.graphql.RegisterPushTokenMutation
-import com.hedvig.app.util.react.AsyncStorageNative
+import com.hedvig.common.owldroid.NewSessionMutation
+import com.hedvig.common.owldroid.RegisterPushTokenMutation
+import com.hedvig.common.util.react.AsyncStorageNative
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import org.koin.core.KoinComponent
