@@ -13,8 +13,8 @@ let log = Logger.self
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     let bag = DisposeBag()
-    var window: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
-    var splashWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
+    var rootWindow = UIWindow(frame: UIScreen.main.bounds)
+    var splashWindow = UIWindow(frame: UIScreen.main.bounds)
     private let applicationWillTerminateCallbacker = Callbacker<Void>()
     let applicationWillTerminateSignal: Signal<Void>
 
@@ -66,27 +66,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let rootNavigationController = UINavigationController()
         rootNavigationController.setNavigationBarHidden(true, animated: false)
-        window?.rootViewController = rootNavigationController
-        window?.windowLevel = .normal
-        window?.backgroundColor = UIColor.white
-        window?.makeKeyAndVisible()
+        rootWindow.rootViewController = rootNavigationController
+        rootWindow.windowLevel = .normal
+        rootWindow.backgroundColor = UIColor.white
+        rootWindow.makeKeyAndVisible()
 
         let splashNavigationController = UINavigationController()
-        splashWindow?.rootViewController = splashNavigationController
+        splashWindow.rootViewController = splashNavigationController
         splashNavigationController.setNavigationBarHidden(true, animated: false)
         splashNavigationController.view = { () -> UIView in
             let view = UIView()
             view.backgroundColor = UIColor.clear
             return view
         }()
-        splashWindow?.isOpaque = false
-        splashWindow?.backgroundColor = UIColor.clear
-        splashWindow?.windowLevel = .alert
-        splashWindow?.makeKeyAndVisible()
+        splashWindow.isOpaque = false
+        splashWindow.backgroundColor = UIColor.clear
+        splashWindow.windowLevel = .alert
+        splashWindow.makeKeyAndVisible()
 
         FirebaseApp.configure()
-        // RNFirebaseNotifications.configure()
-
         RNBranch.initSession(launchOptions: launchOptions, isReferrable: true)
 
         let hasLoadedCallbacker = Callbacker<Void>()
@@ -106,50 +104,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
 
         bag += splashNavigationController.present(launchPresentation).onValue { _ in
-            self.splashWindow = nil
+            // self.splashWindow = nil
         }
 
         DefaultStyling.installCustom()
 
-        RCTApolloClient.getClient().delay(by: 0.05).onValue { _ in
-            guard let window = self.window else {
-                log.error("Window missing?!")
-                return
-            }
-
-            if let disposable = ApplicationState.presentRootViewController(window) {
+        RCTApolloClient.getClient().onValue { _ in
+            if let disposable = ApplicationState.presentRootViewController(self.rootWindow) {
                 self.bag += disposable
-
-                window.makeKeyAndVisible()
                 hasLoadedCallbacker.callAll()
-
                 return
             }
 
             self.bag += rootNavigationController.present(Marketing()).disposable
-
-            window.makeKeyAndVisible()
             hasLoadedCallbacker.callAll()
         }
 
         return true
     }
 
-    func loadApolloAndReactNative(
-        hasLoadedCallbacker _: Callbacker<Void>? = nil,
-        launchOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil
-    ) {}
-
     func applicationWillTerminate(_: UIApplication) {
         applicationWillTerminateCallbacker.callAll()
     }
 
     func logout() {
-        window?.makeKeyAndVisible()
-        // ReactNativeNavigation.getBridge()?.invalidate()
+        ReactNativeContainer.shared.bridge.reload()
         bag.dispose()
         RCTAsyncLocalStorage().clearAllData()
-        loadApolloAndReactNative()
     }
 
     // func application(_: UIApplication, didReceive notification: UILocalNotification) {

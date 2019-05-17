@@ -48,7 +48,11 @@ extension OfferChat: Presentable {
                     ReactNativeContainer.shared.bridge.reload()
                     let appDelegate = UIApplication.shared.appDelegate
                     appDelegate.bag.dispose()
-                    appDelegate.bag += UIApplication.shared.appDelegate.window?.present(OnboardingChat(), options: [.defaults], animated: true)
+                    appDelegate.bag += UIApplication.shared.appDelegate.rootWindow.present(
+                        OnboardingChat(intent: .onboard),
+                        options: [.defaults],
+                        animated: true
+                    )
                 }
             }
         }

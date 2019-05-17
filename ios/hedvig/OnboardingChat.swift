@@ -15,9 +15,15 @@ import UIKit
 struct Chat {}
 
 struct OnboardingChat {
-    let client: ApolloClient
+    enum Intent: String {
+        case onboard, login
+    }
 
-    init(client: ApolloClient = ApolloContainer.shared.client) {
+    let client: ApolloClient
+    let intent: Intent
+
+    init(intent: Intent, client: ApolloClient = ApolloContainer.shared.client) {
+        self.intent = intent
         self.client = client
     }
 }
@@ -63,7 +69,7 @@ extension OnboardingChat: Presentable {
         let reactView = RCTRootView(
             bridge: ReactNativeContainer.shared.bridge,
             moduleName: "ChatScreen",
-            initialProperties: [:]
+            initialProperties: ["intent": intent.rawValue]
         )
 
         if let reactView = reactView {
