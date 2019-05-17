@@ -13,6 +13,7 @@ import com.hedvig.app.util.whenApiVersion
 class PushNotificator(
     private val context: Context
 ) {
+
     fun setupNotificationChannels() = whenApiVersion(Build.VERSION_CODES.O) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
         notificationManager?.createNotificationChannel(
@@ -22,13 +23,15 @@ class PushNotificator(
                 NotificationManager.IMPORTANCE_HIGH
             ).apply { description = context.resources.getString(R.string.NOTIFICATION_CHANNEL_DESCRIPTION) }
         )
-        notificationManager?.createNotificationChannel((
+        notificationManager?.createNotificationChannel(
             NotificationChannel(
                 REFERRAL_COMPLETED_NOTIFICATION_CHANNEL_ID,
                 context.resources.getString(R.string.NOTIFICATION_REFERRAL_CHANNEL_NAME),
                 NotificationManager.IMPORTANCE_HIGH
-            ).apply { description = context.resources.getString(R.string.NOTIFICATION_REFERRAL_CHANNEL_DESCRIPTION }
-        ))
+            ).apply {
+                description = context.resources.getString(R.string.NOTIFICATION_REFERRAL_CHANNEL_DESCRIPTION)
+            }
+        )
     }
 
     fun sendChatMessageNotification() {
@@ -39,7 +42,7 @@ class PushNotificator(
 
         val notification = NotificationCompat
             .Builder(context, CHAT_NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_hedvig_symbol_android)
+            .setSmallIcon(NOTIFICATION_ICON)
             .setContentTitle(context.resources.getString(R.string.NOTIFICATION_CHAT_TITLE))
             .setContentText(context.resources.getString(R.string.NOTIFICATION_CHAT_BODY))
             .setPriority(NotificationCompat.PRIORITY_MAX)
@@ -55,16 +58,19 @@ class PushNotificator(
 
     fun sendReferralCompletedNotification() {
         val pendingIntent = NavDeepLinkBuilder(context)
-            .setGraph(R.navigation.root)
+            .setGraph(R.navigation.logged_in_navigation)
+            .setDestination(R.id.notificationCompletedFragment)
+            .createPendingIntent()
 
         val notification = NotificationCompat
             .Builder(context, REFERRAL_COMPLETED_NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_hedvig_symbol_android)
+            .setSmallIcon(NOTIFICATION_ICON)
             .setContentTitle(context.resources.getString(R.string.NOTIFICATION_REFERRAL_COMPLETED_TITLE))
             .setContentText(context.resources.getString(R.string.NOTIFICATION_REFERRAL_COMPLETED_CONTENT))
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setAutoCancel(true)
             .setChannelId(REFERRAL_COMPLETED_NOTIFICATION_CHANNEL_ID)
+            .setContentIntent(pendingIntent)
             .build()
 
         NotificationManagerCompat
@@ -73,6 +79,8 @@ class PushNotificator(
     }
 
     companion object {
+        const val NOTIFICATION_ICON = R.drawable.ic_hedvig_symbol_android
+
         const val CHAT_NOTIFICATION_ID = 1 // TODO: Better logic for this
         const val CHAT_NOTIFICATION_CHANNEL_ID = "hedvig-push"
 

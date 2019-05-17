@@ -236,4 +236,20 @@
         android:id="@+id/licensesFragment"
         android:name="com.hedvig.app.feature.profile.ui.aboutapp.LicensesFragment"
         android:label="LicensesFragment" />
+
+    <fragment
+        android:id="@+id/notificationCompletedFragment"
+        android:name="com.hedvig.app.feature.referrals.ui.NotificationCompletedFragment"
+        android:label="NotificationCompletedFragment">
+
+        <action
+            android:id="@+id/action_notificationCompletedFragment_to_referralFragment"
+            app:destination="@id/referralFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/stay_in_place"
+            app:popExitAnim="@anim/slide_out_down"
+            app:popUpTo="@+id/loggedInFragment" />
+
+    </fragment>
 </navigation>
