@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity(), DefaultHardwareBackBtnHandler, Permiss
         setTheme(R.style.Theme_Exponent_Light)
         super.onCreate(savedInstanceState)
         whenApiVersion(Build.VERSION_CODES.M) {
-            window.statusBarColor = compatColor(R.color.off_white)
+            //window.statusBarColor = compatColor(R.color.off_white)
         }
 
         disposables += loggedInService

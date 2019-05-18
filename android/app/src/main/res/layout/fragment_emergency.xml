@@ -10,7 +10,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/off_white"
+        android:background="?attr/themeBackgroundColor"
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -151,7 +151,7 @@
                         android:layout_marginTop="@dimen/base_margin_double"
                         android:background="@drawable/button_primary"
                         android:text="@string/CLAIMS_EMERGENCY_THIRD_BOX_BUTTON_LABEL"
-                        android:textColor="@color/off_black"
+                        android:textColor="?attr/themeTextColor"
                         android:theme="@style/HedvigButton"
                         app:backgroundTint="@color/light_gray"
                         tools:backgroundTint="@color/light_gray"

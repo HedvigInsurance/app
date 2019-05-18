@@ -15,12 +15,11 @@ import com.hedvig.app.feature.claims.service.ClaimsTracker
 import com.hedvig.app.feature.claims.ui.commonclaim.CommonClaimsAdapter
 import com.hedvig.app.feature.claims.ui.pledge.HonestyPledgeBottomSheet
 import com.hedvig.app.feature.loggedin.BaseTabFragment
+import com.hedvig.app.util.setupLargeTitle
 import com.hedvig.common.owldroid.CommonClaimQuery
 import com.hedvig.common.owldroid.type.InsuranceStatus
-import com.hedvig.common.util.extensions.compatColor
 import com.hedvig.common.util.extensions.observe
 import com.hedvig.common.util.extensions.proxyNavigate
-import com.hedvig.app.util.setupLargeTitle
 import com.hedvig.common.util.extensions.view.disable
 import com.hedvig.common.util.extensions.view.enable
 import com.hedvig.common.util.extensions.view.remove
@@ -78,8 +77,8 @@ class ClaimsFragment : BaseTabFragment() {
 
         setupLargeTitle(
             R.string.CLAIMS_TITLE,
-            R.font.circular_bold,
-            backgroundColor = requireContext().compatColor(R.color.off_white)
+            R.font.circular_bold
+            //backgroundColor = requireContext().compatColor(R.color.off_white)
         )
 
         when (commonClaimsData.insurance().status()) {

@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/circular_bold"
-            android:textColor="@color/black"
+            android:textColor="?attr/themeTextColor"
             android:textSize="16sp"
             tools:text="Mitt hem" />
 
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/circular_book"
-            android:textColor="@color/off_black"
+            android:textColor="?attr/themeTextColor"
             android:textSize="14sp"
             tools:text="109 kr/månad - Betalas via autogiro" />
     </LinearLayout>
@@ -51,8 +51,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@null"
-        app:srcCompat="@drawable/icon_navigate_next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_navigate_next" />
 </android.support.constraint.ConstraintLayout>

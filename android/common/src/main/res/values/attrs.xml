@@ -14,4 +14,9 @@
         <attr name="perilIcon" format="string" />
         <attr name="perilText" format="string" />
     </declare-styleable>
+
+    <attr name="themeBackgroundColor" format="reference" />
+    <attr name="themeBackgroundColorHighlight" format="reference" />
+    <attr name="themeTextColor" format="reference" />
+    <attr name="themeLightWindowBar" format="boolean" />
 </resources>

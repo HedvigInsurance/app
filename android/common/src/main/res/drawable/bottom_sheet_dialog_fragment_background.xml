@@ -5,7 +5,7 @@
             <corners
                 android:topLeftRadius="@dimen/bottom_sheet_corner_radius"
                 android:topRightRadius="@dimen/bottom_sheet_corner_radius" />
-            <solid android:color="@color/off_white" />
+            <solid android:color="?attr/themeBackgroundColor" />
         </shape>
     </item>
     <item android:top="@dimen/bottom_sheet_dialog_fragment_title_height">

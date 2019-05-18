@@ -14,11 +14,9 @@ import androidx.navigation.findNavController
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
-import com.hedvig.common.util.extensions.compatColor
-import com.hedvig.common.util.extensions.compatDrawable
-import com.hedvig.common.util.extensions.compatSetTint
-import com.hedvig.common.util.extensions.observe
 import com.hedvig.app.util.setupLargeTitle
+import com.hedvig.common.util.extensions.compatDrawable
+import com.hedvig.common.util.extensions.observe
 import com.hedvig.common.util.extensions.view.increaseTouchableArea
 import com.hedvig.common.util.extensions.view.show
 import com.hedvig.common.util.interpolateTextKey
@@ -62,8 +60,6 @@ class ReferralFragment : Fragment() {
                     resources.getString(R.string.PROFILE_REFERRAL_THEY_GET_DESCRIPTION),
                     "INCENTIVE" to incentive
                 )
-
-                referralButton.background.compatSetTint(requireContext().compatColor(R.color.purple))
 
                 termsLink.increaseTouchableArea(100)
                 termsLink.setOnClickListener {

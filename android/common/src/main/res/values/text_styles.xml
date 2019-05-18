@@ -13,7 +13,7 @@
 
     <style name="Header">
         <item name="android:fontFamily">@font/soray_extrabold</item>
-        <item name="android:textColor">@color/off_black_dark</item>
+        <item name="android:textColor">?attr/themeTextColor</item>
     </style>
 
     <style name="Header.Large">
@@ -26,7 +26,7 @@
 
     <style name="Headline">
         <item name="android:fontFamily">@font/circular_bold</item>
-        <item name="android:textColor">@color/off_black_dark</item>
+        <item name="android:textColor">?attr/themeTextColor</item>
     </style>
 
     <style name="Headline.Large">
@@ -58,7 +58,7 @@
 
     <style name="Body">
         <item name="android:fontFamily">@font/circular_book</item>
-        <item name="android:textColor">@color/off_black</item>
+        <item name="android:textColor">?attr/themeTextColor</item>
     </style>
 
     <style name="Body.Regular">

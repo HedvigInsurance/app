@@ -10,23 +10,23 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/off_white"
+        android:background="?attr/themeBackgroundColor"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_marginBottom="60dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="60dp">
 
             <ImageView
                 android:id="@+id/celebration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
-                app:srcCompat="@drawable/celebration"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/celebration" />
 
             <TextView
                 android:id="@+id/subtitle"
@@ -37,7 +37,7 @@
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
                 android:text="@string/PROFILE_REFERRAL_SUBTITLE"
-                android:textColor="@color/off_black_dark"
+                android:textColor="?attr/themeTextColor"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +51,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/circular_bold"
                 android:text="@string/PROFILE_REFERRAL_YOU_GET"
-                android:textColor="@color/off_black_dark"
+                android:textColor="?attr/themeTextColor"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/subtitle" />
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_book"
                     android:lineSpacingExtra="4sp"
-                    android:textColor="@color/off_black"
+                    android:textColor="?attr/themeTextColor"
                     android:textSize="16sp"
                     tools:text="@string/PROFILE_REFERRAL_YOU_GET_DESCRIPTION" />
             </LinearLayout>
@@ -97,7 +97,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/circular_bold"
                 android:text="@string/PROFILE_REFERRAL_THEY_GET"
-                android:textColor="@color/off_black_dark"
+                android:textColor="?attr/themeTextColor"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/youGetDescriptionContainer" />
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_book"
                     android:lineSpacingExtra="4sp"
-                    android:textColor="@color/off_black"
+                    android:textColor="?attr/themeTextColor"
                     android:textSize="16sp"
                     tools:text="@string/PROFILE_REFERRAL_THEY_GET_DESCRIPTION" />
             </LinearLayout>
@@ -150,7 +150,7 @@
                     android:layout_marginEnd="4sp"
                     android:fontFamily="@font/circular_book"
                     android:text="@string/PROFILE_REFERRAL_TERMS_DESCRIPTION"
-                    android:textColor="@color/off_black"
+                    android:textColor="?attr/themeTextColor"
                     android:textSize="12sp" />
 
                 <TextView
@@ -174,19 +174,19 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_primary"
+        android:backgroundTint="@color/purple"
+        android:drawablePadding="8dp"
         android:text="@string/PROFILE_REFERRAL_SHARE"
         android:theme="@style/HedvigButton"
-        android:visibility="gone"
         android:translationY="75dp"
-        android:drawablePadding="8dp"
-        android:layout_gravity="bottom|center_horizontal"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/termsContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/theyGetDescriptionContainer"
-        tools:backgroundTint="@color/purple"
         tools:translationY="0dp"
         tools:visibility="visible" />
 

@@ -38,8 +38,6 @@ class CoinsuredFragment : Fragment() {
             requireActivity().findNavController(R.id.rootNavigationHost).popBackStack()
         }
 
-        coinsuredSphere.drawable.compatSetTint(requireContext().compatColor(R.color.purple))
-
         loadData()
     }
 

@@ -2,10 +2,10 @@
 <resources>
 
     <style name="Theme.Exponent.Light.V23" parent="Theme.Exponent.Light.V21">
-        <item name="android:statusBarColor">@color/off_white</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">?attr/themeBackgroundColor</item>
+        <item name="android:windowLightStatusBar">?attr/themeLightWindowBar</item>
     </style>
 
-    <style name="Theme.Exponent.Light" parent="Theme.Exponent.Light.V23"/>
+    <style name="Theme.Exponent.Light" parent="Theme.Exponent.Light.V23" />
 
 </resources>

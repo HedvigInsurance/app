@@ -43,7 +43,7 @@
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
         android:textAllCaps="false"
-        android:textColor="@color/off_white"
+        android:textColor="?attr/themeTextColor"
         android:textSize="@dimen/text_medium"
         app:backgroundTint="@color/purple"
         app:layout_constraintBottom_toTopOf="@id/login"
