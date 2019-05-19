@@ -2,9 +2,6 @@ package com.hedvig.app.service
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import io.reactivex.Observable
-import javax.inject.Inject
-import javax.inject.Singleton
-
 
 class RemoteConfig {
     private val firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()

@@ -7,7 +7,6 @@ import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.common.owldroid.DirectDebitQuery
 import com.hedvig.common.owldroid.type.DirectDebitStatus
 import io.reactivex.Observable
-import javax.inject.Inject
 
 class DirectDebitRepository(private val apolloClient: ApolloClient) {
     private lateinit var directDebitQuery: DirectDebitQuery

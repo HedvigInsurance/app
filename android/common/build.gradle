@@ -43,18 +43,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api project(':react-native-image-picker')
-    api project(':react-native-fs')
-    api project(':react-native-svg')
-    api project(':react-native-config')
-    api project(':react-native-sound')
-    api project(':react-native-sentry')
-    api project(':react-native-branch')
-    api project(':react-native-audio')
-    api project(':react-native-analytics-segment-io')
-
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
     // Apollo
     api "com.apollographql.apollo:apollo-runtime:$apollo_version"
     api "com.apollographql.apollo:apollo-android-support:$apollo_version"

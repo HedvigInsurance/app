@@ -54,25 +54,26 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     private fun sendChatMessageNotification() {
-        val pendingIntent = NavDeepLinkBuilder(this)
-            .setGraph(R.navigation.logged_in_navigation)
-            .setDestination(R.id.loggedInChatFragment)
-            .createPendingIntent()
-
-        val notification = NotificationCompat
-            .Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_hedvig_symbol_android)
-            .setContentTitle(resources.getString(R.string.NOTIFICATION_CHAT_TITLE))
-            .setContentText(resources.getString(R.string.NOTIFICATION_CHAT_BODY))
-            .setPriority(NotificationCompat.PRIORITY_MAX)
-            .setAutoCancel(true)
-            .setChannelId(NOTIFICATION_CHANNEL_ID)
-            .setContentIntent(pendingIntent)
-            .build()
-
-        NotificationManagerCompat
-            .from(this)
-            .notify(NOTIFICATION_ID, notification)
+        // TODO :
+//        val pendingIntent = NavDeepLinkBuilder(this)
+//            .setGraph(R.navigation.logged_in_navigation)
+//            .setDestination(R.id.loggedInChatFragment)
+//            .createPendingIntent()
+//
+//        val notification = NotificationCompat
+//            .Builder(this, NOTIFICATION_CHANNEL_ID)
+//            .setSmallIcon(R.drawable.ic_hedvig_symbol_android)
+//            .setContentTitle(resources.getString(R.string.NOTIFICATION_CHAT_TITLE))
+//            .setContentText(resources.getString(R.string.NOTIFICATION_CHAT_BODY))
+//            .setPriority(NotificationCompat.PRIORITY_MAX)
+//            .setAutoCancel(true)
+//            .setChannelId(NOTIFICATION_CHANNEL_ID)
+//            .setContentIntent(pendingIntent)
+//            .build()
+//
+//        NotificationManagerCompat
+//            .from(this)
+//            .notify(NOTIFICATION_ID, notification)
     }
 
     companion object {

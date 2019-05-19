@@ -1,0 +1,8 @@
+<resources>
+    <string name="title_on_boarding_flow">Module Title</string>
+    <string name="title_chat">Chat Title</string>
+    <string name="title_offer">Offer Title</string>
+    <string name="title_instant_app_test">Module Title</string>
+    <string name="title_logged_in">Logged in</string>
+    <string name="title_landing">Landing Title</string>
+</resources>
