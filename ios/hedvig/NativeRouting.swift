@@ -88,7 +88,7 @@ class NativeRouting: RCTEventEmitter {
 
     @objc func showPeril(_: String, idString: String, title: String, description: String) {
         DispatchQueue.main.async {
-            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController, !self.hasOpenedChat else {
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
                 return
             }
 
