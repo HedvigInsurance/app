@@ -737,10 +737,10 @@
     tslib "1.9.3"
     winston "3.1.0"
 
-"@hedviginsurance/brand@^1.3.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@hedviginsurance/brand/-/brand-1.4.1.tgz#ef14faaed32662da17e7fa5637a3653dd837aac6"
-  integrity sha512-DTOdWlkx11argYVwl40FGrAV9H/ZC3nJWxiIHjcE8PKBg7ywsLIgO+kfLJf2vGDg3vDVwxNygpNn3nJGH4D6Vw==
+"@hedviginsurance/brand@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@hedviginsurance/brand/-/brand-1.6.0.tgz#5b7e9d9e26b4dfcc35e7e8358934b542f871ec9f"
+  integrity sha512-75jqoOelmH2MvSfklERqujE83fJP3s2/0F/RkfTYbzcuJrZ6poZfuhooeH1dR2HWD+jdPHpFjDX3i8zo8+d1CQ==
 
 "@hedviginsurance/podspec-generator@^0.2.3":
   version "0.2.3"
