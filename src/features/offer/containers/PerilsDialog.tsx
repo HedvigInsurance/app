@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-} from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { DraggableOverlay } from 'src/components/draggable-overlay';
 
 import { PERIL_IMAGE_MAP } from '../../../features/dashboard/components/Peril';
@@ -13,7 +8,6 @@ import { Description } from '../components/Description';
 import { Heading } from '../components/Heading';
 
 import { colors } from '@hedviginsurance/brand';
-import { Navigation } from 'react-native-navigation';
 import styled from '@sampettersson/primitives';
 import { BackButton } from 'src/components/BackButton';
 
@@ -57,32 +51,34 @@ const PerilImage = styled(Image)({
   marginBottom: 10,
   height: 60,
   width: 60,
-})
+});
 
-const cleanTitle = (title: string) => (title || '').replace(/[\n-]/g, '')
+const cleanTitle = (title: string) => (title || '').replace(/[\n-]/g, '');
 
 const getHeightPercentage = (length: number) => {
   if (length > 300) {
-    return 70
+    return 70;
   }
   if (length > 200) {
-    return 60
+    return 60;
   }
-  return 50
-}
+  return 50;
+};
 
 export interface Peril {
-  description: string
-  title: string
-  id: keyof typeof PERIL_IMAGE_MAP
+  description: string;
+  title: string;
+  id: keyof typeof PERIL_IMAGE_MAP;
 }
 
-export const PerilsDialog: React.SFC<{ peril: Peril, categoryTitle: string, componentId: string }> = ({ componentId, categoryTitle, peril }) => (
+export const PerilsDialog: React.SFC<{
+  peril: Peril;
+  categoryTitle: string;
+  componentId: string;
+}> = ({ componentId, categoryTitle, peril }) =>
   peril ? (
     <DraggableOverlay
-      onClose={() => {
-        Navigation.dismissOverlay(componentId)
-      }}
+      onClose={() => {}}
       heightPercentage={getHeightPercentage(peril.description.length)}
     >
       {(handleClose) => (
@@ -91,9 +87,7 @@ export const PerilsDialog: React.SFC<{ peril: Peril, categoryTitle: string, comp
           <View style={styles.dialogContent}>
             <View style={styles.perilsHeader}>
               <View>
-                <Text style={styles.dialogHeading}>
-                  {categoryTitle}
-                </Text>
+                <Text style={styles.dialogHeading}>{categoryTitle}</Text>
                 <Text style={styles.dialogSubHeading}>Försäkras mot</Text>
               </View>
               <PerilImage
@@ -103,9 +97,7 @@ export const PerilsDialog: React.SFC<{ peril: Peril, categoryTitle: string, comp
             </View>
             <View style={styles.contentWrapper}>
               <View style={styles.perilsContent}>
-                <Heading>
-                  {cleanTitle(peril.title)}
-                </Heading>
+                <Heading>{cleanTitle(peril.title)}</Heading>
                 <Description>{peril.description}</Description>
               </View>
             </View>
@@ -113,5 +105,4 @@ export const PerilsDialog: React.SFC<{ peril: Peril, categoryTitle: string, comp
         </>
       )}
     </DraggableOverlay>
-  ) : null
-)
+  ) : null;

@@ -1,5 +1,4 @@
 import { take, takeEvery, put, select } from 'redux-saga/effects';
-import { Navigation } from 'react-native-navigation';
 import { types, chatActions } from '../../hedvig-redux';
 import { CHAT_SCREEN_MODAL } from '../../src/navigation/screens/chat/modal';
 

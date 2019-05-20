@@ -1,18 +1,19 @@
 //
-//  Chat.swift
+//  FreeTextChat.swift
 //  hedvig
 //
-//  Created by Sam Pettersson on 2019-02-18.
+//  Created by Sam Pettersson on 2019-05-15.
 //  Copyright © 2019 Hedvig AB. All rights reserved.
 //
 
 import Apollo
 import Flow
 import Form
+import Foundation
 import Presentation
 import UIKit
 
-struct Chat {
+struct FreeTextChat {
     let client: ApolloClient
 
     init(client: ApolloClient = ApolloContainer.shared.client) {
@@ -20,7 +21,7 @@ struct Chat {
     }
 }
 
-extension Chat: Presentable {
+extension FreeTextChat: Presentable {
     func materialize() -> (UIViewController, Future<Void>) {
         let bag = DisposeBag()
 
@@ -52,10 +53,14 @@ extension Chat: Presentable {
         loaderBag += view.add(loadingIndicator)
 
         bag += client.perform(mutation: TriggerFreeTextChatMutation()).valueSignal.compactMap { $0.data?.triggerFreeTextChat }.onValue { _ in
-            let reactView = RNNReactView(
-                bridge: ReactNativeNavigation.getBridge(),
+            let jsCodeLocation = RCTBundleURLProvider.sharedSettings().jsBundleURL(
+                forBundleRoot: "index",
+                fallbackResource: nil
+            )
+            let reactView = RCTRootView(
+                bundleURL: jsCodeLocation,
                 moduleName: "ChatScreen",
-                initialProperties: ["componentId": "1", "intent": ""]
+                initialProperties: nil
             )
 
             if let reactView = reactView {

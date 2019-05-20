@@ -10,8 +10,6 @@ import Foundation
 
 struct ClearDirectDebitStatus {
     static func clear() {
-        let bridge = ReactNativeNavigation.getBridge()
-        let nativeRouting = bridge?.module(forName: "NativeRouting") as! NativeRouting
-        nativeRouting.sendClearDirectDebitStatus()
+        // TODO:
     }
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navigation } from 'react-native-navigation';
 import { Mount } from 'react-lifecycle-components';
 import { AsyncStorage } from 'react-native';
 

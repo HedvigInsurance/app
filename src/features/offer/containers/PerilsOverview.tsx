@@ -19,7 +19,6 @@ import { Description } from '../components/Description';
 import { Heading } from '../components/Heading';
 
 import { colors } from '@hedviginsurance/brand';
-import { Navigation } from 'react-native-navigation';
 import { PERIL_COMPONENT } from 'src/navigation/components/peril';
 import styled from '@sampettersson/primitives';
 import { Peril } from './PerilsDialog';
@@ -73,18 +72,19 @@ const styles = StyleSheet.create({
       [VerticalSizeClass.COMPACT]: 20,
       [HorizontalSizeClass.SPACIOUS]: 50,
       [HorizontalSizeClass.REGULAR]: 35,
-      [HorizontalSizeClass.COMPACT]: 20
+      [HorizontalSizeClass.COMPACT]: 20,
     }[verticalSizeClass],
   },
 });
 
 const Container = styled(View)({
-  flex: 1
-})
+  flex: 1,
+});
 
 const PerilIcon = styled(Image)({
-  width: 51, height: 51
-})
+  width: 51,
+  height: 51,
+});
 
 const hitSlop = {
   top: 5,
@@ -94,16 +94,24 @@ const hitSlop = {
 };
 
 interface PerilsOverviewProps {
-  disableScroll?: boolean
-  hero: React.ReactElement<any>
-  title: React.ReactElement<any>
-  description: React.ReactElement<any>
-  perils: Peril[]
-  categoryTitle: string
-  explainer?: React.ReactElement<any>
+  disableScroll?: boolean;
+  hero: React.ReactElement<any>;
+  title: React.ReactElement<any>;
+  description: React.ReactElement<any>;
+  perils: Peril[];
+  categoryTitle: string;
+  explainer?: React.ReactElement<any>;
 }
 
-export const PerilsOverview: React.SFC<PerilsOverviewProps> = ({ disableScroll, hero, title, description, perils, categoryTitle, explainer }) => {
+export const PerilsOverview: React.SFC<PerilsOverviewProps> = ({
+  disableScroll,
+  hero,
+  title,
+  description,
+  perils,
+  categoryTitle,
+  explainer,
+}) => {
   const ContainerComp = disableScroll ? View : ScrollView;
 
   return (
@@ -120,24 +128,22 @@ export const PerilsOverview: React.SFC<PerilsOverviewProps> = ({ disableScroll, 
               {perils.map((peril, index) => (
                 <TouchableOpacity
                   onPress={() => {
-                    if (Platform.OS === "android") {
-                      NativeModules.ActivityStarter.showPerilOverlay(categoryTitle, peril.id, peril.title, peril.description)
-                      return
+                    if (Platform.OS === 'android') {
+                      NativeModules.ActivityStarter.showPerilOverlay(
+                        categoryTitle,
+                        peril.id,
+                        peril.title,
+                        peril.description,
+                      );
+                      return;
                     }
-                    Navigation.showOverlay({
-                      component: {
-                        name: PERIL_COMPONENT.name,
-                        passProps: {
-                          peril,
-                          categoryTitle,
-                        },
-                        options: {
-                          layout: {
-                            backgroundColor: 'transparent'
-                          }
-                        }
-                      },
-                    });
+
+                    NativeModules.NativeRouting.showPeril(
+                      categoryTitle,
+                      peril.id,
+                      peril.title,
+                      peril.description,
+                    );
                   }}
                   hitSlop={hitSlop}
                   style={styles.peril}
@@ -145,17 +151,13 @@ export const PerilsOverview: React.SFC<PerilsOverviewProps> = ({ disableScroll, 
                   accessibilityComponentType="button"
                   accessibilityTraits="image"
                 >
-                  <PerilIcon
-                    source={PERIL_IMAGE_MAP[peril.id]}
-                  />
+                  <PerilIcon source={PERIL_IMAGE_MAP[peril.id]} />
                   <Text style={styles.perilTitle}>{peril.title}</Text>
                 </TouchableOpacity>
               ))}
             </View>
           </View>
-          {explainer ? (
-            <Text style={styles.moreInfo}>{explainer}</Text>
-          ) : null}
+          {explainer ? <Text style={styles.moreInfo}>{explainer}</Text> : null}
         </View>
       </ContainerComp>
     </Container>

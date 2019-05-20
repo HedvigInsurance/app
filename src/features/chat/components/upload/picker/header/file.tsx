@@ -6,7 +6,6 @@ import { UploadMutation } from '../upload-mutation';
 import { UploadingAnimation } from '../uploading-animation';
 
 import { PickerButton } from './picker-button';
-import { Navigation } from 'react-native-navigation';
 import { FILE_PICKER_COMPONENT } from 'src/navigation/components/file-picker';
 import { Platform, NativeModules } from 'react-native';
 
@@ -36,11 +35,11 @@ export const File: React.SFC<FileProps> = ({ onUpload }) => (
                 },
               });
             } else {
-              NativeModules.ActivityStarter
-                .showFileUploadOverlay()
-                .then((key: string) => {
-                  onUpload(key)
-                })
+              NativeModules.ActivityStarter.showFileUploadOverlay().then(
+                (key: string) => {
+                  onUpload(key);
+                },
+              );
             }
           }}
         >

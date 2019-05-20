@@ -6,6 +6,7 @@
 //  Copyright © 2018 Hedvig AB. All rights reserved.
 //
 
+import Firebase
 import Flow
 import Foundation
 
@@ -33,7 +34,8 @@ class NativeRouting: RCTEventEmitter {
             "NativeRoutingMarketingResult",
             "NativeRoutingAppHasLoaded",
             "NativeRoutingOpenFreeTextChat",
-            "NativeRoutingClearDirectDebitStatus"
+            "NativeRoutingClearDirectDebitStatus",
+            "NativeRoutingRestartChat"
         ]
     }
 
@@ -64,8 +66,97 @@ class NativeRouting: RCTEventEmitter {
         sendEvent(withName: "NativeRoutingOpenFreeTextChat", body: [])
     }
 
+    func sendRestartChat() {
+        sendEvent(withName: "NativeRoutingRestartChat", body: [])
+    }
+
+    @objc func logEcommercePurchase() {
+        let bag = DisposeBag()
+
+        bag += ApolloContainer.shared.client.fetch(query: InsurancePriceQuery())
+            .valueSignal
+            .compactMap { $0.data?.insurance.monthlyCost }
+            .onValue { monthlyCost in
+                bag.dispose()
+                Analytics.logEvent("ecommerce_purchase", parameters: [
+                    "transaction_id": UUID().uuidString,
+                    "value": monthlyCost,
+                    "currency": "SEK"
+                ])
+            }
+    }
+
+    @objc func showPeril(_: String, idString: String, title: String, description: String) {
+        DispatchQueue.main.async {
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController, !self.hasOpenedChat else {
+                return
+            }
+
+            var topController = rootViewController
+
+            while let newTopController = topController.presentedViewController {
+                topController = newTopController
+            }
+
+            let perilInformation = PerilInformation(
+                title: title,
+                description: description,
+                icon: Peril.iconAsset(for: idString)
+            )
+            let overlay = DraggableOverlay(
+                presentable: perilInformation,
+                presentationOptions: [.defaults, .prefersNavigationBarHidden(true)]
+            )
+            self.bag += topController.present(
+                overlay,
+                style: .default,
+                options: []
+            ).disposable
+        }
+    }
+
+    @objc func presentLoggedIn() {
+        DispatchQueue.main.async {
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+                return
+            }
+
+            var topController = rootViewController
+
+            while let newTopController = topController.presentedViewController {
+                topController = newTopController
+            }
+
+            self.bag += topController.present(
+                LoggedIn(),
+                style: .default,
+                options: [.prefersNavigationBarHidden(true)]
+            )
+        }
+    }
+
     @objc func appHasLoaded() {
         appHasLoadedCallbacker.callAll()
+    }
+
+    @objc func showOffer() {
+        DispatchQueue.main.async {
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+                return
+            }
+
+            var topController = rootViewController
+
+            while let newTopController = topController.presentedViewController {
+                topController = newTopController
+            }
+
+            self.bag += topController.present(
+                Offer(),
+                style: .default,
+                options: [.prefersNavigationBarHidden(true)]
+            )
+        }
     }
 
     @objc func openChat() {
@@ -82,7 +173,7 @@ class NativeRouting: RCTEventEmitter {
 
             self.hasOpenedChat = true
 
-            let chatOverlay = DraggableOverlay(presentable: Chat())
+            let chatOverlay = DraggableOverlay(presentable: FreeTextChat())
             topController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)]).onResult { _ in
                 self.hasOpenedChat = false
             }

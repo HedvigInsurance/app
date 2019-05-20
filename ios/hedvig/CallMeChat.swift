@@ -44,11 +44,8 @@ extension CallMeChat: Presentable {
         loaderBag += view.add(loadingIndicator)
 
         bag += client.perform(mutation: TriggerCallMeChatMutation()).valueSignal.compactMap { $0.data?.triggerCallMeChat }.onValue { _ in
-            let reactView = RNNReactView(
-                bridge: ReactNativeNavigation.getBridge(),
-                moduleName: "ChatScreen",
-                initialProperties: ["componentId": "1", "intent": ""]
-            )
+            let jsCodeLocation = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index", fallbackResource: nil)
+            let reactView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "ChatScreen", initialProperties: nil)
 
             if let reactView = reactView {
                 view.addSubview(reactView)
