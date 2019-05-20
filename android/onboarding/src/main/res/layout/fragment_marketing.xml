@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/gray">
 
-    <include layout="@layout/loading_spinner" />
+    <include layout="@layout/onboarding_loading_spinner" />
 
     <com.hedvig.onboarding.marketing.ui.StoryPager
         android:id="@+id/pager"

@@ -7,17 +7,17 @@
     android:theme="@style/AppTheme.AppBarOverlay">
 
     <android.support.design.widget.CollapsingToolbarLayout
-        android:id="@id/collapsingToolbar"
+        android:id="@+id/collapsingToolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:minHeight="?attr/actionBarSize"
         app:collapsedTitleTextAppearance="@style/AppTheme.AppBarOverlay.CollapsedTitle"
         app:expandedTitleTextAppearance="@style/AppTheme.AppBarOverlay.ExpandedTitle"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        app:toolbarId="@id/toolbar">
+        app:toolbarId="@+id/toolbar">
 
         <android.support.v7.widget.Toolbar
-            android:id="@id/toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/AppTheme.Toolbar"

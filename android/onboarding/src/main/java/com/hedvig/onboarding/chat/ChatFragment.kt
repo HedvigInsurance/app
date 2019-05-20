@@ -27,7 +27,7 @@ import com.hedvig.common.util.extensions.compatColor
 import com.hedvig.common.util.extensions.view.remove
 import com.hedvig.common.util.extensions.view.show
 import com.hedvig.common.util.newBroadcastReceiver
-import com.hedvig.onboarding.injectFeature
+import com.hedvig.onboarding.OnBoardingActivity
 import com.hedvig.onboarding.util.showRestartDialog
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
@@ -40,7 +40,7 @@ class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
     private var reactRootView: ReactRootView? = null
 
     private val reactNativeHost: ReactNativeHost
-        get() = (requireActivity().application as ReactApplication).reactNativeHost
+        get() = (requireActivity() as OnBoardingActivity).reactNativeHost
 
     private val reactInstanceManager: ReactInstanceManager
         get() = reactNativeHost.reactInstanceManager
@@ -48,12 +48,6 @@ class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
     private var broadcastReceiver: BroadcastReceiver? = null
 
     private val navController by lazy { requireActivity().findNavController(R.id.onBoardingNavigationHost) }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // TODO do this in activity
-        injectFeature()
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_chat, container, false)

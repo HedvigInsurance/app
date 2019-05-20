@@ -17,6 +17,7 @@ import com.hedvig.common.util.extensions.compatColor
 import com.hedvig.common.util.extensions.setDarkNavigationBar
 import com.hedvig.common.util.extensions.setLightStatusBarText
 import com.hedvig.app.util.statusBarColor
+import com.hedvig.onboarding.OnBoardingActivity
 import com.hedvig.onboarding.injectFeature
 import com.hedvig.app.R as appR
 
@@ -26,7 +27,7 @@ class OfferFragment : Fragment(), DefaultHardwareBackBtnHandler {
     private var mReactRootView: ReactRootView? = null
 
     private val reactNativeHost: ReactNativeHost
-        get() = (requireActivity().application as ReactApplication).reactNativeHost
+        get() = (requireActivity() as OnBoardingActivity).reactNativeHost
 
     private val reactInstanceManager: ReactInstanceManager
         get() = reactNativeHost.reactInstanceManager

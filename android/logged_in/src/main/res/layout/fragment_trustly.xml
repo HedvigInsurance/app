@@ -8,7 +8,7 @@
              tools:context="com.hedvig.logged_in.profile.ui.payment.TrustlyFragment">
 
     <WebView
-        android:id="@id/trustlyContainer"
+        android:id="@+id/trustlyContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
@@ -40,7 +40,7 @@
             android:theme="@style/TrustlyTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resultIcon"
+            app:layout_constraintTop_toBottomOf="@+id/resultIcon"
             tools:text="@string/PROFILE_TRUSTLY_SUCCESS_TITLE"/>
 
         <TextView
@@ -54,7 +54,7 @@
             android:theme="@style/TrustlyParagraph"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resultTitle"
+            app:layout_constraintTop_toBottomOf="@+id/resultTitle"
             tools:text="@string/PROFILE_TRUSTLY_SUCCESS_DESCRIPTION"/>
 
         <Button
@@ -67,7 +67,7 @@
             android:text="@string/PROFILE_TRUSTLY_CLOSE"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resultParagraph"
+            app:layout_constraintTop_toBottomOf="@+id/resultParagraph"
             tools:backgroundTint="@color/green"/>
 
     </android.support.constraint.ConstraintLayout>

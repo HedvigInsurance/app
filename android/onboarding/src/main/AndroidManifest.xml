@@ -16,54 +16,5 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <!--<application-->
-        <!--android:name="com.hedvig.onboarding.OnBoardingApplication"-->
-        <!--android:allowBackup="true"-->
-        <!--android:icon="@mipmap/ic_launcher"-->
-        <!--android:label="@string/APP_NAME"-->
-        <!--android:largeHeap="true"-->
-        <!--tools:replace="android:label">-->
-        <!--<activity-->
-            <!--android:name="com.hedvig.onboarding.OnBoardingActivity"-->
-            <!--android:configChanges="keyboard|keyboardHidden|orientation|screenSize"-->
-            <!--android:launchMode="singleTask"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/Theme.Exponent.Splash"-->
-            <!--android:windowSoftInputMode="adjustResize">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-            <!--<intent-filter>-->
-                <!--<data android:scheme="@string/APP_SCHEME" />-->
-
-                <!--<action android:name="android.intent.action.VIEW" />-->
-
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
-            <!--</intent-filter>-->
-            <!--<intent-filter android:autoVerify="true">-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
-
-                <!--<data-->
-                    <!--android:host="hedvig.app.link"-->
-                    <!--android:scheme="https" />-->
-            <!--</intent-filter>-->
-            <!--<intent-filter android:autoVerify="true">-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
-
-                <!--<data-->
-                    <!--android:host="@string/FIREBASE_LINK_DOMAIN"-->
-                    <!--android:scheme="https" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-    <!--</application>-->
 
 </manifest>

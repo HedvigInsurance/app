@@ -24,6 +24,7 @@ import com.hedvig.onboarding.react.NativeRoutingModule.Companion.NAVIGATE_ROUTIN
 import com.hedvig.onboarding.react.NativeRoutingModule.Companion.NAVIGATE_ROUTING_EXTRA_VALUE_LOGOUT_AND_RESTART_APPLICATION
 import com.hedvig.onboarding.R
 import com.hedvig.app.util.localBroadcastManager
+import com.hedvig.onboarding.OnBoardingActivity
 import com.hedvig.onboarding.react.AsyncStorageNative
 import com.hedvig.onboarding.chat.ChatViewModel
 import com.hedvig.onboarding.util.showRestartDialog
@@ -40,7 +41,7 @@ class OfferChatOverlayFragment : DialogFragment(), DefaultHardwareBackBtnHandler
     private var mReactRootView: ReactRootView? = null
 
     private val reactNativeHost: ReactNativeHost
-        get() = (requireActivity().application as ReactApplication).reactNativeHost
+        get() = (requireActivity() as OnBoardingActivity).reactNativeHost
 
     private val reactInstanceManager: ReactInstanceManager
         get() = reactNativeHost.reactInstanceManager

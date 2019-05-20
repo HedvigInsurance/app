@@ -22,14 +22,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@id/dialogTitle"
+                android:id="@+id/dialogTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/PROFILE_MY_HOME_CHANGE_DIALOG_TITLE"
                 android:theme="@style/Headline.Small" />
 
             <TextView
-                android:id="@id/dialogParagraph"
+                android:id="@+id/dialogParagraph"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -39,17 +39,17 @@
         </LinearLayout>
 
         <Button
-            android:id="@id/dialogCancel"
+            android:id="@+id/dialogCancel"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/PROFILE_MY_HOME_CHANGE_DIALOG_CANCEL"
             android:theme="@style/DialogButton"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/dialogConfirm" />
+            app:layout_constraintEnd_toStartOf="@+id/dialogConfirm" />
 
         <Button
-            android:id="@id/dialogConfirm"
+            android:id="@+id/dialogConfirm"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

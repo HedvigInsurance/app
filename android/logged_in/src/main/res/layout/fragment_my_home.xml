@@ -22,11 +22,11 @@
 
 
             <include
-                android:id="@id/sphereContainer"
+                android:id="@+id/sphereContainer"
                 layout="@layout/sphere_container" />
 
             <LinearLayout
-                android:id="@id/infoContainer"
+                android:id="@+id/infoContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -36,7 +36,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sphereContainer"
+                app:layout_constraintTop_toBottomOf="@+id/sphereContainer"
                 tools:visibility="visible">
 
                 <TextView
@@ -46,7 +46,7 @@
                     android:theme="@style/ProfileFieldLabel" />
 
                 <TextView
-                    android:id="@id/postalNumber"
+                    android:id="@+id/postalNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/base_margin"
@@ -61,7 +61,7 @@
                     android:theme="@style/ProfileFieldLabel" />
 
                 <TextView
-                    android:id="@id/insuranceType"
+                    android:id="@+id/insuranceType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/base_margin"
@@ -86,15 +86,15 @@
             </LinearLayout>
 
             <View
-                android:id="@id/separator"
+                android:id="@+id/separator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="24dp"
                 android:background="@color/light_gray"
-                app:layout_constraintTop_toBottomOf="@id/infoContainer" />
+                app:layout_constraintTop_toBottomOf="@+id/infoContainer" />
 
             <Button
-                android:id="@id/changeHomeInformation"
+                android:id="@+id/changeHomeInformation"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                 android:theme="@style/DialogButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/separator" />
+                app:layout_constraintTop_toBottomOf="@+id/separator" />
 
         </android.support.constraint.ConstraintLayout>
 

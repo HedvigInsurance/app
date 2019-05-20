@@ -24,7 +24,7 @@
                 tools:visibility="gone"/>
 
             <LinearLayout
-                android:id="@id/selectedCharityContainer"
+                android:id="@+id/selectedCharityContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="48dp"
@@ -35,7 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@id/selectedCharityBanner"
+                    android:id="@+id/selectedCharityBanner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -57,7 +57,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@id/selectedCharityCardTitle"
+                            android:id="@+id/selectedCharityCardTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
@@ -68,7 +68,7 @@
                             android:textSize="16sp"/>
 
                         <TextView
-                            android:id="@id/selectedCharityCardParagraph"
+                            android:id="@+id/selectedCharityCardParagraph"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
@@ -94,7 +94,7 @@
             </LinearLayout>
 
             <android.support.constraint.ConstraintLayout
-                android:id="@id/selectCharityContainer"
+                android:id="@+id/selectCharityContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -105,7 +105,7 @@
                 tools:visibility="visible">
 
                 <ImageView
-                    android:id="@id/charityIcon"
+                    android:id="@+id/charityIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@null"
@@ -129,10 +129,10 @@
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/charityIcon"/>
+                    app:layout_constraintTop_toBottomOf="@+id/charityIcon"/>
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@id/cashbackOptions"
+                    android:id="@+id/cashbackOptions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"

@@ -22,7 +22,7 @@
             <include layout="@layout/loading_spinner" />
 
             <LinearLayout
-                android:id="@id/rowContainer"
+                android:id="@+id/rowContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -33,7 +33,7 @@
                 tools:visibility="visible">
 
                 <com.hedvig.logged_in.profile.ui.ProfileMenuRow
-                    android:id="@id/profileReferralRow"
+                    android:id="@+id/profileReferralRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/base_margin_triple"
@@ -43,42 +43,42 @@
                     tools:visibility="visible" />
 
                 <com.hedvig.logged_in.profile.ui.ProfileMenuRow
-                    android:id="@id/myInfoRow"
+                    android:id="@+id/myInfoRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_my_info"
                     app:name="@string/PROFILE_ROW_MY_INFO_TITLE" />
 
                 <com.hedvig.logged_in.profile.ui.ProfileMenuRow
-                    android:id="@id/myHomeRow"
+                    android:id="@+id/myHomeRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_my_home"
                     app:name="@string/PROFILE_ROW_MY_HOME_TITLE" />
 
                 <com.hedvig.logged_in.profile.ui.ProfileMenuRow
-                    android:id="@id/coinsuredRow"
+                    android:id="@+id/coinsuredRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_coinsured"
                     app:name="@string/PROFILE_ROW_COINSURED_TITLE" />
 
                 <com.hedvig.logged_in.profile.ui.ProfileMenuRow
-                    android:id="@id/charityRow"
+                    android:id="@+id/charityRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_charity"
                     app:name="@string/PROFILE_ROW_CHARITY_TITLE" />
 
                 <com.hedvig.logged_in.profile.ui.ProfileMenuRow
-                    android:id="@id/paymentRow"
+                    android:id="@+id/paymentRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_payment"
                     app:name="@string/PROFILE_ROW_PAYMENT_TITLE" />
 
                 <com.hedvig.logged_in.profile.ui.ProfileMenuRow
-                    android:id="@id/insuranceCertificateRow"
+                    android:id="@+id/insuranceCertificateRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
@@ -88,7 +88,7 @@
                     tools:visibility="visible" />
 
                 <com.hedvig.logged_in.profile.ui.ProfileMenuRow
-                    android:id="@id/feedbackRow"
+                    android:id="@+id/feedbackRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:description="@string/PROFILE_ROW_FEEDBACK_DESCRIPTION"
@@ -96,7 +96,7 @@
                     app:name="@string/PROFILE_ROW_FEEDBACK_TITLE" />
 
                 <com.hedvig.logged_in.profile.ui.ProfileMenuRow
-                    android:id="@id/aboutAppRow"
+                    android:id="@+id/aboutAppRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/base_margin_quadruple"
@@ -111,7 +111,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@id/logout"
+                android:id="@+id/logout"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

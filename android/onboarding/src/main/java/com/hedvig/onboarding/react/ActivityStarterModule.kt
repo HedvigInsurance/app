@@ -99,7 +99,8 @@ class ActivityStarterModule(
         if (activity != null) {
             reactApplicationContext.setIsLoggedIn(true)
             // TODO: Navigate to logged in or back depending on Activity?
-            LoggedInNavigation.dynamicStart?.let { reactApplicationContext.currentActivity?.startActivity(it) }
+            reactApplicationContext.currentActivity?.let {  it.startActivity(Intent(it, Class.forName("com.hedvig.logged_in.LoggedInActivity"))) }
+//            LoggedInNavigation.dynamicStart?.let { reactApplicationContext.currentActivity?.startActivity(it) }
 //            when (navController.currentDestination?.id) {
 //                R.id.loggedInChatFragment -> navController.popBackStack()
 //                R.id.chatFragment -> navController.proxyNavigate(R.id.action_chatFragment_to_logged_in_navigation)

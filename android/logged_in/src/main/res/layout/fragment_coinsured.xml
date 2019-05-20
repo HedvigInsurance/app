@@ -22,7 +22,7 @@
             <include layout="@layout/loading_spinner"/>
 
             <android.support.constraint.ConstraintLayout
-                android:id="@id/sphereContainer"
+                android:id="@+id/sphereContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -33,7 +33,7 @@
                 tools:visibility="visible">
 
                 <ImageView
-                    android:id="@id/coinsuredSphere"
+                    android:id="@+id/coinsuredSphere"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
                     android:contentDescription="@null"
@@ -63,7 +63,7 @@
             </android.support.constraint.ConstraintLayout>
 
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@id/loadingAnimation"
+                android:id="@+id/loadingAnimation"
                 android:layout_width="189dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -71,13 +71,13 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sphereContainer"
+                app:layout_constraintTop_toBottomOf="@+id/sphereContainer"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/banner_loading_icons"
                 tools:visibility="visible"/>
 
             <LinearLayout
-                android:id="@id/textContainer"
+                android:id="@+id/textContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -87,7 +87,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/loadingAnimation"
+                app:layout_constraintTop_toBottomOf="@+id/loadingAnimation"
                 tools:visibility="visible">
 
                 <TextView

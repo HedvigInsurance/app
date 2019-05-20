@@ -25,7 +25,7 @@ import com.hedvig.common.util.extensions.view.setHapticClickListener
 import com.hedvig.common.util.extensions.view.show
 import com.hedvig.common.util.percentageFade
 import kotlinx.android.synthetic.main.fragment_marketing.*
-import kotlinx.android.synthetic.main.loading_spinner.*
+import kotlinx.android.synthetic.main.onboarding_loading_spinner.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber

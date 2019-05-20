@@ -2,14 +2,14 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@id/profile_menu_row"
+    android:id="@+id/profile_menu_row"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
     android:padding="16dp">
 
     <ImageView
-        android:id="@id/profile_menu_row_icon"
+        android:id="@+id/profile_menu_row_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@null"
@@ -24,11 +24,11 @@
         android:layout_marginStart="16dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/profile_menu_row_icon"
+        app:layout_constraintStart_toEndOf="@+id/profile_menu_row_icon"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@id/profile_menu_row_name"
+            android:id="@+id/profile_menu_row_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/circular_bold"
@@ -37,7 +37,7 @@
             tools:text="Mitt hem" />
 
         <TextView
-            android:id="@id/profile_menu_row_description"
+            android:id="@+id/profile_menu_row_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/circular_book"
@@ -47,7 +47,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@id/iconNavigateNext"
+        android:id="@+id/iconNavigateNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@null"

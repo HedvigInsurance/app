@@ -38,6 +38,7 @@ android {
 
         resValue "string", "build_config_package", "com.hedvig.app"
         vectorDrawables.useSupportLibrary = true
+        // TODO is this still needed?
         ndk {
             abiFilters 'armeabi-v7a', 'x86'
         }
@@ -146,7 +147,6 @@ dependencies {
     def koin_version = "2.0.0-GA"
     api "org.koin:koin-android:$koin_version"
     api "org.koin:koin-android-viewmodel:$koin_version"
-
 
     // Exoplayer
     api 'com.google.android.exoplayer:exoplayer:2.7.3'

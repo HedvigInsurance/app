@@ -20,31 +20,6 @@ import io.branch.rnbranch.RNBranchPackage
 import io.sentry.RNSentryPackage
 import org.koin.android.ext.android.inject
 
-class OnBoardingApplication : MainApplication(), ReactApplication {
+class OnBoardingApplication : MainApplication() {
 
-    val asyncStorageNative: AsyncStorageNative by inject()
-
-    override fun getReactNativeHost() = mReactNativeHost
-
-    private val mReactNativeHost = object : ReactNativeHost(this) {
-        override fun getUseDeveloperSupport() = BuildConfig.DEBUG
-
-        override fun getPackages() = listOf(
-            ActivityStarterReactPackage(apolloClient, asyncStorageNative),
-            MainReactPackage(),
-//            ImagePickerPackage(),
-            RNFSPackage(),
-            SvgPackage(),
-            ReactNativeConfigPackage(),
-            RNSoundPackage(),
-            RNSentryPackage(),
-            RNBranchPackage(),
-            ReactNativeAudioPackage(),
-            AnalyticsPackage(),
-            LottiePackage(),
-            NativeRoutingPackage(apolloClient)
-        )
-
-        override fun getJSMainModuleName() = "index.android"
-    }
 }

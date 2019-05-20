@@ -8,5 +8,7 @@ class LoggedInActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.logged_in_navigation_host)
+
+        injectFeature()
     }
 }

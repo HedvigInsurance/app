@@ -9,7 +9,6 @@ import com.hedvig.logged_in.claims.ui.ClaimsFragment
 import com.hedvig.logged_in.dashboard.ui.DashboardFragment
 import com.hedvig.logged_in.profile.ui.ProfileFragment
 import com.hedvig.common.util.extensions.byOrdinal
-import com.hedvig.app.R as appR
 
 class TabPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
     override fun getItem(page: Int): Fragment = when (byOrdinal<LoggedInTabs>(page)) {
@@ -28,9 +27,9 @@ enum class LoggedInTabs {
 
     companion object {
         fun fromId(@IdRes id: Int) = when (id) {
-            appR.id.dashboard -> DASHBOARD
-            appR.id.claims -> CLAIMS
-            appR.id.profile -> PROFILE
+            R.id.dashboard -> DASHBOARD
+            R.id.claims -> CLAIMS
+            R.id.profile -> PROFILE
             else -> throw Error("Invalid Menu ID")
         }
     }
