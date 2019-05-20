@@ -25,7 +25,11 @@ const handleCheckout = function*() {
 
   userDidSign();
 
-  logEcommercePurchase();
+  logEcommercePurchase({
+    transaction_id: analytics.orderId,
+    value: insurance.currentTotalPrice,
+    currency: 'SEK',
+  });
 
   yield put({
     type: TRACK_OFFER_SIGNED,
