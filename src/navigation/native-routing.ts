@@ -2,46 +2,22 @@ import {
   NativeEventEmitter,
   NativeModules,
   AsyncStorage,
-  Platform,
   EmitterSubscription,
 } from 'react-native';
-
-import { SEEN_MARKETING_CAROUSEL_KEY } from 'src/constants';
-import { chatScreen } from './screens/chat';
 
 import { Store } from 'src/setupApp';
 import { chatActions } from 'hedvig-redux';
 import { client } from 'src/graphql/client';
 import { deleteToken } from 'src/graphql/context';
-import { ChatButton } from 'src/components/chat-button';
 
 let openFreeTextChatListener: EmitterSubscription | null = null;
 let clearDirectDebitStatusListener: EmitterSubscription | null = null;
-let marketingResultListener: EmitterSubscription | null = null;
 let logoutAndRestartApplicationListener: EmitterSubscription | null = null;
 let restartOnboardingChatListener: EmitterSubscription | null = null;
 
 export const setupNativeRouting = () => {
   const nativeRoutingEvents = new NativeEventEmitter(
     NativeModules.NativeRouting,
-  );
-
-  if (marketingResultListener !== null) {
-    marketingResultListener.remove();
-  }
-  marketingResultListener = nativeRoutingEvents.addListener(
-    'NativeRoutingMarketingResult',
-    (event) => {
-      AsyncStorage.setItem(SEEN_MARKETING_CAROUSEL_KEY, 'true');
-      if (Platform.OS === 'ios') {
-        Navigation.push(event.componentId, chatScreen(event.marketingResult));
-      } else if (Platform.OS === 'android') {
-        Navigation.setStackRoot(
-          event.componentId,
-          chatScreen(event.marketingResult),
-        );
-      }
-    },
   );
 
   if (clearDirectDebitStatusListener !== null) {

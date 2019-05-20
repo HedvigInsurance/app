@@ -14,7 +14,7 @@ let log = Logger.self
 class AppDelegate: UIResponder, UIApplicationDelegate {
     let bag = DisposeBag()
     var rootWindow = UIWindow(frame: UIScreen.main.bounds)
-    var splashWindow = UIWindow(frame: UIScreen.main.bounds)
+    var splashWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
     private let applicationWillTerminateCallbacker = Callbacker<Void>()
     let applicationWillTerminateSignal: Signal<Void>
 
@@ -72,23 +72,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         rootWindow.makeKeyAndVisible()
 
         let splashNavigationController = UINavigationController()
-        splashWindow.rootViewController = splashNavigationController
+        splashWindow?.rootViewController = splashNavigationController
         splashNavigationController.setNavigationBarHidden(true, animated: false)
         splashNavigationController.view = { () -> UIView in
             let view = UIView()
             view.backgroundColor = UIColor.clear
             return view
         }()
-        splashWindow.isOpaque = false
-        splashWindow.backgroundColor = UIColor.clear
-        splashWindow.windowLevel = .alert
-        splashWindow.makeKeyAndVisible()
-
-        FirebaseApp.configure()
-        RNBranch.initSession(launchOptions: launchOptions, isReferrable: true)
+        splashWindow?.isOpaque = false
+        splashWindow?.backgroundColor = UIColor.clear
+        splashWindow?.windowLevel = .alert
+        splashWindow?.makeKeyAndVisible()
 
         let hasLoadedCallbacker = Callbacker<Void>()
-
         let launch = Launch(
             hasLoadedSignal: hasLoadedCallbacker.signal()
         )
@@ -103,13 +99,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             options: [.unanimated, .prefersNavigationBarHidden(true)]
         )
 
-        bag += splashNavigationController.present(launchPresentation).onValue { _ in
-            // self.splashWindow = nil
-        }
-
         DefaultStyling.installCustom()
 
-        RCTApolloClient.getClient().onValue { _ in
+        bag += splashNavigationController.present(launchPresentation).onValue { _ in
+            self.splashWindow = nil
+        }
+
+        FirebaseApp.configure()
+
+        bag += RCTApolloClient.getClient().valueSignal.delay(by: 0.1).onValue { _ in
             if let disposable = ApplicationState.presentRootViewController(self.rootWindow) {
                 self.bag += disposable
                 hasLoadedCallbacker.callAll()
@@ -119,6 +117,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.bag += rootNavigationController.present(Marketing()).disposable
             hasLoadedCallbacker.callAll()
         }
+
+        RNBranch.initSession(launchOptions: launchOptions, isReferrable: true)
 
         return true
     }

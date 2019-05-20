@@ -238,6 +238,7 @@
 		EB384A48228D6E7600D226D1 /* Offer.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EB384A47228D6E7600D226D1 /* Offer.graphql */; };
 		EB384A4A228DB23000D226D1 /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A49228DB22F00D226D1 /* ApplicationState.swift */; };
 		EB384A4C228DC6AB00D226D1 /* OfferChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A4B228DC6AB00D226D1 /* OfferChat.swift */; };
+		EB384A5C2292F50C00D226D1 /* InsurancePrice.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EB384A5B2292F50C00D226D1 /* InsurancePrice.graphql */; };
 		EB433C96221D49C1000156D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */; };
 		EB4695BE220051BF0004C75D /* Pods-Hedvig-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */; };
 		EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4695CD220083800004C75D /* RCTApolloClient.swift */; };
@@ -513,6 +514,7 @@
 		EB384A47228D6E7600D226D1 /* Offer.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Offer.graphql; sourceTree = "<group>"; };
 		EB384A49228DB22F00D226D1 /* ApplicationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
 		EB384A4B228DC6AB00D226D1 /* OfferChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OfferChat.swift; path = ../OfferChat.swift; sourceTree = "<group>"; };
+		EB384A5B2292F50C00D226D1 /* InsurancePrice.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = InsurancePrice.graphql; sourceTree = "<group>"; };
 		EB3A235521A57EE4007F52B6 /* hedvig-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hedvig-Bridging-Header.h"; sourceTree = "<group>"; };
 		EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Pods-Hedvig-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -1235,6 +1237,7 @@
 				EBCAA8B02281DF35003C4833 /* TriggerFreeTextChat.graphql */,
 				EB384A1922859FE700D226D1 /* TriggerCallMeChat.graphql */,
 				EB384A47228D6E7600D226D1 /* Offer.graphql */,
+				EB384A5B2292F50C00D226D1 /* InsurancePrice.graphql */,
 			);
 			path = GraphQL;
 			sourceTree = "<group>";
@@ -1473,6 +1476,7 @@
 				544ED67F4B9649438F02FDD3 /* CircularStd-Bold.ttf in Resources */,
 				EB11EAEA2277047800D95365 /* MemberId.graphql in Resources */,
 				EB11EAEC2277047800D95365 /* CharityOptions.graphql in Resources */,
+				EB384A5C2292F50C00D226D1 /* InsurancePrice.graphql in Resources */,
 				EB11EAF32277047800D95365 /* InsuranceCertificate.graphql in Resources */,
 				EB11EA432277047700D95365 /* LaunchScreen.storyboard in Resources */,
 				BBAFAB7DAC15463DAA2348E5 /* CircularStd-Book.ttf in Resources */,

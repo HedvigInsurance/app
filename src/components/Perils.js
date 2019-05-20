@@ -11,7 +11,6 @@ import {
   StyledParagraphToggleContainer,
 } from './styles/carousel';
 import { TextButton } from './Button';
-import { NavigationEvents } from '../navigation/events';
 
 const deviceWidth = Dimensions.get('window').width;
 const perilContainerSize = 185;
@@ -98,11 +97,6 @@ class Perils extends React.Component {
 
     return (
       <React.Fragment>
-        <NavigationEvents
-          onNavigationButtonPressed={(_, componentId) =>
-            Navigation.dismissModal(componentId)
-          }
-        />
         <StyledCarouselContainer>
           <StyledAlignedCarouselItems>
             <StyledImageCarouselContainer>

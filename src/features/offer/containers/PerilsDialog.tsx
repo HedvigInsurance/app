@@ -78,9 +78,7 @@ export const PerilsDialog: React.SFC<{
 }> = ({ componentId, categoryTitle, peril }) =>
   peril ? (
     <DraggableOverlay
-      onClose={() => {
-        Navigation.dismissOverlay(componentId);
-      }}
+      onClose={() => {}}
       heightPercentage={getHeightPercentage(peril.description.length)}
     >
       {(handleClose) => (

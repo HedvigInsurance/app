@@ -26,14 +26,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     );
 
     if (shouldShowAlert) {
-      Navigation.setRoot({
-        root: {
-          stack: {
-            children: [],
-          },
-        },
-      });
-
       Alert.alert(
         'Kunde inte ladda hedvig 😢',
         'Försök igen senare.',
@@ -57,14 +49,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     try {
       showNetworkAlert();
     } catch (err) {
-      Navigation.setRoot({
-        root: {
-          stack: {
-            children: [],
-          },
-        },
-      });
-
       showNetworkAlert();
     }
   }

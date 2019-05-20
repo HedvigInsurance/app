@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { OFFER_CHECKOUT } from 'src/features/offer/state/actions';
-import { NavigationEvents } from 'src/navigation/events';
 import { Dialog } from 'src/features/bankid/Dialog';
 import { Mount, Update } from 'react-lifecycle-components';
 

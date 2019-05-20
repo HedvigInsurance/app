@@ -68,7 +68,7 @@ extension Offer {
         titleView.alignment = .center
         titleView.distribution = .fillProportionally
 
-        titleView.addArrangedSubview(UILabel(value: "Offer", style: .bodyWhite))
+        titleView.addArrangedSubview(UILabel(value: String(key: .OFFER_TITLE), style: .bodyWhite))
 
         let addressLabel = UILabel(value: "", style: .navigationSubtitleWhite)
         titleView.addArrangedSubview(addressLabel)

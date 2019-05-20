@@ -137,20 +137,13 @@ export const PerilsOverview: React.SFC<PerilsOverviewProps> = ({
                       );
                       return;
                     }
-                    Navigation.showOverlay({
-                      component: {
-                        name: PERIL_COMPONENT.name,
-                        passProps: {
-                          peril,
-                          categoryTitle,
-                        },
-                        options: {
-                          layout: {
-                            backgroundColor: 'transparent',
-                          },
-                        },
-                      },
-                    });
+
+                    NativeModules.NativeRouting.showPeril(
+                      categoryTitle,
+                      peril.id,
+                      peril.title,
+                      peril.description,
+                    );
                   }}
                   hitSlop={hitSlop}
                   style={styles.peril}

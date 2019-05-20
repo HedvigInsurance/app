@@ -70,6 +70,71 @@ class NativeRouting: RCTEventEmitter {
         sendEvent(withName: "NativeRoutingRestartChat", body: [])
     }
 
+    @objc func logEcommercePurchase() {
+        let bag = DisposeBag()
+
+        bag += ApolloContainer.shared.client.fetch(query: InsurancePriceQuery())
+            .valueSignal
+            .compactMap { $0.data?.insurance.monthlyCost }
+            .onValue { monthlyCost in
+                bag.dispose()
+                Analytics.logEvent("ecommerce_purchase", parameters: [
+                    "transaction_id": UUID().uuidString,
+                    "value": monthlyCost,
+                    "currency": "SEK"
+                ])
+            }
+    }
+
+    @objc func showPeril(_: String, idString: String, title: String, description: String) {
+        DispatchQueue.main.async {
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController, !self.hasOpenedChat else {
+                return
+            }
+
+            var topController = rootViewController
+
+            while let newTopController = topController.presentedViewController {
+                topController = newTopController
+            }
+
+            let perilInformation = PerilInformation(
+                title: title,
+                description: description,
+                icon: Peril.iconAsset(for: idString)
+            )
+            let overlay = DraggableOverlay(
+                presentable: perilInformation,
+                presentationOptions: [.defaults, .prefersNavigationBarHidden(true)]
+            )
+            self.bag += topController.present(
+                overlay,
+                style: .default,
+                options: []
+            ).disposable
+        }
+    }
+
+    @objc func presentLoggedIn() {
+        DispatchQueue.main.async {
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+                return
+            }
+
+            var topController = rootViewController
+
+            while let newTopController = topController.presentedViewController {
+                topController = newTopController
+            }
+
+            self.bag += topController.present(
+                LoggedIn(),
+                style: .default,
+                options: [.prefersNavigationBarHidden(true)]
+            )
+        }
+    }
+
     @objc func appHasLoaded() {
         appHasLoadedCallbacker.callAll()
     }

@@ -12,7 +12,7 @@ import Presentation
 
 struct ApplicationState {
     enum Screen: String {
-        case onboardingChat, offer
+        case onboardingChat, offer, loggedIn
     }
 
     private static let key = "applicationState"
@@ -34,6 +34,12 @@ struct ApplicationState {
             return window.present(
                 Offer(),
                 options: [.defaults, .prefersNavigationBarHidden(true)],
+                animated: false
+            )
+        case .loggedIn:
+            return window.present(
+                LoggedIn(),
+                options: [],
                 animated: false
             )
         }
