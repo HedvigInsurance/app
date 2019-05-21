@@ -2,6 +2,8 @@ apply plugin: 'com.android.dynamic-feature'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 android {
     compileSdkVersion 28
 
@@ -23,13 +25,16 @@ dependencies {
 
     //react
     implementation project(path: ':lottie-react-native')
+    implementation project(':react-native-config')
 //    implementation project(':react-native-image-picker')
     implementation project(':react-native-fs')
     implementation project(':react-native-svg')
-    implementation project(':react-native-config')
     implementation project(':react-native-sound')
     implementation project(':react-native-sentry')
     implementation project(':react-native-branch')
     implementation project(':react-native-audio')
     implementation project(':react-native-analytics-segment-io')
+
+    // Animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:1.11.0'
 }

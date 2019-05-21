@@ -19,7 +19,7 @@ import com.hedvig.app.service.LoginStatus
 import com.hedvig.common.util.NavigationAnalytics
 import com.hedvig.common.util.extensions.proxyNavigate
 import com.hedvig.onboarding.react.ActivityStarterReactPackage
-import com.hedvig.onboarding.react.AsyncStorageNative
+import com.hedvig.app.AsyncStorageNative
 import com.hedvig.onboarding.react.NativeRoutingPackage
 import com.horcrux.svg.SvgPackage
 import com.leo_pharma.analytics.AnalyticsPackage
@@ -35,45 +35,14 @@ import timber.log.Timber
 
 class OnBoardingActivity : BaseActivity(), DefaultHardwareBackBtnHandler, PermissionAwareActivity {
 
-    private val apolloClient: ApolloClient by inject()
-
-    private val navController by lazy { findNavController(R.id.onBoardingNavigationHost) }
-
     private var permissionListener: PermissionListener? = null
 
-    val asyncStorageNative: AsyncStorageNative by inject()
+    private val asyncStorageNative: AsyncStorageNative by inject()
 
-    val loggedInService: LoginStatusService by inject()
+    val reactNativeHost: ReactNativeHost by inject()
 
     private val reactInstanceManager: ReactInstanceManager
         get() = reactNativeHost.reactInstanceManager
-
-    //todo inject this with koin
-    val reactNativeHost by lazy {
-        Timber.i("application-> ${application == null}")
-        object : ReactNativeHost(application) {
-            override fun getUseDeveloperSupport() = BuildConfig.DEBUG
-
-            override fun getPackages() = listOf(
-                ActivityStarterReactPackage(apolloClient, asyncStorageNative),
-                MainReactPackage(),
-//            ImagePickerPackage(),
-                RNFSPackage(),
-                SvgPackage(),
-                ReactNativeConfigPackage(),
-                RNSoundPackage(),
-                RNSentryPackage(),
-                RNBranchPackage(),
-                ReactNativeAudioPackage(),
-                AnalyticsPackage(),
-                LottiePackage(),
-                NativeRoutingPackage(apolloClient)
-            )
-
-            override fun getJSMainModuleName() = "index.android"
-        }
-    }
-
 
     @TargetApi(Build.VERSION_CODES.M)
     override fun requestPermissions(permissions: Array<String>, requestCode: Int, listener: PermissionListener?) {
@@ -97,15 +66,6 @@ class OnBoardingActivity : BaseActivity(), DefaultHardwareBackBtnHandler, Permis
         setContentView(R.layout.onboarding_navigation_host)
 
         injectFeature()
-
-        Timber.i("OnBoardingActivity onCreate")
-        setupNavGraph(LoginStatus.ONBOARDING)
-        // TODO: don't do this ^
-//        disposables += loggedInService
-//            .getLoginStatus()
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({ setupNavGraph(it) }, { Timber.e(it) })
     }
 
     override fun onStart() {
@@ -142,20 +102,4 @@ class OnBoardingActivity : BaseActivity(), DefaultHardwareBackBtnHandler, Permis
         super.onDestroy()
     }
 
-    fun setupNavGraph(loginStatus: LoginStatus) {
-
-        when (loginStatus) {
-            LoginStatus.LOGGED_IN -> {
-            }// TODO navController.proxyNavigate(com.hedvig.app.R.id.action_dummyFragment_to_logged_in_navigation)
-            LoginStatus.IN_OFFER -> navController.proxyNavigate(R.id.action_dummyFragment_to_offerFragment)
-            LoginStatus.ONBOARDING -> navController.proxyNavigate(R.id.action_dummyFragment_to_marketingFragment)
-        }
-
-        navController.addOnDestinationChangedListener(
-            NavigationAnalytics(
-                firebaseAnalytics,
-                this
-            )
-        )
-    }
 }

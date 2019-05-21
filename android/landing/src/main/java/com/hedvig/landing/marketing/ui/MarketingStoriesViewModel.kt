@@ -1,9 +1,9 @@
-package com.hedvig.onboarding.marketing.ui
+package com.hedvig.landing.marketing.ui
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.hedvig.common.owldroid.MarketingStoriesQuery
-import com.hedvig.onboarding.marketing.data.MarketingStoriesRepository
+import com.hedvig.landing.marketing.data.MarketingStoriesRepository
 import com.hedvig.common.util.LiveEvent
 
 class MarketingStoriesViewModel(

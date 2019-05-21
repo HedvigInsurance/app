@@ -63,7 +63,7 @@
 
         <include
             android:id="@+id/loadingSpinner"
-            layout="@layout/onboarding_loading_spinner"
+            layout="@layout/loading_spinner"
             android:layout_width="@dimen/loading_spinner_height"
             android:layout_height="@dimen/loading_spinner_height"
             android:layout_gravity="center"

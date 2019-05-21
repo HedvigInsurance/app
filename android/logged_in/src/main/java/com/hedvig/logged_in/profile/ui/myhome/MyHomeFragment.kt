@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import com.hedvig.app.ui.view.BaseFragment
 import com.hedvig.logged_in.R
 import com.hedvig.logged_in.profile.ui.ProfileViewModel
 import com.hedvig.common.owldroid.type.InsuranceType
@@ -17,12 +18,11 @@ import com.hedvig.common.util.extensions.view.show
 import com.hedvig.common.util.interpolateTextKey
 import com.hedvig.logged_in.util.setupLargeTitle
 import kotlinx.android.synthetic.main.fragment_my_home.*
-import kotlinx.android.synthetic.main.loading_spinner.*
 import kotlinx.android.synthetic.main.sphere_container.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import com.hedvig.app.R as appR
 
-class MyHomeFragment : Fragment() {
+class MyHomeFragment : BaseFragment() {
     val profileViewModel: ProfileViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -53,7 +53,7 @@ class MyHomeFragment : Fragment() {
 
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
-            loadingSpinner.remove()
+            loadingSpinner?.remove()
             sphereContainer.show()
 
             profileData?.insurance()?.let { insuranceData ->

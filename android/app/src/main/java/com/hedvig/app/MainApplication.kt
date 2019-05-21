@@ -17,10 +17,9 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
-abstract class MainApplication : Application() {
+class MainApplication : Application() {
 
     val apolloClient: ApolloClient by inject()
-
 
     val textKeys: TextKeys by inject()
 

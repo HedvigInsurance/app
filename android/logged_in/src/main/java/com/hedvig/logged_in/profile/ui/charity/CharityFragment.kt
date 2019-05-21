@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.hedvig.app.ui.view.BaseFragment
 import com.hedvig.app.util.showBottomSheetDialog
 import com.hedvig.common.owldroid.ProfileQuery
 import com.hedvig.logged_in.R
@@ -21,12 +22,11 @@ import com.hedvig.common.util.extensions.view.setHapticClickListener
 import com.hedvig.common.util.extensions.view.show
 import com.hedvig.logged_in.util.setupLargeTitle
 import kotlinx.android.synthetic.main.fragment_charity.*
-import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import com.hedvig.app.R as appR
 
-class CharityFragment : Fragment() {
+class CharityFragment : BaseFragment() {
     val tracker: ProfileTracker by inject()
 
     val profileViewModel: ProfileViewModel by sharedViewModel()
@@ -46,7 +46,7 @@ class CharityFragment : Fragment() {
 
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
-            loadingSpinner.remove()
+            loadingSpinner?.remove()
 
             profileData?.let { data ->
                 data.cashback()?.let { showSelectedCharity(it) } ?: showCharityPicker(data.cashbackOptions())

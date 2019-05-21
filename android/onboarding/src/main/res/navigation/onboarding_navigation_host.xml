@@ -2,38 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
-    app:startDestination="@id/dummyFragment">
+    app:startDestination="@id/chatFragment">
 
-    <fragment
-        android:id="@+id/dummyFragment"
-        android:name="com.hedvig.onboarding.dummy.DummyFragment"
-        android:label="DummyFragment">
-        <action
-            android:id="@+id/action_dummyFragment_to_marketingFragment"
-            app:destination="@id/marketingFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/root"
-            app:popUpToInclusive="true" />
-
-        <action
-            android:id="@+id/action_dummyFragment_to_offerFragment"
-            app:destination="@id/offerFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/root"
-            app:popUpToInclusive="true" />
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/marketingFragment"
-        android:name="com.hedvig.onboarding.marketing.ui.MarketingFragment"
-        android:label="MarketingFragment">
-        <action
-            android:id="@+id/action_marketingFragment_to_chatFragment"
-            app:destination="@id/chatFragment"
-            app:popUpTo="@id/root"
-            app:popUpToInclusive="true" />
-    </fragment>
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.hedvig.onboarding.chat.ChatFragment"

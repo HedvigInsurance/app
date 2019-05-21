@@ -1,4 +1,4 @@
-package com.hedvig.onboarding.marketing.service
+package com.hedvig.landing.marketing.service
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics

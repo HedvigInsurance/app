@@ -13,6 +13,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import com.hedvig.app.ui.view.BaseFragment
 import com.hedvig.logged_in.R
 import com.hedvig.logged_in.profile.ui.ProfileViewModel
 import com.hedvig.common.util.extensions.compatColor
@@ -26,12 +27,11 @@ import com.hedvig.common.util.validateEmail
 import com.hedvig.common.util.validatePhoneNumber
 import com.hedvig.logged_in.util.setupLargeTitle
 import kotlinx.android.synthetic.main.fragment_my_info.*
-import kotlinx.android.synthetic.main.loading_spinner.*
 import kotlinx.android.synthetic.main.sphere_container.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import com.hedvig.app.R as appR
 
-class MyInfoFragment : Fragment() {
+class MyInfoFragment : BaseFragment() {
     val profileViewModel: ProfileViewModel by sharedViewModel()
 
     private var emailTextWatcher: TextWatcher? = null
@@ -125,7 +125,7 @@ class MyInfoFragment : Fragment() {
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
             setHasOptionsMenu(true)
-            loadingSpinner.remove()
+            loadingSpinner?.remove()
             sphereContainer.show()
 
             contactDetailsContainer.show()

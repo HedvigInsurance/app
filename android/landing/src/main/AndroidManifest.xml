@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.hedvig.landing">
+
+    <dist:module
+        dist:instant="true"
+        dist:onDemand="false"
+        dist:title="@string/title_landing">
+        <dist:fusing dist:include="true" />
+    </dist:module>
+</manifest>
+

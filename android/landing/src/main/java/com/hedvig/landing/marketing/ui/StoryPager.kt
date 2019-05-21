@@ -1,4 +1,4 @@
-package com.hedvig.onboarding.marketing.ui
+package com.hedvig.landing.marketing.ui
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -1,4 +1,4 @@
-package com.hedvig.onboarding.marketing.ui
+package com.hedvig.landing.marketing.ui
 
 import android.arch.lifecycle.Observer
 import android.net.Uri
@@ -22,10 +22,10 @@ import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
 import com.hedvig.app.BuildConfig
-import com.hedvig.onboarding.R
-import com.hedvig.onboarding.marketing.service.MarketingTracker
+import com.hedvig.landing.marketing.service.MarketingTracker
 import com.hedvig.common.util.extensions.view.performOnTapHapticFeedback
 import com.hedvig.common.util.extensions.view.show
+import com.hedvig.landing.R
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 

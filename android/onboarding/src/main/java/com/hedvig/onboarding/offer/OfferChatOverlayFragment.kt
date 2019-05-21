@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.facebook.react.ReactApplication
 import com.facebook.react.ReactInstanceManager
 import com.facebook.react.ReactNativeHost
 import com.facebook.react.ReactRootView
@@ -25,7 +24,7 @@ import com.hedvig.onboarding.react.NativeRoutingModule.Companion.NAVIGATE_ROUTIN
 import com.hedvig.onboarding.R
 import com.hedvig.app.util.localBroadcastManager
 import com.hedvig.onboarding.OnBoardingActivity
-import com.hedvig.onboarding.react.AsyncStorageNative
+import com.hedvig.app.AsyncStorageNative
 import com.hedvig.onboarding.chat.ChatViewModel
 import com.hedvig.onboarding.util.showRestartDialog
 import org.koin.android.ext.android.inject

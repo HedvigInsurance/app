@@ -1,4 +1,4 @@
-package com.hedvig.onboarding
+package com.hedvig.landing
 
 import android.content.Context
 import com.apollographql.apollo.ApolloClient
@@ -8,7 +8,7 @@ import com.hedvig.common.owldroid.InsuranceStatusQuery
 import com.hedvig.common.owldroid.type.InsuranceStatus
 import com.hedvig.common.util.extensions.isLoggedIn
 import com.hedvig.common.util.extensions.setIsLoggedIn
-import com.hedvig.onboarding.react.AsyncStorageNative
+import com.hedvig.app.AsyncStorageNative
 import io.reactivex.Observable
 
 class LoginStatusService(

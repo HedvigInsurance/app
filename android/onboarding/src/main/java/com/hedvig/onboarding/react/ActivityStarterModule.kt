@@ -19,6 +19,7 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReadableType
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.hedvig.app.AsyncStorageNative
 import com.hedvig.common.owldroid.InsuranceStatusQuery
 import com.hedvig.common.owldroid.type.InsuranceStatus
 import com.hedvig.common.util.extensions.proxyNavigate
@@ -99,7 +100,7 @@ class ActivityStarterModule(
         if (activity != null) {
             reactApplicationContext.setIsLoggedIn(true)
             // TODO: Navigate to logged in or back depending on Activity?
-            reactApplicationContext.currentActivity?.let {  it.startActivity(Intent(it, Class.forName("com.hedvig.logged_in.LoggedInActivity"))) }
+            reactApplicationContext.currentActivity?.let {  it.startActivity(LoggedInNavigation.getIntent(it)) }
 //            LoggedInNavigation.dynamicStart?.let { reactApplicationContext.currentActivity?.startActivity(it) }
 //            when (navController.currentDestination?.id) {
 //                R.id.loggedInChatFragment -> navController.popBackStack()

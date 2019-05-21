@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.hedvig.app.AsyncStorageNative
 import com.hedvig.app.util.localBroadcastManager
 import com.hedvig.common.owldroid.ProfileQuery
 import com.hedvig.logged_in.R
@@ -20,13 +21,12 @@ import com.hedvig.common.util.extensions.view.remove
 import com.hedvig.common.util.extensions.view.show
 import com.hedvig.logged_in.util.setupLargeTitle
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import com.hedvig.app.R as appR
 
 class ProfileFragment : BaseTabFragment() {
-//    val asyncStorageNative: AsyncStorageNative by inject()
+    val asyncStorageNative: AsyncStorageNative by inject()
 
     val profileViewModel: ProfileViewModel by sharedViewModel()
     val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
@@ -63,7 +63,7 @@ class ProfileFragment : BaseTabFragment() {
 
     private fun populateData() {
         profileViewModel.data.observe(this, Observer { profileData ->
-            loadingSpinner.remove()
+            loadingSpinner?.remove()
             rowContainer.show()
             logout.show()
 
@@ -90,8 +90,7 @@ class ProfileFragment : BaseTabFragment() {
                     localBroadcastManager.sendBroadcast(Intent(PROFILE_NAVIGATION_BROADCAST).apply {
                         putExtra("action", "logout")
                     })
-                    // TODO: Must be fixed:
-//                    asyncStorageNative.deleteKey("@hedvig:token")
+                    asyncStorageNative.deleteKey("@hedvig:token")
                     requireActivity().triggerRestartCurrentActivity()
                 }
             }

@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import com.hedvig.app.ui.view.BaseFragment
 import com.hedvig.logged_in.R
 import com.hedvig.logged_in.profile.ui.ProfileViewModel
 import com.hedvig.common.util.CustomTypefaceSpan
@@ -21,11 +22,10 @@ import com.hedvig.common.util.extensions.view.remove
 import com.hedvig.common.util.extensions.view.show
 import com.hedvig.logged_in.util.setupLargeTitle
 import kotlinx.android.synthetic.main.fragment_coinsured.*
-import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import com.hedvig.app.R as appR
 
-class CoinsuredFragment : Fragment() {
+class CoinsuredFragment : BaseFragment() {
 
     val profileViewModel: ProfileViewModel by sharedViewModel()
 
@@ -46,7 +46,7 @@ class CoinsuredFragment : Fragment() {
 
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
-            loadingSpinner.remove()
+            loadingSpinner?.remove()
             sphereContainer.show()
             textContainer.show()
 
