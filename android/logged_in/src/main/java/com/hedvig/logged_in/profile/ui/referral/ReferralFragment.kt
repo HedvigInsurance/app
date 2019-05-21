@@ -3,7 +3,6 @@ package com.hedvig.logged_in.profile.ui.referral
 import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -11,16 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import androidx.navigation.findNavController
+import com.hedvig.common.util.extensions.compatDrawable
+import com.hedvig.common.util.extensions.observe
+import com.hedvig.common.util.extensions.view.show
+import com.hedvig.common.util.interpolateTextKey
 import com.hedvig.logged_in.R
 import com.hedvig.logged_in.profile.service.ProfileTracker
 import com.hedvig.logged_in.profile.ui.ProfileViewModel
-import com.hedvig.common.util.extensions.compatColor
-import com.hedvig.common.util.extensions.compatDrawable
-import com.hedvig.common.util.extensions.compatSetTint
-import com.hedvig.common.util.extensions.observe
-import com.hedvig.common.util.extensions.view.increaseTouchableArea
-import com.hedvig.common.util.extensions.view.show
-import com.hedvig.common.util.interpolateTextKey
 import com.hedvig.logged_in.util.setupLargeTitle
 import kotlinx.android.synthetic.main.fragment_referral.*
 import org.koin.android.ext.android.inject
@@ -55,23 +51,7 @@ class ReferralFragment : Fragment() {
             remoteConfigData?.let { rcd ->
                 val incentive = rcd.referralsIncentiveAmount.toString()
 
-                youGetDescription.text = interpolateTextKey(
-                    resources.getString(appR.string.PROFILE_REFERRAL_YOU_GET_DESCRIPTION),
-                    "INCENTIVE" to incentive
-                )
-                theyGetDescription.text = interpolateTextKey(
-                    resources.getString(appR.string.PROFILE_REFERRAL_THEY_GET_DESCRIPTION),
-                    "INCENTIVE" to incentive
-                )
-
-                referralButton.background.compatSetTint(requireContext().compatColor(appR.color.purple))
-
-                termsLink.increaseTouchableArea(100)
-                termsLink.setOnClickListener {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.hedvig.com/invite/terms")))
-                }
-
-                profileViewModel.data.observe(this, Observer { data ->
+                profileViewModel.data.observe(this) { data ->
                     data?.member()?.id()?.let { memberId ->
                         profileViewModel.generateReferralLink(memberId)
                         profileViewModel.firebaseLink.observe(this, Observer { link ->
@@ -107,7 +87,7 @@ class ReferralFragment : Fragment() {
                             }
                         })
                     }
-                })
+                }
             }
         }
     }
@@ -118,3 +98,4 @@ class ReferralFragment : Fragment() {
         buttonAnimator?.cancel()
     }
 }
+

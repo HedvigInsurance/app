@@ -77,12 +77,12 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_primary"
+        android:backgroundTint="@color/purple"
         android:drawablePadding="8dp"
         android:text="@string/PROFILE_REFERRAL_SHARE"
         android:theme="@style/HedvigButton"
         android:translationY="75dp"
         android:visibility="gone"
-        tools:backgroundTint="@color/purple"
         tools:text="Dela din kod"
         tools:translationY="0dp"
         tools:visibility="visible" />
