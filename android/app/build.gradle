@@ -73,6 +73,9 @@ android {
 
         debug {
             debuggable true
+
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -132,7 +135,6 @@ dependencies {
     // Segment
     api 'com.google.android.gms:play-services-ads:15.0.1'
     api 'com.segment.analytics.android:analytics:4.2.6'
-    api 'com.android.support:multidex:1.0.3'
     // compile 'io.branch.segment.analytics.android.integrations:branch:1.0.2-RELEASE'
 
     api 'io.branch.sdk.android:library:3.2.0'

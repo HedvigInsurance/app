@@ -26,7 +26,6 @@
         tools:replace="android:label"
         tools:ignore="GoogleAppIndexingWarning">
 
-
         <activity
             android:name="com.hedvig.landing.LandingActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"

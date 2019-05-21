@@ -21,7 +21,6 @@ class MainApplication : Application() {
 
     val apolloClient: ApolloClient by inject()
 
-
     val textKeys: TextKeys by inject()
 
     override fun attachBaseContext(base: Context) {
