@@ -107,16 +107,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         FirebaseApp.configure()
 
-        bag += RCTApolloClient.getClient().valueSignal.delay(by: 0.1).onValue { _ in
-            if let disposable = ApplicationState.presentRootViewController(self.rootWindow) {
-                self.bag += disposable
-                hasLoadedCallbacker.callAll()
-                return
-            }
+        bag += RCTApolloClient
+            .getClient()
+            .valueSignal
+            .withLatestFrom(RCTApolloClient.getToken().valueSignal)
+            .mapLatestToFuture { _, token -> Future<Void> in
+                if token != nil, !ApplicationState.hasPreviousState() {
+                    return Future { completion in
+                        let fetchStatusBag = self.bag.innerBag()
 
-            self.bag += rootNavigationController.present(Marketing()).disposable
-            hasLoadedCallbacker.callAll()
-        }
+                        let priceSignal = ApolloContainer
+                            .shared
+                            .client
+                            .fetch(query: InsurancePriceQuery())
+                            .valueSignal
+                            .compactMap { $0.data?.insurance.monthlyCost }
+
+                        fetchStatusBag += ApolloContainer
+                            .shared
+                            .client
+                            .fetch(query: InsuranceStatusQuery())
+                            .valueSignal
+                            .compactMap { $0.data?.insurance.status }
+                            .withLatestFrom(priceSignal)
+                            .onValue { status, price in
+                                switch status {
+                                case .active, .inactiveWithStartDate, .inactive, .terminated:
+                                    ApplicationState.preserveState(.loggedIn)
+                                case .pending:
+                                    if price != 0 {
+                                        ApplicationState.preserveState(.offer)
+                                    } else {
+                                        ApplicationState.preserveState(.onboardingChat)
+                                    }
+                                case .__unknown:
+                                    ApplicationState.preserveState(.marketing)
+                                }
+
+                                completion(.success)
+                            }
+
+                        return fetchStatusBag
+                    }
+                }
+
+                return Future(result: .success)
+            }
+            .delay(by: 0.1)
+            .onValue { _ in
+                if let disposable = ApplicationState.presentRootViewController(self.rootWindow) {
+                    self.bag += disposable
+                    hasLoadedCallbacker.callAll()
+                    return
+                }
+
+                self.bag += rootNavigationController.present(Marketing()).disposable
+                hasLoadedCallbacker.callAll()
+            }
 
         RNBranch.initSession(launchOptions: launchOptions, isReferrable: true)
 

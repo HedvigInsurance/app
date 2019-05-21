@@ -12,16 +12,8 @@ import Flow
 import Foundation
 
 struct RCTApolloClient {
-    static func getClient() -> Future<Void> {
-        let environment = ApolloEnvironmentConfig(
-            endpointURL: URL(string: ReactNativeConfig.env(for: "GRAPHQL_URL"))!,
-            wsEndpointURL: URL(string: ReactNativeConfig.env(for: "WS_GRAPHQL_URL"))!,
-            assetsEndpointURL: URL(string: ReactNativeConfig.env(for: "ASSETS_GRAPHQL_URL"))!
-        )
-
-        ApolloContainer.shared.environment = environment
-
-        let token = Future<String?> { completion in
+    static func getToken() -> Future<String?> {
+        return Future<String?> { completion in
             let rctSenderBlock = { response in
                 guard let response = response else { return }
                 var value = ""
@@ -46,9 +38,21 @@ struct RCTApolloClient {
 
             return NilDisposer()
         }
+    }
+
+    static func getClient() -> Future<Void> {
+        let environment = ApolloEnvironmentConfig(
+            endpointURL: URL(string: ReactNativeConfig.env(for: "GRAPHQL_URL"))!,
+            wsEndpointURL: URL(string: ReactNativeConfig.env(for: "WS_GRAPHQL_URL"))!,
+            assetsEndpointURL: URL(string: ReactNativeConfig.env(for: "ASSETS_GRAPHQL_URL"))!
+        )
+
+        ApolloContainer.shared.environment = environment
+
+        let tokenFuture = RCTApolloClient.getToken()
 
         // we get a black screen flicker without the delay
-        let clientFuture = token.flatMap { token -> Future<Void> in
+        let clientFuture = tokenFuture.flatMap { token -> Future<Void> in
             guard let token = token else {
                 let initClient = ApolloContainer.shared.initClient()
 
