@@ -128,9 +128,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             .client
                             .fetch(query: InsuranceStatusQuery())
                             .valueSignal
-                            .compactMap { $0.data?.insurance.status }
+                            .map { $0.data?.insurance.status }
                             .withLatestFrom(priceSignal)
                             .onValue { status, price in
+                                print("here is status", status, price)
+                                guard let status = status else {
+                                    ApplicationState.preserveState(.marketing)
+                                    completion(.success)
+                                    return
+                                }
+
                                 switch status {
                                 case .active, .inactiveWithStartDate, .inactive, .terminated:
                                     ApplicationState.preserveState(.loggedIn)
