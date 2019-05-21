@@ -38,7 +38,6 @@ android {
 
         resValue "string", "build_config_package", "com.hedvig.app"
         vectorDrawables.useSupportLibrary = true
-        // TODO is this still needed?
         ndk {
             abiFilters 'armeabi-v7a', 'x86'
         }
@@ -64,13 +63,11 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         staging {
             minifyEnabled true
-//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
@@ -95,13 +92,15 @@ android {
         resolutionStrategy.force 'android.arch.core:common:1.1.0'
     }
 
-    dynamicFeatures = [":onboarding", ":logged_in"]
+    dynamicFeatures = [":onboarding", ":logged_in", ":landing"]
 
 }
 
 dependencies {
     api project(':common')
     api project(':navigation')
+
+    api project(':react-native-config')
 
     api 'com.android.support.constraint:constraint-layout:1.1.3'
 
@@ -140,16 +139,10 @@ dependencies {
 
     api 'io.branch.sdk.android:library:3.2.0'
 
-    // Animated GIF support
-    api 'com.facebook.fresco:animated-gif:1.11.0'
-
     // Koin
     def koin_version = "2.0.0-GA"
     api "org.koin:koin-android:$koin_version"
     api "org.koin:koin-android-viewmodel:$koin_version"
-
-    // Exoplayer
-    api 'com.google.android.exoplayer:exoplayer:2.7.3'
 
     // coroutines
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
@@ -158,8 +151,8 @@ dependencies {
     // test
     testImplementation 'junit:junit:4.12'
 
-//    debugApi 'com.squareup.leakcanary:leakcanary-android:1.6.2'
-//    releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    debugApi 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

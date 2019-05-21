@@ -2,7 +2,9 @@ package com.hedvig.app.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
@@ -54,26 +56,23 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     private fun sendChatMessageNotification() {
-        // TODO :
-//        val pendingIntent = NavDeepLinkBuilder(this)
-//            .setGraph(R.navigation.logged_in_navigation)
-//            .setDestination(R.id.loggedInChatFragment)
-//            .createPendingIntent()
-//
-//        val notification = NotificationCompat
-//            .Builder(this, NOTIFICATION_CHANNEL_ID)
-//            .setSmallIcon(R.drawable.ic_hedvig_symbol_android)
-//            .setContentTitle(resources.getString(R.string.NOTIFICATION_CHAT_TITLE))
-//            .setContentText(resources.getString(R.string.NOTIFICATION_CHAT_BODY))
-//            .setPriority(NotificationCompat.PRIORITY_MAX)
-//            .setAutoCancel(true)
-//            .setChannelId(NOTIFICATION_CHANNEL_ID)
-//            .setContentIntent(pendingIntent)
-//            .build()
-//
-//        NotificationManagerCompat
-//            .from(this)
-//            .notify(NOTIFICATION_ID, notification)
+        //todo intent to chat class
+        val pendingIntent = PendingIntent.getActivity(this, 0, Intent(), 0)
+
+        val notification = NotificationCompat
+            .Builder(this, NOTIFICATION_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_hedvig_symbol_android)
+            .setContentTitle(resources.getString(R.string.NOTIFICATION_CHAT_TITLE))
+            .setContentText(resources.getString(R.string.NOTIFICATION_CHAT_BODY))
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setAutoCancel(true)
+            .setChannelId(NOTIFICATION_CHANNEL_ID)
+            .setContentIntent(pendingIntent)
+            .build()
+
+        NotificationManagerCompat
+            .from(this)
+            .notify(NOTIFICATION_ID, notification)
     }
 
     companion object {

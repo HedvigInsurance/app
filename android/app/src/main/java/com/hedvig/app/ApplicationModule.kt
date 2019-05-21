@@ -1,13 +1,10 @@
 package com.hedvig.app
 
-import android.content.Context
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.cache.normalized.NormalizedCacheFactory
 import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCache
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
-import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
-import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.common.owldroid.type.CustomType
 import com.hedvig.app.data.debit.DirectDebitRepository
@@ -18,20 +15,44 @@ import com.hedvig.app.service.TextKeys
 import com.hedvig.common.util.apollo.ApolloTimberLogger
 import com.hedvig.common.util.apollo.PromiscuousLocalDateAdapter
 import com.hedvig.app.viewmodel.DirectDebitViewModel
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import timber.log.Timber
 import java.io.File
 
 fun isDebug() = BuildConfig.DEBUG || BuildConfig.APP_ID == "com.hedvig.test.app"
 
 val applicationModule = module {
-    single { FirebaseAnalytics.getInstance(get()) }
+    single<AsyncStorageNative> { AsyncStorageNativeImpl(get()) }
+
     single {
-        SimpleCache(
-            File(get<Context>().cacheDir, "hedvig_story_video_cache"),
-            LeastRecentlyUsedCacheEvictor((10 * 1024 * 1024).toLong())
-        )
+        val builder = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val builder = original
+                    .newBuilder()
+                    .method(original.method(), original.body())
+                try {
+                    get<AsyncStorageNative>().getKey("@hedvig:token")
+                } catch (exception: Exception) {
+                    Timber.e(exception, "Got an exception while trying to retrieve token")
+                    null
+                }?.let { token ->
+                    builder.header("Authorization", token)
+                }
+                chain.proceed(builder.build())
+            }
+        if (isDebug()) {
+            builder.addInterceptor(HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message ->
+                Timber.tag("OkHttp").i(message)
+            }).setLevel(HttpLoggingInterceptor.Level.BODY))
+        }
+        builder.build()
     }
+    single { FirebaseAnalytics.getInstance(get()) }
+
     single<NormalizedCacheFactory<LruNormalizedCache>> {
         LruNormalizedCacheFactory(
             EvictionPolicy.builder().maxSizeBytes(

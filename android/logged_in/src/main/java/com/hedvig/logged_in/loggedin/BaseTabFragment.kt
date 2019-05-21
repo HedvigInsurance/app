@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.navigation.findNavController
+import com.hedvig.app.ui.view.BaseFragment
 import com.hedvig.logged_in.R
 import com.hedvig.logged_in.claims.ui.ClaimsViewModel
 import com.hedvig.common.constants.FragmentArgs
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.app_bar.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import com.hedvig.app.R as appR
 
-abstract class BaseTabFragment : Fragment() {
+abstract class BaseTabFragment : BaseFragment() {
 
     val baseTabViewModel: ClaimsViewModel by sharedViewModel()
 

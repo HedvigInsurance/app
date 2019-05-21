@@ -1,4 +1,4 @@
-package com.hedvig.onboarding.react
+package com.hedvig.app
 
 interface AsyncStorageNative {
     fun getKey(key: String): String?

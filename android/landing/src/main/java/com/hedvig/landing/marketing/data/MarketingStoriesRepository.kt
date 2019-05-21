@@ -1,4 +1,4 @@
-package com.hedvig.onboarding.marketing.data
+package com.hedvig.landing.marketing.data
 
 import android.content.Context
 import android.net.Uri

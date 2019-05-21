@@ -19,12 +19,12 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReadableType
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.hedvig.app.AsyncStorageNative
 import com.hedvig.common.owldroid.InsuranceStatusQuery
 import com.hedvig.common.owldroid.type.InsuranceStatus
 import com.hedvig.common.util.extensions.proxyNavigate
 import com.hedvig.common.util.extensions.setIsLoggedIn
 import com.hedvig.common.util.extensions.triggerRestartCurrentActivity
-import com.hedvig.navigation.features.LoggedInNavigation
 import com.hedvig.onboarding.R
 import com.hedvig.onboarding.chat.UploadBottomSheet
 import com.hedvig.onboarding.offer.OfferChatOverlayFragment

@@ -33,7 +33,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.dashboard_footnotes.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
-import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.threeten.bp.LocalDate
@@ -96,7 +95,7 @@ class DashboardFragment : BaseTabFragment() {
     private fun bindData() {
         val dashboardData = dashboardViewModel.data.value ?: return
         val directDebitData = directDebitViewModel.data.value ?: return
-        loadingSpinner.remove()
+        loadingSpinner?.remove()
         val title = interpolateTextKey(
             resources.getString(appR.string.DASHBOARD_TITLE),
             "NAME" to dashboardData.member().firstName()

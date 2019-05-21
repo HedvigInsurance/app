@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.navigation.findNavController
+import com.hedvig.app.ui.view.BaseFragment
 import com.hedvig.logged_in.R
 import com.hedvig.logged_in.profile.ui.ProfileViewModel
 import com.hedvig.common.util.extensions.compatColor
@@ -21,11 +22,10 @@ import com.hedvig.common.util.extensions.view.remove
 import com.hedvig.common.util.extensions.view.show
 import com.hedvig.app.viewmodel.DirectDebitViewModel
 import kotlinx.android.synthetic.main.fragment_trustly.*
-import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import com.hedvig.app.R as appR
 
-class TrustlyFragment : Fragment() {
+class TrustlyFragment : BaseFragment() {
 
     val profileViewModel: ProfileViewModel by sharedViewModel()
     val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
@@ -55,7 +55,7 @@ class TrustlyFragment : Fragment() {
                         return
                     }
 
-                    loadingSpinner.remove()
+                    loadingSpinner?.remove()
                     trustlyContainer.show()
                 }
 

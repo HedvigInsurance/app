@@ -13,7 +13,6 @@ import com.hedvig.app.BuildConfig
 import com.hedvig.logged_in.R
 import com.hedvig.logged_in.claims.service.ClaimsTracker
 import com.hedvig.logged_in.claims.ui.commonclaim.CommonClaimsAdapter
-import com.hedvig.logged_in.claims.ui.pledge.HonestyPledgeBottomSheet
 import com.hedvig.logged_in.loggedin.BaseTabFragment
 import com.hedvig.common.owldroid.CommonClaimQuery
 import com.hedvig.common.owldroid.type.InsuranceStatus
@@ -28,12 +27,10 @@ import com.hedvig.common.util.extensions.view.show
 import com.hedvig.common.util.svg.buildRequestBuilder
 import com.hedvig.logged_in.util.setupLargeTitle
 import kotlinx.android.synthetic.main.fragment_claims.*
-import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 import com.hedvig.app.R as appR
-
 
 
 class ClaimsFragment : BaseTabFragment() {
@@ -52,7 +49,7 @@ class ClaimsFragment : BaseTabFragment() {
 
 
         claimsViewModel.apply {
-            loadingSpinner.show()
+            loadingSpinner?.show()
             fetchCommonClaims()
             data.observe(this@ClaimsFragment) { commonClaimsData ->
                 commonClaimsData?.let {
@@ -76,7 +73,7 @@ class ClaimsFragment : BaseTabFragment() {
     }
 
     private fun bindData(commonClaimsData: CommonClaimQuery.Data) {
-        loadingSpinner.remove()
+        loadingSpinner?.remove()
         claimsViewContent.show()
 
         setupLargeTitle(

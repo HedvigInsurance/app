@@ -9,20 +9,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
-import com.facebook.react.ReactApplication
 import com.facebook.react.ReactInstanceManager
 import com.facebook.react.ReactNativeHost
 import com.facebook.react.ReactRootView
 import com.facebook.react.common.LifecycleState
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler
+import com.hedvig.app.ui.view.BaseFragment
 import com.hedvig.onboarding.react.ActivityStarterModule.Companion.BROADCAST_RELOAD_CHAT
 import com.hedvig.onboarding.react.NativeRoutingModule.Companion.NAVIGATE_ROUTING_EXTRA_NAME_ACTION
 import com.hedvig.onboarding.react.NativeRoutingModule.Companion.NAVIGATE_ROUTING_EXTRA_VALUE_RESTART_CHAT_ON_BOARDING
 import com.hedvig.onboarding.react.NativeRoutingModule.Companion.ON_BOARDING_INTENT_FILER
 import com.hedvig.onboarding.R
-import com.hedvig.onboarding.marketing.ui.MarketingFragment
 import com.hedvig.app.util.localBroadcastManager
 import com.hedvig.app.util.statusBarColor
+import com.hedvig.common.constants.FragmentArgs
 import com.hedvig.common.util.extensions.compatColor
 import com.hedvig.common.util.extensions.view.remove
 import com.hedvig.common.util.extensions.view.show
@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.fragment_chat.view.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import com.hedvig.app.R as appR
 
-class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
+class ChatFragment : BaseFragment(), DefaultHardwareBackBtnHandler {
     val chatViewModel: ChatViewModel by sharedViewModel()
 
     private var reactRootView: ReactRootView? = null
@@ -57,7 +57,7 @@ class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
         val reactArgs = Bundle().also {
             it.putString(
                 ARGS_INTENT,
-                arguments?.getString(ARGS_INTENT) ?: MarketingFragment.MarketingResult.ONBOARD.toString()
+                arguments?.getString(ARGS_INTENT) ?: FragmentArgs.MarketingResult.ONBOARD.toString()
             )
         }
         reactRootView.startReactApplication(reactInstanceManager, "Chat", reactArgs)
@@ -81,7 +81,7 @@ class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
 
         resetChatButton.setOnClickListener {
             requireContext().showRestartDialog {
-                loadingSpinner.show()
+                loadingSpinner?.show()
                 chatViewModel.logout { broadcastLogout() }
             }
         }
@@ -93,7 +93,7 @@ class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
 
     private fun broadcastLogout() {
         broadcastReceiver = newBroadcastReceiver { _, _ ->
-            loadingSpinner.remove()
+            loadingSpinner?.remove()
         }.also { localBroadcastManager.registerReceiver(it, IntentFilter(BROADCAST_RELOAD_CHAT)) }
 
         localBroadcastManager.sendBroadcast(Intent(ON_BOARDING_INTENT_FILER).also {

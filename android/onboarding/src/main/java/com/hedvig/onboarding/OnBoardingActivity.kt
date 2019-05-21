@@ -19,7 +19,7 @@ import com.hedvig.app.service.LoginStatus
 import com.hedvig.common.util.NavigationAnalytics
 import com.hedvig.common.util.extensions.proxyNavigate
 import com.hedvig.onboarding.react.ActivityStarterReactPackage
-import com.hedvig.onboarding.react.AsyncStorageNative
+import com.hedvig.app.AsyncStorageNative
 import com.hedvig.onboarding.react.NativeRoutingPackage
 import com.horcrux.svg.SvgPackage
 import com.leo_pharma.analytics.AnalyticsPackage
@@ -45,35 +45,10 @@ class OnBoardingActivity : BaseActivity(), DefaultHardwareBackBtnHandler, Permis
 
     val loggedInService: LoginStatusService by inject()
 
+    val reactNativeHost: ReactNativeHost by inject()
+
     private val reactInstanceManager: ReactInstanceManager
         get() = reactNativeHost.reactInstanceManager
-
-    //todo inject this with koin
-    val reactNativeHost by lazy {
-        Timber.i("application-> ${application == null}")
-        object : ReactNativeHost(application) {
-            override fun getUseDeveloperSupport() = BuildConfig.DEBUG
-
-            override fun getPackages() = listOf(
-                ActivityStarterReactPackage(apolloClient, asyncStorageNative),
-                MainReactPackage(),
-//            ImagePickerPackage(),
-                RNFSPackage(),
-                SvgPackage(),
-                ReactNativeConfigPackage(),
-                RNSoundPackage(),
-                RNSentryPackage(),
-                RNBranchPackage(),
-                ReactNativeAudioPackage(),
-                AnalyticsPackage(),
-                LottiePackage(),
-                NativeRoutingPackage(apolloClient)
-            )
-
-            override fun getJSMainModuleName() = "index.android"
-        }
-    }
-
 
     @TargetApi(Build.VERSION_CODES.M)
     override fun requestPermissions(permissions: Array<String>, requestCode: Int, listener: PermissionListener?) {

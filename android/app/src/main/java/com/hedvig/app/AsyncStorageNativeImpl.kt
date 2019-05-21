@@ -1,4 +1,4 @@
-package com.hedvig.onboarding.react
+package com.hedvig.app
 
 import android.content.ContentValues
 import android.content.Context

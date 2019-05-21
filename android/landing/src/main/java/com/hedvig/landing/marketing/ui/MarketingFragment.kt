@@ -1,4 +1,4 @@
-package com.hedvig.onboarding.marketing.ui
+package com.hedvig.landing.marketing.ui
 
 import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
@@ -13,9 +13,9 @@ import android.view.animation.OvershootInterpolator
 import android.widget.ProgressBar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.hedvig.app.ui.view.BaseFragment
 import com.hedvig.common.owldroid.MarketingStoriesQuery
-import com.hedvig.onboarding.R
-import com.hedvig.onboarding.marketing.service.MarketingTracker
+import com.hedvig.landing.marketing.service.MarketingTracker
 import com.hedvig.common.util.OnSwipeListener
 import com.hedvig.common.util.SimpleOnSwipeListener
 import com.hedvig.common.util.extensions.*
@@ -24,26 +24,14 @@ import com.hedvig.common.util.extensions.view.remove
 import com.hedvig.common.util.extensions.view.setHapticClickListener
 import com.hedvig.common.util.extensions.view.show
 import com.hedvig.common.util.percentageFade
+import com.hedvig.landing.R
 import kotlinx.android.synthetic.main.fragment_marketing.*
-import kotlinx.android.synthetic.main.onboarding_loading_spinner.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 import com.hedvig.app.R as appR
 
-class MarketingFragment : Fragment() {
-
-    enum class MarketingResult {
-        ONBOARD,
-        LOGIN;
-
-        override fun toString(): String {
-            return when (this) {
-                ONBOARD -> "onboard"
-                LOGIN -> "login"
-            }
-        }
-    }
+class MarketingFragment : BaseFragment() {
 
     val tracker: MarketingTracker by inject()
 
@@ -84,7 +72,7 @@ class MarketingFragment : Fragment() {
         marketingStoriesViewModel
             .marketingStories
             .observe(this, Observer {
-                loadingSpinner.remove()
+                loadingSpinner?.remove()
                 setupButtons()
                 setupPager(it)
                 setupBlurOverlay()
@@ -295,7 +283,8 @@ class MarketingFragment : Fragment() {
             val args = Bundle()
             args.putString("intent", "login")
             args.putBoolean("show_restart", true)
-            navController.proxyNavigate(R.id.action_marketingFragment_to_chatFragment, args)
+            // todo navigate to chat
+//            navController.proxyNavigate(R.id.action_marketingFragment_to_chatFragment, args)
         }
 
         getHedvig.setHapticClickListener {
@@ -306,7 +295,7 @@ class MarketingFragment : Fragment() {
             val args = Bundle()
             args.putString("intent", "onboarding")
             args.putBoolean("show_restart", true)
-            navController.proxyNavigate(R.id.action_marketingFragment_to_chatFragment, args)
+//            navController.proxyNavigate(R.id.action_marketingFragment_to_chatFragment, args)
         }
     }
 
