@@ -9,6 +9,7 @@
 import Firebase
 import Flow
 import Foundation
+import Presentation
 
 struct MarketingResultEventBody: Encodable {
     var marketingResult: String?
@@ -112,6 +113,32 @@ class NativeRouting: RCTEventEmitter {
                 style: .default,
                 options: []
             ).disposable
+        }
+    }
+
+    @objc func showFileUploadOverlay(_ _: Bool, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter _: RCTPromiseRejectBlock) {
+        DispatchQueue.main.async {
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+                return
+            }
+
+            var topController = rootViewController
+
+            while let newTopController = topController.presentedViewController {
+                topController = newTopController
+            }
+
+            let imageOrVideoAction = Alert.Action(title: "Bild eller film", style: .default) {}
+            let fileAction = Alert.Action(title: "Fil", style: .default) { _ -> Void in
+                topController.present(DocumentPicker(), options: []).onValue { urls in
+                    resolve(urls.map { $0.absoluteString })
+                }
+            }
+            let cancelAction = Alert.Action(title: "Stäng", style: .cancel) {}
+
+            let alert = Alert(title: "Vad vill du skicka?", actions: [imageOrVideoAction, fileAction, cancelAction])
+
+            self.bag += topController.present(alert, style: .sheet()).disposable
         }
     }
 

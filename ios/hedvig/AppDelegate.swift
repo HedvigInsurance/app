@@ -113,6 +113,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .withLatestFrom(RCTApolloClient.getToken().valueSignal)
             .mapLatestToFuture { _, token -> Future<Void> in
                 if token != nil, !ApplicationState.hasPreviousState() {
+                    log.info("Backfilling previous state")
+
                     return Future { completion in
                         let innerBag = self.bag.innerBag()
 

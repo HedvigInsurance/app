@@ -240,6 +240,7 @@
 		EB384A4C228DC6AB00D226D1 /* OfferChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A4B228DC6AB00D226D1 /* OfferChat.swift */; };
 		EB384A5C2292F50C00D226D1 /* InsurancePrice.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EB384A5B2292F50C00D226D1 /* InsurancePrice.graphql */; };
 		EB384A5F229424B700D226D1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB384A5E229424B700D226D1 /* CoreTelephony.framework */; };
+		EB384A6122943E0400D226D1 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A6022943E0400D226D1 /* DocumentPicker.swift */; };
 		EB433C96221D49C1000156D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */; };
 		EB4695BE220051BF0004C75D /* Pods-Hedvig-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */; };
 		EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4695CD220083800004C75D /* RCTApolloClient.swift */; };
@@ -517,6 +518,7 @@
 		EB384A4B228DC6AB00D226D1 /* OfferChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OfferChat.swift; path = ../OfferChat.swift; sourceTree = "<group>"; };
 		EB384A5B2292F50C00D226D1 /* InsurancePrice.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = InsurancePrice.graphql; sourceTree = "<group>"; };
 		EB384A5E229424B700D226D1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		EB384A6022943E0400D226D1 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		EB3A235521A57EE4007F52B6 /* hedvig-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hedvig-Bridging-Header.h"; sourceTree = "<group>"; };
 		EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Pods-Hedvig-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -1072,6 +1074,7 @@
 				EB11EA0E2277047700D95365 /* TranslationsRepo.swift */,
 				EB11EA0F2277047700D95365 /* Protocols */,
 				EB11EA122277047700D95365 /* Animations */,
+				EB384A6022943E0400D226D1 /* DocumentPicker.swift */,
 			);
 			path = Generic;
 			sourceTree = "<group>";
@@ -1608,6 +1611,7 @@
 				EB11EA972277047700D95365 /* CoinsuredComingSoonText.swift in Sources */,
 				EBCAA8A82281C28E003C4833 /* PerilInformation.swift in Sources */,
 				EB11EA662277047700D95365 /* OtherSection.swift in Sources */,
+				EB384A6122943E0400D226D1 /* DocumentPicker.swift in Sources */,
 				EB11EA812277047700D95365 /* DirectDebitResult.swift in Sources */,
 				EB11EA5F2277047700D95365 /* LogoutSection.swift in Sources */,
 				EB11EA732277047700D95365 /* ReportBugRow.swift in Sources */,

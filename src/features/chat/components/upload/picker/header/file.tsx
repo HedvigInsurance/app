@@ -20,20 +20,20 @@ export const File: React.SFC<FileProps> = ({ onUpload }) => (
         <PickerButton
           onPress={() => {
             if (Platform.OS === 'ios') {
-              Navigation.showOverlay({
-                component: {
-                  name: FILE_PICKER_COMPONENT.name,
-                  options: {
-                    layout: {
-                      backgroundColor: 'transparent',
-                    },
-                  },
-                  passProps: {
-                    upload,
-                    onUpload,
-                  },
+              NativeModules.NativeRouting.showFileUploadOverlay(true).then(
+                (urls: [string]) => {
+                  urls.forEach((url: any) => {
+                    console.log(url);
+                    upload(url).then((uploadResponse) => {
+                      if (uploadResponse instanceof Error) {
+                        console.log(uploadResponse);
+                      } else {
+                        onUpload(uploadResponse.key);
+                      }
+                    });
+                  });
                 },
-              });
+              );
             } else {
               NativeModules.ActivityStarter.showFileUploadOverlay().then(
                 (key: string) => {

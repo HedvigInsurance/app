@@ -8,15 +8,11 @@ target 'hedvig' do
     :subspecs => [
       "Core",
       "ART",
-      "RCTActionSheet",
       "RCTAnimation",
       "RCTCameraRoll",
-      "RCTGeolocation",
       "RCTImage",
       "RCTNetwork",
       "RCTText",
-      "RCTVibration",
-      "RCTWebSocket",
       "DevSupport",
       "CxxBridge",
       "RCTLinkingIOS"

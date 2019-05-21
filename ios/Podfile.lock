@@ -232,8 +232,6 @@ PODS:
     - React/PrivateDatabase
   - React/jsinspector (0.57.43)
   - React/PrivateDatabase (0.57.43)
-  - React/RCTActionSheet (0.57.43):
-    - React/Core
   - React/RCTAnimation (0.57.43):
     - React/Core
   - React/RCTBlob (0.57.43):
@@ -241,8 +239,6 @@ PODS:
   - React/RCTCameraRoll (0.57.43):
     - React/Core
     - React/RCTImage
-  - React/RCTGeolocation (0.57.43):
-    - React/Core
   - React/RCTImage (0.57.43):
     - React/Core
     - React/RCTNetwork
@@ -251,8 +247,6 @@ PODS:
   - React/RCTNetwork (0.57.43):
     - React/Core
   - React/RCTText (0.57.43):
-    - React/Core
-  - React/RCTVibration (0.57.43):
     - React/Core
   - React/RCTWebSocket (0.57.43):
     - React/Core
@@ -329,16 +323,12 @@ DEPENDENCIES:
   - "React/Core (from `../node_modules/@hedviginsurance/react-native`)"
   - "React/CxxBridge (from `../node_modules/@hedviginsurance/react-native`)"
   - "React/DevSupport (from `../node_modules/@hedviginsurance/react-native`)"
-  - "React/RCTActionSheet (from `../node_modules/@hedviginsurance/react-native`)"
   - "React/RCTAnimation (from `../node_modules/@hedviginsurance/react-native`)"
   - "React/RCTCameraRoll (from `../node_modules/@hedviginsurance/react-native`)"
-  - "React/RCTGeolocation (from `../node_modules/@hedviginsurance/react-native`)"
   - "React/RCTImage (from `../node_modules/@hedviginsurance/react-native`)"
   - "React/RCTLinkingIOS (from `../node_modules/@hedviginsurance/react-native`)"
   - "React/RCTNetwork (from `../node_modules/@hedviginsurance/react-native`)"
   - "React/RCTText (from `../node_modules/@hedviginsurance/react-native`)"
-  - "React/RCTVibration (from `../node_modules/@hedviginsurance/react-native`)"
-  - "React/RCTWebSocket (from `../node_modules/@hedviginsurance/react-native`)"
   - ReactNativeAnalyticsSegmentIo (from `../node_modules/react-native-analytics-segment-io`)
   - ReactNativeHeicConverter (from `../node_modules/react-native-heic-converter`)
   - RNAudio (from `../node_modules/react-native-audio`)
@@ -545,6 +535,6 @@ SPEC CHECKSUMS:
   "UICollectionView+AnimatedScroll": 901fdefe36e1dd7a17ca567f366b22ff5da521e6
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 5784497e873c7018323898415c5768bc083e054b
+PODFILE CHECKSUM: a9d4e2954da46ebc2f5909bccc44073d3b5a39c1
 
 COCOAPODS: 1.5.3
