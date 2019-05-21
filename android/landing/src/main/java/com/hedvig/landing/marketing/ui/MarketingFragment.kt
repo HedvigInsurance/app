@@ -25,6 +25,7 @@ import com.hedvig.common.util.extensions.view.setHapticClickListener
 import com.hedvig.common.util.extensions.view.show
 import com.hedvig.common.util.percentageFade
 import com.hedvig.landing.R
+import com.hedvig.navigation.features.OnboardingNavigation
 import kotlinx.android.synthetic.main.fragment_marketing.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -42,7 +43,7 @@ class MarketingFragment : BaseFragment() {
     private var topHideAnimation: ValueAnimator? = null
 
     private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.onBoardingNavigationHost)
+        requireActivity().findNavController(R.id.landingNavigationHost)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -283,8 +284,8 @@ class MarketingFragment : BaseFragment() {
             val args = Bundle()
             args.putString("intent", "login")
             args.putBoolean("show_restart", true)
-            // todo navigate to chat
-//            navController.proxyNavigate(R.id.action_marketingFragment_to_chatFragment, args)
+            // todo figure out how to pass along args ^
+            startActivity(OnboardingNavigation.getIntent(requireContext()))
         }
 
         getHedvig.setHapticClickListener {
@@ -295,7 +296,7 @@ class MarketingFragment : BaseFragment() {
             val args = Bundle()
             args.putString("intent", "onboarding")
             args.putBoolean("show_restart", true)
-//            navController.proxyNavigate(R.id.action_marketingFragment_to_chatFragment, args)
+            startActivity(OnboardingNavigation.getIntent(requireContext()))
         }
     }
 

@@ -1,4 +1,4 @@
-package com.hedvig.onboarding
+package com.hedvig.landing
 
 import android.content.Context
 import com.apollographql.apollo.ApolloClient

@@ -11,6 +11,7 @@ import com.hedvig.onboarding.react.ActivityStarterReactPackage
 import com.hedvig.onboarding.react.NativeRoutingPackage
 import com.horcrux.svg.SvgPackage
 import com.leo_pharma.analytics.AnalyticsPackage
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage
 import com.rnfs.RNFSPackage
 import com.rnim.rn.audio.ReactNativeAudioPackage
 import com.zmxv.RNSound.RNSoundPackage
@@ -26,13 +27,12 @@ private val loadFeature by lazy {
     loadKoinModules(
         applicationModule,
         viewModelModule,
-        repositoriesModule,
-        serviceModule
+        repositoriesModule
     )
 }
 
 val applicationModule = module {
-    single {
+    single<ReactNativeHost> {
         object : ReactNativeHost(get()) {
             override fun getUseDeveloperSupport() = BuildConfig.DEBUG
 
@@ -42,7 +42,7 @@ val applicationModule = module {
 //            ImagePickerPackage(),
                 RNFSPackage(),
                 SvgPackage(),
-                //ReactNativeConfigPackage(), TODO: Is this needed?
+                ReactNativeConfigPackage(),
                 RNSoundPackage(),
                 RNSentryPackage(),
                 RNBranchPackage(),
@@ -59,10 +59,6 @@ val applicationModule = module {
 
 val viewModelModule = module {
     viewModel { ChatViewModel(get(), get()) }
-}
-
-val serviceModule = module {
-    single { LoginStatusService(get(), get(), get()) }
 }
 
 val repositoriesModule = module {

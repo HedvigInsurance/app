@@ -21,6 +21,7 @@ private val loadFeature by lazy {
         applicationModule,
         viewModelModule,
         repositoriesModule,
+        serviceModule,
         trackerModule
     )
 }
@@ -40,6 +41,10 @@ val viewModelModule = module {
 
 val repositoriesModule = module {
     single { MarketingStoriesRepository(get(), get(), get()) }
+}
+
+val serviceModule = module {
+    single { LoginStatusService(get(), get(), get()) }
 }
 
 val trackerModule = module {

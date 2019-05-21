@@ -35,15 +35,9 @@ import timber.log.Timber
 
 class OnBoardingActivity : BaseActivity(), DefaultHardwareBackBtnHandler, PermissionAwareActivity {
 
-    private val apolloClient: ApolloClient by inject()
-
-    private val navController by lazy { findNavController(R.id.onBoardingNavigationHost) }
-
     private var permissionListener: PermissionListener? = null
 
-    val asyncStorageNative: AsyncStorageNative by inject()
-
-    val loggedInService: LoginStatusService by inject()
+    private val asyncStorageNative: AsyncStorageNative by inject()
 
     val reactNativeHost: ReactNativeHost by inject()
 
@@ -72,15 +66,6 @@ class OnBoardingActivity : BaseActivity(), DefaultHardwareBackBtnHandler, Permis
         setContentView(R.layout.onboarding_navigation_host)
 
         injectFeature()
-
-        Timber.i("OnBoardingActivity onCreate")
-        setupNavGraph(LoginStatus.ONBOARDING)
-        // TODO: don't do this ^
-//        disposables += loggedInService
-//            .getLoginStatus()
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({ setupNavGraph(it) }, { Timber.e(it) })
     }
 
     override fun onStart() {
@@ -117,20 +102,4 @@ class OnBoardingActivity : BaseActivity(), DefaultHardwareBackBtnHandler, Permis
         super.onDestroy()
     }
 
-    fun setupNavGraph(loginStatus: LoginStatus) {
-
-        when (loginStatus) {
-            LoginStatus.LOGGED_IN -> {
-            }// TODO navController.proxyNavigate(com.hedvig.app.R.id.action_dummyFragment_to_logged_in_navigation)
-            LoginStatus.IN_OFFER -> navController.proxyNavigate(R.id.action_dummyFragment_to_offerFragment)
-            LoginStatus.ONBOARDING -> navController.proxyNavigate(R.id.action_dummyFragment_to_marketingFragment)
-        }
-
-        navController.addOnDestinationChangedListener(
-            NavigationAnalytics(
-                firebaseAnalytics,
-                this
-            )
-        )
-    }
 }
