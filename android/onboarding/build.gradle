@@ -25,6 +25,7 @@ dependencies {
 
     //react
     implementation project(path: ':lottie-react-native')
+    implementation project(':react-native-config')
 //    implementation project(':react-native-image-picker')
     implementation project(':react-native-fs')
     implementation project(':react-native-svg')
