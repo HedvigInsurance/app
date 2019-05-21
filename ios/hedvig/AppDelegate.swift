@@ -114,24 +114,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .mapLatestToFuture { _, token -> Future<Void> in
                 if token != nil, !ApplicationState.hasPreviousState() {
                     return Future { completion in
-                        let fetchStatusBag = self.bag.innerBag()
+                        let innerBag = self.bag.innerBag()
 
-                        let priceSignal = ApolloContainer
-                            .shared
-                            .client
-                            .fetch(query: InsurancePriceQuery())
-                            .valueSignal
-                            .compactMap { $0.data?.insurance.monthlyCost }
-
-                        fetchStatusBag += ApolloContainer
+                        let statusFuture = ApolloContainer
                             .shared
                             .client
                             .fetch(query: InsuranceStatusQuery())
-                            .valueSignal
                             .map { $0.data?.insurance.status }
-                            .withLatestFrom(priceSignal)
+
+                        let priceFuture =
+                            ApolloContainer
+                            .shared
+                            .client
+                            .fetch(query: InsurancePriceQuery())
+                            .map { $0.data?.insurance.monthlyCost }
+
+                        innerBag += join(statusFuture, priceFuture)
+                            .valueThenEndSignal
+                            .debug()
                             .onValue { status, price in
-                                print("here is status", status, price)
                                 guard let status = status else {
                                     ApplicationState.preserveState(.marketing)
                                     completion(.success)
@@ -154,7 +155,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 completion(.success)
                             }
 
-                        return fetchStatusBag
+                        return innerBag
                     }
                 }
 

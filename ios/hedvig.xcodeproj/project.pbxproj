@@ -239,6 +239,7 @@
 		EB384A4A228DB23000D226D1 /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A49228DB22F00D226D1 /* ApplicationState.swift */; };
 		EB384A4C228DC6AB00D226D1 /* OfferChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A4B228DC6AB00D226D1 /* OfferChat.swift */; };
 		EB384A5C2292F50C00D226D1 /* InsurancePrice.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EB384A5B2292F50C00D226D1 /* InsurancePrice.graphql */; };
+		EB384A5F229424B700D226D1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB384A5E229424B700D226D1 /* CoreTelephony.framework */; };
 		EB433C96221D49C1000156D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */; };
 		EB4695BE220051BF0004C75D /* Pods-Hedvig-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */; };
 		EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4695CD220083800004C75D /* RCTApolloClient.swift */; };
@@ -515,6 +516,7 @@
 		EB384A49228DB22F00D226D1 /* ApplicationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
 		EB384A4B228DC6AB00D226D1 /* OfferChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OfferChat.swift; path = ../OfferChat.swift; sourceTree = "<group>"; };
 		EB384A5B2292F50C00D226D1 /* InsurancePrice.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = InsurancePrice.graphql; sourceTree = "<group>"; };
+		EB384A5E229424B700D226D1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		EB3A235521A57EE4007F52B6 /* hedvig-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hedvig-Bridging-Header.h"; sourceTree = "<group>"; };
 		EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Pods-Hedvig-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -553,6 +555,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB384A5F229424B700D226D1 /* CoreTelephony.framework in Frameworks */,
 				2ACE4012D5344BA68AE83CA9 /* libz.tbd in Frameworks */,
 				2D2264F55C8B79DD33D62300 /* libPods-hedvig.a in Frameworks */,
 			);
@@ -564,6 +567,7 @@
 		1A42804E64B7E9E0AB8B6799 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EB384A5E229424B700D226D1 /* CoreTelephony.framework */,
 				EBC15BDB2126C0D700D0E296 /* libRNFirebase.a */,
 				1E11984458714DEDB8081244 /* libz.tbd */,
 				E7D1DC928F6C1DB18EBE8064 /* libPods-hedvig.a */,
@@ -1575,7 +1579,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export DEVELOPMENT_BUILD_CONFIGURATIONS=\"+(Debug - Development|Debug- Staging|Debug - Production|Debug)\"\nexport NODE_BINARY=node\n../node_modules/react-native-schemes-manager/lib/react-native-xcode.sh";
+			shellScript = "export DEVELOPMENT_BUILD_CONFIGURATIONS=\"+(Debug - Development|Debug- Staging|Debug - Production|Debug)\"\nexport NODE_BINARY=node\n../node_modules/react-native-schemes-manager/lib/react-native-xcode.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
