@@ -15,7 +15,15 @@ struct RCTApolloClient {
     static func getToken() -> Future<String?> {
         return Future<String?> { completion in
             let rctSenderBlock = { response in
-                guard let response = response else { return }
+                if let nativeToken = ApolloContainer.shared.retreiveToken() {
+                    completion(.success(nativeToken.token))
+                    return
+                }
+
+                guard let response = response else {
+                    completion(.success(nil))
+                    return
+                }
                 var value = ""
 
                 if response.count > 1 {
@@ -31,7 +39,12 @@ struct RCTApolloClient {
                     }
                 }
 
-                completion(.success(value))
+                if value.count == 0 {
+                    completion(.success(nil))
+                } else {
+                    ApolloContainer.shared.saveToken(token: value)
+                    completion(.success(value))
+                }
             } as RCTResponseSenderBlock
 
             RCTAsyncLocalStorage().multiGet(["@hedvig:token"], callback: rctSenderBlock)
