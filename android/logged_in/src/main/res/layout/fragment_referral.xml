@@ -13,58 +13,158 @@
         android:background="@color/off_white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_marginBottom="60dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/celebration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/celebration"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/subtitle"
-                style="@style/Header.Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/referral_title_spacing"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/soray_extrabold"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
                 android:text="@string/PROFILE_REFERRAL_SUBTITLE"
-                tools:text="9 vänner kvar att bjuda in" />
+                android:textColor="@color/off_black_dark"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/celebration" />
 
             <TextView
-                android:id="@+id/explainer"
-                style="@style/Body.Regular"
-                android:layout_width="match_parent"
+                android:id="@+id/youGet"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_margin_double"
-                android:layout_marginTop="@dimen/base_margin"
-                android:layout_marginEnd="@dimen/base_margin_double"
-                android:gravity="center_horizontal"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/circular_bold"
                 android:text="@string/PROFILE_REFERRAL_YOU_GET"
-                tools:text="Du ger bort 10 kr rabatt och får 10 kr rabatt för varje vän du bjuder in via din unika länk! Kan du nå gratis försäkring?" />
+                android:textColor="@color/off_black_dark"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
-            <TextView
-                style="@style/Body.XSmall"
+
+            <LinearLayout
+                android:id="@+id/youGetDescriptionContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/base_margin_triple"
-                tools:text="Din kod" />
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/youGet"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/icon_success" />
+
+                <TextView
+                    android:id="@+id/youGetDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circular_book"
+                    android:lineSpacingExtra="4sp"
+                    android:textColor="@color/off_black"
+                    android:textSize="16sp"
+                    tools:text="@string/PROFILE_REFERRAL_YOU_GET_DESCRIPTION" />
+            </LinearLayout>
 
             <TextView
-                style="@style/Body.Regular.Link.Emphasized"
+                android:id="@+id/theyGet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                tools:text="HDVG87" />
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/circular_bold"
+                android:text="@string/PROFILE_REFERRAL_THEY_GET"
+                android:textColor="@color/off_black_dark"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/youGetDescriptionContainer" />
 
-            <TextView
-                style="@style/Headline.Medium"
+            <LinearLayout
+                android:id="@+id/theyGetDescriptionContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_margin_double"
-                android:layout_marginTop="@dimen/base_margin_triple"
-                tools:text="Dina inbjudningar" />
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/theyGet"
+                tools:ignore="UseCompoundDrawables">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/icon_success" />
+
+                <TextView
+                    android:id="@+id/theyGetDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circular_book"
+                    android:lineSpacingExtra="4sp"
+                    android:textColor="@color/off_black"
+                    android:textSize="16sp"
+                    tools:text="@string/PROFILE_REFERRAL_THEY_GET_DESCRIPTION" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/termsContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/theyGetDescriptionContainer">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4sp"
+                    android:fontFamily="@font/circular_book"
+                    android:text="@string/PROFILE_REFERRAL_TERMS_DESCRIPTION"
+                    android:textColor="@color/off_black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/termsLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circular_book"
+                    android:text="@string/PROFILE_REFERRAL_TERMS_LINK"
+                    android:textColor="@color/purple"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
 
 
     </android.support.v4.widget.NestedScrollView>
@@ -74,16 +174,19 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_primary"
-        android:backgroundTint="@color/purple"
-        android:drawablePadding="8dp"
         android:text="@string/PROFILE_REFERRAL_SHARE"
         android:theme="@style/HedvigButton"
-        android:translationY="75dp"
         android:visibility="gone"
-        tools:text="Dela din kod"
+        android:translationY="75dp"
+        android:drawablePadding="8dp"
+        android:layout_gravity="bottom|center_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/termsContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/theyGetDescriptionContainer"
+        tools:backgroundTint="@color/purple"
         tools:translationY="0dp"
         tools:visibility="visible" />
 
