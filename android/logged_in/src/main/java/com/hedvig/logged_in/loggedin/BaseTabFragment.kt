@@ -13,6 +13,7 @@ import com.hedvig.logged_in.claims.ui.ClaimsViewModel
 import com.hedvig.common.constants.FragmentArgs
 import com.hedvig.common.util.extensions.proxyNavigate
 import com.hedvig.common.util.extensions.view.updatePadding
+import com.hedvig.navigation.features.OnboardingNavigation
 import kotlinx.android.synthetic.main.app_bar.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import com.hedvig.app.R as appR
@@ -40,10 +41,7 @@ abstract class BaseTabFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         baseTabViewModel.triggerFreeTextChat {
-            // TODO: navigate to chat
-//            navController.proxyNavigate(R.id.action_loggedInFragment_to_chatFragment, Bundle().apply {
-//                putBoolean(FragmentArgs.ARGS_SHOW_CLOSE, true)
-//            })
+            startActivity(OnboardingNavigation.getIntent(requireContext()))
         }
         return true
     }
