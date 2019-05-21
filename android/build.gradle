@@ -46,6 +46,10 @@ allprojects {
         maven {
             url "https://dl.bintray.com/hedvig/restring"
         }
+        maven {
+            // All of React Native (JS, Android binaries) is installed from npm
+            url "$rootDir/../node_modules/react-native/android"
+        }
     }
 }
 

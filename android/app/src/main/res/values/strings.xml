@@ -1,10 +1,8 @@
 <resources>
-    <string name="dummy_string" translatable="false" />
-
-    <string name="app_name" translatable="false">Hedvig</string>
-    <string name="bug_report_mail" translatable="false">android@hedvig.com</string>
-    <string name="rate_us_link" translatable="false">Google Play</string>
-
-    <string name="two_hundred_thousand" translatable="false">200 000</string>
-    <string name="one_million" translatable="false">1 000 000</string>
+    <string name="title_on_boarding_flow">Module Title</string>
+    <string name="title_chat">Chat Title</string>
+    <string name="title_offer">Offer Title</string>
+    <string name="title_instant_app_test">Module Title</string>
+    <string name="title_logged_in">Logged in</string>
+    <string name="title_landing">Landing Title</string>
 </resources>

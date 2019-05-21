@@ -1,0 +1,38 @@
+package com.hedvig.logged_in.claims.data
+
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.rx2.Rx2Apollo
+import com.hedvig.common.owldroid.CommonClaimQuery
+import com.hedvig.common.owldroid.TriggerCallMeChatMutation
+import com.hedvig.common.owldroid.TriggerClaimChatMutation
+import com.hedvig.common.owldroid.type.TriggerClaimChatInput
+import io.reactivex.Observable
+
+class ClaimsRepository(private val apolloClient: ApolloClient) {
+    private lateinit var claimsQuery: CommonClaimQuery
+
+    fun fetchCommonClaims(): Observable<CommonClaimQuery.Data?> {
+        claimsQuery = CommonClaimQuery
+            .builder()
+            .build()
+
+        return Rx2Apollo
+            .from(apolloClient.query(claimsQuery))
+            .map { it.data() }
+    }
+
+    fun triggerClaimsChat(claimTypeId: String?): Observable<Response<TriggerClaimChatMutation.Data>> {
+        val inputBuilder = TriggerClaimChatInput.builder()
+        claimTypeId?.let { inputBuilder.claimTypeId(it) }
+        val triggerClaimsChatMutation = TriggerClaimChatMutation
+            .builder()
+            .input(inputBuilder.build())
+            .build()
+
+        return Rx2Apollo.from(apolloClient.mutate(triggerClaimsChatMutation))
+    }
+
+    fun triggerCallMeChat() = Rx2Apollo.from(apolloClient.mutate(TriggerCallMeChatMutation()))
+}
+

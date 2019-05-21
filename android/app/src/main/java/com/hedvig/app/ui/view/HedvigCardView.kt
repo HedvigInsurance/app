@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewOutlineProvider
 import android.widget.FrameLayout
 import com.hedvig.app.R
-import com.hedvig.app.util.extensions.compatDrawable
+import com.hedvig.common.util.extensions.compatDrawable
 
 open class HedvigCardView : FrameLayout {
 

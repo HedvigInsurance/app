@@ -4,7 +4,7 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
-import com.hedvig.android.owldroid.graphql.TextKeysQuery
+import com.hedvig.common.owldroid.TextKeysQuery
 import com.hedvig.app.BuildConfig
 import com.ice.restring.Restring
 import com.ice.restring.RestringUtil

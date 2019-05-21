@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    app:startDestination="@id/chatFragment">
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.hedvig.onboarding.chat.ChatFragment"
+        android:label="ChatFragment">
+        <action
+            android:id="@+id/action_chatFragment_to_offerFragment"
+            app:destination="@id/offerFragment"
+            app:popUpTo="@+id/root"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/offerFragment"
+        android:name="com.hedvig.onboarding.offer.OfferFragment"
+        android:label="OfferFragment">
+        <action
+            android:id="@+id/action_offerFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+</navigation>

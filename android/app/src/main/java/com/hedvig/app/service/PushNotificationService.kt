@@ -2,7 +2,9 @@ package com.hedvig.app.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
@@ -13,7 +15,8 @@ import androidx.work.WorkManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hedvig.app.R
-import com.hedvig.app.util.whenApiVersion
+import com.hedvig.common.util.whenApiVersion
+import com.hedvig.navigation.features.OnboardingNavigation
 import timber.log.Timber
 
 class PushNotificationService : FirebaseMessagingService() {
@@ -54,10 +57,13 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     private fun sendChatMessageNotification() {
-        val pendingIntent = NavDeepLinkBuilder(this)
-            .setGraph(R.navigation.logged_in_navigation)
-            .setDestination(R.id.loggedInChatFragment)
-            .createPendingIntent()
+        //todo add proper back stack
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            OnboardingNavigation.getIntent(this),
+            0
+        )
 
         val notification = NotificationCompat
             .Builder(this, NOTIFICATION_CHANNEL_ID)

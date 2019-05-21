@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.hedvig.logged_in">
+
+    <dist:module
+        dist:instant="false"
+        dist:onDemand="true"
+        dist:title="@string/title_logged_in">
+        <dist:fusing dist:include="true" />
+    </dist:module>
+
+
+    <application tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".LoggedInActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Light"
+            android:windowSoftInputMode="adjustResize" />
+    </application>
+</manifest>
+

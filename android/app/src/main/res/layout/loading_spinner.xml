@@ -2,7 +2,7 @@
 <com.airbnb.lottie.LottieAnimationView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@id/loadingSpinner"
+    android:id="@+id/loadingSpinner"
     style="@style/LoadingSpinner"
     android:layout_width="@dimen/loading_spinner_width"
     android:layout_height="@dimen/loading_spinner_height"
