@@ -16,6 +16,7 @@ import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
+// This activity is registered in the app module
 @SuppressLint("Registered")
 class LandingActivity: BaseActivity() {
 
