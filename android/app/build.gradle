@@ -32,7 +32,6 @@ android {
         targetSdkVersion 28
         applicationId project.env.get('APP_ID')
         minSdkVersion 21
-//        multiDexEnabled true
         versionCode 43
         versionName '2.8.1'
 
