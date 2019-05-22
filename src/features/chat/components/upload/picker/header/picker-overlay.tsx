@@ -12,10 +12,6 @@ import styled from '@sampettersson/primitives';
 import { colors, fonts } from '@hedviginsurance/brand';
 import { Spacing } from 'src/components/Spacing';
 import ImagePicker from 'react-native-image-picker';
-import {
-  DocumentPicker,
-  DocumentPickerUtil,
-} from '@hedviginsurance/react-native-document-picker';
 import { BackButton } from 'src/components/BackButton';
 
 const OverlayContent = styled(View)({

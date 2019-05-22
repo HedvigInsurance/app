@@ -759,16 +759,6 @@
   resolved "https://registry.yarnpkg.com/@hedviginsurance/react-native-config/-/react-native-config-0.11.6.tgz#edf8aa2cf2510bcdbb199114f2029664b7bb2aae"
   integrity sha512-LZz5RujYyUTCb2Q3hibKV5e8eTZCpESXDT8KquKCCPeOSAqKBR4TnNUKqeOxPug3HcZ4i4MHiNgaJasPV5Jqzw==
 
-"@hedviginsurance/react-native-document-picker@2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@hedviginsurance/react-native-document-picker/-/react-native-document-picker-2.1.1.tgz#2423d6dabef6427e836808af616d593563715c77"
-  integrity sha512-W8UxlK3LaP3n6ttEjqgie23icvhf0tQUVb4GtDh9hd6bjVgEceoNQcWa4PD4rFSd4LTZEckqmkNNaOHODnRrdA==
-
-"@hedviginsurance/react-native-floating-action@1.13.1":
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/@hedviginsurance/react-native-floating-action/-/react-native-floating-action-1.13.1.tgz#e1f97f5d5ca914d7ebb89f53f8a2b86f84bec5d7"
-  integrity sha512-q/SspeAu/zm41v2HLoJREuOebbqT1bjNDViCj54CxBp+Mj51nPylLyxka/ObxRDzd+MENit9Xjhz2i8dUfiQSw==
-
 "@hedviginsurance/react-native-fs@2.12.2":
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/@hedviginsurance/react-native-fs/-/react-native-fs-2.12.2.tgz#3ab8a714ef2031a0564a732514d9a8d9de0931f9"
@@ -1023,11 +1013,6 @@
   integrity sha512-mk4yiUCEQl8dvoK4jqahoUK9P5e5jV9r/4mcG4DLUt9bItdE67M0j0AkezUg8Fe4C22/5/ODN5wROpLCxyz6vw==
   dependencies:
     "@types/react-native" "*"
-
-"@types/react-native-permissions@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@types/react-native-permissions/-/react-native-permissions-1.1.1.tgz#297f39ed19234045e1dc1cd0abd85b86bdf9c606"
-  integrity sha512-+xLVH6kefg9hpJKxQhRcaYHckhbQCxDrU6HEaTzf3gMbn4I4aunjxkqeSMAofrHFNOnOS/phnsTbifoDATjk3w==
 
 "@types/react-native-video@^2.0.7":
   version "2.0.7"
