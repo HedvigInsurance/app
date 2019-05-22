@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		2ACE4012D5344BA68AE83CA9 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E11984458714DEDB8081244 /* libz.tbd */; };
 		2D2264F55C8B79DD33D62300 /* libPods-hedvig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7D1DC928F6C1DB18EBE8064 /* libPods-hedvig.a */; };
@@ -241,6 +242,7 @@
 		EB384A5F229424B700D226D1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB384A5E229424B700D226D1 /* CoreTelephony.framework */; };
 		EB384A6122943E0400D226D1 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A6022943E0400D226D1 /* DocumentPicker.swift */; };
 		EB384A6322953A2800D226D1 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB384A6222953A2700D226D1 /* ImagePicker.swift */; };
+		EB384A652295911F00D226D1 /* OfferClosed.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EB384A642295911F00D226D1 /* OfferClosed.graphql */; };
 		EB433C96221D49C1000156D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */; };
 		EB4695BE220051BF0004C75D /* Pods-Hedvig-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */; };
 		EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4695CD220083800004C75D /* RCTApolloClient.swift */; };
@@ -520,6 +522,7 @@
 		EB384A5E229424B700D226D1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		EB384A6022943E0400D226D1 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		EB384A6222953A2700D226D1 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		EB384A642295911F00D226D1 /* OfferClosed.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = OfferClosed.graphql; sourceTree = "<group>"; };
 		EB3A235521A57EE4007F52B6 /* hedvig-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hedvig-Bridging-Header.h"; sourceTree = "<group>"; };
 		EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Pods-Hedvig-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -613,6 +616,7 @@
 		B56386431DB9693800A0598C /* hedvig */ = {
 			isa = PBXGroup;
 			children = (
+				EB384A4E228DC6CD00D226D1 /* Chat */,
 				EBECC1A621B811F400716BEA /* ugglan */,
 				EB3A235521A57EE4007F52B6 /* hedvig-Bridging-Header.h */,
 				559CCAEF2121B3530080C272 /* debug.xcconfig */,
@@ -1247,6 +1251,7 @@
 				EB384A1922859FE700D226D1 /* TriggerCallMeChat.graphql */,
 				EB384A47228D6E7600D226D1 /* Offer.graphql */,
 				EB384A5B2292F50C00D226D1 /* InsurancePrice.graphql */,
+				EB384A642295911F00D226D1 /* OfferClosed.graphql */,
 			);
 			path = GraphQL;
 			sourceTree = "<group>";
@@ -1391,7 +1396,6 @@
 		EBECC1A621B811F400716BEA /* ugglan */ = {
 			isa = PBXGroup;
 			children = (
-				EB384A4E228DC6CD00D226D1 /* Chat */,
 				EB11E94C2277047700D95365 /* Src */,
 			);
 			path = ugglan;
@@ -1484,6 +1488,7 @@
 				B56386511DB9693800A0598C /* Assets.xcassets in Resources */,
 				544ED67F4B9649438F02FDD3 /* CircularStd-Bold.ttf in Resources */,
 				EB11EAEA2277047800D95365 /* MemberId.graphql in Resources */,
+				EB384A652295911F00D226D1 /* OfferClosed.graphql in Resources */,
 				EB11EAEC2277047800D95365 /* CharityOptions.graphql in Resources */,
 				EB384A5C2292F50C00D226D1 /* InsurancePrice.graphql in Resources */,
 				EB11EAF32277047800D95365 /* InsuranceCertificate.graphql in Resources */,

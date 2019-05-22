@@ -41,7 +41,7 @@ extension OfferChat: Presentable {
         restartButton.image = Asset.restart.image
         restartButton.tintColor = .darkGray
 
-        bag += restartButton.onValue { _ in
+        func restartChat() {
             RCTAsyncLocalStorage().clearAllData()
             ApolloContainer.shared.createClientFromNewSession().onValue { _ in
                 RCTApolloClient.getClient().onValue { _ in
@@ -55,6 +55,25 @@ extension OfferChat: Presentable {
                     )
                 }
             }
+        }
+
+        bag += restartButton.onValueDisposePrevious { _ in
+            let innerBag = bag.innerBag()
+
+            let okAction = Alert.Action(title: String(key: .RESTART_OFFER_CHAT_BUTTON_CONFIRM)) { () -> Void in
+                restartChat()
+            }
+
+            let cancelAction = Alert.Action(title: String(key: .RESTART_OFFER_CHAT_BUTTON_DISMISS), style: .cancel) {}
+
+            let alert = Alert(
+                title: String(key: .RESTART_OFFER_CHAT_TITLE),
+                message: String(key: .RESTART_OFFER_CHAT_PARAGRAPH),
+                actions: [okAction, cancelAction]
+            )
+
+            innerBag += viewController.present(alert)
+            return innerBag
         }
 
         viewController.navigationItem.rightBarButtonItem = restartButton
@@ -72,18 +91,20 @@ extension OfferChat: Presentable {
         let view = UIView()
         view.backgroundColor = .offWhite
 
-        let reactView = RCTRootView(
-            bridge: ReactNativeContainer.shared.bridge,
-            moduleName: "ChatScreen",
-            initialProperties: [:]
-        )
+        bag += client.perform(mutation: OfferClosedMutation()).onValue { _ in
+            let reactView = RCTRootView(
+                bridge: ReactNativeContainer.shared.bridge,
+                moduleName: "ChatScreen",
+                initialProperties: [:]
+            )
 
-        if let reactView = reactView {
-            view.addSubview(reactView)
-            reactView.snp.makeConstraints { make in
-                make.width.equalToSuperview()
-                make.height.equalToSuperview()
-                make.center.equalToSuperview()
+            if let reactView = reactView {
+                view.addSubview(reactView)
+                reactView.snp.makeConstraints { make in
+                    make.width.equalToSuperview()
+                    make.height.equalToSuperview()
+                    make.center.equalToSuperview()
+                }
             }
         }
 
