@@ -1,6 +1,7 @@
 package com.hedvig.logged_in.profile.ui.referral
 
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -8,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import com.hedvig.app.util.showShareSheet
 import com.hedvig.common.util.extensions.compatDrawable
+import com.hedvig.common.util.extensions.view.setHapticClickListener
 import com.hedvig.logged_in.R
 import com.hedvig.logged_in.profile.service.ProfileTracker
 import com.hedvig.logged_in.profile.ui.ProfileViewModel
@@ -91,7 +94,18 @@ class ReferralFragment : Fragment() {
     }
 
     private fun bindData(data: MockData) { // TODO: Replace with actual data
+        code.text = data.referralInformation.code
+        referralButton.setHapticClickListener {
+            tracker.clickReferral(data.referralInformation.discount.amount.toInt())
+            showShareSheet("TODO Copy") { intent ->
+                intent.apply {
+                    putExtra(Intent.EXTRA_TEXT, "TODO Copy")
+                    type = "text/plain"
+                }
+            }
+        }
 
+        invites.adapter = InvitesAdapter(data.receivers)
     }
 
     override fun onStop() {
@@ -101,13 +115,27 @@ class ReferralFragment : Fragment() {
     }
 
     companion object {
+        val tenSek = MockMonetaryAmount(
+            BigDecimal.TEN,
+            "SEK"
+        )
+
         val mockData = MockData(
             MockReferralInformation(
                 "HDVG87",
                 Uri.parse("https://hedvigdev.page.link/HDVG87"),
-                MockMonetaryAmount(
-                    BigDecimal.TEN,
-                    "SEK"
+                tenSek
+            ),
+            MockReferral(
+                "Tester",
+                MockReferralStatus.ACTIVE,
+                tenSek
+            ),
+            listOf(
+                MockReferral(
+                    null,
+                    MockReferralStatus.NOT_INITIATED,
+                    tenSek
                 )
             )
         )
@@ -115,7 +143,9 @@ class ReferralFragment : Fragment() {
 }
 
 data class MockData(
-    val referralInformation: MockReferralInformation
+    val referralInformation: MockReferralInformation,
+    val sender: MockReferral,
+    val receivers: List<MockReferral>
 )
 
 data class MockReferralInformation(
@@ -128,3 +158,17 @@ data class MockMonetaryAmount(
     val amount: BigDecimal,
     val currency: String
 )
+
+data class MockReferral(
+    val name: String?,
+    val status: MockReferralStatus,
+    val discount: MockMonetaryAmount
+)
+
+enum class MockReferralStatus {
+    ACTIVE,
+    IN_PROGRESS,
+    INITIATED,
+    NOT_INITIATED,
+    TERMINATED
+}
