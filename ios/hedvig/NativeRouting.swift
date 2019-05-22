@@ -129,19 +129,22 @@ class NativeRouting: RCTEventEmitter {
                 topController = newTopController
             }
 
-            let imageOrVideoAction = Alert.Action(title: "Bild eller film", style: .default) { _ -> Void in
+            let imageOrVideoAction = Alert.Action(title: String(key: .UPLOAD_FILE_IMAGE_OR_VIDEO_ACTION), style: .default) { _ -> Void in
                 topController.present(ImagePicker(), options: []).onValue { url in
                     resolve([url.absoluteString])
                 }
             }
-            let fileAction = Alert.Action(title: "Fil", style: .default) { _ -> Void in
+            let fileAction = Alert.Action(title: String(key: .UPLOAD_FILE_FILE_ACTION), style: .default) { _ -> Void in
                 topController.present(DocumentPicker(), options: []).onValue { urls in
                     resolve(urls.map { $0.absoluteString })
                 }
             }
-            let cancelAction = Alert.Action(title: "Stäng", style: .cancel) {}
+            let cancelAction = Alert.Action(title: String(key: .UPLOAD_FILE_TYPE_CANCEL), style: .cancel) {}
 
-            let alert = Alert(title: "Vad vill du skicka?", actions: [imageOrVideoAction, fileAction, cancelAction])
+            let alert = Alert(
+                title: String(key: .UPLOAD_FILE_SELECT_TYPE_TITLE),
+                actions: [imageOrVideoAction, fileAction, cancelAction]
+            )
 
             let sheetRect = CGRect(
                 x: 65,
