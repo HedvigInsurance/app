@@ -1,7 +1,6 @@
 package com.hedvig.app.feature.profile.ui.referral
 
 import android.animation.ValueAnimator
-import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,22 +8,18 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.OvershootInterpolator
 import androidx.navigation.findNavController
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
-import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.compatDrawable
-import com.hedvig.app.util.extensions.compatSetTint
-import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setupLargeTitle
-import com.hedvig.app.util.extensions.view.increaseTouchableArea
-import com.hedvig.app.util.extensions.view.show
-import com.hedvig.app.util.interpolateTextKey
+import com.hedvig.app.util.extensions.showShareSheet
+import com.hedvig.app.util.extensions.view.setHapticClickListener
 import kotlinx.android.synthetic.main.fragment_referral.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
+import java.math.BigDecimal
 
 class ReferralFragment : Fragment() {
 
@@ -50,65 +45,21 @@ class ReferralFragment : Fragment() {
             null
         )
 
-        profileViewModel.remoteConfigData.observe(this) { remoteConfigData ->
-            remoteConfigData?.let { rcd ->
-                val incentive = rcd.referralsIncentiveAmount.toString()
+        bindData(mockData)
+    }
 
-                youGetDescription.text = interpolateTextKey(
-                    resources.getString(R.string.PROFILE_REFERRAL_YOU_GET_DESCRIPTION),
-                    "INCENTIVE" to incentive
-                )
-                theyGetDescription.text = interpolateTextKey(
-                    resources.getString(R.string.PROFILE_REFERRAL_THEY_GET_DESCRIPTION),
-                    "INCENTIVE" to incentive
-                )
-
-                referralButton.background.compatSetTint(requireContext().compatColor(R.color.purple))
-
-                termsLink.increaseTouchableArea(100)
-                termsLink.setOnClickListener {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.hedvig.com/invite/terms")))
+    private fun bindData(data: MockData) {
+        code.text = data.referralInformation.code
+        referralButton.setHapticClickListener {
+            tracker.clickReferral(data.referralInformation.discount.amount.toInt())
+            showShareSheet("TODO Copy") { intent ->
+                intent.apply {
+                    putExtra(Intent.EXTRA_TEXT, "TODO Copy")
+                    type = "text/plain"
                 }
-
-                profileViewModel.data.observe(this, Observer { data ->
-                    data?.member()?.id()?.let { memberId ->
-                        profileViewModel.generateReferralLink(memberId)
-                        profileViewModel.firebaseLink.observe(this, Observer { link ->
-                            referralButton.show()
-                            if (referralButton.translationY != 0f) {
-                                buttonAnimator = ValueAnimator.ofFloat(75f, 0f).apply {
-                                    duration = 500
-                                    addUpdateListener { translation ->
-                                        referralButton.translationY = translation.animatedValue as Float
-                                    }
-                                    interpolator = OvershootInterpolator()
-                                    start()
-                                }
-                            }
-                            referralButton.setOnClickListener {
-                                tracker.clickReferral(profileViewModel.remoteConfigData.value?.referralsIncentiveAmount)
-                                val shareIntent = Intent().apply {
-                                    action = Intent.ACTION_SEND
-                                    putExtra(
-                                        Intent.EXTRA_TEXT,
-                                        interpolateTextKey(
-                                            resources.getString(R.string.PROFILE_REFERRAL_SHARE_TEXT),
-                                            "INCENTIVE" to incentive, "LINK" to link.toString()
-                                        )
-                                    )
-                                    type = "text/plain"
-                                }
-                                val chooser = Intent.createChooser(
-                                    shareIntent,
-                                    resources.getString(R.string.PROFILE_REFERRAL_SHARE_TITLE)
-                                )
-                                startActivity(chooser)
-                            }
-                        })
-                    }
-                })
             }
         }
+        invites.adapter = InvitesAdapter(data.receivers)
     }
 
     override fun onStop() {
@@ -116,4 +67,62 @@ class ReferralFragment : Fragment() {
         buttonAnimator?.removeAllListeners()
         buttonAnimator?.cancel()
     }
+
+    companion object {
+        val tenSek = MockMonetaryAmount(
+            BigDecimal.TEN,
+            "SEK"
+        )
+
+        val mockData = MockData(
+            MockReferralInformation(
+                "HDVG87",
+                Uri.parse("https://hedvigdev.page.link/HDVG87"),
+                tenSek
+            ),
+            MockReferral(
+                "Tester",
+                MockReferralStatus.ACTIVE,
+                tenSek
+            ),
+            listOf(
+                MockReferral(
+                    null,
+                    MockReferralStatus.NOT_INITIATED,
+                    tenSek
+                )
+            )
+        )
+    }
+}
+
+data class MockData(
+    val referralInformation: MockReferralInformation,
+    val sender: MockReferral,
+    val receivers: List<MockReferral>
+)
+
+data class MockReferralInformation(
+    val code: String,
+    val link: Uri,
+    val discount: MockMonetaryAmount
+)
+
+data class MockMonetaryAmount(
+    val amount: BigDecimal,
+    val currency: String
+)
+
+data class MockReferral(
+    val name: String?,
+    val status: MockReferralStatus,
+    val discount: MockMonetaryAmount
+)
+
+enum class MockReferralStatus {
+    ACTIVE,
+    IN_PROGRESS,
+    INITIATED,
+    NOT_INITIATED,
+    TERMINATED
 }
