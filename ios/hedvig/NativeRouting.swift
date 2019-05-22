@@ -128,7 +128,11 @@ class NativeRouting: RCTEventEmitter {
                 topController = newTopController
             }
 
-            let imageOrVideoAction = Alert.Action(title: "Bild eller film", style: .default) {}
+            let imageOrVideoAction = Alert.Action(title: "Bild eller film", style: .default) { _ -> Void in
+                topController.present(ImagePicker(), options: []).onValue { url in
+                    resolve([url.absoluteString])
+                }
+            }
             let fileAction = Alert.Action(title: "Fil", style: .default) { _ -> Void in
                 topController.present(DocumentPicker(), options: []).onValue { urls in
                     resolve(urls.map { $0.absoluteString })

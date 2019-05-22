@@ -6,7 +6,6 @@ import { UploadMutation } from '../upload-mutation';
 import { UploadingAnimation } from '../uploading-animation';
 
 import { PickerButton } from './picker-button';
-import { FILE_PICKER_COMPONENT } from 'src/navigation/components/file-picker';
 import { Platform, NativeModules } from 'react-native';
 
 interface FileProps {
@@ -23,10 +22,8 @@ export const File: React.SFC<FileProps> = ({ onUpload }) => (
               NativeModules.NativeRouting.showFileUploadOverlay(true).then(
                 (urls: [string]) => {
                   urls.forEach((url: any) => {
-                    console.log(url);
                     upload(url).then((uploadResponse) => {
                       if (uploadResponse instanceof Error) {
-                        console.log(uploadResponse);
                       } else {
                         onUpload(uploadResponse.key);
                       }
