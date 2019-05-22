@@ -63,13 +63,9 @@ const collectHandler = function*() {
             const {
               shouldShowDashboard,
             } = require('src/navigation/layouts/utils');
-            const { setLayout } = require('src/navigation/layouts/setLayout');
-            const {
-              getMainLayout,
-            } = require('src/navigation/layouts/mainLayout');
 
             if (shouldShowDashboard(data.insurance.status)) {
-              setLayout(getMainLayout());
+              NativeModules.NativeRouting.presentLoggedIn();
             }
           });
       }
