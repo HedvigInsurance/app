@@ -2,20 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
-    app:startDestination="@id/dummyFragment">
-
-    <fragment
-        android:id="@+id/dummyFragment"
-        android:name="com.hedvig.onboarding.dummy.DummyFragment"
-        android:label="DummyFragment">
-        <action
-            android:id="@+id/action_dummyFragment_to_marketingFragment"
-            app:destination="@id/marketingFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/root"
-            app:popUpToInclusive="true" />
-
-    </fragment>
+    app:startDestination="@id/marketingFragment">
 
     <fragment
         android:id="@+id/marketingFragment"

@@ -1,11 +1,11 @@
 package com.hedvig.app
 
-import android.app.Application
 import android.content.Context
-import android.support.multidex.MultiDex
 import android.support.v7.app.AppCompatDelegate
 import com.apollographql.apollo.ApolloClient
 import com.facebook.soloader.SoLoader
+import com.google.android.play.core.splitcompat.SplitCompat
+import com.google.android.play.core.splitcompat.SplitCompatApplication
 import com.hedvig.app.service.TextKeys
 import com.ice.restring.Restring
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -17,7 +17,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
-class MainApplication : Application() {
+class MainApplication : SplitCompatApplication() {
 
     val apolloClient: ApolloClient by inject()
 
@@ -25,7 +25,7 @@ class MainApplication : Application() {
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
-        MultiDex.install(this)
+        SplitCompat.install(this)
     }
 
     override fun onCreate() {

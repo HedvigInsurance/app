@@ -9,5 +9,9 @@
         dist:title="@string/title_landing">
         <dist:fusing dist:include="true" />
     </dist:module>
+
+    <application
+        tools:ignore="GoogleAppIndexingWarning">
+    </application>
 </manifest>
 

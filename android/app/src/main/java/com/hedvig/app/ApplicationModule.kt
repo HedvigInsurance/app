@@ -8,10 +8,7 @@ import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.common.owldroid.type.CustomType
 import com.hedvig.app.data.debit.DirectDebitRepository
-import com.hedvig.app.service.FileService
-import com.hedvig.app.service.Referrals
-import com.hedvig.app.service.RemoteConfig
-import com.hedvig.app.service.TextKeys
+import com.hedvig.app.service.*
 import com.hedvig.common.util.apollo.ApolloTimberLogger
 import com.hedvig.common.util.apollo.PromiscuousLocalDateAdapter
 import com.hedvig.app.viewmodel.DirectDebitViewModel
@@ -84,6 +81,7 @@ val serviceModule = module {
     single { Referrals(get()) }
     single { RemoteConfig() }
     single { TextKeys(get()) }
+    single { LoginStatusService(get(), get(), get()) }
 }
 
 val repositoriesModule = module {

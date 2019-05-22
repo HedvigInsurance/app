@@ -17,8 +17,9 @@
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
-        android:name=".MainApplication"
+        android:name="com.hedvig.app.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/APP_NAME"
@@ -27,7 +28,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name="com.hedvig.landing.LandingActivity"
+            android:name="com.hedvig.app.SplashActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -90,6 +91,15 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_hedvig_symbol_android" />
+
+
+        <activity
+            android:name="com.hedvig.landing.LandingActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Splash"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

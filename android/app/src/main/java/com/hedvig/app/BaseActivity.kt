@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.hedvig.common.util.extensions.compatColor
@@ -21,6 +22,7 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(Restring.wrapContext(newBase))
+        SplitCompat.install(this)
     }
 
     override fun onStart() {
@@ -49,6 +51,7 @@ open class BaseActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Exponent_Light)
         super.onCreate(savedInstanceState)

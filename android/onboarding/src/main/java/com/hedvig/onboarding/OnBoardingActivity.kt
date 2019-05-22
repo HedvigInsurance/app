@@ -13,6 +13,7 @@ import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler
 import com.facebook.react.modules.core.PermissionAwareActivity
 import com.facebook.react.modules.core.PermissionListener
 import com.facebook.react.shell.MainReactPackage
+import com.facebook.soloader.SoLoader
 import com.hedvig.app.BaseActivity
 import com.hedvig.app.BuildConfig
 import com.hedvig.app.service.LoginStatus
@@ -64,6 +65,9 @@ class OnBoardingActivity : BaseActivity(), DefaultHardwareBackBtnHandler, Permis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.onboarding_navigation_host)
+
+
+        SoLoader.init(this, false)
 
         injectFeature()
     }

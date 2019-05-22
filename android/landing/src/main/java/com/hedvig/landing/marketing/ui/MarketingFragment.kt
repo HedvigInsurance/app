@@ -3,7 +3,6 @@ package com.hedvig.landing.marketing.ui
 import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.GestureDetector
 import android.view.LayoutInflater
@@ -25,7 +24,7 @@ import com.hedvig.common.util.extensions.view.setHapticClickListener
 import com.hedvig.common.util.extensions.view.show
 import com.hedvig.common.util.percentageFade
 import com.hedvig.landing.R
-import com.hedvig.navigation.features.OnboardingNavigation
+import com.hedvig.app.navigation.OnboardingNavigation
 import kotlinx.android.synthetic.main.fragment_marketing.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -285,7 +284,7 @@ class MarketingFragment : BaseFragment() {
             args.putString("intent", "login")
             args.putBoolean("show_restart", true)
             // todo figure out how to pass along args ^
-            startActivity(OnboardingNavigation.getIntent(requireContext()))
+            startActivity(OnboardingNavigation.getIntent())
         }
 
         getHedvig.setHapticClickListener {
@@ -296,7 +295,7 @@ class MarketingFragment : BaseFragment() {
             val args = Bundle()
             args.putString("intent", "onboarding")
             args.putBoolean("show_restart", true)
-            startActivity(OnboardingNavigation.getIntent(requireContext()))
+            startActivity(OnboardingNavigation.getIntent())
         }
     }
 

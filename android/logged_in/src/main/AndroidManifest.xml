@@ -4,8 +4,8 @@
     package="com.hedvig.logged_in">
 
     <dist:module
-        dist:instant="false"
-        dist:onDemand="true"
+        dist:instant="true"
+        dist:onDemand="false"
         dist:title="@string/title_logged_in">
         <dist:fusing dist:include="true" />
     </dist:module>
@@ -13,7 +13,7 @@
 
     <application tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".LoggedInActivity"
+            android:name="com.hedvig.logged_in.LoggedInActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

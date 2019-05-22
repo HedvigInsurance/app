@@ -1,7 +1,6 @@
 package com.hedvig.logged_in.loggedin
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -10,10 +9,8 @@ import androidx.navigation.findNavController
 import com.hedvig.app.ui.view.BaseFragment
 import com.hedvig.logged_in.R
 import com.hedvig.logged_in.claims.ui.ClaimsViewModel
-import com.hedvig.common.constants.FragmentArgs
-import com.hedvig.common.util.extensions.proxyNavigate
 import com.hedvig.common.util.extensions.view.updatePadding
-import com.hedvig.navigation.features.OnboardingNavigation
+import com.hedvig.app.navigation.OnboardingNavigation
 import kotlinx.android.synthetic.main.app_bar.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import com.hedvig.app.R as appR
@@ -41,7 +38,7 @@ abstract class BaseTabFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         baseTabViewModel.triggerFreeTextChat {
-            startActivity(OnboardingNavigation.getIntent(requireContext()))
+            startActivity(OnboardingNavigation.getIntent())
         }
         return true
     }

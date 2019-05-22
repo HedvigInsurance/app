@@ -4,11 +4,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
-import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -16,7 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hedvig.app.R
 import com.hedvig.common.util.whenApiVersion
-import com.hedvig.navigation.features.OnboardingNavigation
+import com.hedvig.app.navigation.OnboardingNavigation
 import timber.log.Timber
 
 class PushNotificationService : FirebaseMessagingService() {
@@ -61,7 +59,7 @@ class PushNotificationService : FirebaseMessagingService() {
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,
-            OnboardingNavigation.getIntent(this),
+            OnboardingNavigation.getIntent(),
             0
         )
 

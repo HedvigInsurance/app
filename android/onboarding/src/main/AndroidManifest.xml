@@ -5,8 +5,8 @@
     package="com.hedvig.onboarding">
 
     <dist:module
-        dist:instant="false"
-        dist:onDemand="true"
+        dist:instant="true"
+        dist:onDemand="false"
         dist:title="@string/title_chat">
         <dist:fusing dist:include="true" />
     </dist:module>
@@ -24,13 +24,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Exponent.Splash"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.Exponent.Light"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 </manifest>

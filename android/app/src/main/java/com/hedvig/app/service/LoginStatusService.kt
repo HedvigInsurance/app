@@ -1,9 +1,8 @@
-package com.hedvig.landing
+package com.hedvig.app.service
 
 import android.content.Context
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.hedvig.app.service.LoginStatus
 import com.hedvig.common.owldroid.InsuranceStatusQuery
 import com.hedvig.common.owldroid.type.InsuranceStatus
 import com.hedvig.common.util.extensions.isLoggedIn
