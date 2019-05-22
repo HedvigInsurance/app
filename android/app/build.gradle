@@ -76,16 +76,6 @@ android {
         }
     }
 
-//    applicationVariants.all { variant ->
-//        variant.outputs.each { output ->
-//            def versionCodes = ['armeabi-v7a': 1, 'x86': 2]
-//            def abi = output.getFilter(OutputFile.ABI)
-//            if (abi != null) {
-//                output.versionCodeOverride = versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
-//            }
-//        }
-//    }
-
     configurations.all {
         resolutionStrategy.force 'android.arch.lifecycle:livedata-core:1.1.0'
         resolutionStrategy.force 'android.arch.core:runtime:1.1.0'
@@ -150,8 +140,8 @@ dependencies {
     // test
     testImplementation 'junit:junit:4.12'
 
-//    debugApi 'com.squareup.leakcanary:leakcanary-android:1.6.2'
-//    releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    debugApi 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

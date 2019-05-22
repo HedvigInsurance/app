@@ -66,9 +66,6 @@ class OnBoardingActivity : BaseActivity(), DefaultHardwareBackBtnHandler, Permis
         super.onCreate(savedInstanceState)
         setContentView(R.layout.onboarding_navigation_host)
 
-
-        SoLoader.init(this, false)
-
         injectFeature()
     }
 
