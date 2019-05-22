@@ -26,8 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/referral_title_spacing"
-                android:text="@string/PROFILE_REFERRAL_SUBTITLE"
-                tools:text="9 vänner kvar att bjuda in" />
+                android:text="9 vänner kvar att bjuda in" />
 
             <TextView
                 android:id="@+id/explainer"
@@ -38,8 +37,7 @@
                 android:layout_marginTop="@dimen/base_margin"
                 android:layout_marginEnd="@dimen/base_margin_double"
                 android:gravity="center_horizontal"
-                android:text="@string/PROFILE_REFERRAL_YOU_GET"
-                tools:text="Du ger bort 10 kr rabatt och får 10 kr rabatt för varje vän du bjuder in via din unika länk! Kan du nå gratis försäkring?" />
+                android:text="Du ger bort 10 kr rabatt och får 10 kr rabatt för varje vän du bjuder in via din unika länk! Kan du nå gratis försäkring?" />
 
             <TextView
                 style="@style/Body.XSmall"
@@ -47,14 +45,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/base_margin_triple"
-                tools:text="Din kod" />
+                android:text="Din kod" />
 
             <TextView
                 style="@style/Body.Regular.Link.Emphasized"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                tools:text="HDVG87" />
+                android:text="HDVG87" />
 
             <TextView
                 style="@style/Headline.Medium"
@@ -62,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin_double"
                 android:layout_marginTop="@dimen/base_margin_triple"
-                tools:text="Dina inbjudningar" />
+                android:text="Dina inbjudningar" />
 
         </LinearLayout>
 
@@ -79,11 +77,10 @@
         android:background="@drawable/button_primary"
         android:backgroundTint="@color/purple"
         android:drawablePadding="8dp"
-        android:text="@string/PROFILE_REFERRAL_SHARE"
+        android:text="Dela din kod"
         android:theme="@style/HedvigButton"
         android:translationY="75dp"
         android:visibility="gone"
-        tools:text="Dela din kod"
         tools:translationY="0dp"
         tools:visibility="visible" />
 
