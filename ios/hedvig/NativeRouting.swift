@@ -149,17 +149,11 @@ class NativeRouting: RCTEventEmitter {
 
     @objc func presentLoggedIn() {
         DispatchQueue.main.async {
-            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+            guard let rootViewController = UIApplication.shared.appDelegate.rootWindow.rootViewController else {
                 return
             }
 
-            var topController = rootViewController
-
-            while let newTopController = topController.presentedViewController {
-                topController = newTopController
-            }
-
-            self.bag += topController.present(
+            self.bag += rootViewController.present(
                 LoggedIn(),
                 style: .default,
                 options: [.prefersNavigationBarHidden(true)]
