@@ -143,7 +143,12 @@ class NativeRouting: RCTEventEmitter {
 
             let alert = Alert(title: "Vad vill du skicka?", actions: [imageOrVideoAction, fileAction, cancelAction])
 
-            self.bag += topController.present(alert, style: .sheet()).disposable
+            let sheetRect = CGRect(
+                x: 65,
+                y: topController.view.frame.maxY - 55, width: 0, height: 0
+            )
+
+            self.bag += topController.present(alert, style: .sheet(from: topController.view, rect: sheetRect)).disposable
         }
     }
 
