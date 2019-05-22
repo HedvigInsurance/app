@@ -185,9 +185,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func logout() {
+        RCTAsyncLocalStorage().clearAllData()
         ReactNativeContainer.shared.bridge.reload()
         bag.dispose()
-        RCTAsyncLocalStorage().clearAllData()
+        ApplicationState.preserveState(.marketing)
+        bag += ApplicationState.presentRootViewController(rootWindow)
     }
 
     // func application(_: UIApplication, didReceive notification: UILocalNotification) {
