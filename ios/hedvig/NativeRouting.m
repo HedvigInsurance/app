@@ -17,6 +17,10 @@
     RCT_EXTERN_METHOD(presentLoggedIn)
     RCT_EXTERN_METHOD(showPeril: (NSString)categoryTitle idString: (NSString)idString title: (NSString)title description: (NSString)description)
     RCT_EXTERN_METHOD(logEcommercePurchase)
+    RCT_EXTERN_METHOD(requestCameraPermissions:
+                  (BOOL) value
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
     RCT_EXTERN_METHOD(showFileUploadOverlay:
                       (BOOL) value
                       resolver:(RCTPromiseResolveBlock)resolve

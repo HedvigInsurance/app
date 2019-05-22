@@ -39,12 +39,11 @@ interface DataProps {
   shouldLoad: boolean;
 }
 
-import { PermissionsAndroid } from 'react-native';
+import { PermissionsAndroid, NativeModules } from 'react-native';
 
 const requestCameraPermission = async () => {
   if (Platform.OS !== 'android') {
-    // TODO
-    //return await Permissions.check('photo');
+    return NativeModules.NativeRouting.requestCameraPermissions(true);
   }
 
   try {

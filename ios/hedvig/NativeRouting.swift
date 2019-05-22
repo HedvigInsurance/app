@@ -9,6 +9,7 @@
 import Firebase
 import Flow
 import Foundation
+import Photos
 import Presentation
 
 struct MarketingResultEventBody: Encodable {
@@ -244,5 +245,11 @@ class NativeRouting: RCTEventEmitter {
 
     @objc func registerExternalComponentId(_ componentId: String, componentName componentNameString: String) {
         componentIds.append((componentId: componentId, componentName: componentNameString))
+    }
+
+    @objc func requestCameraPermissions(_ _: Bool, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter _: RCTPromiseRejectBlock) {
+        PHPhotoLibrary.requestAuthorization { status in
+            resolve(status == .authorized)
+        }
     }
 }
