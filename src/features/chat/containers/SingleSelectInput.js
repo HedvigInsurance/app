@@ -11,30 +11,9 @@ import {
   StyledMarginContainer,
 } from '../styles/chat';
 
-import { PAYMENT_SCREEN } from '../../../navigation/screens/payment';
-import { getMainLayout } from 'src/navigation/layouts/mainLayout';
-import { setLayout } from 'src/navigation/layouts/setLayout';
-
-const showTrustly = (id) =>
-  Navigation.showModal({
-    stack: {
-      children: [
-        {
-          component: {
-            ...PAYMENT_SCREEN.component,
-            passProps: {
-              id,
-              startedFromChat: true,
-            },
-          },
-        },
-      ],
-    },
-  });
-
 const goToDashboard = () => {
   if (Platform.OS === 'ios') {
-    setLayout(getMainLayout());
+    NativeModules.NativeRouting.presentLoggedIn();
   } else {
     NativeModules.ActivityStarter.navigateToLoggedInFromChat();
   }
@@ -77,7 +56,7 @@ class SingleSelectInput extends React.Component {
                 done(message);
                 Linking.openURL(choice.webUrl);
               } else if (choice.type === 'trustly') {
-                showTrustly(choice.id);
+                goToDashboard();
                 selectChoice(message, choice);
                 done(message);
               }
