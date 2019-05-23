@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hedvig.app.R
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
+import com.hedvig.app.R
 import com.hedvig.app.feature.chat.ChatFragment
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.makeACall
@@ -28,9 +28,9 @@ class EmergencyFragment : BaseCommonClaimFragment() {
 
     override fun bindData(insuranceStatus: InsuranceStatus, data: CommonClaimQuery.CommonClaim) {
         super.bindData(insuranceStatus, data)
-        val layout = data.layout() as? CommonClaimQuery.AsEmergency ?: return
-        val backgroundColor = requireContext().compatColor(layout.color().mapppedColor())
-        setupLargeTitle(data.title(), R.font.circular_bold, R.drawable.ic_back, backgroundColor) {
+        val layout = data.layout as? CommonClaimQuery.AsEmergency ?: return
+        val backgroundColor = requireContext().compatColor(layout.color.mapppedColor())
+        setupLargeTitle(data.title, R.font.circular_bold, R.drawable.ic_back, backgroundColor) {
             navController.popBackStack()
         }
         commonClaimFirstMessageContainer.setBackgroundColor(backgroundColor)

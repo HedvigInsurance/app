@@ -27,7 +27,6 @@ import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.svg.buildRequestBuilder
-import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_claims.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
@@ -36,8 +35,8 @@ import timber.log.Timber
 
 class ClaimsFragment : BaseTabFragment() {
 
-    val tracker: ClaimsTracker by inject()
-    val claimsViewModel: ClaimsViewModel by sharedViewModel()
+    private val tracker: ClaimsTracker by inject()
+    private val claimsViewModel: ClaimsViewModel by sharedViewModel()
 
     private val requestBuilder: RequestBuilder<PictureDrawable> by lazy { buildRequestBuilder() }
     private val baseMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin) }
@@ -83,7 +82,7 @@ class ClaimsFragment : BaseTabFragment() {
             backgroundColor = requireContext().compatColor(R.color.off_white)
         )
 
-        when (commonClaimsData.insurance().status()) {
+        when (commonClaimsData.insurance.status) {
             InsuranceStatus.ACTIVE -> {
                 claimsIllustration.show()
                 insuranceInactiveMessage.remove()
@@ -106,7 +105,7 @@ class ClaimsFragment : BaseTabFragment() {
         commonClaimsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         commonClaimsRecyclerView.adapter =
             CommonClaimsAdapter(
-                commonClaims = commonClaimsData.commonClaims(),
+                commonClaims = commonClaimsData.commonClaims,
                 baseUrl = BuildConfig.BASE_URL,
                 requestBuilder = requestBuilder,
                 navigateToCommonClaimFragment = { commonClaim ->
