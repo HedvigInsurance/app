@@ -49,7 +49,7 @@ class ReferralFragment : Fragment() {
     }
 
     private fun bindData(data: MockData) {
-        code.text = data.referralInformation.code
+        invites.adapter = InvitesAdapter(data)
         referralButton.setHapticClickListener {
             tracker.clickReferral(data.referralInformation.discount.amount.toInt())
             showShareSheet("TODO Copy") { intent ->
@@ -59,7 +59,6 @@ class ReferralFragment : Fragment() {
                 }
             }
         }
-        invites.adapter = InvitesAdapter(data.receivers)
     }
 
     override fun onStop() {
@@ -86,11 +85,8 @@ class ReferralFragment : Fragment() {
                 tenSek
             ),
             listOf(
-                MockReferral(
-                    null,
-                    MockReferralStatus.NOT_INITIATED,
-                    tenSek
-                )
+                MockReferral(null, MockReferralStatus.NOT_INITIATED, tenSek),
+                MockReferral("Oscar", MockReferralStatus.ACTIVE, tenSek)
             )
         )
     }
