@@ -4,8 +4,8 @@ import android.graphics.Color
 import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
 import android.support.v4.graphics.ColorUtils
-import com.hedvig.app.R
 import com.hedvig.android.owldroid.type.HedvigColor
+import com.hedvig.app.R
 
 @ColorInt
 fun percentageFade(@ColorInt from: Int, @ColorInt to: Int, percentage: Float): Int {
@@ -62,7 +62,7 @@ fun percentageFade(@ColorInt from: Int, @ColorInt to: Int, percentage: Float): I
 }
 
 @ColorRes
-fun HedvigColor.mapppedColor(): Int = when (this) {
+fun HedvigColor.mappedColor(): Int = when (this) {
     HedvigColor.DARKPURPLE -> R.color.dark_purple
     HedvigColor.LIGHTGRAY -> R.color.light_gray
     HedvigColor.OFFWHITE -> R.color.off_white
@@ -78,6 +78,18 @@ fun HedvigColor.mapppedColor(): Int = when (this) {
     HedvigColor.`$UNKNOWN` -> R.color.purple
 }
 
+val colorArray = arrayOf(
+    HedvigColor.DARKPURPLE,
+    HedvigColor.PURPLE,
+    HedvigColor.BLACKPURPLE,
+    HedvigColor.TURQUOISE,
+    HedvigColor.PINK,
+    HedvigColor.YELLOW
+)
+
+@ColorRes
+fun hashColor(obj: Any) = colorArray[obj.hashCode() % 6].mappedColor()
+
 @ColorInt
 fun lightenColor(@ColorInt color: Int, factor: Float): Int {
     val hsl = FloatArray(3)
@@ -89,3 +101,13 @@ fun lightenColor(@ColorInt color: Int, factor: Float): Int {
     return ColorUtils.HSLToColor(hsl)
 }
 
+enum class LightClass {
+    DARK,
+    LIGHT
+}
+
+fun getLightness(@ColorInt color: Int) = if (ColorUtils.calculateLuminance(color) < 0.5) {
+    LightClass.DARK
+} else {
+    LightClass.LIGHT
+}
