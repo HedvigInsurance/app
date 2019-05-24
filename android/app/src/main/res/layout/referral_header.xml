@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/base_margin"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/referral_title_spacing"
-        android:text="9 vänner kvar att bjuda in" />
+        tools:text="9 vänner kvar att bjuda in" />
 
     <TextView
         android:id="@+id/explainer"
@@ -23,7 +24,7 @@
         android:layout_marginTop="@dimen/base_margin"
         android:layout_marginEnd="@dimen/base_margin_double"
         android:gravity="center_horizontal"
-        android:text="Du ger bort 10 kr rabatt och får 10 kr rabatt för varje vän du bjuder in via din unika länk! Kan du nå gratis försäkring?" />
+        tools:text="Du ger bort 10 kr rabatt och får 10 kr rabatt för varje vän du bjuder in via din unika länk! Kan du nå gratis försäkring?" />
 
     <TextView
         style="@style/Body.XSmall"
@@ -31,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/base_margin_triple"
-        android:text="Din kod" />
+        android:text="@string/REFERRAL_PROGRESS_CODE_TITLE" />
 
     <TextView
         android:id="@+id/code"
@@ -39,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="HDVG87" />
+        tools:text="HDVG87" />
 
     <TextView
         style="@style/Headline.Medium"
@@ -47,6 +48,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin_double"
         android:layout_marginTop="@dimen/base_margin_triple"
-        android:text="Dina inbjudningar" />
+        android:text="@string/REFERRAL_INVITE_TITLE" />
 
 </LinearLayout>
