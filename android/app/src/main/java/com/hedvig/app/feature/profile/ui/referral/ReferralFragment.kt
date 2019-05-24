@@ -86,7 +86,11 @@ class ReferralFragment : Fragment() {
             ),
             listOf(
                 MockReferral(null, MockReferralStatus.NOT_INITIATED, tenSek),
-                MockReferral("Oscar", MockReferralStatus.ACTIVE, tenSek)
+                MockReferral("Oscar", MockReferralStatus.ACTIVE, tenSek),
+                MockReferral("Sam", MockReferralStatus.INITIATED, tenSek),
+                MockReferral("Fredrik", MockReferralStatus.ACTIVE, tenSek),
+                MockReferral("Alex", MockReferralStatus.ACTIVE, tenSek),
+                MockReferral("Meletis", MockReferralStatus.TERMINATED, tenSek)
             )
         )
     }

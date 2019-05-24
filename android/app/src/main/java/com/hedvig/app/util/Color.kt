@@ -6,6 +6,7 @@ import android.support.annotation.ColorRes
 import android.support.v4.graphics.ColorUtils
 import com.hedvig.android.owldroid.type.HedvigColor
 import com.hedvig.app.R
+import kotlin.math.abs
 
 @ColorInt
 fun percentageFade(@ColorInt from: Int, @ColorInt to: Int, percentage: Float): Int {
@@ -88,7 +89,7 @@ val colorArray = arrayOf(
 )
 
 @ColorRes
-fun hashColor(obj: Any) = colorArray[obj.hashCode() % 6].mappedColor()
+fun hashColor(obj: Any) = colorArray[abs(obj.hashCode()) % 6].mappedColor()
 
 @ColorInt
 fun lightenColor(@ColorInt color: Int, factor: Float): Int {
