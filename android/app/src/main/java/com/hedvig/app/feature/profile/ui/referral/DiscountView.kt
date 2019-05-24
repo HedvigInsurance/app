@@ -8,8 +8,11 @@ import android.view.View
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.compatColor
 import android.graphics.drawable.BitmapDrawable
-import android.support.v4.content.ContextCompat
+import android.support.animation.FloatValueHolder
+import android.support.animation.SpringAnimation
 import android.support.v4.content.res.ResourcesCompat
+import timber.log.Timber
+import android.support.animation.SpringForce
 
 class DiscountView : View {
 
@@ -18,11 +21,9 @@ class DiscountView : View {
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(context, attributeSet, defStyle)
 
     private val premium = 100
-    private val discountedPremium = 100
+    private val discountedPremium = 80
     private val step = 10
     private val segments = premium / step
-
-    private val isAnimating = false
 
     //colors
     private val pink = context.compatColor(R.color.pink)
@@ -36,12 +37,14 @@ class DiscountView : View {
 
     private val paint = Paint(ANTI_ALIAS_FLAG)
 
-    private var centerX = -1
-    private var centerY = -1
+    private var centerX = -1f
+    private var centerY = -1f
 
     // dimens
-    private val tankWidth = 200
-    private val tankPaddingTop = 0
+    private val tankWidth = 400f
+    private val tankWidthHalf = tankWidth / 2
+    private var tankPaddingTop = 0f
+    private var animationTopPadding = 0f
 
     private val labelsMarginFromTank = 50
 
@@ -60,10 +63,49 @@ class DiscountView : View {
     private val textPadding = 40f
     private val textLabelArrowSquareSize = 10
 
+
+    private val springStartValue = 100f
+
+    val spring = SpringForce(0f)
+        .setDampingRatio(SpringForce.DAMPING_RATIO_LOW_BOUNCY)
+        .setStiffness(SpringForce.STIFFNESS_LOW)
+
+
+    private val tankFloatValueHolder = FloatValueHolder(0f)
+    private val tankSpringAnimation = SpringAnimation(tankFloatValueHolder).also {
+        it.setMaxValue(springStartValue)
+        it.setMinValue(0f)
+        it.spring = spring
+        it.setStartValue(springStartValue)
+    }
+
+    private val textFloatValueHolder = FloatValueHolder(0f)
+    private val textSpringAnimation = SpringAnimation(textFloatValueHolder).also {
+        it.setMaxValue(springStartValue)
+        it.setMinValue(0f)
+        it.spring = spring
+        it.setStartValue(springStartValue)
+    }
+
+    private val text2FloatValueHolder = FloatValueHolder(0f)
+    private val text2SpringAnimation = SpringAnimation(text2FloatValueHolder).also {
+        it.setMaxValue(springStartValue)
+        it.setMinValue(0f)
+        it.spring = spring
+        it.setStartValue(springStartValue)
+    }
+
+    private val text3FloatValueHolder = FloatValueHolder(0f)
+    private val text3SpringAnimation = SpringAnimation(text3FloatValueHolder).also {
+        it.setMaxValue(springStartValue)
+        it.setMinValue(0f)
+        it.spring = spring
+        it.setStartValue(springStartValue)
+    }
+
     val font by lazy {
         ResourcesCompat.getFont(context, R.font.circular_bold)
     }
-
 
     private var polkaDrawable: BitmapDrawable
 
@@ -78,30 +120,106 @@ class DiscountView : View {
     private val rectF = RectF()
     private val path = Path()
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-        polkaDrawable.setBounds(0, 0, width, height) // Todo: should be smaller
-        centerX = getCenterX()
-        centerY = getCenterY()
+    private var isFirstDraw = true
 
-        val segmentHeight = (height - roofHeight - tankPaddingTop) / segments
-
-        for (i in segments - 1 downTo 0) {
-            drawSegment(canvas, i, segmentHeight, isSegmentDiscounted(i))
+    init {
+        setOnClickListener {
+            postInvalidateOnAnimation()
+            tankSpringAnimation.setStartValue(springStartValue)
+            tankSpringAnimation.start()
+            postDelayed({
+                postInvalidateOnAnimation()
+                textSpringAnimation.setStartValue(springStartValue)
+                textSpringAnimation.start()
+            }, 100)
+            postDelayed({
+                postInvalidateOnAnimation()
+                text2SpringAnimation.setStartValue(springStartValue)
+                text2SpringAnimation.start()
+            }, 200)
+            postDelayed({
+                postInvalidateOnAnimation()
+                text3SpringAnimation.setStartValue(springStartValue)
+                text3SpringAnimation.start()
+            }, 300)
         }
-
-        drawTextLabelLeft(canvas, "$premium kr", tankPaddingTop + roofHeightHalf)
-        drawTextLabelLeft(canvas, "Gratis!", tankPaddingTop + roofHeightHalf + (segmentHeight * segments))
-        drawTextLabelRight(canvas, segmentHeight)
     }
 
-    private fun drawTextLabelLeft(canvas: Canvas, text: String, yPosition: Int) {
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        val current = System.currentTimeMillis()
+        hasDiscount = discountedSegments() != 0
+        if (hasDiscount) {
+            resetMask()
+        }
+        if (isFirstDraw) {
+            centerX = getCenterX().toFloat()
+            centerY = getCenterY().toFloat()
+            polkaDrawable.setBounds(0, 0, tankWidth.toInt(), height)
+        }
+
+        val segmentHeight = (height - roofHeight - tankPaddingTop) / segments
+        val animatedSegmentHeight = (height - roofHeight - tankPaddingTop - animationTopPadding) / segments
+
+        if (tankSpringAnimation.isRunning) {
+            val v = tankFloatValueHolder.value / springStartValue
+
+            animationTopPadding = (height - roofHeight) * v
+
+            for (i in segments - 1 downTo 0) {
+                drawSegment(canvas, i, animatedSegmentHeight, isSegmentDiscounted(i))
+            }
+        } else {
+            for (i in segments - 1 downTo 0) {
+                drawSegment(canvas, i, segmentHeight, isSegmentDiscounted(i))
+            }
+        }
+
+        if (tankSpringAnimation.isRunning || textSpringAnimation.isRunning) {
+            val v = textFloatValueHolder.value / springStartValue
+            if (textSpringAnimation.isRunning) {
+                drawTextLabelLeft(canvas, "Gratis!", tankPaddingTop + roofHeightHalf + (segmentHeight * segments), v)
+            }
+        } else {
+            drawTextLabelLeft(canvas, "Gratis!", tankPaddingTop + roofHeightHalf + (segmentHeight * segments))
+        }
+
+        if (tankSpringAnimation.isRunning || textSpringAnimation.isRunning || text2SpringAnimation.isRunning) {
+            val v = text2FloatValueHolder.value / springStartValue
+            if (text2SpringAnimation.isRunning) {
+                drawTextLabelRight(canvas, segmentHeight, v)
+            }
+        } else {
+            drawTextLabelRight(canvas, segmentHeight)
+        }
+
+        if (tankSpringAnimation.isRunning || textSpringAnimation.isRunning || text2SpringAnimation.isRunning || text3SpringAnimation.isRunning) {
+            val v = text3FloatValueHolder.value / springStartValue
+            if (text3SpringAnimation.isRunning) {
+                drawTextLabelLeft(canvas, "$premium kr", tankPaddingTop + roofHeightHalf, v)
+            }
+        } else {
+            drawTextLabelLeft(canvas, "$premium kr", tankPaddingTop + roofHeightHalf)
+        }
+
+        if (hasDiscount) {
+            drawTiledFace(canvas)
+        }
+
+        if (tankSpringAnimation.isRunning || textSpringAnimation.isRunning || text2SpringAnimation.isRunning || text3SpringAnimation.isRunning) {
+            postInvalidateOnAnimation()
+        }
+        isFirstDraw = false
+        Timber.i("drawTime: ${System.currentTimeMillis() - current}")
+    }
+
+    private fun drawTextLabelLeft(canvas: Canvas, text: String, yPosition: Float, animationValue: Float = 0f) {
         paint.color = offBlackDark
         paint.style = Paint.Style.FILL
+        paint.alpha = (255 - (animationValue * 255)).toInt()
         paint.typeface = font
         paint.textSize = textSizeLabelLeft
         paint.textAlign = Paint.Align.CENTER
-
 
         paint.getTextBounds(text, 0, text.length, rect)
 
@@ -110,9 +228,9 @@ class DiscountView : View {
         val labelWidth = paint.measureText(text) + textPadding
         val labelHeightHalf = (textHeight + textPadding) / 2
         rectF.set(
-            (centerX - tankWidth - labelsMarginFromTank - labelWidth),
+            (centerX - tankWidthHalf - labelsMarginFromTank - labelWidth),
             (yPosition - labelHeightHalf),
-            (centerX - tankWidth - labelsMarginFromTank).toFloat(),
+            centerX - tankWidthHalf - labelsMarginFromTank,
             (yPosition + labelHeightHalf)
         )
 
@@ -132,29 +250,32 @@ class DiscountView : View {
 
         paint.color = white
         canvas.drawText(text, rectF.centerX(), rectF.centerY() - ((paint.descent() + paint.ascent()) / 2), paint)
+        paint.alpha = 255
     }
 
-    private fun drawTextLabelRight(canvas: Canvas, segmentHeight: Int) {
-        val hasDiscount = discountedSegments() != 0
-        val text = if(hasDiscount) "-${premium - discountedSegments()} kr" else "Bjud in!"
+    private var hasDiscount = false
+
+    private fun drawTextLabelRight(canvas: Canvas, segmentHeight: Float, animationValue: Float = 0f) {
+        val text = if (hasDiscount) "-${premium - discountedPremium} kr" else "Bjud in!"
 
         paint.color = if (hasDiscount) green else purple
         paint.style = Paint.Style.FILL
+        paint.alpha = (255 - (animationValue * 255)).toInt()
         paint.typeface = font
         paint.textSize = textSizeLabelRight
         paint.textAlign = Paint.Align.CENTER
 
         paint.getTextBounds(text, 0, text.length, rect)
 
-        val yPosition = tankPaddingTop + roofHeightHalf + if (hasDiscount) (segmentHeight * discountedSegments()) / 2 else  segmentHeight / 2
+        val yPosition = tankPaddingTop + roofHeightHalf + if (hasDiscount) (segmentHeight * discountedSegments()) / 2 else segmentHeight / 2
         val textHeight = rect.height().toFloat()
 
         val labelWidth = rect.width() + textPadding
         val labelHeightHalf = (textHeight + textPadding) / 2
         rectF.set(
-            (centerX + tankWidth + labelsMarginFromTank).toFloat(),
+            (centerX + tankWidthHalf + labelsMarginFromTank).toFloat(),
             (yPosition - labelHeightHalf),
-            (centerX + tankWidth + labelsMarginFromTank + labelWidth),
+            (centerX + tankWidthHalf + labelsMarginFromTank + labelWidth),
             (yPosition + labelHeightHalf)
         )
 
@@ -174,13 +295,14 @@ class DiscountView : View {
 
         paint.color = if (hasDiscount) offBlackDark else white
         canvas.drawText(text, rectF.centerX(), rectF.centerY() - ((paint.descent() + paint.ascent()) / 2), paint)
+        paint.alpha = 255
     }
 
-    private fun drawSegment(canvas: Canvas, index: Int, segmentHeight: Int, isDiscounted: Boolean) {
+    private fun drawSegment(canvas: Canvas, index: Int, segmentHeight: Float, isDiscounted: Boolean) {
         drawLeftFace(canvas, index, segmentHeight, isDiscounted)
         drawRightFace(canvas, index, segmentHeight, isDiscounted)
         // only draw roof on last if not animating
-        if (isAnimating || index == 0)
+        if (index == 0)
             drawRoof(canvas, index, segmentHeight, isDiscounted)
     }
 
@@ -195,28 +317,28 @@ class DiscountView : View {
 
     }
 
-    private fun drawRoof(canvas: Canvas, index: Int, segmentHeight: Int, isDiscounted: Boolean) {
+    private fun drawRoof(canvas: Canvas, index: Int, segmentHeight: Float, isDiscounted: Boolean) {
         path.reset()
 
         paint.color = if (isDiscounted) green else purple
         paint.style = Paint.Style.FILL
 
-        path.moveTo(centerX, tankPaddingTop + (index * segmentHeight))
-        path.lineTo(centerX + tankWidth, tankPaddingTop + roofHeightHalf + (index * segmentHeight))
-        path.lineTo(centerX, tankPaddingTop + roofHeight + (index * segmentHeight))
-        path.lineTo(centerX - tankWidth, tankPaddingTop + roofHeightHalf + (index * segmentHeight))
+        path.moveTo(centerX, tankPaddingTop + animationTopPadding + (index * segmentHeight))
+        path.lineTo(centerX + tankWidthHalf, tankPaddingTop + animationTopPadding + roofHeightHalf + (index * segmentHeight))
+        path.lineTo(centerX, tankPaddingTop + animationTopPadding + roofHeight + (index * segmentHeight))
+        path.lineTo(centerX - tankWidthHalf, tankPaddingTop + animationTopPadding + roofHeightHalf + (index * segmentHeight))
         path.close()
 
         canvas.drawPath(path, paint)
     }
 
-    private fun drawLeftFace(canvas: Canvas, index: Int, segmentHeight: Int, isDiscounted: Boolean) {
+    private fun drawLeftFace(canvas: Canvas, index: Int, segmentHeight: Float, isDiscounted: Boolean) {
         path.reset()
 
-        val sectionLeft = centerX - tankWidth
-        val sectionRight = centerX
+        val sectionLeft = if (isDiscounted) 0f else centerX - tankWidthHalf
+        val sectionRight = if (isDiscounted) tankWidthHalf else centerX
 
-        val sectionTop = tankPaddingTop + (index * segmentHeight)
+        val sectionTop = tankPaddingTop + animationTopPadding + (index * segmentHeight)
         val sectionBottom = sectionTop + segmentHeight
 
         path.moveTo(sectionLeft, sectionTop + roofHeightHalf)
@@ -227,10 +349,10 @@ class DiscountView : View {
 
         paint.style = Paint.Style.FILL
         if (isDiscounted) {
-            drawTiledFace(canvas, path)
+            addPathToMask(path)
             drawVerticalGreenOutline(
                 canvas,
-                sectionLeft + sectionSpacingHalf,
+                centerX - tankWidthHalf + sectionSpacingHalf,
                 sectionTop + roofHeightHalf,
                 sectionBottom + roofHeightHalf
             )
@@ -242,31 +364,30 @@ class DiscountView : View {
         setUpPaintForLine()
         if (!isDiscounted || isLastDiscountedSegment(index)) {
             canvas.drawLine(
-                sectionLeft,
+                centerX - tankWidthHalf,
                 sectionBottom + roofHeightHalf + sectionSpacingHalf,
-                sectionRight,
+                centerX,
                 sectionBottom + roofHeight + sectionSpacingHalf,
                 paint)
         }
         if (index == 0) {
             canvas.drawLine(
-                sectionLeft,
+                centerX - tankWidthHalf,
                 sectionTop + roofHeightHalf + sectionSpacingHalf,
-                sectionRight,
+                centerX,
                 sectionTop + roofHeight + sectionSpacingHalf,
                 paint
             )
         }
     }
 
-
-    private fun drawRightFace(canvas: Canvas, index: Int, segmentHeight: Int, isDiscounted: Boolean) {
+    private fun drawRightFace(canvas: Canvas, index: Int, segmentHeight: Float, isDiscounted: Boolean) {
         path.reset()
 
-        val sectionLeft = centerX
-        val sectionRight = centerX + tankWidth
+        val sectionLeft = if (isDiscounted) tankWidthHalf else centerX
+        val sectionRight = if (isDiscounted) tankWidth else centerX + tankWidthHalf
 
-        val sectionTop = tankPaddingTop + (index * segmentHeight)
+        val sectionTop = tankPaddingTop + animationTopPadding + (index * segmentHeight)
         val sectionBottom = sectionTop + segmentHeight
 
         path.moveTo(sectionLeft, sectionTop + roofHeight)
@@ -277,11 +398,11 @@ class DiscountView : View {
 
         paint.style = Paint.Style.FILL
         if (isDiscounted) {
-            drawTiledFace(canvas, path)
+            addPathToMask(path)
             setUpPaintForLine()
             drawVerticalGreenOutline(
                 canvas,
-                sectionRight - sectionSpacingHalf,
+                centerX + tankWidthHalf - sectionSpacingHalf,
                 sectionTop + roofHeightHalf,
                 sectionBottom + roofHeightHalf
             )
@@ -293,25 +414,25 @@ class DiscountView : View {
         setUpPaintForLine()
         if (!isDiscounted || isLastDiscountedSegment(index)) {
             canvas.drawLine(
-                sectionLeft,
+                centerX,
                 sectionBottom + roofHeight + sectionSpacingHalf,
-                sectionRight,
+                centerX + tankWidthHalf,
                 sectionBottom + roofHeightHalf + sectionSpacingHalf,
                 paint
             )
         }
         if (index == 0) {
             canvas.drawLine(
-                sectionLeft,
+                centerX,
                 sectionTop + roofHeight + sectionSpacingHalf,
-                sectionRight,
+                centerX + tankWidthHalf,
                 sectionTop + roofHeightHalf + sectionSpacingHalf,
                 paint
             )
         }
     }
 
-    private fun drawVerticalGreenOutline(canvas: Canvas, xPosition: Int, yTop: Int, yBottom: Int) {
+    private fun drawVerticalGreenOutline(canvas: Canvas, xPosition: Float, yTop: Float, yBottom: Float) {
         setUpPaintForLine()
         paint.color = green
         canvas.drawLine(
@@ -323,23 +444,32 @@ class DiscountView : View {
         )
     }
 
-    private fun drawTiledFace(canvas: Canvas, path: Path) {
-        val mask = getMask(path)
+    lateinit var tileResult: Bitmap
+    lateinit var tileCanvas: Canvas
 
-        val result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val tempCanvas = Canvas(result)
-        polkaDrawable.draw(tempCanvas)
-        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
-        tempCanvas.drawBitmap(mask, 0f, 0f, paint)
-        paint.xfermode = null
-        canvas.drawBitmap(result, 0f, 0f, paint)
+    lateinit var maskBitmap: Bitmap
+    lateinit var maskCanvas: Canvas
+
+    private fun resetMask() {
+        tileResult = Bitmap.createBitmap(tankWidth.toInt(), height, Bitmap.Config.ARGB_8888)
+        tileCanvas = Canvas(tileResult)
+
+        maskBitmap = Bitmap.createBitmap(tankWidth.toInt(), height, Bitmap.Config.ARGB_8888)
+        maskCanvas = Canvas(maskBitmap)
     }
 
-    private fun getMask(path: Path): Bitmap {
-        val mask = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val tempCanvas1 = Canvas(mask)
-        tempCanvas1.drawPath(path, paint)
-        return mask
+    private fun addPathToMask(path: Path) {
+        paint.style = Paint.Style.FILL
+        paint.color = green
+        maskCanvas.drawPath(path, paint)
+    }
+
+    private fun drawTiledFace(canvas: Canvas) {
+        polkaDrawable.draw(tileCanvas)
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
+        tileCanvas.drawBitmap(maskBitmap, 0f, 0f, paint)
+        paint.xfermode = null
+        canvas.drawBitmap(tileResult, (centerX - tankWidthHalf).toFloat(), 0f, paint)
     }
 
     private fun isSegmentDiscounted(index: Int) = (premium - (index * step)) > discountedPremium
@@ -354,10 +484,3 @@ class DiscountView : View {
     private fun getCenterX() = this.width / 2
     private fun getCenterY() = this.height / 2
 }
-
-// remove this
-fun Path.moveTo(x: Int, y: Int) = this.moveTo(x.toFloat(), y.toFloat())
-
-fun Path.lineTo(x: Int, y: Int) = this.lineTo(x.toFloat(), y.toFloat())
-
-fun Canvas.drawLine(startX: Int, startY: Int, stopX: Int, stopY: Int, paint: Paint) = this.drawLine(startX.toFloat(), startY.toFloat(), stopX.toFloat(), stopY.toFloat(), paint)
