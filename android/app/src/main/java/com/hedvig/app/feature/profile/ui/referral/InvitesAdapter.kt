@@ -42,6 +42,7 @@ class InvitesAdapter(
         when (viewHolder.itemViewType) {
             HEADER -> {
                 (viewHolder as? HeaderViewHolder)?.apply {
+                    // TODO Some more text key interpolation
                     code.text = data.referralInformation.code
                 }
             }
@@ -55,7 +56,7 @@ class InvitesAdapter(
                             setupAvatarWithLetter(this, invite.name)
 
                             name.text = invite.name
-                            statusText.text = "Har skaffat Hedvig"
+                            statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_NEWSTATE)
 
                             statusIconContainer.setBackgroundResource(R.drawable.background_rounded_corners)
                             statusIconContainer.background.setTint(
@@ -70,21 +71,21 @@ class InvitesAdapter(
                             setupAvatarWithLetter(this, invite.name)
 
                             name.text = invite.name
-                            statusText.text = "Har påbörjat registrering"
+                            statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_STARTEDSTATE)
 
                             statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
                         }
                         MockReferralStatus.NOT_INITIATED -> {
                             avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.ic_ghost))
                             avatar.scaleType = ImageView.ScaleType.CENTER
-                            name.text = "Spöke" // TODO Textkey copy
+                            name.text = name.resources.getString(R.string.REFERRAL_INVITE_ANON)
                             statusText.text = "Någon har öppnat din länk" // TODO Textkey copy
                             statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
                         }
                         MockReferralStatus.TERMINATED -> {
                             setupAvatarWithLetter(this, invite.name)
                             name.text = invite.name
-                            statusText.text = "Har lämnat Hedvig" // TODO Textkey copy
+                            statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_QUITSTATE)
                             statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_cross))
                         }
                     }
