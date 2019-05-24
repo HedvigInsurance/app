@@ -53,7 +53,7 @@ class ProfileRepository(private val apolloClient: ApolloClient) {
             .read(profileQuery)
             .execute()
         val newMemberBuilder = cachedData
-            .member()
+            .member
             .toBuilder()
 
         email?.let { newMemberBuilder.email(it) }
@@ -88,10 +88,10 @@ class ProfileRepository(private val apolloClient: ApolloClient) {
 
         val newCashback = ProfileQuery.Cashback
             .builder()
-            .__typename(cashback.__typename())
-            .name(cashback.name())
-            .imageUrl(cashback.imageUrl())
-            .paragraph(cashback.paragraph())
+            .__typename(cashback.__typename)
+            .name(cashback.name)
+            .imageUrl(cashback.imageUrl)
+            .paragraph(cashback.paragraph)
             .build()
 
         val newData = cachedData
@@ -136,9 +136,9 @@ class ProfileRepository(private val apolloClient: ApolloClient) {
 
         val newBankAccount = ProfileQuery.BankAccount
             .builder()
-            .__typename(bankAccount.__typename())
-            .bankName(bankAccount.bankName())
-            .descriptor(bankAccount.descriptor())
+            .__typename(bankAccount.__typename)
+            .bankName(bankAccount.bankName)
+            .descriptor(bankAccount.descriptor)
             .build()
 
         val newData = cachedData

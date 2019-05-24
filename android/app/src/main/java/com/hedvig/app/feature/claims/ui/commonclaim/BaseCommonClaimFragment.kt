@@ -32,7 +32,7 @@ abstract class BaseCommonClaimFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         claimsViewModel.selectedSubViewData.observe(this) { commonClaim ->
-            claimsViewModel.data.value?.insurance()?.status()?.let { insuranceStatus ->
+            claimsViewModel.data.value?.insurance?.status?.let { insuranceStatus ->
                 commonClaim?.let { bindData(insuranceStatus, it) }
             }
         }
@@ -41,7 +41,7 @@ abstract class BaseCommonClaimFragment : Fragment() {
     @CallSuper
     open fun bindData(insuranceStatus: InsuranceStatus, data: CommonClaimQuery.CommonClaim) {
         appBarLayout.setExpanded(false, false)
-        requestBuilder.load(Uri.parse(BuildConfig.BASE_URL + data.icon().svgUrl())).into(commonClaimFirstMessageIcon)
+        requestBuilder.load(Uri.parse(BuildConfig.BASE_URL + data.icon.svgUrl)).into(commonClaimFirstMessageIcon)
     }
 }
 

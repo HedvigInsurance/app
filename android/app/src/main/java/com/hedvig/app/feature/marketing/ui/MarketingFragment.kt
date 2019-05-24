@@ -121,7 +121,7 @@ class MarketingFragment : Fragment() {
             progressBar.layoutParams = ViewGroup.LayoutParams(width / nStories, 10)
             storyProgressIndicatorContainer.addView(progressBar)
             val animator = ValueAnimator.ofFloat(0f, 100f).apply {
-                duration = (stories[n].duration()?.toLong() ?: 3) * 1000
+                duration = (stories[n].duration?.toLong() ?: 3) * 1000
                 addUpdateListener { va ->
                     progressBar.progress = (va.animatedValue as Float).toInt()
                 }

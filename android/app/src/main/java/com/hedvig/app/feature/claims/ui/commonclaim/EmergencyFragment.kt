@@ -28,9 +28,9 @@ class EmergencyFragment : BaseCommonClaimFragment() {
 
     override fun bindData(insuranceStatus: InsuranceStatus, data: CommonClaimQuery.CommonClaim) {
         super.bindData(insuranceStatus, data)
-        val layout = data.layout() as? CommonClaimQuery.AsEmergency ?: return
-        val backgroundColor = requireContext().compatColor(layout.color().mappedColor())
-        setupLargeTitle(data.title(), R.font.circular_bold, R.drawable.ic_back, backgroundColor) {
+        val layout = data.layout as? CommonClaimQuery.AsEmergency ?: return
+        val backgroundColor = requireContext().compatColor(layout.color.mappedColor())
+        setupLargeTitle(data.title, R.font.circular_bold, R.drawable.ic_back, backgroundColor) {
             navController.popBackStack()
         }
         commonClaimFirstMessageContainer.setBackgroundColor(backgroundColor)

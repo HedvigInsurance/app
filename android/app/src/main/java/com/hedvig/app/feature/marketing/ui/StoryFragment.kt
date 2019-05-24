@@ -31,11 +31,11 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class StoryFragment : Fragment() {
 
-    val cache: SimpleCache by inject()
+    private val cache: SimpleCache by inject()
+    private val tracker: MarketingTracker by inject()
 
-    val tracker: MarketingTracker by inject()
+    private val marketingStoriesViewModel: MarketingStoriesViewModel by sharedViewModel()
 
-    val marketingStoriesViewModel: MarketingStoriesViewModel by sharedViewModel()
     private var player: SimpleExoPlayer? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,9 +46,9 @@ class StoryFragment : Fragment() {
         // FIXME Show something prettier. Zak will deliver a design for this
         val story = marketingStoriesViewModel.marketingStories.value?.get(position) ?: return View(context)
 
-        val asset = story.asset()
-        val mimeType = asset?.mimeType()
-        val url = asset?.url() ?: ""
+        val asset = story.asset
+        val mimeType = asset?.mimeType
+        val url = asset?.url ?: ""
         if (mimeType == "image/jpeg") {
             val playerView = view.findViewById<PlayerView>(R.id.story_video)
             view.removeView(playerView)

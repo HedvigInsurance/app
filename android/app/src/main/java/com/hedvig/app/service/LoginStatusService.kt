@@ -30,7 +30,7 @@ class LoginStatusService(
 
         return Rx2Apollo.from(apolloClient.query(InsuranceStatusQuery()))
             .map { response ->
-                response.data()?.insurance()?.status()?.let { status ->
+                response.data()?.insurance?.status?.let { status ->
                     when (status) {
                         InsuranceStatus.ACTIVE,
                         InsuranceStatus.INACTIVE,

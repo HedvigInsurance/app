@@ -2,11 +2,10 @@ package com.hedvig.app.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.hedvig.app.data.debit.DirectDebitRepository
 import com.hedvig.android.owldroid.graphql.DirectDebitQuery
+import com.hedvig.app.data.debit.DirectDebitRepository
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
-import javax.inject.Inject
 
 class DirectDebitViewModel(
     private val directDebitRepository: DirectDebitRepository
@@ -37,7 +36,7 @@ class DirectDebitViewModel(
         val disposable = directDebitRepository.refreshDirectdebitStatus()
             .subscribe({ response ->
                 response.data()?.let { data ->
-                    directDebitRepository.writeDirectDebitStatusToCache(data.directDebitStatus())
+                    directDebitRepository.writeDirectDebitStatusToCache(data.directDebitStatus)
                 } ?: Timber.e("Failed to refresh direct debit status")
             }, { error ->
                 Timber.e(error, "Failed to refresh direct debit status")
