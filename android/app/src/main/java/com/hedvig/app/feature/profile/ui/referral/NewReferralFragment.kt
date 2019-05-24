@@ -21,7 +21,7 @@ import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import java.math.BigDecimal
 
-class ReferralFragment : Fragment() {
+class NewReferralFragment : Fragment() {
 
     val tracker: ProfileTracker by inject()
 
