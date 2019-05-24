@@ -5,6 +5,11 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/base_margin"
     android:orientation="vertical">
+    
+    <com.hedvig.app.feature.profile.ui.referral.DiscountView
+        android:id="@+id/discountView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 
     <TextView
         android:id="@+id/subtitle"

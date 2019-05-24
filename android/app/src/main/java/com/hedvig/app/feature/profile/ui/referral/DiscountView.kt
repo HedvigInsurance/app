@@ -20,9 +20,9 @@ class DiscountView : View {
     constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet)
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(context, attributeSet, defStyle)
 
-    private val premium = 100
-    private val discountedPremium = 80
-    private val step = 10
+    private var premium: Int = 100
+    private var discountedPremium: Int = 80
+    private var step = 10
     private val segments = premium / step
 
     //colors
@@ -63,13 +63,11 @@ class DiscountView : View {
     private val textPadding = 40f
     private val textLabelArrowSquareSize = 10
 
-
     private val springStartValue = 100f
 
-    val spring = SpringForce(0f)
+    private val spring = SpringForce(0f)
         .setDampingRatio(SpringForce.DAMPING_RATIO_LOW_BOUNCY)
         .setStiffness(SpringForce.STIFFNESS_LOW)
-
 
     private val tankFloatValueHolder = FloatValueHolder(0f)
     private val tankSpringAnimation = SpringAnimation(tankFloatValueHolder).also {
@@ -123,30 +121,44 @@ class DiscountView : View {
     private var isFirstDraw = true
 
     init {
-        setOnClickListener {
+        setOnClickListener { startAnimation() }
+    }
+
+    private var isInitialized = false
+
+    fun init(premium: Int, discount: Int, step: Int) {
+        this.premium = premium
+        this.discountedPremium = premium - discount
+        this.step = step
+        isInitialized = true
+        startAnimation()
+    }
+
+    private fun startAnimation() {
+        postInvalidateOnAnimation()
+        tankSpringAnimation.setStartValue(springStartValue)
+        tankSpringAnimation.start()
+        postDelayed({
             postInvalidateOnAnimation()
-            tankSpringAnimation.setStartValue(springStartValue)
-            tankSpringAnimation.start()
-            postDelayed({
-                postInvalidateOnAnimation()
-                textSpringAnimation.setStartValue(springStartValue)
-                textSpringAnimation.start()
-            }, 100)
-            postDelayed({
-                postInvalidateOnAnimation()
-                text2SpringAnimation.setStartValue(springStartValue)
-                text2SpringAnimation.start()
-            }, 200)
-            postDelayed({
-                postInvalidateOnAnimation()
-                text3SpringAnimation.setStartValue(springStartValue)
-                text3SpringAnimation.start()
-            }, 300)
-        }
+            textSpringAnimation.setStartValue(springStartValue)
+            textSpringAnimation.start()
+        }, 100)
+        postDelayed({
+            postInvalidateOnAnimation()
+            text2SpringAnimation.setStartValue(springStartValue)
+            text2SpringAnimation.start()
+        }, 200)
+        postDelayed({
+            postInvalidateOnAnimation()
+            text3SpringAnimation.setStartValue(springStartValue)
+            text3SpringAnimation.start()
+        }, 300)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        if (!isInitialized) return
+
         val current = System.currentTimeMillis()
         hasDiscount = discountedSegments() != 0
         if (hasDiscount) {
