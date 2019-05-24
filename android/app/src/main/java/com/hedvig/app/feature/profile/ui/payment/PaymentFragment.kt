@@ -27,15 +27,14 @@ import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.viewmodel.DirectDebitViewModel
 import kotlinx.android.synthetic.main.fragment_payment.*
 import kotlinx.android.synthetic.main.loading_spinner.*
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 import java.util.Calendar
 
 class PaymentFragment : Fragment() {
 
-    val profileViewModel: ProfileViewModel by sharedViewModel()
-    val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
+    private val profileViewModel: ProfileViewModel by sharedViewModel()
+    private val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
 
     private val navController: NavController by lazy {
         requireActivity().findNavController(R.id.rootNavigationHost)
@@ -89,7 +88,7 @@ class PaymentFragment : Fragment() {
             resetViews()
             sphereContainer.show()
 
-            val monthlyCost = profileData?.insurance()?.monthlyCost()?.toString()
+            val monthlyCost = profileData?.insurance?.monthlyCost?.toString()
             val amountPartOne = SpannableString("$monthlyCost\n")
             val perMonthLabel = resources.getString(R.string.PROFILE_PAYMENT_PER_MONTH_LABEL)
             val amountPartTwo = SpannableString(perMonthLabel)
@@ -123,20 +122,19 @@ class PaymentFragment : Fragment() {
 
     private fun bindBankAccountInformation() {
         val profileData = profileViewModel.data.value ?: return
-        val directDebitStatus = directDebitViewModel.data.value?.directDebitStatus() ?: return
 
-        when (directDebitStatus) {
+        when (directDebitViewModel.data.value?.directDebitStatus ?: return) {
             DirectDebitStatus.ACTIVE -> {
                 paymentDetailsContainer.show()
-                bankName.text = profileData.bankAccount()?.bankName() ?: ""
+                bankName.text = profileData.bankAccount?.bankName ?: ""
 
                 separator.show()
-                accountNumber.text = profileData.bankAccount()?.descriptor() ?: ""
+                accountNumber.text = profileData.bankAccount?.descriptor ?: ""
                 changeBankAccount.show()
             }
             DirectDebitStatus.PENDING -> {
                 paymentDetailsContainer.show()
-                bankName.text = profileData.bankAccount()?.bankName()
+                bankName.text = profileData.bankAccount?.bankName
 
                 accountNumber.text = resources.getString(R.string.PROFILE_PAYMENT_ACCOUNT_NUMBER_CHANGING)
                 bankAccountUnderChangeParagraph.show()

@@ -145,7 +145,7 @@ class ActivityStarterModule(
         disposables += Rx2Apollo
             .from(apolloClient.query(InsuranceStatusQuery()))
             .subscribe({ response ->
-                response.data()?.insurance()?.status()?.let { status ->
+                response.data()?.insurance?.status?.let { status ->
                     when (status) {
                         InsuranceStatus.INACTIVE,
                         InsuranceStatus.INACTIVE_WITH_START_DATE,

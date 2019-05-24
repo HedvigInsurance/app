@@ -26,7 +26,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class CoinsuredFragment : Fragment() {
 
-    val profileViewModel: ProfileViewModel by sharedViewModel()
+    private val profileViewModel: ProfileViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_coinsured, container, false)
@@ -53,7 +53,7 @@ class CoinsuredFragment : Fragment() {
             loadingAnimation.useHardwareAcceleration(true)
             loadingAnimation.playAnimation()
 
-            profileData?.insurance()?.personsInHousehold()?.let { personsInHousehold ->
+            profileData?.insurance?.personsInHousehold?.let { personsInHousehold ->
                 val label = resources.getString(R.string.PROFILE_COINSURED_QUANTITY_LABEL)
                 val partOne = SpannableString("$personsInHousehold\n")
                 val partTwo = SpannableString(label)

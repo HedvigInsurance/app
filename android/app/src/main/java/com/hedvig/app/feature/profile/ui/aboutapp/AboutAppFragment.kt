@@ -45,7 +45,7 @@ class AboutAppFragment : Fragment() {
         )
 
         profileViewModel.data.observe(this, Observer { data ->
-            data?.member()?.id()?.let { id ->
+            data?.member?.id?.let { id ->
                 memberId.text = interpolateTextKey(
                     resources.getString(R.string.PROFILE_ABOUT_APP_MEMBER_ID),
                     "MEMBER_ID" to id
