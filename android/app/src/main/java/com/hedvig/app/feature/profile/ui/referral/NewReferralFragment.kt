@@ -16,6 +16,7 @@ import com.hedvig.app.util.extensions.compatDrawable
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.showShareSheet
 import com.hedvig.app.util.extensions.view.setHapticClickListener
+import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.fragment_new_referral.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -54,7 +55,15 @@ class NewReferralFragment : Fragment() {
             tracker.clickReferral(data.referralInformation.discount.amount.toInt())
             showShareSheet("TODO Copy") { intent ->
                 intent.apply {
-                    putExtra(Intent.EXTRA_TEXT, "TODO Copy")
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        interpolateTextKey(
+                            resources.getString(R.string.REFERRAL_SMS_MESSAGE),
+                            "REFERRAL_VALUE" to data.referralInformation.discount.amount.toString(),
+                            "REFERRAL_CODE" to data.referralInformation.code,
+                            "REFERRAL_LINK" to data.referralInformation.link.toString()
+                        )
+                    )
                     type = "text/plain"
                 }
             }
@@ -68,12 +77,12 @@ class NewReferralFragment : Fragment() {
     }
 
     companion object {
-        val tenSek = MockMonetaryAmount(
+        private val tenSek = MockMonetaryAmount(
             BigDecimal.TEN,
             "SEK"
         )
 
-        val mockData = MockData(
+        private val mockData = MockData(
             MockReferralInformation(
                 "HDVG87",
                 Uri.parse("https://hedvigdev.page.link/HDVG87"),

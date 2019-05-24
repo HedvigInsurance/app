@@ -13,6 +13,7 @@ import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.compatDrawable
 import com.hedvig.app.util.getLightness
 import com.hedvig.app.util.hashColor
+import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.referral_header.view.*
 import kotlinx.android.synthetic.main.referral_invite_row.view.*
 
@@ -42,8 +43,15 @@ class InvitesAdapter(
         when (viewHolder.itemViewType) {
             HEADER -> {
                 (viewHolder as? HeaderViewHolder)?.apply {
-                    // TODO Some more text key interpolation
                     code.text = data.referralInformation.code
+                    subtitle.text = interpolateTextKey(
+                        subtitle.resources.getString(R.string.REFERRAL_PROGRESS_HEADLINE),
+                        "NUMBER_OF_FRIENDS_LEFT" to "???"
+                    )
+                    explainer.text = interpolateTextKey(
+                        explainer.resources.getString(R.string.REFERRAL_PROGRESS_BODY),
+                        "REFERRAL_VALUE" to data.referralInformation.discount.amount.toString()
+                    )
                 }
             }
             ITEM -> {
@@ -64,7 +72,10 @@ class InvitesAdapter(
                                     R.color.light_gray
                                 )
                             )
-                            discount.text = "-10 kr" // TODO Textkey copy
+                            discount.text = interpolateTextKey(
+                                discount.resources.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
+                                "REFERRAL_VALUE" to invite.discount.amount.toString()
+                            )
                             statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_filled_checkmark))
                         }
                         MockReferralStatus.INITIATED -> {
