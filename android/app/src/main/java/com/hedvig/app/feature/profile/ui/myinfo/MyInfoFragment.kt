@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.sphere_container.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class MyInfoFragment : Fragment() {
-    val profileViewModel: ProfileViewModel by sharedViewModel()
+    private val profileViewModel: ProfileViewModel by sharedViewModel()
 
     private var emailTextWatcher: TextWatcher? = null
     private var phoneNumberTextWatcher: TextWatcher? = null
@@ -65,8 +65,8 @@ class MyInfoFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val prevEmail = profileViewModel.data.value?.member()?.email() ?: ""
-        val prevPhoneNumber = profileViewModel.data.value?.member()?.phoneNumber() ?: ""
+        val prevEmail = profileViewModel.data.value?.member?.email ?: ""
+        val prevPhoneNumber = profileViewModel.data.value?.member?.phoneNumber ?: ""
 
         val newEmail = emailInput.text.toString()
         val newPhoneNumber = phoneNumberInput.text.toString()
@@ -132,11 +132,11 @@ class MyInfoFragment : Fragment() {
             profileData?.let { data ->
                 sphereText.text = interpolateTextKey(
                     resources.getString(R.string.PROFILE_MY_INFO_NAME_SPHERE),
-                    "FIRST_NAME" to data.member().firstName(),
-                    "LAST_NAME" to data.member().lastName()
+                    "FIRST_NAME" to data.member.firstName,
+                    "LAST_NAME" to data.member.lastName
                 )
-                setupEmailInput(data.member().email() ?: "")
-                setupPhoneNumberInput(data.member().phoneNumber() ?: "")
+                setupEmailInput(data.member.email ?: "")
+                setupPhoneNumberInput(data.member.phoneNumber ?: "")
             }
 
             profileViewModel.dirty.observe(this, Observer {

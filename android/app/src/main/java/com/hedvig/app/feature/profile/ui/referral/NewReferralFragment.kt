@@ -16,12 +16,13 @@ import com.hedvig.app.util.extensions.compatDrawable
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.showShareSheet
 import com.hedvig.app.util.extensions.view.setHapticClickListener
-import kotlinx.android.synthetic.main.fragment_referral.*
+import com.hedvig.app.util.interpolateTextKey
+import kotlinx.android.synthetic.main.fragment_new_referral.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import java.math.BigDecimal
 
-class ReferralFragment : Fragment() {
+class NewReferralFragment : Fragment() {
 
     val tracker: ProfileTracker by inject()
 
@@ -30,7 +31,7 @@ class ReferralFragment : Fragment() {
     private var buttonAnimator: ValueAnimator? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_referral, container, false)
+        inflater.inflate(R.layout.fragment_new_referral, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,17 +50,24 @@ class ReferralFragment : Fragment() {
     }
 
     private fun bindData(data: MockData) {
-        code.text = data.referralInformation.code
+        invites.adapter = InvitesAdapter(data)
         referralButton.setHapticClickListener {
             tracker.clickReferral(data.referralInformation.discount.amount.toInt())
             showShareSheet("TODO Copy") { intent ->
                 intent.apply {
-                    putExtra(Intent.EXTRA_TEXT, "TODO Copy")
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        interpolateTextKey(
+                            resources.getString(R.string.REFERRAL_SMS_MESSAGE),
+                            "REFERRAL_VALUE" to data.referralInformation.discount.amount.toString(),
+                            "REFERRAL_CODE" to data.referralInformation.code,
+                            "REFERRAL_LINK" to data.referralInformation.link.toString()
+                        )
+                    )
                     type = "text/plain"
                 }
             }
         }
-        invites.adapter = InvitesAdapter(data.receivers)
     }
 
     override fun onStop() {
@@ -69,12 +77,12 @@ class ReferralFragment : Fragment() {
     }
 
     companion object {
-        val tenSek = MockMonetaryAmount(
+        private val tenSek = MockMonetaryAmount(
             BigDecimal.TEN,
             "SEK"
         )
 
-        val mockData = MockData(
+        private val mockData = MockData(
             MockReferralInformation(
                 "HDVG87",
                 Uri.parse("https://hedvigdev.page.link/HDVG87"),
@@ -86,11 +94,12 @@ class ReferralFragment : Fragment() {
                 tenSek
             ),
             listOf(
-                MockReferral(
-                    null,
-                    MockReferralStatus.NOT_INITIATED,
-                    tenSek
-                )
+                MockReferral(null, MockReferralStatus.NOT_INITIATED, tenSek),
+                MockReferral("Oscar", MockReferralStatus.ACTIVE, tenSek),
+                MockReferral("Sam", MockReferralStatus.INITIATED, tenSek),
+                MockReferral("Fredrik", MockReferralStatus.ACTIVE, tenSek),
+                MockReferral("Alex", MockReferralStatus.ACTIVE, tenSek),
+                MockReferral("Meletis", MockReferralStatus.TERMINATED, tenSek)
             )
         )
     }

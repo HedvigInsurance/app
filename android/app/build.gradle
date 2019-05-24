@@ -21,6 +21,7 @@ apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 def enableSeparateBuildPerCPUArchitecture = false
 
 apollo {
+    useJavaBeansSemanticNaming = true
     generateModelBuilder = true
     customTypeMapping = [
             "URL"      : "java.lang.String",

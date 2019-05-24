@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hedvig.app.feature.profile.ui.referral.NewReferralFragment">
+
+    <include layout="@layout/app_bar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/invites"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/off_white"
+        android:paddingBottom="@dimen/referral_extra_bottom_space"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:itemCount="3"
+        tools:listitem="@layout/referral_invite_row" />
+
+    <Button
+        android:id="@+id/referralButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="@dimen/base_margin_triple"
+        android:background="@drawable/button_primary"
+        android:backgroundTint="@color/purple"
+        android:drawablePadding="@dimen/base_margin"
+        android:text="@string/REFERRAL_SHAREINVITE"
+        android:theme="@style/HedvigButton"
+        android:visibility="visible" />
+
+</android.support.design.widget.CoordinatorLayout>

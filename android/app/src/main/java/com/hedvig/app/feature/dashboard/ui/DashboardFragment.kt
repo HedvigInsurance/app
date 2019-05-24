@@ -48,10 +48,10 @@ import java.util.GregorianCalendar
 import java.util.concurrent.TimeUnit
 
 class DashboardFragment : BaseTabFragment() {
-    val tracker: DashboardTracker by inject()
+    private val tracker: DashboardTracker by inject()
 
-    val dashboardViewModel: DashboardViewModel by sharedViewModel()
-    val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
+    private val dashboardViewModel: DashboardViewModel by sharedViewModel()
+    private val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
 
     private val bottomNavigationHeight: Int by lazy { resources.getDimensionPixelSize(R.dimen.bottom_navigation_height) }
     private val halfMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
@@ -75,7 +75,7 @@ class DashboardFragment : BaseTabFragment() {
 
     override fun onResume() {
         super.onResume()
-        dashboardViewModel.data.value?.insurance()?.activeFrom()?.let { localDate ->
+        dashboardViewModel.data.value?.insurance?.activeFrom?.let { localDate ->
             setActivationFigures(localDate)
         }
     }
@@ -102,43 +102,43 @@ class DashboardFragment : BaseTabFragment() {
         loadingSpinner.remove()
         val title = interpolateTextKey(
             resources.getString(R.string.DASHBOARD_TITLE),
-            "NAME" to dashboardData.member().firstName()
+            "NAME" to dashboardData.member.firstName
         )
         setupLargeTitle(title, R.font.circular_bold)
-        setupInsuranceStatusStatus(dashboardData.insurance())
+        setupInsuranceStatusStatus(dashboardData.insurance)
 
         perilCategoryContainer.removeAllViews()
 
-        dashboardData.insurance().perilCategories()?.forEach { category ->
+        dashboardData.insurance.perilCategories?.forEach { category ->
             val categoryView = makePerilCategoryRow(category)
             perilCategoryContainer.addView(categoryView)
         }
 
-        dashboardData.insurance().status().let { insuranceStatus ->
+        dashboardData.insurance.status.let { insuranceStatus ->
             when (insuranceStatus) {
                 InsuranceStatus.ACTIVE -> insuranceActive.show()
                 else -> {
                 }
             }
         }
-        dashboardData.insurance().type()?.let { setupAdditionalInformationRow(it) }
+        dashboardData.insurance.type?.let { setupAdditionalInformationRow(it) }
 
-        setupDirectDebitStatus(directDebitData.directDebitStatus())
+        setupDirectDebitStatus(directDebitData.directDebitStatus)
     }
 
     private fun makePerilCategoryRow(category: DashboardQuery.PerilCategory): PerilCategoryView {
         val categoryView =
             PerilCategoryView.build(requireContext())
 
-        categoryView.categoryIconId = category.iconUrl()
-        categoryView.title = category.title()
-        categoryView.subtitle = category.description()
+        categoryView.categoryIconId = category.iconUrl
+        categoryView.title = category.title
+        categoryView.subtitle = category.description
         categoryView.expandedContentContainer.measure(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
         categoryView.onAnimateExpand = { handleExpandShowEntireView(categoryView) }
-        category.perils()?.let { categoryView.expandedContent = makePerilCategoryExpandContent(it, category) }
+        category.perils?.let { categoryView.expandedContent = makePerilCategoryExpandContent(it, category) }
 
         return categoryView
     }
@@ -168,13 +168,13 @@ class DashboardFragment : BaseTabFragment() {
     private fun makePeril(peril: DashboardQuery.Peril, subject: DashboardQuery.PerilCategory): PerilView {
         val perilView = PerilView.build(requireContext())
 
-        perilView.perilName = peril.title()
-        peril.id()?.let { perilView.perilIconId = it }
+        perilView.perilName = peril.title
+        peril.id?.let { perilView.perilIconId = it }
         perilView.setHapticClickListener {
-            val subjectName = subject.title()
-            val id = peril.id()
-            val title = peril.title()
-            val description = peril.description()
+            val subjectName = subject.title
+            val id = peril.id
+            val title = peril.title
+            val description = peril.description
 
             tracker.perilClick(id)
 
@@ -243,7 +243,7 @@ class DashboardFragment : BaseTabFragment() {
     private fun setupInsuranceStatusStatus(insurance: DashboardQuery.Insurance) {
         insurancePending.remove()
         insuranceActive.remove()
-        when (insurance.status()) {
+        when (insurance.status) {
             InsuranceStatus.ACTIVE -> {
                 insuranceActive.show()
             }
@@ -261,7 +261,7 @@ class DashboardFragment : BaseTabFragment() {
                 insurancePending.show()
                 insurancePendingLoadingAnimation.remove()
 
-                insurance.activeFrom()?.let { localDate ->
+                insurance.activeFrom?.let { localDate ->
                     insurancePendingCountDownContainer.show()
 
                     setActivationFigures(localDate)
