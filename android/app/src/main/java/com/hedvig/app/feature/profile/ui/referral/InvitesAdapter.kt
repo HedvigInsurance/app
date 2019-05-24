@@ -79,7 +79,7 @@ class InvitesAdapter(
                             avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.ic_ghost))
                             avatar.scaleType = ImageView.ScaleType.CENTER
                             name.text = name.resources.getString(R.string.REFERRAL_INVITE_ANON)
-                            statusText.text = "Någon har öppnat din länk" // TODO Textkey copy
+                            statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_OPENEDSTATE)
                             statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
                         }
                         MockReferralStatus.TERMINATED -> {
