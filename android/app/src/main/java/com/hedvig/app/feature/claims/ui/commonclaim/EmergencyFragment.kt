@@ -17,7 +17,7 @@ import com.hedvig.app.util.extensions.view.disable
 import com.hedvig.app.util.extensions.view.enable
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
-import com.hedvig.app.util.mapppedColor
+import com.hedvig.app.util.mappedColor
 import kotlinx.android.synthetic.main.common_claim_first_message.*
 import kotlinx.android.synthetic.main.fragment_emergency.*
 
@@ -29,7 +29,7 @@ class EmergencyFragment : BaseCommonClaimFragment() {
     override fun bindData(insuranceStatus: InsuranceStatus, data: CommonClaimQuery.CommonClaim) {
         super.bindData(insuranceStatus, data)
         val layout = data.layout as? CommonClaimQuery.AsEmergency ?: return
-        val backgroundColor = requireContext().compatColor(layout.color.mapppedColor())
+        val backgroundColor = requireContext().compatColor(layout.color.mappedColor())
         setupLargeTitle(data.title, R.font.circular_bold, R.drawable.ic_back, backgroundColor) {
             navController.popBackStack()
         }

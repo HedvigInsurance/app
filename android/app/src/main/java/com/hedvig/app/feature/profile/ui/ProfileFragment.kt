@@ -52,7 +52,11 @@ class ProfileFragment : BaseTabFragment() {
                     "INCENTIVE" to "${rcd.referralsIncentiveAmount}"
                 )
                 profileReferralRow.setOnClickListener {
-                    navController.proxyNavigate(R.id.action_loggedInFragment_to_referralFragment)
+                    if (rcd.newReferralsEnabled) {
+                        navController.proxyNavigate(R.id.action_loggedInFragment_to_newReferralFragment)
+                    } else {
+                        navController.proxyNavigate(R.id.action_loggedInFragment_to_referralFragment)
+                    }
                 }
                 profileReferralRow.show()
             }
