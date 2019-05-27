@@ -15,7 +15,8 @@ class RemoteConfig {
                 "Referrals_Enabled" to false,
                 "Referrals_Incentive" to DEFAULT_INCENTIVE,
                 "DynamicLink_iOS_BundleId" to "",
-                "DynamicLink_Domain_Prefix" to ""
+                "DynamicLink_Domain_Prefix" to "",
+                "New_Referrals_Enabled" to false
             )
         )
     }
@@ -43,14 +44,16 @@ data class RemoteConfigData(
     val referralsEnabled: Boolean,
     val referralsIncentiveAmount: Int,
     val referralsIosBundleId: String,
-    val referralsDomain: String
+    val referralsDomain: String,
+    val newReferralsEnabled: Boolean
 ) {
     companion object {
         fun from(firebaseRemoteConfig: FirebaseRemoteConfig): RemoteConfigData = RemoteConfigData(
             firebaseRemoteConfig.getBoolean("Referrals_Enabled"),
             firebaseRemoteConfig.getLong("Referrals_Incentive").toInt(),
             firebaseRemoteConfig.getString("DynamicLink_iOS_BundleId"),
-            firebaseRemoteConfig.getString("DynamicLink_Domain_Prefix")
+            firebaseRemoteConfig.getString("DynamicLink_Domain_Prefix"),
+            firebaseRemoteConfig.getBoolean("New_Referrals_Enabled")
         )
     }
 }

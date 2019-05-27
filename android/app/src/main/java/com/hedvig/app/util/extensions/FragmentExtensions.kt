@@ -66,6 +66,17 @@ fun Fragment.makeACall(uri: Uri) {
     startActivity(intent)
 }
 
+fun Fragment.showShareSheet(title: String, configureClosure: ((Intent) -> Unit)?) {
+    val intent = Intent().apply {
+        action = Intent.ACTION_SEND
+    }
+
+    configureClosure?.let { it(intent) }
+    startActivity(
+        Intent.createChooser(intent, title)
+    )
+}
+
 var Fragment.statusBarColor: Int
     @ColorInt get() = requireActivity().window.statusBarColor
     set(@ColorInt value) {
