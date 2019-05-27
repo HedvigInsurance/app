@@ -41,65 +41,61 @@ class InvitesAdapter(
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder.itemViewType) {
-            HEADER -> {
-                (viewHolder as? HeaderViewHolder)?.apply {
-                    progressTankView.initialize(100, 20, 10)
-                    code.text = data.referralInformation.code
-                    subtitle.text = interpolateTextKey(
-                        subtitle.resources.getString(R.string.REFERRAL_PROGRESS_HEADLINE),
-                        "NUMBER_OF_FRIENDS_LEFT" to "???"
-                    )
-                    explainer.text = interpolateTextKey(
-                        explainer.resources.getString(R.string.REFERRAL_PROGRESS_BODY),
-                        "REFERRAL_VALUE" to data.referralInformation.discount.amount.toString()
-                    )
-                }
+            HEADER -> (viewHolder as? HeaderViewHolder)?.apply {
+                progressTankView.initialize(100, 20, 10)
+                code.text = data.referralInformation.code
+                subtitle.text = interpolateTextKey(
+                    subtitle.resources.getString(R.string.REFERRAL_PROGRESS_HEADLINE),
+                    "NUMBER_OF_FRIENDS_LEFT" to "???"
+                )
+                explainer.text = interpolateTextKey(
+                    explainer.resources.getString(R.string.REFERRAL_PROGRESS_BODY),
+                    "REFERRAL_VALUE" to data.referralInformation.discount.amount.toString()
+                )
             }
-            ITEM -> {
-                (viewHolder as? ItemViewHolder)?.apply {
-                    val invite = data.receivers[position - 1]
-                    name.text = invite.name
+            ITEM -> (viewHolder as? ItemViewHolder)?.apply {
+                val invite = data.receivers[position - 1]
+                name.text = invite.name
 
-                    when (invite.status) {
-                        MockReferralStatus.ACTIVE -> {
-                            setupAvatarWithLetter(this, invite.name)
+                when (invite.status) {
+                    MockReferralStatus.ACTIVE -> {
+                        setupAvatarWithLetter(this, invite.name)
 
-                            name.text = invite.name
-                            statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_NEWSTATE)
+                        name.text = invite.name
+                        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_NEWSTATE)
 
-                            statusIconContainer.setBackgroundResource(R.drawable.background_rounded_corners)
-                            statusIconContainer.background.setTint(
-                                statusIconContainer.context.compatColor(
-                                    R.color.light_gray
-                                )
+                        statusIconContainer.setBackgroundResource(R.drawable.background_rounded_corners)
+                        statusIconContainer.background.setTint(
+                            statusIconContainer.context.compatColor(
+                                R.color.light_gray
                             )
-                            discount.text = interpolateTextKey(
-                                discount.resources.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
-                                "REFERRAL_VALUE" to invite.discount.amount.toString()
-                            )
-                            statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_filled_checkmark))
-                        }
-                        MockReferralStatus.INITIATED -> {
-                            setupAvatarWithLetter(this, invite.name)
+                        )
+                        discount.text = interpolateTextKey(
+                            discount.resources.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
+                            "REFERRAL_VALUE" to invite.discount.amount.toString()
+                        )
+                        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_filled_checkmark))
+                    }
+                    MockReferralStatus.INITIATED -> {
+                        setupAvatarWithLetter(this, invite.name)
 
-                            name.text = invite.name
-                            statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_STARTEDSTATE)
+                        name.text = invite.name
+                        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_STARTEDSTATE)
 
-                            statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
-                        }
-                        MockReferralStatus.NOT_INITIATED -> {
-                            avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.ic_ghost))
-                            avatar.scaleType = ImageView.ScaleType.CENTER
-                            name.text = name.resources.getString(R.string.REFERRAL_INVITE_ANON)
-                            statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_OPENEDSTATE)
-                            statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
-                        }
-                        MockReferralStatus.TERMINATED -> {
-                            setupAvatarWithLetter(this, invite.name)
-                            name.text = invite.name
-                            statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_QUITSTATE)
-                            statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_cross))
-                        }
+                        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
+                    }
+                    MockReferralStatus.NOT_INITIATED -> {
+                        avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.ic_ghost))
+                        avatar.scaleType = ImageView.ScaleType.CENTER
+                        name.text = name.resources.getString(R.string.REFERRAL_INVITE_ANON)
+                        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_OPENEDSTATE)
+                        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
+                    }
+                    MockReferralStatus.TERMINATED -> {
+                        setupAvatarWithLetter(this, invite.name)
+                        name.text = invite.name
+                        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_QUITSTATE)
+                        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_cross))
                     }
                 }
             }
@@ -109,9 +105,9 @@ class InvitesAdapter(
     private fun setupAvatarWithLetter(viewHolder: ItemViewHolder, name: String?) {
         viewHolder.apply {
             name?.let { n ->
-                avatar.avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.sphere))
+                avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.sphere))
                 val hashedColor = avatar.context.compatColor(hashColor(n))
-                avatar.drawable.setTint(hashedColor)
+                avatar.drawable.mutate().setTint(hashedColor)
                 avatarLetter.text = n[0].toString().capitalize()
                 avatarLetter.setTextColor(
                     avatarLetter.context.compatColor(

@@ -80,16 +80,17 @@ fun HedvigColor.mappedColor(): Int = when (this) {
 }
 
 val colorArray = arrayOf(
-    HedvigColor.DARKPURPLE,
-    HedvigColor.PURPLE,
-    HedvigColor.BLACKPURPLE,
-    HedvigColor.TURQUOISE,
-    HedvigColor.PINK,
-    HedvigColor.YELLOW
+    R.color.purple,
+    R.color.dark_purple,
+    R.color.green,
+    R.color.dark_green,
+    R.color.pink,
+    R.color.maroon,
+    R.color.yellow
 )
 
 @ColorRes
-fun hashColor(obj: Any) = colorArray[abs(obj.hashCode()) % 6].mappedColor()
+fun hashColor(obj: Any) = colorArray[abs(obj.hashCode()) % colorArray.size]
 
 @ColorInt
 fun lightenColor(@ColorInt color: Int, factor: Float): Int {
