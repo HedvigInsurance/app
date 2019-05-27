@@ -14,6 +14,7 @@ import androidx.navigation.findNavController
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
+import com.hedvig.app.ui.decoration.BottomPaddingItemDecoration
 import com.hedvig.app.util.extensions.compatDrawable
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.showShareSheet
@@ -47,18 +48,11 @@ class NewReferralFragment : Fragment() {
             requireContext().compatDrawable(R.drawable.icon_share_white),
             null
         )
-        invites.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-                val position = parent.getChildAdapterPosition(view)
-
-                val lastPosition = (parent.adapter?.itemCount ?: 0) - 1
-                if (position == lastPosition) {
-                    outRect.bottom = parent.resources.getDimensionPixelSize(R.dimen.referral_extra_bottom_space)
-                } else {
-                    super.getItemOffsets(outRect, view, parent, state)
-                }
-            }
-        })
+        invites.addItemDecoration(
+            BottomPaddingItemDecoration(
+                requireContext().resources.getDimensionPixelSize(R.dimen.referral_extra_bottom_space)
+            )
+        )
 
         bindData(mockData)
     }
