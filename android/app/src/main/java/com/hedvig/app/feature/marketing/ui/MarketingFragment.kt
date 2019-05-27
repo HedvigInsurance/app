@@ -69,7 +69,6 @@ class MarketingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupSystemDecoration()
         observeMarketingStories()
-        discountView.init(100, 20, 10)
     }
 
     override fun onStop() {

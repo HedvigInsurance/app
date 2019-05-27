@@ -72,7 +72,7 @@
     <dimen name="referral_progress_bar_width">100dp</dimen>
     <dimen name="referral_progress_roof_height">40dp</dimen>
     <dimen name="referral_progress_label_margin">10dp</dimen>
-    <dimen name="referral_progress_segment_spacing">2dp</dimen>
+    <dimen name="referral_progress_segment_spacing">1dp</dimen>
     <dimen name="referral_progress_text_label_radius">8dp</dimen>
     <dimen name="referral_progress_text_padding">16dp</dimen>
     <dimen name="referral_progress_arrow_square_size">4dp</dimen>

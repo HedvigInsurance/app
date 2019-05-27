@@ -43,7 +43,7 @@ class InvitesAdapter(
         when (viewHolder.itemViewType) {
             HEADER -> {
                 (viewHolder as? HeaderViewHolder)?.apply {
-                    discountView.init(100, 20, 10)
+                    progressTankView.initialize(100, 20, 10)
                     code.text = data.referralInformation.code
                     subtitle.text = interpolateTextKey(
                         subtitle.resources.getString(R.string.REFERRAL_PROGRESS_HEADLINE),
@@ -131,7 +131,7 @@ class InvitesAdapter(
     }
 
     inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val discountView: DiscountView = view.discountView
+        val progressTankView: ProgressTankView = view.discountView
         val subtitle: TextView = view.subtitle
         val explainer: TextView = view.explainer
         val code: TextView = view.code

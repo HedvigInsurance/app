@@ -6,7 +6,7 @@
     android:layout_marginBottom="@dimen/base_margin"
     android:orientation="vertical">
     
-    <com.hedvig.app.feature.profile.ui.referral.DiscountView
+    <com.hedvig.app.feature.profile.ui.referral.ProgressTankView
         android:id="@+id/discountView"
         android:layout_width="match_parent"
         android:layout_height="200dp" />

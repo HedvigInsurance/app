@@ -2,9 +2,11 @@ package com.hedvig.app.feature.profile.ui.referral
 
 import android.animation.ValueAnimator
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +47,18 @@ class NewReferralFragment : Fragment() {
             requireContext().compatDrawable(R.drawable.icon_share_white),
             null
         )
+        invites.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                val position = parent.getChildAdapterPosition(view)
+
+                val lastPosition = (parent.adapter?.itemCount ?: 0) - 1
+                if (position == lastPosition) {
+                    outRect.bottom = parent.resources.getDimensionPixelSize(R.dimen.referral_extra_bottom_space)
+                } else {
+                    super.getItemOffsets(outRect, view, parent, state)
+                }
+            }
+        })
 
         bindData(mockData)
     }

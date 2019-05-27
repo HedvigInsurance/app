@@ -12,6 +12,7 @@ import android.support.animation.FloatValueHolder
 import android.support.animation.SpringAnimation
 import android.support.v4.content.res.ResourcesCompat
 import android.support.animation.SpringForce
+import com.hedvig.app.util.interpolateTextKey
 
 class ProgressTankView : View {
 
@@ -62,6 +63,21 @@ class ProgressTankView : View {
     private lateinit var tileCanvas: Canvas
     private lateinit var maskBitmap: Bitmap
     private lateinit var maskCanvas: Canvas
+
+    //strings
+    private val callToAction by lazy { context.getString(R.string.REFERRAL_PROGRESS_BAR_CTA) }
+    private val currentPremiumPrice by lazy {
+        interpolateTextKey(
+            context.getString(R.string.REFERRAL_PROGRESS_CURRENT_PREMIUM_PRICE),
+            "CURRENT_PREMIUM_PRICE" to premium.toString())
+    }
+    private val bottomLabelText by lazy { context.getString(R.string.REFERRAL_PROGRESS_FREE) }
+    private val currentInvitedActiveValue by lazy {
+        interpolateTextKey(
+            context.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
+            "REFERRAL_VALUE" to (premium - discountedPremium).toString())
+    }
+
 
     //font
     val font by lazy { ResourcesCompat.getFont(context, R.font.circular_bold) }
@@ -120,10 +136,10 @@ class ProgressTankView : View {
         if (tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning) {
             if (bottomLabelSpringAnimation.isRunning) {
                 val animationValue = bottomLabelFloatValueHolder.value / SPRING_START_VALUE
-                drawTextLabelLeft(canvas, "Gratis!", roofHeightHalf + (segmentHeight * segments), animationValue)
+                drawTextLabelLeft(canvas, bottomLabelText, roofHeightHalf + (segmentHeight * segments), animationValue)
             }
         } else {
-            drawTextLabelLeft(canvas, "Gratis!", roofHeightHalf + (segmentHeight * segments))
+            drawTextLabelLeft(canvas, bottomLabelText, roofHeightHalf + (segmentHeight * segments))
         }
 
         // Draw text label right
@@ -140,10 +156,10 @@ class ProgressTankView : View {
         if (tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning || rightLabelSpringAnimation.isRunning || topLabelSpringAnimation.isRunning) {
             if (topLabelSpringAnimation.isRunning) {
                 val animationValue = topLabelFloatValueHolder.value / SPRING_START_VALUE
-                drawTextLabelLeft(canvas, "$premium kr", roofHeightHalf, animationValue)
+                drawTextLabelLeft(canvas, currentPremiumPrice, roofHeightHalf, animationValue)
             }
         } else {
-            drawTextLabelLeft(canvas, "$premium kr", roofHeightHalf)
+            drawTextLabelLeft(canvas, currentPremiumPrice, roofHeightHalf)
         }
 
         if (animationIsRunning) {
@@ -357,7 +373,7 @@ class ProgressTankView : View {
     }
 
     private fun drawTextLabelRight(canvas: Canvas, segmentHeight: Float, animationValue: Float = 0f) {
-        val text = if (hasDiscount) "-${premium - discountedPremium} kr" else "Bjud in!"
+        val text = if (hasDiscount) currentInvitedActiveValue else callToAction
 
         paint.color = if (hasDiscount) green else purple
         paint.style = Paint.Style.FILL
