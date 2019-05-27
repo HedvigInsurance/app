@@ -7,9 +7,15 @@
     android:orientation="vertical">
 
     <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <com.hedvig.app.feature.whatsnew.PagerIndicatorView
+        android:id="@+id/pagerIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <Button
         style="@style/HedvigButton"

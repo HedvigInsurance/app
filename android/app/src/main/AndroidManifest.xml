@@ -24,6 +24,8 @@
         android:largeHeap="true"
         tools:replace="android:label">
 
+        <activity android:name=".feature.whatsnew.WhatsNewActivity" />
+
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -33,7 +35,9 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <data android:scheme="@string/APP_SCHEME" />
