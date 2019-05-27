@@ -123,14 +123,14 @@ class ProgressTankView : View {
         if (tankSpringAnimation.isRunning) {
             animationTopPadding = (height - roofHeight) * (tankFloatValueHolder.value / SPRING_START_VALUE)
         }
-        val animatedSegmentHeight = (height - roofHeight - animationTopPadding) / segments
+        val animatedSegmentHeight = (height - roofHeight - animationTopPadding - sectionSpacing) / segments
         drawSegments(canvas, animatedSegmentHeight)
 
         if (hasDiscount) {
             drawTiledFace(canvas)
         }
 
-        val segmentHeight = (height - roofHeight) / segments
+        val segmentHeight = (height - roofHeight - sectionSpacing) / segments
 
         // Draw bottom text label
         if (tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning) {
