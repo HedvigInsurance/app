@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.R
-import com.hedvig.app.feature.loggedin.BaseTabFragment
+import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
 import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn

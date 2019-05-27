@@ -1,4 +1,4 @@
-package com.hedvig.app.feature.loggedin
+package com.hedvig.app.feature.loggedin.ui
 
 import android.annotation.SuppressLint
 import android.content.Context

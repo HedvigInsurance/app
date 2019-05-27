@@ -1,4 +1,4 @@
-package com.hedvig.app.feature.loggedin
+package com.hedvig.app.feature.loggedin.ui
 
 import android.arch.lifecycle.ViewModel
 import com.hedvig.app.data.chat.ChatRepository
