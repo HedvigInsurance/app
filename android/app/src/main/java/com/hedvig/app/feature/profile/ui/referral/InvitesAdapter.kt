@@ -108,9 +108,9 @@ class InvitesAdapter(
     private fun setupAvatarWithLetter(viewHolder: ItemViewHolder, name: String?) {
         viewHolder.apply {
             name?.let { n ->
-                avatar.avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.sphere))
+                avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.sphere))
                 val hashedColor = avatar.context.compatColor(hashColor(n))
-                avatar.drawable.setTint(hashedColor)
+                avatar.drawable.mutate().setTint(hashedColor)
                 avatarLetter.text = n[0].toString().capitalize()
                 avatarLetter.setTextColor(
                     avatarLetter.context.compatColor(
