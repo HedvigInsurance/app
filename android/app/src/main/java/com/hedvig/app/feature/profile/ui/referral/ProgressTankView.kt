@@ -13,7 +13,7 @@ import android.support.animation.SpringAnimation
 import android.support.v4.content.res.ResourcesCompat
 import android.support.animation.SpringForce
 
-class DiscountView : View {
+class ProgressTankView : View {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet)
@@ -25,7 +25,6 @@ class DiscountView : View {
     private val segments = premium / step
 
     //colors
-    private val pink = context.compatColor(R.color.pink)
     private val purple = context.compatColor(R.color.purple)
     private val darkPurple = context.compatColor(R.color.dark_purple)
     private val lightPurple = context.compatColor(R.color.referral_tank_lines)
@@ -33,13 +32,13 @@ class DiscountView : View {
     private val white = context.compatColor(R.color.white)
     private val green = context.compatColor(R.color.green)
 
+    // positions
     private var centerX = -1f
     private var centerY = -1f
 
     // dimens
     private val tankWidth = context.resources.getDimension(R.dimen.referral_progress_bar_width)
     private val tankWidthHalf = tankWidth / 2
-    private val tankPaddingTop = 0f
     private var animationTopPadding = 0f
 
     private val labelsMarginFromTank = context.resources.getDimension(R.dimen.referral_progress_label_margin)
@@ -52,61 +51,20 @@ class DiscountView : View {
 
     private val textLabelRadius = context.resources.getDimension(R.dimen.referral_progress_text_label_radius)
 
-    private val textSizeLabelLeft = context.resources.getDimension(R.dimen.text_medium)
+    private val textSizeLabelLeft = context.resources.getDimension(R.dimen.text_xsmall)
     private val textSizeLabelRight = context.resources.getDimension(R.dimen.text_large)
     private val textPadding = context.resources.getDimension(R.dimen.referral_progress_text_padding)
     private val textLabelArrowSquareSize = context.resources.getDimension(R.dimen.referral_progress_arrow_square_size)
 
-    private val springStartValue = 100f
-    private val springMinValue = 0f
-
-
+    // tile canvas
+    private var polkaDrawable: BitmapDrawable
     private lateinit var tileResult: Bitmap
     private lateinit var tileCanvas: Canvas
-
     private lateinit var maskBitmap: Bitmap
     private lateinit var maskCanvas: Canvas
 
+    //font
     val font by lazy { ResourcesCompat.getFont(context, R.font.circular_bold) }
-
-    private val spring = SpringForce(springMinValue)
-        .setDampingRatio(SpringForce.DAMPING_RATIO_LOW_BOUNCY)
-        .setStiffness(SpringForce.STIFFNESS_LOW)
-
-    private val tankFloatValueHolder = FloatValueHolder(springMinValue)
-
-    private val tankSpringAnimation = SpringAnimation(tankFloatValueHolder).also {
-        it.setMaxValue(springStartValue)
-        it.setMinValue(springMinValue)
-        it.spring = spring
-        it.setStartValue(springStartValue)
-    }
-    private val bottomLabelFloatValueHolder = FloatValueHolder(springMinValue)
-
-    private val bottomLabelSpringAnimation = SpringAnimation(bottomLabelFloatValueHolder).also {
-        it.setMaxValue(springStartValue)
-        it.setMinValue(springMinValue)
-        it.spring = spring
-        it.setStartValue(springStartValue)
-    }
-    private val rightLabelFloatValueHolder = FloatValueHolder(springMinValue)
-
-    private val rightLabelSpringAnimation = SpringAnimation(rightLabelFloatValueHolder).also {
-        it.setMaxValue(springStartValue)
-        it.setMinValue(springMinValue)
-        it.spring = spring
-        it.setStartValue(springStartValue)
-    }
-    private val topLabelFloatValueHolder = FloatValueHolder(springMinValue)
-
-    private val topLabelSpringAnimation = SpringAnimation(topLabelFloatValueHolder).also {
-        it.setMaxValue(springStartValue)
-        it.setMinValue(springMinValue)
-        it.spring = spring
-        it.setStartValue(springStartValue)
-    }
-
-    private var polkaDrawable: BitmapDrawable
 
     init {
         val polkaTile = BitmapFactory.decodeResource(context.resources, R.mipmap.polka_pattern_green_tile)
@@ -121,40 +79,15 @@ class DiscountView : View {
     private val paint = Paint(ANTI_ALIAS_FLAG)
 
     private var isFirstDraw = true
-
-    init {
-        setOnClickListener { startAnimation() }
-    }
-
     private var isInitialized = false
+    private var hasDiscount = false
 
-    fun init(premium: Int, discount: Int, step: Int) {
+    fun initialize(premium: Int, discount: Int, step: Int) {
         this.premium = premium
         this.discountedPremium = premium - discount
         this.step = step
         isInitialized = true
         startAnimation()
-    }
-
-    private fun startAnimation() {
-        postInvalidateOnAnimation()
-        tankSpringAnimation.setStartValue(springStartValue)
-        tankSpringAnimation.start()
-        postDelayed({
-            postInvalidateOnAnimation()
-            bottomLabelSpringAnimation.setStartValue(springStartValue)
-            bottomLabelSpringAnimation.start()
-        }, 100)
-        postDelayed({
-            postInvalidateOnAnimation()
-            rightLabelSpringAnimation.setStartValue(springStartValue)
-            rightLabelSpringAnimation.start()
-        }, 200)
-        postDelayed({
-            postInvalidateOnAnimation()
-            topLabelSpringAnimation.setStartValue(springStartValue)
-            topLabelSpringAnimation.start()
-        }, 300)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -170,149 +103,65 @@ class DiscountView : View {
             polkaDrawable.setBounds(0, 0, tankWidth.toInt(), height)
         }
 
-        val segmentHeight = (height - roofHeight - tankPaddingTop) / segments
-        val animatedSegmentHeight = (height - roofHeight - tankPaddingTop - animationTopPadding) / segments
-
+        // Draw tank
         if (tankSpringAnimation.isRunning) {
-            val v = tankFloatValueHolder.value / springStartValue
-
-            animationTopPadding = (height - roofHeight) * v
-
-            for (i in segments - 1 downTo 0) {
-                drawSegment(canvas, i, animatedSegmentHeight, isSegmentDiscounted(i))
-            }
-        } else {
-            for (i in segments - 1 downTo 0) {
-                drawSegment(canvas, i, segmentHeight, isSegmentDiscounted(i))
-            }
+            animationTopPadding = (height - roofHeight) * (tankFloatValueHolder.value / SPRING_START_VALUE)
         }
-
-        if (tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning) {
-            val v = bottomLabelFloatValueHolder.value / springStartValue
-            if (bottomLabelSpringAnimation.isRunning) {
-                drawTextLabelLeft(canvas, "Gratis!", tankPaddingTop + roofHeightHalf + (segmentHeight * segments), v)
-            }
-        } else {
-            drawTextLabelLeft(canvas, "Gratis!", tankPaddingTop + roofHeightHalf + (segmentHeight * segments))
-        }
-
-        if (tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning || rightLabelSpringAnimation.isRunning) {
-            val v = rightLabelFloatValueHolder.value / springStartValue
-            if (rightLabelSpringAnimation.isRunning) {
-                drawTextLabelRight(canvas, segmentHeight, v)
-            }
-        } else {
-            drawTextLabelRight(canvas, segmentHeight)
-        }
-
-        if (tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning || rightLabelSpringAnimation.isRunning || topLabelSpringAnimation.isRunning) {
-            val v = topLabelFloatValueHolder.value / springStartValue
-            if (topLabelSpringAnimation.isRunning) {
-                drawTextLabelLeft(canvas, "$premium kr", tankPaddingTop + roofHeightHalf, v)
-            }
-        } else {
-            drawTextLabelLeft(canvas, "$premium kr", tankPaddingTop + roofHeightHalf)
-        }
+        val animatedSegmentHeight = (height - roofHeight - animationTopPadding) / segments
+        drawSegments(canvas, animatedSegmentHeight)
 
         if (hasDiscount) {
             drawTiledFace(canvas)
         }
 
+        val segmentHeight = (height - roofHeight) / segments
+
+        // Draw bottom text label
+        if (tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning) {
+            if (bottomLabelSpringAnimation.isRunning) {
+                val animationValue = bottomLabelFloatValueHolder.value / SPRING_START_VALUE
+                drawTextLabelLeft(canvas, "Gratis!", roofHeightHalf + (segmentHeight * segments), animationValue)
+            }
+        } else {
+            drawTextLabelLeft(canvas, "Gratis!", roofHeightHalf + (segmentHeight * segments))
+        }
+
+        // Draw text label right
+        if (tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning || rightLabelSpringAnimation.isRunning) {
+            if (rightLabelSpringAnimation.isRunning) {
+                val animationValue = rightLabelFloatValueHolder.value / SPRING_START_VALUE
+                drawTextLabelRight(canvas, segmentHeight, animationValue)
+            }
+        } else {
+            drawTextLabelRight(canvas, segmentHeight)
+        }
+
+        // Draw top text label
         if (tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning || rightLabelSpringAnimation.isRunning || topLabelSpringAnimation.isRunning) {
+            if (topLabelSpringAnimation.isRunning) {
+                val animationValue = topLabelFloatValueHolder.value / SPRING_START_VALUE
+                drawTextLabelLeft(canvas, "$premium kr", roofHeightHalf, animationValue)
+            }
+        } else {
+            drawTextLabelLeft(canvas, "$premium kr", roofHeightHalf)
+        }
+
+        if (animationIsRunning) {
             postInvalidateOnAnimation()
         }
         isFirstDraw = false
     }
 
-    private fun drawTextLabelLeft(canvas: Canvas, text: String, yPosition: Float, animationValue: Float = 0f) {
-        paint.color = offBlackDark
-        paint.style = Paint.Style.FILL
-        paint.alpha = (255 - (animationValue * 255)).toInt()
-        paint.typeface = font
-        paint.textSize = textSizeLabelLeft
-        paint.textAlign = Paint.Align.CENTER
-
-        paint.getTextBounds(text, 0, text.length, rect)
-
-        val textHeight = rect.height().toFloat()
-
-        val labelWidth = paint.measureText(text) + textPadding
-        val labelHeightHalf = (textHeight + textPadding) / 2
-        rectF.set(
-            (centerX - tankWidthHalf - labelsMarginFromTank - labelWidth),
-            (yPosition - labelHeightHalf),
-            centerX - tankWidthHalf - labelsMarginFromTank,
-            (yPosition + labelHeightHalf)
-        )
-
-        canvas.drawRoundRect(rectF, textLabelRadius, textLabelRadius, paint)
-
-        rect.set(
-            rectF.right.toInt() - textLabelArrowSquareSize.toInt(),
-            rectF.centerY().toInt() - textLabelArrowSquareSize.toInt(),
-            rectF.right.toInt() + textLabelArrowSquareSize.toInt(),
-            rectF.centerY().toInt() + textLabelArrowSquareSize.toInt()
-        )
-
-        canvas.save()
-        canvas.rotate(45f, rect.exactCenterX(), rect.exactCenterY())
-        canvas.drawRect(rect, paint)
-        canvas.restore()
-
-        paint.color = white
-        canvas.drawText(text, rectF.centerX(), rectF.centerY() - ((paint.descent() + paint.ascent()) / 2), paint)
-        paint.alpha = 255
-    }
-
-    private var hasDiscount = false
-
-    private fun drawTextLabelRight(canvas: Canvas, segmentHeight: Float, animationValue: Float = 0f) {
-        val text = if (hasDiscount) "-${premium - discountedPremium} kr" else "Bjud in!"
-
-        paint.color = if (hasDiscount) green else purple
-        paint.style = Paint.Style.FILL
-        paint.alpha = (255 - (animationValue * 255)).toInt()
-        paint.typeface = font
-        paint.textSize = textSizeLabelRight
-        paint.textAlign = Paint.Align.CENTER
-
-        paint.getTextBounds(text, 0, text.length, rect)
-
-        val yPosition = tankPaddingTop + roofHeightHalf + if (hasDiscount) (segmentHeight * discountedSegments()) / 2 else segmentHeight / 2
-        val textHeight = rect.height().toFloat()
-
-        val labelWidth = rect.width() + textPadding
-        val labelHeightHalf = (textHeight + textPadding) / 2
-        rectF.set(
-            (centerX + tankWidthHalf + labelsMarginFromTank).toFloat(),
-            (yPosition - labelHeightHalf),
-            (centerX + tankWidthHalf + labelsMarginFromTank + labelWidth),
-            (yPosition + labelHeightHalf)
-        )
-
-        canvas.drawRoundRect(rectF, textLabelRadius, textLabelRadius, paint)
-
-        rect.set(
-            rectF.left.toInt() - textLabelArrowSquareSize.toInt(),
-            rectF.centerY().toInt() - textLabelArrowSquareSize.toInt(),
-            rectF.left.toInt() + textLabelArrowSquareSize.toInt(),
-            rectF.centerY().toInt() + textLabelArrowSquareSize.toInt()
-        )
-
-        canvas.save()
-        canvas.rotate(45f, rect.exactCenterX(), rect.exactCenterY())
-        canvas.drawRect(rect, paint)
-        canvas.restore()
-
-        paint.color = if (hasDiscount) offBlackDark else white
-        canvas.drawText(text, rectF.centerX(), rectF.centerY() - ((paint.descent() + paint.ascent()) / 2), paint)
-        paint.alpha = 255
+    private fun drawSegments(canvas: Canvas, segmentHeight: Float) {
+        for (i in segments - 1 downTo 0) {
+            drawSegment(canvas, i, segmentHeight, isSegmentDiscounted(i))
+        }
     }
 
     private fun drawSegment(canvas: Canvas, index: Int, segmentHeight: Float, isDiscounted: Boolean) {
         drawLeftFace(canvas, index, segmentHeight, isDiscounted)
         drawRightFace(canvas, index, segmentHeight, isDiscounted)
-        // only draw roof on last if not animating
+        // only draw roof on last
         if (index == 0)
             drawRoof(canvas, index, segmentHeight, isDiscounted)
     }
@@ -323,10 +172,10 @@ class DiscountView : View {
         paint.color = if (isDiscounted) green else purple
         paint.style = Paint.Style.FILL
 
-        path.moveTo(centerX, tankPaddingTop + animationTopPadding + (index * segmentHeight))
-        path.lineTo(centerX + tankWidthHalf, tankPaddingTop + animationTopPadding + roofHeightHalf + (index * segmentHeight))
-        path.lineTo(centerX, tankPaddingTop + animationTopPadding + roofHeight + (index * segmentHeight))
-        path.lineTo(centerX - tankWidthHalf, tankPaddingTop + animationTopPadding + roofHeightHalf + (index * segmentHeight))
+        path.moveTo(centerX, animationTopPadding + (index * segmentHeight))
+        path.lineTo(centerX + tankWidthHalf, animationTopPadding + roofHeightHalf + (index * segmentHeight))
+        path.lineTo(centerX, animationTopPadding + roofHeight + (index * segmentHeight))
+        path.lineTo(centerX - tankWidthHalf, animationTopPadding + roofHeightHalf + (index * segmentHeight))
         path.close()
 
         canvas.drawPath(path, paint)
@@ -338,7 +187,7 @@ class DiscountView : View {
         val sectionLeft = if (isDiscounted) 0f else centerX - tankWidthHalf
         val sectionRight = if (isDiscounted) tankWidthHalf else centerX
 
-        val sectionTop = tankPaddingTop + animationTopPadding + (index * segmentHeight)
+        val sectionTop = animationTopPadding + (index * segmentHeight)
         val sectionBottom = sectionTop + segmentHeight
 
         path.moveTo(sectionLeft, sectionTop + roofHeightHalf)
@@ -387,7 +236,7 @@ class DiscountView : View {
         val sectionLeft = if (isDiscounted) tankWidthHalf else centerX
         val sectionRight = if (isDiscounted) tankWidth else centerX + tankWidthHalf
 
-        val sectionTop = tankPaddingTop + animationTopPadding + (index * segmentHeight)
+        val sectionTop = animationTopPadding + (index * segmentHeight)
         val sectionBottom = sectionTop + segmentHeight
 
         path.moveTo(sectionLeft, sectionTop + roofHeight)
@@ -466,15 +315,173 @@ class DiscountView : View {
         canvas.drawBitmap(tileResult, (centerX - tankWidthHalf).toFloat(), 0f, paint)
     }
 
+    // Draw text labels
+    private fun drawTextLabelLeft(canvas: Canvas, text: String, yPosition: Float, animationValue: Float = 0f) {
+        paint.color = offBlackDark
+        paint.style = Paint.Style.FILL
+        paint.alpha = (255 - (animationValue * 255)).toInt()
+        paint.typeface = font
+        paint.textSize = textSizeLabelLeft
+        paint.textAlign = Paint.Align.CENTER
+
+        paint.getTextBounds(text, 0, text.length, rect)
+
+        val textHeight = rect.height().toFloat()
+
+        val labelWidth = paint.measureText(text) + textPadding
+        val labelHeightHalf = (textHeight + textPadding) / 2
+        rectF.set(
+            (centerX - tankWidthHalf - labelsMarginFromTank - labelWidth),
+            (yPosition - labelHeightHalf),
+            centerX - tankWidthHalf - labelsMarginFromTank,
+            (yPosition + labelHeightHalf)
+        )
+
+        canvas.drawRoundRect(rectF, textLabelRadius, textLabelRadius, paint)
+
+        rect.set(
+            rectF.right.toInt() - textLabelArrowSquareSize.toInt(),
+            rectF.centerY().toInt() - textLabelArrowSquareSize.toInt(),
+            rectF.right.toInt() + textLabelArrowSquareSize.toInt(),
+            rectF.centerY().toInt() + textLabelArrowSquareSize.toInt()
+        )
+
+        canvas.save()
+        canvas.rotate(45f, rect.exactCenterX(), rect.exactCenterY())
+        canvas.drawRect(rect, paint)
+        canvas.restore()
+
+        paint.color = white
+        canvas.drawText(text, rectF.centerX(), rectF.centerY() - ((paint.descent() + paint.ascent()) / 2), paint)
+        paint.alpha = 255
+    }
+
+    private fun drawTextLabelRight(canvas: Canvas, segmentHeight: Float, animationValue: Float = 0f) {
+        val text = if (hasDiscount) "-${premium - discountedPremium} kr" else "Bjud in!"
+
+        paint.color = if (hasDiscount) green else purple
+        paint.style = Paint.Style.FILL
+        paint.alpha = (255 - (animationValue * 255)).toInt()
+        paint.typeface = font
+        paint.textSize = textSizeLabelRight
+        paint.textAlign = Paint.Align.CENTER
+
+        paint.getTextBounds(text, 0, text.length, rect)
+
+        val yPosition = roofHeightHalf + if (hasDiscount) (segmentHeight * discountedSegments()) / 2 else segmentHeight / 2
+        val textHeight = rect.height().toFloat()
+
+        val labelWidth = rect.width() + textPadding
+        val labelHeightHalf = (textHeight + textPadding) / 2
+        rectF.set(
+            (centerX + tankWidthHalf + labelsMarginFromTank),
+            (yPosition - labelHeightHalf),
+            (centerX + tankWidthHalf + labelsMarginFromTank + labelWidth),
+            (yPosition + labelHeightHalf)
+        )
+
+        canvas.drawRoundRect(rectF, textLabelRadius, textLabelRadius, paint)
+
+        rect.set(
+            rectF.left.toInt() - textLabelArrowSquareSize.toInt(),
+            rectF.centerY().toInt() - textLabelArrowSquareSize.toInt(),
+            rectF.left.toInt() + textLabelArrowSquareSize.toInt(),
+            rectF.centerY().toInt() + textLabelArrowSquareSize.toInt()
+        )
+
+        canvas.save()
+        canvas.rotate(45f, rect.exactCenterX(), rect.exactCenterY())
+        canvas.drawRect(rect, paint)
+        canvas.restore()
+
+        paint.color = if (hasDiscount) offBlackDark else white
+        canvas.drawText(text, rectF.centerX(), rectF.centerY() - ((paint.descent() + paint.ascent()) / 2), paint)
+        paint.alpha = 255
+    }
+
+    // Animation
+    private fun startAnimation() {
+        postInvalidateOnAnimation()
+        tankSpringAnimation.setStartValue(SPRING_START_VALUE)
+        tankSpringAnimation.start()
+        postDelayed({
+            postInvalidateOnAnimation()
+            bottomLabelSpringAnimation.setStartValue(SPRING_START_VALUE)
+            bottomLabelSpringAnimation.start()
+        }, 125)
+        postDelayed({
+            postInvalidateOnAnimation()
+            rightLabelSpringAnimation.setStartValue(SPRING_START_VALUE)
+            rightLabelSpringAnimation.start()
+        }, 250)
+        postDelayed({
+            postInvalidateOnAnimation()
+            topLabelSpringAnimation.setStartValue(SPRING_START_VALUE)
+            topLabelSpringAnimation.start()
+        }, 375)
+    }
+
+    // Helpers
     private fun isSegmentDiscounted(index: Int) = (premium - (index * step)) > discountedPremium
+
     private fun isLastDiscountedSegment(index: Int) = isSegmentDiscounted(index) && (premium - (index * step)) - step <= discountedPremium
     private fun discountedSegments() = (premium - discountedPremium) / step
 
     private fun setUpPaintForLine() {
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = sectionSpacing.toFloat()
+        paint.strokeWidth = sectionSpacing
     }
 
     private fun getCenterX() = this.width / 2
     private fun getCenterY() = this.height / 2
+
+    private val animationIsRunning
+        get() = tankSpringAnimation.isRunning ||
+            bottomLabelSpringAnimation.isRunning ||
+            rightLabelSpringAnimation.isRunning ||
+            topLabelSpringAnimation.isRunning
+
+    // Companion
+    companion object {
+        private const val SPRING_START_VALUE = 100f
+        private const val SPRING_MIN_VALUE = 0f
+    }
+
+    // Animation interpolators
+    private val spring = SpringForce(SPRING_MIN_VALUE)
+        .setDampingRatio(SpringForce.DAMPING_RATIO_LOW_BOUNCY)
+        .setStiffness(SpringForce.STIFFNESS_LOW)
+
+    private val tankFloatValueHolder = FloatValueHolder(SPRING_MIN_VALUE)
+
+    private val tankSpringAnimation = SpringAnimation(tankFloatValueHolder).also {
+        it.setMaxValue(SPRING_START_VALUE)
+        it.setMinValue(SPRING_MIN_VALUE)
+        it.spring = spring
+        it.setStartValue(SPRING_START_VALUE)
+    }
+    private val bottomLabelFloatValueHolder = FloatValueHolder(SPRING_MIN_VALUE)
+
+    private val bottomLabelSpringAnimation = SpringAnimation(bottomLabelFloatValueHolder).also {
+        it.setMaxValue(SPRING_START_VALUE)
+        it.setMinValue(SPRING_MIN_VALUE)
+        it.spring = spring
+        it.setStartValue(SPRING_START_VALUE)
+    }
+    private val rightLabelFloatValueHolder = FloatValueHolder(SPRING_MIN_VALUE)
+
+    private val rightLabelSpringAnimation = SpringAnimation(rightLabelFloatValueHolder).also {
+        it.setMaxValue(SPRING_START_VALUE)
+        it.setMinValue(SPRING_MIN_VALUE)
+        it.spring = spring
+        it.setStartValue(SPRING_START_VALUE)
+    }
+    private val topLabelFloatValueHolder = FloatValueHolder(SPRING_MIN_VALUE)
+
+    private val topLabelSpringAnimation = SpringAnimation(topLabelFloatValueHolder).also {
+        it.setMaxValue(SPRING_START_VALUE)
+        it.setMinValue(SPRING_MIN_VALUE)
+        it.spring = spring
+        it.setStartValue(SPRING_START_VALUE)
+    }
 }
