@@ -12,7 +12,6 @@ import androidx.navigation.findNavController
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
-import com.hedvig.app.util.extensions.compatDrawable
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.showShareSheet
 import com.hedvig.app.util.extensions.view.setHapticClickListener
@@ -28,8 +27,6 @@ class NewReferralFragment : Fragment() {
 
     val profileViewModel: ProfileViewModel by sharedViewModel()
 
-    private var buttonAnimator: ValueAnimator? = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_new_referral, container, false)
 
@@ -39,12 +36,6 @@ class NewReferralFragment : Fragment() {
         setupLargeTitle(R.string.PROFILE_REFERRAL_TITLE, R.font.circular_bold, R.drawable.ic_back) {
             requireActivity().findNavController(R.id.rootNavigationHost).popBackStack()
         }
-        referralButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            null,
-            null,
-            requireContext().compatDrawable(R.drawable.icon_share_white),
-            null
-        )
 
         bindData(mockData)
     }
@@ -68,12 +59,6 @@ class NewReferralFragment : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        buttonAnimator?.removeAllListeners()
-        buttonAnimator?.cancel()
     }
 
     companion object {
