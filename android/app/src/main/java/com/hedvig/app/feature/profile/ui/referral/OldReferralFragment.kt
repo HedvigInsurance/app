@@ -22,11 +22,11 @@ import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.view.increaseTouchableArea
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
-import kotlinx.android.synthetic.main.fragment_referral.*
+import kotlinx.android.synthetic.main.fragment_old_referral.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class ReferralFragment : Fragment() {
+class OldReferralFragment : Fragment() {
 
     private val tracker: ProfileTracker by inject()
 
@@ -35,7 +35,7 @@ class ReferralFragment : Fragment() {
     private var buttonAnimator: ValueAnimator? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_referral, container, false)
+        inflater.inflate(R.layout.fragment_old_referral, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
