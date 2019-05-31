@@ -45,3 +45,14 @@ fun Context.isLoggedIn(): Boolean =
     getSharedPreferences().getBoolean(SHARED_PREFERENCE_IS_LOGGED_IN, false)
 
 private fun Context.getSharedPreferences() = this.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
+
+fun Context.showShareSheet(title: String, configureClosure: ((Intent) -> Unit)?) {
+    val intent = Intent().apply {
+        action = Intent.ACTION_SEND
+    }
+
+    configureClosure?.let { it(intent) }
+    startActivity(
+        Intent.createChooser(intent, title)
+    )
+}

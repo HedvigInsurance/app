@@ -67,6 +67,16 @@
         <activity
             android:name=".feature.referrals.ReferralsSuccessfulInviteActivity"
             android:parentActivityName=".MainActivity"
+            android:noHistory="true"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Splash"
+            android:windowSoftInputMode="adjustResize"/>
+
+        <activity
+            android:name=".feature.referrals.ReferralsActivity"
+            android:parentActivityName=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

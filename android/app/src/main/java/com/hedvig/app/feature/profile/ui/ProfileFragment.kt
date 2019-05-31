@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.R
 import com.hedvig.app.feature.loggedin.BaseTabFragment
+import com.hedvig.app.feature.referrals.ReferralsActivity
 import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
@@ -53,7 +54,7 @@ class ProfileFragment : BaseTabFragment() {
                 )
                 profileReferralRow.setOnClickListener {
                     if (rcd.newReferralsEnabled) {
-                        navController.proxyNavigate(R.id.action_loggedInFragment_to_newReferralFragment)
+                        startActivityForResult(Intent(requireContext(), ReferralsActivity::class.java), 111)
                     } else {
                         navController.proxyNavigate(R.id.action_loggedInFragment_to_referralFragment)
                     }

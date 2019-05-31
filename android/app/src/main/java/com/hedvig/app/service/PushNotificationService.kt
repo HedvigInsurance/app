@@ -141,7 +141,7 @@ class PushNotificationService : FirebaseMessagingService() {
             this,
             0,
             Intent(this, MainActivity::class.java),
-            PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_ONE_SHOT
         )
 
         val notification = NotificationCompat

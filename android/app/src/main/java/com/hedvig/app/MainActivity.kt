@@ -15,6 +15,7 @@ import com.facebook.react.modules.core.PermissionAwareActivity
 import com.facebook.react.modules.core.PermissionListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.hedvig.app.feature.referrals.ReferralsSuccessfulInviteActivity
 import com.hedvig.app.service.LoginStatus
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.util.NavigationAnalytics
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity(), DefaultHardwareBackBtnHandler, Permiss
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         reactInstanceManager.onActivityResult(this, requestCode, resultCode, data)
+        Timber.i("onActivityResult: $requestCode")
     }
 
     val asyncStorageNative: AsyncStorageNative by inject()
@@ -157,5 +159,9 @@ class MainActivity : AppCompatActivity(), DefaultHardwareBackBtnHandler, Permiss
         disposables.clear()
         asyncStorageNative.close()
         super.onDestroy()
+    }
+
+    companion object {
+        const val EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP = "extra_navigate_to_profile_on_start"
     }
 }
