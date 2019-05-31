@@ -17,6 +17,8 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hedvig.app.MainActivity
 import com.hedvig.app.R
+import com.hedvig.app.feature.referrals.ReferralsSuccessfulInviteActivity
+import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.whenApiVersion
 import timber.log.Timber
 
@@ -53,7 +55,7 @@ class PushNotificationService : FirebaseMessagingService() {
                 resources.getString(R.string.NOTIFICATION_REFERRAL_CHANNEL_NAME),
                 resources.getString(R.string.NOTIFICATION_REFERRAL_CHANNEL_DESCRIPTION)
             )
-            sendReferralsNotification()
+            sendReferralsNotification(remoteMessage)
         }
         else -> {
             setupNotificationChannel(
@@ -61,8 +63,10 @@ class PushNotificationService : FirebaseMessagingService() {
                 resources.getString(R.string.NOTIFICATION_CHANNEL_NAME),
                 resources.getString(R.string.NOTIFICATION_CHANNEL_DESCRIPTION)
             )
-            val title = remoteMessage?.data?.get(DATA_MESSAGE_TITLE) ?: resources.getString(R.string.NOTIFICATION_CHAT_TITLE)
-            val body = remoteMessage?.data?.get(DATA_MESSAGE_TITLE) ?: resources.getString(R.string.NOTIFICATION_CHAT_BODY)
+            val title = remoteMessage?.data?.get(DATA_MESSAGE_TITLE)
+                ?: resources.getString(R.string.NOTIFICATION_CHAT_TITLE)
+            val body = remoteMessage?.data?.get(DATA_MESSAGE_BODY)
+                ?: resources.getString(R.string.NOTIFICATION_CHAT_BODY)
             sendDefaultNotification(title, body)
         }
     }
@@ -100,8 +104,36 @@ class PushNotificationService : FirebaseMessagingService() {
             .notify(NOTIFICATION_CHAT_ID, notification)
     }
 
-    private fun sendReferralsNotification() {
-        //todo
+    private fun sendReferralsNotification(remoteMessage: RemoteMessage?) {
+        val referralsIntent = Intent(this, ReferralsSuccessfulInviteActivity::class.java)
+
+        val pendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+            addNextIntentWithParentStack(referralsIntent)
+            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
+        val notificationBuilder = NotificationCompat
+            .Builder(this, NOTIFICATION_REFERRAL_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_hedvig_symbol_android)
+            .setContentTitle(resources.getString(R.string.NOTIFICATION_REFERRAL_COMPLETED_TITLE))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .setChannelId(NOTIFICATION_CHANNEL_ID)
+            .setContentIntent(pendingIntent)
+
+        val contentText = remoteMessage?.data?.get(DATA_MESSAGE_REFERRED_SUCCESS_NAME)?.let {
+            interpolateTextKey(
+                resources.getString(R.string.NOTIFICATION_REFERRAL_COMPLETED_CONTENT_WITH_NAME),
+                "NAME" to it
+            )
+        } ?: run {
+            resources.getString(R.string.NOTIFICATION_REFERRAL_COMPLETED_CONTENT)
+        }
+        notificationBuilder.setContentText(contentText)
+
+        NotificationManagerCompat
+            .from(this)
+            .notify(NOTIFICATION_REFERRAL_ID, notificationBuilder.build())
     }
 
     private fun sendDefaultNotification(title: String, body: String) {
@@ -144,5 +176,7 @@ class PushNotificationService : FirebaseMessagingService() {
 
         const val DATA_MESSAGE_TITLE = "DATA_MESSAGE_TITLE"
         const val DATA_MESSAGE_BODY = "DATA_MESSAGE_BODY"
+
+        const val DATA_MESSAGE_REFERRED_SUCCESS_NAME = "DATA_MESSAGE_REFERRED_SUCCESS_NAME"
     }
 }
