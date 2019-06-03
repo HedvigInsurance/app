@@ -6,6 +6,7 @@ import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.Gravity
 import com.hedvig.app.R
+import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.compatDrawable
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
@@ -67,6 +68,16 @@ class ProfileMenuRow : ConstraintLayout {
             }
             field = value
         }
+
+    fun setHighlighted() {
+        profile_menu_row.background = context.compatDrawable(R.drawable.purple_selectable)
+
+        val resolvedColor = context.compatColor(R.color.white)
+        profile_menu_row_name.setTextColor(resolvedColor)
+        profile_menu_row_description.setTextColor(resolvedColor)
+
+        iconNavigateNext.setColorFilter(resolvedColor)
+    }
 
     private fun setupDynamicContent() {
         val attributes = context.obtainStyledAttributes(attributeSet, R.styleable.ProfileMenuRow, defStyle, 0)

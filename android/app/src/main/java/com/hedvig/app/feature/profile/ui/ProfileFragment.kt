@@ -49,13 +49,19 @@ class ProfileFragment : BaseTabFragment() {
                 if (!rcd.referralsEnabled) {
                     return@Observer
                 }
-                if (tabViewModel.tabNotification.value == TabNotification.REFERRALS) {
-                    profileReferralRow.hasNotification = true
+                if (rcd.newReferralsEnabled) {
+                    if (tabViewModel.tabNotification.value == TabNotification.REFERRALS) {
+                        profileReferralRow.hasNotification = true
+                    }
+                    profileReferralRow.name = resources.getString(R.string.PROFILE_ROW_NEW_REFERRAL_TITLE)
+                    profileReferralRow.description = resources.getString(R.string.PROFILE_ROW_NEW_REFERRAL_DESCRIPTION)
+                } else {
+                    profileReferralRow.setHighlighted()
+                    profileReferralRow.name = interpolateTextKey(
+                        resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
+                        "INCENTIVE" to rcd.referralsIncentiveAmount.toString()
+                    )
                 }
-                profileReferralRow.name = interpolateTextKey(
-                    resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
-                    "INCENTIVE" to "${rcd.referralsIncentiveAmount}"
-                )
                 profileReferralRow.setOnClickListener {
                     if (tabViewModel.tabNotification.value == TabNotification.REFERRALS) {
                         profileReferralRow.hasNotification = false
