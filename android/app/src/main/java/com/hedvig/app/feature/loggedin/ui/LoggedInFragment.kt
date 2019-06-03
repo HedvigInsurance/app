@@ -1,15 +1,24 @@
 package com.hedvig.app.feature.loggedin.ui
 
 import android.os.Bundle
+import android.support.design.internal.BottomNavigationItemView
+import android.support.design.internal.BottomNavigationMenuView
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.hedvig.app.R
+import com.hedvig.app.util.extensions.observe
+import com.hedvig.app.util.extensions.view.remove
 import kotlinx.android.synthetic.main.logged_in_screen.*
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class LoggedInFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+
+    private val tabViewModel: BaseTabViewModel by sharedViewModel()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.logged_in_screen, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -19,6 +28,27 @@ class LoggedInFragment : Fragment() {
         bottomTabs.setOnNavigationItemSelectedListener { menuItem ->
             tabContentContainer.setCurrentItem(LoggedInTabs.fromId(menuItem.itemId).ordinal, false)
             true
+        }
+        bindData()
+    }
+
+    private fun bindData() {
+        var badge: View? = null
+        tabViewModel.tabNotification.observe(this) { tab ->
+            if (tab == null) {
+                badge?.findViewById<ImageView>(R.id.notificationIcon)?.remove()
+            } else {
+                when (tab) {
+                    TabNotification.REFERRALS -> {
+                        val itemView =
+                            (bottomTabs.getChildAt(0) as BottomNavigationMenuView).getChildAt(LoggedInTabs.PROFILE.ordinal) as BottomNavigationItemView
+
+                        badge = LayoutInflater
+                            .from(requireContext())
+                            .inflate(R.layout.bottom_navigation_notification, itemView, true)
+                    }
+                }
+            }
         }
     }
 }

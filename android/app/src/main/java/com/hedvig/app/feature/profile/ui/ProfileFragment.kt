@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.R
 import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
+import com.hedvig.app.feature.loggedin.ui.BaseTabViewModel
+import com.hedvig.app.feature.loggedin.ui.TabNotification
 import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
@@ -28,6 +30,7 @@ class ProfileFragment : BaseTabFragment() {
     private val asyncStorageNative: AsyncStorageNative by inject()
 
     private val profileViewModel: ProfileViewModel by sharedViewModel()
+    private val tabViewModel: BaseTabViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_profile, container, false)
@@ -46,12 +49,18 @@ class ProfileFragment : BaseTabFragment() {
                 if (!rcd.referralsEnabled) {
                     return@Observer
                 }
-                profileReferralRow.setHighlighted()
+                if (tabViewModel.tabNotification.value == TabNotification.REFERRALS) {
+                    profileReferralRow.hasNotification = true
+                }
                 profileReferralRow.name = interpolateTextKey(
                     resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
                     "INCENTIVE" to "${rcd.referralsIncentiveAmount}"
                 )
                 profileReferralRow.setOnClickListener {
+                    if (tabViewModel.tabNotification.value == TabNotification.REFERRALS) {
+                        profileReferralRow.hasNotification = false
+                        tabViewModel.removeReferralNotification()
+                    }
                     if (rcd.newReferralsEnabled) {
                         navController.proxyNavigate(R.id.action_loggedInFragment_to_newReferralFragment)
                     } else {
