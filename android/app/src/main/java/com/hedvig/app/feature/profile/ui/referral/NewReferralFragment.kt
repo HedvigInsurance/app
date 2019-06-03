@@ -2,9 +2,11 @@ package com.hedvig.app.feature.profile.ui.referral
 
 import android.animation.ValueAnimator
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,7 @@ import androidx.navigation.findNavController
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
+import com.hedvig.app.ui.decoration.BottomPaddingItemDecoration
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.showShareSheet
 import com.hedvig.app.util.extensions.view.setHapticClickListener
@@ -36,6 +39,11 @@ class NewReferralFragment : Fragment() {
         setupLargeTitle(R.string.PROFILE_REFERRAL_TITLE, R.font.circular_bold, R.drawable.ic_back) {
             requireActivity().findNavController(R.id.rootNavigationHost).popBackStack()
         }
+        invites.addItemDecoration(
+              BottomPaddingItemDecoration(
+                  requireContext().resources.getDimensionPixelSize(R.dimen.referral_extra_bottom_space)
+            )
+        )
 
         bindData(mockData)
     }
