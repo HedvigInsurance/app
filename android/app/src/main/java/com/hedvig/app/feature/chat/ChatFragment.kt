@@ -32,6 +32,7 @@ import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
     val chatViewModel: ChatViewModel by sharedViewModel()
@@ -92,7 +93,7 @@ class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
 
     private fun broadcastLogout() {
         broadcastReceiver = newBroadcastReceiver { _, _ ->
-            loadingSpinner.remove()
+            loadingSpinner?.remove() ?: Timber.e("Chat loading spinner is null!")
         }.also { localBroadcastManager.registerReceiver(it, IntentFilter(BROADCAST_RELOAD_CHAT)) }
 
         localBroadcastManager.sendBroadcast(Intent(ON_BOARDING_INTENT_FILER).also {
