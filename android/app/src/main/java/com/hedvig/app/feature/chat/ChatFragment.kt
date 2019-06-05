@@ -100,6 +100,16 @@ class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadingSpinner.remove()
+    }
+
+    override fun onPause() {
+        broadcastReceiver?.let { localBroadcastManager.unregisterReceiver(it) }
+        super.onPause()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (reactRootView != null) {
