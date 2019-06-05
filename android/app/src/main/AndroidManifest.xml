@@ -24,7 +24,9 @@
         android:largeHeap="true"
         tools:replace="android:label">
 
-        <activity android:name=".feature.whatsnew.WhatsNewActivity" />
+        <activity
+            android:name=".feature.whatsnew.WhatsNewActivity"
+            android:theme="@style/Theme.Exponent.Light" />
 
         <activity
             android:name=".MainActivity"

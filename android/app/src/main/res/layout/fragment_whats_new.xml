@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/newsContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/off_white"
@@ -8,16 +9,17 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
     <com.hedvig.app.feature.whatsnew.PagerIndicatorView
         android:id="@+id/pagerIndicator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/pager_indicator_height" />
 
     <Button
+        android:id="@+id/proceed"
         style="@style/HedvigButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

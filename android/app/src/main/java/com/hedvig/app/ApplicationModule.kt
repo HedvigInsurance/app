@@ -27,6 +27,8 @@ import com.hedvig.app.feature.marketing.ui.MarketingStoriesViewModel
 import com.hedvig.app.feature.profile.data.ProfileRepository
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
+import com.hedvig.app.feature.whatsnew.WhatsNewRepository
+import com.hedvig.app.feature.whatsnew.WhatsNewViewModel
 import com.hedvig.app.service.FileService
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.service.Referrals
@@ -109,6 +111,7 @@ val viewModelModule = module {
     viewModel { DashboardViewModel(get(), get()) }
     viewModel { ChatViewModel(get(), get()) }
     viewModel { BaseTabViewModel(get()) }
+    viewModel { WhatsNewViewModel(get()) }
 }
 
 val serviceModule = module {
@@ -128,6 +131,7 @@ val repositoriesModule = module {
     single { MarketingStoriesRepository(get(), get(), get()) }
     single { ProfileRepository(get()) }
     single { UserRepository(get()) }
+    single { WhatsNewRepository(get()) }
 }
 
 val trackerModule = module {
