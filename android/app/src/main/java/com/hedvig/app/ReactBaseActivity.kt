@@ -15,8 +15,7 @@ import org.koin.android.ext.android.inject
 
 abstract class ReactBaseActivity : BaseActivity(), DefaultHardwareBackBtnHandler, PermissionAwareActivity {
 
-
-    val asyncStorageNative: AsyncStorageNative by inject()
+    private val asyncStorageNative: AsyncStorageNative by inject()
 
     private val reactInstanceManager: ReactInstanceManager
         get() = reactNativeHost.reactInstanceManager
@@ -42,7 +41,6 @@ abstract class ReactBaseActivity : BaseActivity(), DefaultHardwareBackBtnHandler
         super.onActivityResult(requestCode, resultCode, data)
         reactInstanceManager.onActivityResult(this, requestCode, resultCode, data)
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -75,7 +73,6 @@ abstract class ReactBaseActivity : BaseActivity(), DefaultHardwareBackBtnHandler
     override fun invokeDefaultOnBackPressed() {
         super.onBackPressed()
     }
-
 
     override fun onDestroy() {
         asyncStorageNative.close()

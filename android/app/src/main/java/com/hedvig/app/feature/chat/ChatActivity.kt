@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.fragment_chat.view.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ChatActivity: ReactBaseActivity(), DefaultHardwareBackBtnHandler {
+class ChatActivity: ReactBaseActivity() {
     val chatViewModel: ChatViewModel by viewModel()
 
     private var reactRootView: ReactRootView? = null
@@ -104,10 +104,6 @@ class ChatActivity: ReactBaseActivity(), DefaultHardwareBackBtnHandler {
             reactInstanceManager.onHostDestroy(this)
             reactNativeHost.clear()
         }
-    }
-
-    override fun invokeDefaultOnBackPressed() {
-        onBackPressed()
     }
 
     companion object {

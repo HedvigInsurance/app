@@ -68,28 +68,28 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Exponent.Splash"
+            android:theme="@style/Theme.Exponent.Light"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".feature.marketing.ui.MarketingActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Exponent.Splash"
+            android:theme="@style/Theme.Exponent.Light"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".feature.offer.OfferActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Exponent.Splash"
+            android:theme="@style/Theme.Exponent.Light"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".feature.chat.ChatActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Exponent.Splash"
+            android:theme="@style/Theme.Exponent.Light"
             android:windowSoftInputMode="adjustResize" />
 
 
