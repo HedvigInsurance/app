@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.type.ReferralStatus
 import com.hedvig.app.R
-import com.hedvig.app.feature.referrals.MockData
-import com.hedvig.app.feature.referrals.MockReferralStatus
 import com.hedvig.app.util.LightClass
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.compatDrawable
@@ -18,9 +18,14 @@ import com.hedvig.app.util.hashColor
 import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.referral_header.view.*
 import kotlinx.android.synthetic.main.referral_invite_row.view.*
+import timber.log.Timber
+import kotlin.math.ceil
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 class InvitesAdapter(
-    private val data: MockData
+    private val monthlyCost: Int,
+    private val data: ProfileQuery.MemberReferralCampaign
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): RecyclerView.ViewHolder = when (position) {
         HEADER -> {
@@ -39,31 +44,70 @@ class InvitesAdapter(
         ITEM
     }
 
-    override fun getItemCount() = data.receivers.size + 1
+    override fun getItemCount(): Int {
+        var count = 1 //start of with header
+        count += data.receivers?.size ?: 0
+        data.sender?.let { count += 1 }
+
+        return count
+    }
+
+
+    private fun getStatusValue(position: Int): ReferralStatus =
+        try {
+            data.receivers?.get(position - 1)?.status
+        } catch (e: IndexOutOfBoundsException) {
+            null
+        } ?: data.sender?.status ?: ReferralStatus.`$UNKNOWN`
+
+    private fun getNameValue(position: Int): String =
+        try {
+            data.receivers?.get(position - 1)?.name
+        } catch (e: IndexOutOfBoundsException) {
+            null
+        } ?: data.sender?.name ?: "this is not correct"
+
+    private fun getDiscountValue(position: Int): String =
+        try {
+            data.receivers?.get(position - 1)?.discount?.number?.doubleValueExact()?.toString()
+        } catch (e: IndexOutOfBoundsException) {
+            null
+        } ?: data.sender?.discount?.number?.doubleValueExact().toString() ?: "this is not correct"
+
+    private fun calculateDiscount(): Int {
+        var totalDiscount = 0
+        data.sender?.discount?.let { totalDiscount += it.number.intValueExact() }
+        data.receivers?.forEach { receiver -> receiver.discount.let { totalDiscount += it.number.intValueExact() } }
+        return min(totalDiscount, monthlyCost)
+    }
+
+    private fun calculateInvitesLeftToFree(): Int {
+        val amount = monthlyCost - calculateDiscount()
+        return ceil(amount / data.referralInformation.incentive.number.doubleValueExact()).toInt()
+    }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder.itemViewType) {
             HEADER -> (viewHolder as? HeaderViewHolder)?.apply {
-                progressTankView.initialize(100, 20, 10)
+                progressTankView.initialize(monthlyCost, calculateDiscount(), data.referralInformation.incentive.number.intValueExact())
                 code.text = data.referralInformation.code
                 subtitle.text = interpolateTextKey(
                     subtitle.resources.getString(R.string.REFERRAL_PROGRESS_HEADLINE),
-                    "NUMBER_OF_FRIENDS_LEFT" to "???"
+                    "NUMBER_OF_FRIENDS_LEFT" to calculateInvitesLeftToFree().toString()
                 )
                 explainer.text = interpolateTextKey(
                     explainer.resources.getString(R.string.REFERRAL_PROGRESS_BODY),
-                    "REFERRAL_VALUE" to data.referralInformation.discount.amount.toString()
+                    "REFERRAL_VALUE" to data.referralInformation.incentive.number.intValueExact().toString()
                 )
             }
             ITEM -> (viewHolder as? ItemViewHolder)?.apply {
-                val invite = data.receivers[position - 1]
-                name.text = invite.name
+                name.text = getNameValue(position)
 
-                when (invite.status) {
-                    MockReferralStatus.ACTIVE -> {
-                        setupAvatarWithLetter(this, invite.name)
+                when (getStatusValue(position)) {
+                    ReferralStatus.ACTIVE -> {
+                        setupAvatarWithLetter(this, getNameValue(position))
 
-                        name.text = invite.name
+                        name.text = getNameValue(position)
                         statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_NEWSTATE)
 
                         statusIconContainer.setBackgroundResource(R.drawable.background_rounded_corners)
@@ -74,30 +118,34 @@ class InvitesAdapter(
                         )
                         discount.text = interpolateTextKey(
                             discount.resources.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
-                            "REFERRAL_VALUE" to invite.discount.amount.toString()
+                            "REFERRAL_VALUE" to getDiscountValue(position)
                         )
                         statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_filled_checkmark))
                     }
-                    MockReferralStatus.INITIATED -> {
-                        setupAvatarWithLetter(this, invite.name)
+                    ReferralStatus.IN_PROGRESS -> {
+                        setupAvatarWithLetter(this, getNameValue(position))
 
-                        name.text = invite.name
+                        name.text = getNameValue(position)
                         statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_STARTEDSTATE)
 
                         statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
                     }
-                    MockReferralStatus.NOT_INITIATED -> {
+                    ReferralStatus.NOT_INITIATED -> {
                         avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.ic_ghost))
                         avatar.scaleType = ImageView.ScaleType.CENTER
                         name.text = name.resources.getString(R.string.REFERRAL_INVITE_ANON)
                         statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_OPENEDSTATE)
                         statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
                     }
-                    MockReferralStatus.TERMINATED -> {
-                        setupAvatarWithLetter(this, invite.name)
-                        name.text = invite.name
+                    ReferralStatus.TERMINATED -> {
+                        setupAvatarWithLetter(this, getNameValue(position))
+                        name.text = getNameValue(position)
                         statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_QUITSTATE)
                         statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_cross))
+                    }
+                    ReferralStatus.`$UNKNOWN` -> {
+                        Timber.i("ReferralStatus is UNKNOWN")
+                        // we should fix so that this field is not rendered
                     }
                 }
             }

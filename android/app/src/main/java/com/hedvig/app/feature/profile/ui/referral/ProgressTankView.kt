@@ -13,6 +13,7 @@ import android.support.animation.SpringAnimation
 import android.support.v4.content.res.ResourcesCompat
 import android.support.animation.SpringForce
 import com.hedvig.app.util.interpolateTextKey
+import kotlin.math.ceil
 
 class ProgressTankView : View {
 
@@ -23,7 +24,7 @@ class ProgressTankView : View {
     private var premium: Int = 100
     private var discountedPremium: Int = 80
     private var step = 10
-    private val segments = premium / step
+    private var segments = premium / step
 
     //colors
     private val purple = context.compatColor(R.color.purple)
@@ -102,6 +103,7 @@ class ProgressTankView : View {
         this.premium = premium
         this.discountedPremium = premium - discount
         this.step = step
+        segments = ceil(premium.toFloat() / step).toInt()
         isInitialized = true
         startAnimation()
     }
@@ -441,7 +443,7 @@ class ProgressTankView : View {
     private fun isSegmentDiscounted(index: Int) = (premium - (index * step)) > discountedPremium
 
     private fun isLastDiscountedSegment(index: Int) = isSegmentDiscounted(index) && (premium - (index * step)) - step <= discountedPremium
-    private fun discountedSegments() = (premium - discountedPremium) / step
+    private fun discountedSegments() = ceil((premium - discountedPremium).toFloat() / step).toInt()
 
     private fun setUpPaintForLine() {
         paint.style = Paint.Style.STROKE

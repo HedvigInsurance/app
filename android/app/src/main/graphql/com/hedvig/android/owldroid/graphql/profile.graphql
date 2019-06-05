@@ -29,4 +29,22 @@ query Profile {
     name
     paragraph
   }
+  memberReferralCampaign {
+    memberId
+    referralInformation {
+      code
+      link
+      incentive
+    }
+    sender {
+      name
+      status
+      discount
+    }
+    receivers {
+      name
+      status
+      discount
+    }
+  }
 }
