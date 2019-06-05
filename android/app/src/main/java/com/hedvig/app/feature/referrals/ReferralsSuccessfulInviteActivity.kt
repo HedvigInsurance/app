@@ -5,19 +5,18 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.hedvig.app.MainActivity
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.whenApiVersion
-import kotlinx.android.synthetic.main.referrals_successfule_invite_actvity.*
+import kotlinx.android.synthetic.main.referrals_successful_invite_actvity.*
 
 class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.referrals_successfule_invite_actvity)
+        setContentView(R.layout.referrals_successful_invite_actvity)
 
         showSuccess()
         setupButtons()

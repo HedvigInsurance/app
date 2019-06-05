@@ -54,7 +54,7 @@ class ProfileFragment : BaseTabFragment() {
                 )
                 profileReferralRow.setOnClickListener {
                     if (rcd.newReferralsEnabled) {
-                        startActivityForResult(Intent(requireContext(), ReferralsActivity::class.java), 111)
+                        startActivity(Intent(requireContext(), ReferralsActivity::class.java))
                     } else {
                         navController.proxyNavigate(R.id.action_loggedInFragment_to_referralFragment)
                     }
