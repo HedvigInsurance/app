@@ -25,7 +25,7 @@ class LicensesFragment : Fragment() {
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)
         toolbar.setNavigationOnClickListener {
-            requireActivity().findNavController(R.id.rootNavigationHost).popBackStack()
+            requireActivity().findNavController(R.id.loggedNavigationHost).popBackStack()
         }
 
         webView.loadUrl("file:///android_asset/open_source_licenses.html")

@@ -19,15 +19,6 @@
             app:popUpTo="@+id/loggedInFragment" />
 
         <action
-            android:id="@+id/action_loggedInFragment_to_chatFragment"
-            app:destination="@id/loggedInChatFragment"
-            app:enterAnim="@anim/slide_in_up"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/stay_in_place"
-            app:popExitAnim="@anim/slide_out_down"
-            app:popUpTo="@+id/loggedInFragment" />
-
-        <action
             android:id="@+id/action_loggedInFragment_to_commonClaimsFragment"
             app:destination="@+id/claimsCommonClaimFragment"
             app:enterAnim="@anim/slide_in_up"
@@ -123,11 +114,6 @@
         android:id="@+id/trustlyFragment"
         android:name="com.hedvig.app.feature.profile.ui.payment.TrustlyFragment"
         android:label="TrustlyFragment" />
-
-    <fragment
-        android:id="@+id/loggedInChatFragment"
-        android:name="com.hedvig.app.feature.chat.ChatFragment"
-        android:label="ChatFragment" />
 
     <fragment
         android:id="@+id/claimsCommonClaimFragment"

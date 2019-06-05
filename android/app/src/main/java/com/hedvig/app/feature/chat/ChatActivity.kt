@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +15,10 @@ import com.facebook.react.ReactRootView
 import com.facebook.react.common.LifecycleState
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler
 import com.hedvig.app.R
-import com.hedvig.app.feature.marketing.ui.MarketingFragment
-import com.hedvig.app.react.ActivityStarterModule.Companion.BROADCAST_RELOAD_CHAT
-import com.hedvig.app.react.NativeRoutingModule.Companion.NAVIGATE_ROUTING_EXTRA_NAME_ACTION
-import com.hedvig.app.react.NativeRoutingModule.Companion.NAVIGATE_ROUTING_EXTRA_VALUE_RESTART_CHAT_ON_BOARDING
-import com.hedvig.app.react.NativeRoutingModule.Companion.ON_BOARDING_INTENT_FILER
+import com.hedvig.app.ReactBaseActivity
+import com.hedvig.app.feature.marketing.ui.MarketingActivity
+import com.hedvig.app.react.ActivityStarterModule
+import com.hedvig.app.react.NativeRoutingModule
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.statusBarColor
@@ -30,74 +28,70 @@ import com.hedvig.app.util.newBroadcastReceiver
 import com.hedvig.app.util.showRestartDialog
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
-    val chatViewModel: ChatViewModel by sharedViewModel()
+class ChatActivity: ReactBaseActivity(), DefaultHardwareBackBtnHandler {
+    val chatViewModel: ChatViewModel by viewModel()
 
     private var reactRootView: ReactRootView? = null
 
     private val reactNativeHost: ReactNativeHost
-        get() = (requireActivity().application as ReactApplication).reactNativeHost
+        get() = (application as ReactApplication).reactNativeHost
 
     private val reactInstanceManager: ReactInstanceManager
         get() = reactNativeHost.reactInstanceManager
 
     private var broadcastReceiver: BroadcastReceiver? = null
 
-    private val navController by lazy { requireActivity().findNavController(R.id.rootNavigationHost) }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_chat, container, false)
-        val reactRootView = ReactRootView(requireContext())
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_chat)
+        val reactRootView = ReactRootView(this)
         this.reactRootView = reactRootView
-        view.reactViewContainer.addView(this.reactRootView)
+        reactViewContainer.addView(this.reactRootView)
         val reactArgs = Bundle().also {
             it.putString(
                 ARGS_INTENT,
-                arguments?.getString(ARGS_INTENT) ?: MarketingFragment.MarketingResult.ONBOARD.toString()
+                intent.getStringExtra(ARGS_INTENT) ?: MarketingActivity.MarketingResult.ONBOARD.toString()
             )
         }
         reactRootView.startReactApplication(reactInstanceManager, "Chat", reactArgs)
-        return view
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        statusBarColor = requireContext().compatColor(R.color.off_white)
+        window.statusBarColor = compatColor(R.color.off_white)
 
-        arguments?.getBoolean(ARGS_SHOW_RESTART)?.let { showRestart ->
+        intent.getBooleanExtra(ARGS_SHOW_RESTART, false).let { showRestart ->
             if (showRestart) {
                 resetChatButton.show()
             }
         }
-        arguments?.getBoolean(ARGS_SHOW_CLOSE)?.let { showClose ->
+        intent.getBooleanExtra(ARGS_SHOW_CLOSE, false).let { showClose ->
             if (showClose) {
                 closeChatButton.show()
             }
         }
 
         resetChatButton.setOnClickListener {
-            requireContext().showRestartDialog {
+            showRestartDialog {
                 loadingSpinner.show()
                 chatViewModel.logout { broadcastLogout() }
             }
         }
 
         closeChatButton.setOnClickListener {
-            navController.popBackStack()
+            onBackPressed()
         }
     }
 
     private fun broadcastLogout() {
-        broadcastReceiver = newBroadcastReceiver { _, _ ->
-            loadingSpinner.remove()
-        }.also { localBroadcastManager.registerReceiver(it, IntentFilter(BROADCAST_RELOAD_CHAT)) }
-
-        localBroadcastManager.sendBroadcast(Intent(ON_BOARDING_INTENT_FILER).also {
-            it.putExtra(NAVIGATE_ROUTING_EXTRA_NAME_ACTION, NAVIGATE_ROUTING_EXTRA_VALUE_RESTART_CHAT_ON_BOARDING)
-        })
+        //todo
+//        broadcastReceiver = newBroadcastReceiver { _, _ ->
+//            loadingSpinner.remove()
+//        }.also { localBroadcastManager.registerReceiver(it, IntentFilter(ActivityStarterModule.BROADCAST_RELOAD_CHAT)) }
+//
+//        localBroadcastManager.sendBroadcast(Intent(NativeRoutingModule.ON_BOARDING_INTENT_FILER).also {
+//            it.putExtra(NativeRoutingModule.NAVIGATE_ROUTING_EXTRA_NAME_ACTION, NativeRoutingModule.NAVIGATE_ROUTING_EXTRA_VALUE_RESTART_CHAT_ON_BOARDING)
+//        })
     }
 
     override fun onDestroy() {
@@ -107,13 +101,13 @@ class ChatFragment : Fragment(), DefaultHardwareBackBtnHandler {
             reactRootView = null
         }
         if (reactInstanceManager.lifecycleState != LifecycleState.RESUMED) {
-            reactInstanceManager.onHostDestroy(activity)
+            reactInstanceManager.onHostDestroy(this)
             reactNativeHost.clear()
         }
     }
 
     override fun invokeDefaultOnBackPressed() {
-        activity?.onBackPressed()
+        onBackPressed()
     }
 
     companion object {

@@ -1,12 +1,13 @@
 package com.hedvig.app.feature.claims.ui.pledge
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.view.LayoutInflater
 import androidx.navigation.findNavController
 import com.hedvig.app.R
-import com.hedvig.app.feature.chat.ChatFragment
+import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.claims.service.ClaimsTracker
 import com.hedvig.app.feature.claims.ui.ClaimsViewModel
 import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
@@ -21,8 +22,6 @@ class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
 
     val claimsViewModel: ClaimsViewModel by sharedViewModel()
 
-    val navController by lazy { requireActivity().findNavController(R.id.rootNavigationHost) }
-
     override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
 
     override fun setupDialog(dialog: Dialog, style: Int) {
@@ -33,23 +32,19 @@ class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
             tracker.pledgeHonesty(arguments?.getString(ARGS_CLAIM_KEY))
             claimsViewModel.triggerClaimsChat {
                 dismiss()
-                arguments?.getInt(ARGS_NAVIGATION_ACTION)?.let {
-                    navController.proxyNavigate(it, Bundle().apply {
-                        putBoolean(ChatFragment.ARGS_SHOW_CLOSE, true)
-                    })
-                }
+                val intent = Intent(requireContext(), ChatActivity::class.java)
+                intent.putExtra(ChatActivity.ARGS_SHOW_CLOSE, true)
+                startActivity(intent)
             }
         }
     }
 
     companion object {
         private const val ARGS_CLAIM_KEY = "claim_key"
-        private const val ARGS_NAVIGATION_ACTION = "navigation_action"
 
-        fun newInstance(claimKey: String, @IdRes navigationAction: Int): HonestyPledgeBottomSheet {
+        fun newInstance(claimKey: String): HonestyPledgeBottomSheet {
             val arguments = Bundle().apply {
                 putString(ARGS_CLAIM_KEY, claimKey)
-                putInt(ARGS_NAVIGATION_ACTION, navigationAction)
             }
 
             return HonestyPledgeBottomSheet()

@@ -37,7 +37,7 @@ class PaymentFragment : Fragment() {
     private val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
 
     private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.rootNavigationHost)
+        requireActivity().findNavController(R.id.loggedNavigationHost)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =

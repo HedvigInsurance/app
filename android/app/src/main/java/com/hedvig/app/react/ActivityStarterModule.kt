@@ -25,6 +25,7 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.chat.UploadBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
+import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
@@ -48,13 +49,6 @@ class ActivityStarterModule(
     private val firebaseAnalytics by lazy { FirebaseAnalytics.getInstance(reactApplicationContext) }
 
     private val localBroadcastManager = LocalBroadcastManager.getInstance(reactContext)
-
-    private val navController by lazy {
-        reactApplicationContext.currentActivity?.let {
-            Navigation.findNavController(it, R.id.rootNavigationHost)
-        }
-            ?: throw RuntimeException("Trying to reactApplicationContext.currentActivity but it is null")
-    }
 
     private val fileUploadBroadcastReceiver = FileUploadBroadcastReceiver()
 
@@ -82,17 +76,16 @@ class ActivityStarterModule(
         val activity = reactApplicationContext.currentActivity
         if (activity != null) {
             asyncStorageNative.setKey("@hedvig:isViewingOffer", "true")
-            navController
-                .proxyNavigate(R.id.action_chatFragment_to_offerFragment)
+            currentActivity?.let {
+                it.startActivity(Intent(it, OfferActivity::class.java))
+            }
         }
     }
 
     @ReactMethod
     fun navigateToChatFromOffer() {
-        val activity = reactApplicationContext.currentActivity
-        if (activity != null) {
-            navController
-                .proxyNavigate(R.id.action_offerFragment_to_chatFragment)
+        currentActivity?.let {
+            it.startActivity(Intent(it, OfferActivity::class.java))
         }
     }
 
@@ -102,10 +95,11 @@ class ActivityStarterModule(
         if (activity != null) {
             reactApplicationContext.setIsLoggedIn(true)
 
-            when (navController.currentDestination?.id) {
-                R.id.loggedInChatFragment -> navController.popBackStack()
-                R.id.chatFragment -> navController.proxyNavigate(R.id.action_chatFragment_to_logged_in_navigation)
-            }
+            //todo:
+//            when (navController.currentDestination?.id) {
+//                R.id.loggedInChatFragment -> navController.popBackStack()
+//                R.id.chatFragment -> navController.proxyNavigate(R.id.action_chatFragment_to_logged_in_navigation)
+//            }
         }
     }
 
