@@ -10,8 +10,8 @@ import com.hedvig.app.util.extensions.compatColor
 import android.graphics.drawable.BitmapDrawable
 import android.support.animation.FloatValueHolder
 import android.support.animation.SpringAnimation
-import android.support.v4.content.res.ResourcesCompat
 import android.support.animation.SpringForce
+import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.interpolateTextKey
 import kotlin.math.ceil
 
@@ -66,22 +66,18 @@ class ProgressTankView : View {
     private lateinit var maskCanvas: Canvas
 
     //strings
-    private val callToAction by lazy { context.getString(R.string.REFERRAL_PROGRESS_BAR_CTA) }
-    private val currentPremiumPrice by lazy {
-        interpolateTextKey(
-            context.getString(R.string.REFERRAL_PROGRESS_CURRENT_PREMIUM_PRICE),
-            "CURRENT_PREMIUM_PRICE" to premium.toString())
-    }
-    private val bottomLabelText by lazy { context.getString(R.string.REFERRAL_PROGRESS_FREE) }
-    private val currentInvitedActiveValue by lazy {
-        interpolateTextKey(
-            context.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
-            "REFERRAL_VALUE" to (premium - discountedPremium).toString())
-    }
+    private val callToAction = context.getString(R.string.REFERRAL_PROGRESS_BAR_CTA)
+    private val currentPremiumPrice = interpolateTextKey(
+        context.getString(R.string.REFERRAL_PROGRESS_CURRENT_PREMIUM_PRICE),
+        "CURRENT_PREMIUM_PRICE" to premium.toString())
+    private val bottomLabelText = context.getString(R.string.REFERRAL_PROGRESS_FREE)
+    private val currentInvitedActiveValue = interpolateTextKey(
+        context.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
+        "REFERRAL_VALUE" to (premium - discountedPremium).toString())
 
 
     //font
-    val font by lazy { ResourcesCompat.getFont(context, R.font.circular_bold) }
+    val font = context.compatFont(R.font.circular_bold)
 
     init {
         val polkaTile = BitmapFactory.decodeResource(context.resources, R.mipmap.polka_pattern_green_tile)
@@ -111,14 +107,16 @@ class ProgressTankView : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (!isInitialized) return
-        hasDiscount = discountedSegments() != 0
-        if (hasDiscount)
+        hasDiscount = discountedSegments != 0
+        if (hasDiscount) {
             resetMask()
+        }
 
         if (isFirstDraw) {
             centerX = getCenterX().toFloat()
             centerY = getCenterY().toFloat()
             polkaDrawable.setBounds(0, 0, tankWidth.toInt(), height)
+            isFirstDraw = false
         }
 
         // Draw tank
@@ -135,7 +133,7 @@ class ProgressTankView : View {
         val segmentHeight = (height - roofHeight - sectionSpacing) / segments
 
         // Draw bottom text label
-        if (tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning) {
+        if (runBottomTextLabelAnimation) {
             if (bottomLabelSpringAnimation.isRunning) {
                 val animationValue = bottomLabelFloatValueHolder.value / SPRING_START_VALUE
                 drawTextLabelLeft(canvas, bottomLabelText, roofHeightHalf + (segmentHeight * segments), animationValue)
@@ -145,7 +143,7 @@ class ProgressTankView : View {
         }
 
         // Draw text label right
-        if (tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning || rightLabelSpringAnimation.isRunning) {
+        if (runRightTextLabelAnimation) {
             if (rightLabelSpringAnimation.isRunning) {
                 val animationValue = rightLabelFloatValueHolder.value / SPRING_START_VALUE
                 drawTextLabelRight(canvas, segmentHeight, animationValue)
@@ -155,7 +153,7 @@ class ProgressTankView : View {
         }
 
         // Draw top text label
-        if (tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning || rightLabelSpringAnimation.isRunning || topLabelSpringAnimation.isRunning) {
+        if (runTopTextLabelAnimation) {
             if (topLabelSpringAnimation.isRunning) {
                 val animationValue = topLabelFloatValueHolder.value / SPRING_START_VALUE
                 drawTextLabelLeft(canvas, currentPremiumPrice, roofHeightHalf, animationValue)
@@ -167,7 +165,6 @@ class ProgressTankView : View {
         if (animationIsRunning) {
             postInvalidateOnAnimation()
         }
-        isFirstDraw = false
     }
 
     private fun drawSegments(canvas: Canvas, segmentHeight: Float) {
@@ -386,7 +383,7 @@ class ProgressTankView : View {
 
         paint.getTextBounds(text, 0, text.length, rect)
 
-        val yPosition = roofHeightHalf + if (hasDiscount) (segmentHeight * discountedSegments()) / 2 else segmentHeight / 2
+        val yPosition = roofHeightHalf + if (hasDiscount) (segmentHeight * discountedSegments) / 2 else segmentHeight / 2
         val textHeight = rect.height().toFloat()
 
         val labelWidth = rect.width() + textPadding
@@ -443,7 +440,8 @@ class ProgressTankView : View {
     private fun isSegmentDiscounted(index: Int) = (premium - (index * step)) > discountedPremium
 
     private fun isLastDiscountedSegment(index: Int) = isSegmentDiscounted(index) && (premium - (index * step)) - step <= discountedPremium
-    private fun discountedSegments() = ceil((premium - discountedPremium).toFloat() / step).toInt()
+    private val discountedSegments: Int
+        get() = ceil((premium - discountedPremium).toFloat() / step).toInt()
 
     private fun setUpPaintForLine() {
         paint.style = Paint.Style.STROKE
@@ -502,4 +500,11 @@ class ProgressTankView : View {
         it.spring = spring
         it.setStartValue(SPRING_START_VALUE)
     }
+
+    private val runBottomTextLabelAnimation: Boolean
+        get() = tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning
+    private val runRightTextLabelAnimation: Boolean
+        get() = tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning || rightLabelSpringAnimation.isRunning
+    private val runTopTextLabelAnimation: Boolean
+        get() = tankSpringAnimation.isRunning || bottomLabelSpringAnimation.isRunning || rightLabelSpringAnimation.isRunning || topLabelSpringAnimation.isRunning
 }
