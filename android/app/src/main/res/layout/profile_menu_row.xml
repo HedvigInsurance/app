@@ -47,12 +47,25 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/notificationIcon"
+        android:layout_width="@dimen/profile_row_notification_size"
+        android:layout_height="@dimen/profile_row_notification_size"
+        android:layout_marginEnd="@dimen/base_margin_double"
+        android:contentDescription="@null"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iconNavigateNext"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_bottom_navigation_notification"
+        tools:visibility="visible" />
+
+    <ImageView
         android:id="@id/iconNavigateNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@null"
-        app:srcCompat="@drawable/icon_navigate_next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_navigate_next" />
 </android.support.constraint.ConstraintLayout>

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loggedInFragment"
-        android:name="com.hedvig.app.feature.loggedin.LoggedInFragment"
+        android:name="com.hedvig.app.feature.loggedin.ui.LoggedInFragment"
         android:label="LoggedInFragment">
 
         <action
