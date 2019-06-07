@@ -2,10 +2,13 @@ package com.hedvig.app.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
+import android.support.v4.app.TaskStackBuilder
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
@@ -13,6 +16,7 @@ import androidx.work.WorkManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hedvig.app.R
+import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.util.whenApiVersion
 import timber.log.Timber
 
@@ -54,11 +58,13 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     private fun sendChatMessageNotification() {
-        val pendingIntent = NavDeepLinkBuilder(this)
-            .setGraph(R.navigation.logged_in_navigation)
-            // todo
-//            .setDestination(R.id.loggedInChatFragment)
-            .createPendingIntent()
+        val chatIntent = Intent(this, ChatActivity::class.java)
+        chatIntent.putExtra(ChatActivity.ARGS_SHOW_CLOSE, true)
+
+        val pendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+            addNextIntentWithParentStack(chatIntent)
+            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
 
         val notification = NotificationCompat
             .Builder(this, NOTIFICATION_CHANNEL_ID)
