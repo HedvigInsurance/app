@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.hedvig.app.R
+import com.hedvig.app.feature.referrals.MockData
+import com.hedvig.app.feature.referrals.MockReferralStatus
 import com.hedvig.app.util.LightClass
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.compatDrawable

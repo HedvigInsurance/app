@@ -20,7 +20,8 @@ import com.hedvig.app.feature.claims.ui.ClaimsViewModel
 import com.hedvig.app.feature.dashboard.data.DashboardRepository
 import com.hedvig.app.feature.dashboard.service.DashboardTracker
 import com.hedvig.app.feature.dashboard.ui.DashboardViewModel
-import com.hedvig.app.feature.loggedin.BaseTabViewModel
+import com.hedvig.app.feature.loggedin.service.TabNotificationService
+import com.hedvig.app.feature.loggedin.ui.BaseTabViewModel
 import com.hedvig.app.feature.marketing.data.MarketingStoriesRepository
 import com.hedvig.app.feature.marketing.service.MarketingTracker
 import com.hedvig.app.feature.marketing.ui.MarketingStoriesViewModel
@@ -110,8 +111,8 @@ val viewModelModule = module {
     viewModel { DirectDebitViewModel(get()) }
     viewModel { DashboardViewModel(get(), get()) }
     viewModel { ChatViewModel(get(), get()) }
-    viewModel { BaseTabViewModel(get()) }
     viewModel { WhatsNewViewModel(get()) }
+    viewModel { BaseTabViewModel(get(), get()) }
 }
 
 val serviceModule = module {
@@ -120,6 +121,7 @@ val serviceModule = module {
     single { Referrals(get()) }
     single { RemoteConfig() }
     single { TextKeys(get()) }
+    single { TabNotificationService(get()) }
 }
 
 val repositoriesModule = module {

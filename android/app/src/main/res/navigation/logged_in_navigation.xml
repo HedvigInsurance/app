@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loggedInFragment"
-        android:name="com.hedvig.app.feature.loggedin.LoggedInFragment"
+        android:name="com.hedvig.app.feature.loggedin.ui.LoggedInFragment"
         android:label="LoggedInFragment">
 
         <action
@@ -48,15 +48,6 @@
         <action
             android:id="@+id/action_loggedInFragment_to_referralFragment"
             app:destination="@id/referralFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/loggedInFragment" />
-
-        <action
-            android:id="@+id/action_loggedInFragment_to_newReferralFragment"
-            app:destination="@id/newReferralFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
