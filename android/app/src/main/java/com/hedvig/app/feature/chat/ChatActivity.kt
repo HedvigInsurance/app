@@ -84,14 +84,13 @@ class ChatActivity: ReactBaseActivity() {
     }
 
     private fun broadcastLogout() {
-        //todo
-//        broadcastReceiver = newBroadcastReceiver { _, _ ->
-//            loadingSpinner.remove()
-//        }.also { localBroadcastManager.registerReceiver(it, IntentFilter(ActivityStarterModule.BROADCAST_RELOAD_CHAT)) }
-//
-//        localBroadcastManager.sendBroadcast(Intent(NativeRoutingModule.ON_BOARDING_INTENT_FILER).also {
-//            it.putExtra(NativeRoutingModule.NAVIGATE_ROUTING_EXTRA_NAME_ACTION, NativeRoutingModule.NAVIGATE_ROUTING_EXTRA_VALUE_RESTART_CHAT_ON_BOARDING)
-//        })
+        broadcastReceiver = newBroadcastReceiver { _, _ ->
+            loadingSpinner.remove()
+        }.also { localBroadcastManager.registerReceiver(it, IntentFilter(ActivityStarterModule.BROADCAST_RELOAD_CHAT)) }
+
+        localBroadcastManager.sendBroadcast(Intent(NativeRoutingModule.ON_BOARDING_INTENT_FILER).also {
+            it.putExtra(NativeRoutingModule.NAVIGATE_ROUTING_EXTRA_NAME_ACTION, NativeRoutingModule.NAVIGATE_ROUTING_EXTRA_VALUE_RESTART_CHAT_ON_BOARDING)
+        })
     }
 
     override fun onDestroy() {

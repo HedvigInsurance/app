@@ -62,3 +62,5 @@ val Activity.displayMetrics: DisplayMetrics
         windowManager.defaultDisplay.getMetrics(metrics)
         return metrics
     }
+
+val Activity.localBroadcastManager get() = android.support.v4.content.LocalBroadcastManager.getInstance(this)
