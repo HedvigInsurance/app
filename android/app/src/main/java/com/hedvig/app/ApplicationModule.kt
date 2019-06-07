@@ -131,7 +131,7 @@ val repositoriesModule = module {
     single { MarketingStoriesRepository(get(), get(), get()) }
     single { ProfileRepository(get()) }
     single { UserRepository(get()) }
-    single { WhatsNewRepository(get()) }
+    single { WhatsNewRepository(get(), get()) }
 }
 
 val trackerModule = module {

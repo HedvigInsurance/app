@@ -1,35 +1,34 @@
 package com.hedvig.app.feature.whatsnew
 
-import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.WindowManager
 import com.hedvig.android.owldroid.graphql.WhatsNewQuery
+import com.hedvig.app.BuildConfig
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.observe
+import com.hedvig.app.util.extensions.screenWidth
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import kotlinx.android.synthetic.main.fragment_whats_new.*
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class WhatsNewDialog : DialogFragment() {
 
-    private val whatsNewViewModel: WhatsNewViewModel by viewModel()
+    private val whatsNewViewModel: WhatsNewViewModel by sharedViewModel()
 
-    override fun getTheme() = R.style.DialogTheme
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
+    }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-
-        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        dialog.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
-        return dialog
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -63,8 +62,14 @@ class WhatsNewDialog : DialogFragment() {
         override fun onPageScrolled(position: Int, offsetPercentage: Float, offsetPixels: Int) {
             pager.adapter?.count?.let { count ->
                 if (position == count - 2) {
-                    proceed.alpha = Math.max(0f, 1.0f - (offsetPercentage * 2))
                     newsContainer.alpha = 1.0f - offsetPercentage
+                    val translation = -(screenWidth * offsetPercentage)
+                    proceed.translationX = translation
+                    pagerIndicator.translationX = translation
+                }
+                if (position == count - 1 && offsetPercentage == 0f) {
+                    whatsNewViewModel.hasSeenNews(BuildConfig.VERSION_NAME)
+                    dialog?.dismiss()
                 }
             }
         }
@@ -78,5 +83,9 @@ class WhatsNewDialog : DialogFragment() {
                 }
             }
         }
+    }
+
+    companion object {
+        const val TAG = "whats_new_dialog"
     }
 }

@@ -62,3 +62,6 @@ val Activity.displayMetrics: DisplayMetrics
         windowManager.defaultDisplay.getMetrics(metrics)
         return metrics
     }
+
+val Activity.screenWidth: Int
+    get() = window.decorView.measuredWidth

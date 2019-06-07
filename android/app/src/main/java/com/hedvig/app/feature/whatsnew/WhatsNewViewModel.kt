@@ -2,6 +2,7 @@ package com.hedvig.app.feature.whatsnew
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Context
 import com.hedvig.android.owldroid.graphql.WhatsNewQuery
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -22,4 +23,7 @@ class WhatsNewViewModel(
                 news.postValue(response.data())
             }, { Timber.e(it) })
     }
+
+    fun hasSeenNews(version: String) = whatsNewRepository.hasSeenNews(version)
+
 }
