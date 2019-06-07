@@ -21,6 +21,7 @@ import com.facebook.react.bridge.ReadableType
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
+import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.chat.UploadBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
@@ -91,15 +92,9 @@ class ActivityStarterModule(
 
     @ReactMethod
     fun navigateToLoggedInFromChat() {
-        val activity = reactApplicationContext.currentActivity
-        if (activity != null) {
+        currentActivity?.let { activity ->
             reactApplicationContext.setIsLoggedIn(true)
-
-            //todo:
-//            when (navController.currentDestination?.id) {
-//                R.id.loggedInChatFragment -> navController.popBackStack()
-//                R.id.chatFragment -> navController.proxyNavigate(R.id.action_chatFragment_to_logged_in_navigation)
-//            }
+            activity.startActivity(Intent(activity, LoggedInActivity::class.java))
         }
     }
 
