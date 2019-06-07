@@ -25,10 +25,6 @@
         tools:replace="android:label">
 
         <activity
-            android:name=".feature.whatsnew.WhatsNewActivity"
-            android:theme="@style/Theme.Exponent.Light" />
-
-        <activity
             android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"

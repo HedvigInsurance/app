@@ -27,7 +27,6 @@ class NewsFragment : Fragment() {
                 .load(Uri.parse(BuildConfig.BASE_URL + il))
                 .into(illustration)
         }
-
         title.text = arguments?.getString(NEWS_TITLE)
         paragraph.text = arguments?.getString(NEWS_PARAGRAPH)
     }

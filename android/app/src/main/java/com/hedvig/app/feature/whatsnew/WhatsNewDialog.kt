@@ -1,8 +1,14 @@
 package com.hedvig.app.feature.whatsnew
 
+import android.app.Dialog
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import com.hedvig.android.owldroid.graphql.WhatsNewQuery
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.observe
@@ -10,14 +16,27 @@ import com.hedvig.app.util.extensions.view.setHapticClickListener
 import kotlinx.android.synthetic.main.fragment_whats_new.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class WhatsNewActivity : AppCompatActivity() {
+class WhatsNewDialog : DialogFragment() {
 
     private val whatsNewViewModel: WhatsNewViewModel by viewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_whats_new)
+    override fun getTheme() = R.style.DialogTheme
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+
+        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        dialog.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+        return dialog
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_whats_new, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         whatsNewViewModel.news.observe(this) { data ->
             data?.let { bindData(it) }
@@ -25,7 +44,7 @@ class WhatsNewActivity : AppCompatActivity() {
     }
 
     private fun bindData(data: WhatsNewQuery.Data) {
-        pager.adapter = PagerAdapter(supportFragmentManager, data.news)
+        pager.adapter = PagerAdapter(childFragmentManager, data.news)
         pagerIndicator.pager = pager
         proceed.text = if (data.news.size > 1) {
             resources.getString(R.string.NEWS_PROCEED)
