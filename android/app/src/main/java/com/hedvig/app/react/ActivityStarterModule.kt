@@ -30,7 +30,7 @@ import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
-import com.hedvig.app.util.extensions.triggerRestartCurrentActivity
+import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.react.AsyncStorageNative
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -94,7 +94,10 @@ class ActivityStarterModule(
     fun navigateToLoggedInFromChat() {
         currentActivity?.let { activity ->
             reactApplicationContext.setIsLoggedIn(true)
-            activity.startActivity(Intent(activity, LoggedInActivity::class.java))
+            val intent = Intent(activity, LoggedInActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            activity.startActivity(intent)
         }
     }
 
@@ -123,7 +126,9 @@ class ActivityStarterModule(
 
     @ReactMethod
     fun restartApplication() =
-        reactApplicationContext.currentActivity?.triggerRestartCurrentActivity()
+        reactApplicationContext.currentActivity?.let {
+            it.triggerRestartActivity(it::class.java)
+        }
 
     @ReactMethod
     fun reloadChat() =
