@@ -89,7 +89,6 @@ fun AppCompatActivity.setupLargeTitle(
     )
 }
 
-
 fun AppCompatActivity.setupLargeTitle(
     title: String,
     @FontRes font: Int,

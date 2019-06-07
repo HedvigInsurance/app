@@ -38,7 +38,7 @@ class LoggedInFragment : Fragment() {
             bottomTabs.selectedItemId = R.id.profile
             requireActivity().intent.removeExtra(MainActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP)
         }
-        
+
         bindData()
     }
 
