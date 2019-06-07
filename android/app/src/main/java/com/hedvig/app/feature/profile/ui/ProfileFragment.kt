@@ -12,6 +12,7 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
 import com.hedvig.app.feature.loggedin.ui.BaseTabViewModel
 import com.hedvig.app.feature.loggedin.ui.TabNotification
+import com.hedvig.app.feature.referrals.ReferralsActivity
 import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
@@ -68,7 +69,7 @@ class ProfileFragment : BaseTabFragment() {
                         tabViewModel.removeReferralNotification()
                     }
                     if (rcd.newReferralsEnabled) {
-                        navController.proxyNavigate(R.id.action_loggedInFragment_to_newReferralFragment)
+                        startActivity(Intent(requireContext(), ReferralsActivity::class.java))
                     } else {
                         navController.proxyNavigate(R.id.action_loggedInFragment_to_referralFragment)
                     }

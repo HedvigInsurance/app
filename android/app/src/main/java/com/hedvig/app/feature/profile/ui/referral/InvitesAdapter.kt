@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.hedvig.app.R
+import com.hedvig.app.feature.referrals.MockData
+import com.hedvig.app.feature.referrals.MockReferralStatus
 import com.hedvig.app.util.LightClass
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.compatDrawable
@@ -42,6 +44,7 @@ class InvitesAdapter(
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder.itemViewType) {
             HEADER -> (viewHolder as? HeaderViewHolder)?.apply {
+                progressTankView.initialize(100, 20, 10)
                 code.text = data.referralInformation.code
                 subtitle.text = interpolateTextKey(
                     subtitle.resources.getString(R.string.REFERRAL_PROGRESS_HEADLINE),
@@ -126,6 +129,7 @@ class InvitesAdapter(
     }
 
     inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val progressTankView: ProgressTankView = view.discountView
         val subtitle: TextView = view.subtitle
         val explainer: TextView = view.explainer
         val code: TextView = view.code

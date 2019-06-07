@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.hedvig.app.MainActivity
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.remove
@@ -29,6 +30,12 @@ class LoggedInFragment : Fragment() {
             tabContentContainer.setCurrentItem(LoggedInTabs.fromId(menuItem.itemId).ordinal, false)
             true
         }
+
+        if (requireActivity().intent.getBooleanExtra(MainActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP, false)){
+            bottomTabs.selectedItemId = R.id.profile
+            requireActivity().intent.removeExtra(MainActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP)
+        }
+        
         bindData()
     }
 
