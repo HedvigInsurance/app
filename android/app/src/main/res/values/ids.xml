@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="marketing_screen_content" type="id" />
-    <item name="chatFragment" type="id"/>
     <item name="logo_content" type="id" />
     <item name="profile_screen_content" type="id" />
     <item name="profile_member_info_screen_content" type="id" />

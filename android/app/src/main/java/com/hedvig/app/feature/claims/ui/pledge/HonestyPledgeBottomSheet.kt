@@ -12,6 +12,7 @@ import com.hedvig.app.feature.claims.service.ClaimsTracker
 import com.hedvig.app.feature.claims.ui.ClaimsViewModel
 import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
 import com.hedvig.app.util.extensions.proxyNavigate
+import com.hedvig.app.util.extensions.startClosableChat
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import kotlinx.android.synthetic.main.bottom_sheet_honesty_pledge.*
 import org.koin.android.ext.android.inject
@@ -32,9 +33,7 @@ class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
             tracker.pledgeHonesty(arguments?.getString(ARGS_CLAIM_KEY))
             claimsViewModel.triggerClaimsChat {
                 dismiss()
-                val intent = Intent(requireContext(), ChatActivity::class.java)
-                intent.putExtra(ChatActivity.ARGS_SHOW_CLOSE, true)
-                startActivity(intent)
+                requireActivity().startClosableChat()
             }
         }
     }

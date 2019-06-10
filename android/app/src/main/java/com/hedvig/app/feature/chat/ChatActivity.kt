@@ -4,16 +4,12 @@ import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.findNavController
+import android.view.ViewTreeObserver
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactInstanceManager
 import com.facebook.react.ReactNativeHost
 import com.facebook.react.ReactRootView
 import com.facebook.react.common.LifecycleState
-import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler
 import com.hedvig.app.R
 import com.hedvig.app.ReactBaseActivity
 import com.hedvig.app.feature.marketing.ui.MarketingActivity
@@ -21,17 +17,19 @@ import com.hedvig.app.react.ActivityStarterModule
 import com.hedvig.app.react.NativeRoutingModule
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.localBroadcastManager
-import com.hedvig.app.util.extensions.statusBarColor
+import com.hedvig.app.util.extensions.view.hide
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.newBroadcastReceiver
 import com.hedvig.app.util.showRestartDialog
 import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.android.synthetic.main.fragment_chat.view.*
-import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
+import android.view.animation.AccelerateInterpolator
+import android.view.ViewAnimationUtils
+import timber.log.Timber
 
-class ChatActivity: ReactBaseActivity() {
+
+class ChatActivity : ReactBaseActivity() {
     val chatViewModel: ChatViewModel by viewModel()
 
     private var reactRootView: ReactRootView? = null
@@ -44,6 +42,9 @@ class ChatActivity: ReactBaseActivity() {
 
     private var broadcastReceiver: BroadcastReceiver? = null
 
+    private var revealX = 0
+    private var revealY = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_chat)
@@ -53,7 +54,8 @@ class ChatActivity: ReactBaseActivity() {
         val reactArgs = Bundle().also {
             it.putString(
                 ARGS_INTENT,
-                intent.getStringExtra(ARGS_INTENT) ?: MarketingActivity.MarketingResult.ONBOARD.toString()
+                intent.getStringExtra(ARGS_INTENT)
+                    ?: MarketingActivity.MarketingResult.ONBOARD.toString()
             )
         }
         reactRootView.startReactApplication(reactInstanceManager, "Chat", reactArgs)
@@ -102,6 +104,13 @@ class ChatActivity: ReactBaseActivity() {
         if (reactInstanceManager.lifecycleState != LifecycleState.RESUMED) {
             reactInstanceManager.onHostDestroy(this)
             reactNativeHost.clear()
+        }
+    }
+
+    override fun finish() {
+        super.finish()
+        if (intent.getBooleanExtra(ARGS_SHOW_CLOSE, false)) {
+            overridePendingTransition(R.anim.stay_in_place, R.anim.activity_slide_down_out)
         }
     }
 

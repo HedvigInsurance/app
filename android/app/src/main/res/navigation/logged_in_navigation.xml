@@ -118,34 +118,12 @@
     <fragment
         android:id="@+id/claimsCommonClaimFragment"
         android:name="com.hedvig.app.feature.claims.ui.commonclaim.CommonClaimFragment"
-        android:label="CommonClaimFragment">
-
-        <action
-            android:id="@+id/action_claimsCommonClaimFragment_to_chatFragment"
-            app:destination="@+id/chatFragment"
-            app:enterAnim="@anim/slide_in_up"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/stay_in_place"
-            app:popExitAnim="@anim/slide_out_down"
-            app:popUpTo="@+id/claimsCommonClaimFragment" />
-
-    </fragment>
+        android:label="CommonClaimFragment"/>
 
     <fragment
         android:id="@+id/claimsEmergencyFragment"
         android:name="com.hedvig.app.feature.claims.ui.commonclaim.EmergencyFragment"
-        android:label="EmergencyFragment">
-
-        <action
-            android:id="@+id/action_claimsEmergencyFragment_to_chatFragment"
-            app:destination="@id/chatFragment"
-            app:enterAnim="@anim/slide_in_up"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/stay_in_place"
-            app:popExitAnim="@anim/slide_out_down"
-            app:popUpTo="@+id/claimsEmergencyFragment" />
-
-    </fragment>
+        android:label="EmergencyFragment"/>
 
     <fragment
         android:id="@+id/referralFragment"
@@ -160,18 +138,7 @@
     <fragment
         android:id="@+id/myHomeFragment"
         android:name="com.hedvig.app.feature.profile.ui.myhome.MyHomeFragment"
-        android:label="MyHomeFragment">
-
-        <action
-            android:id="@+id/action_myHomeFragment_to_chatFragment"
-            app:destination="@id/chatFragment"
-            app:enterAnim="@anim/slide_in_up"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/stay_in_place"
-            app:popExitAnim="@anim/slide_out_down"
-            app:popUpTo="@+id/myHomeFragment" />
-
-    </fragment>
+        android:label="MyHomeFragment"/>
 
     <fragment
         android:id="@+id/coinsuredFragment"

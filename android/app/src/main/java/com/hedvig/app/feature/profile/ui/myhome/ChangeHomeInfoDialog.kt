@@ -12,6 +12,7 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.util.extensions.proxyNavigate
+import com.hedvig.app.util.extensions.startClosableChat
 import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.dialog_change_home_info.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -35,9 +36,7 @@ class ChangeHomeInfoDialog : DialogFragment() {
         dialogConfirm.setOnClickListener {
             profileViewModel.triggerFreeTextChat {
                 dismiss()
-                val intent = Intent(requireContext(), ChatActivity::class.java)
-                intent.putExtra(ChatActivity.ARGS_SHOW_CLOSE, true)
-                startActivity(intent)
+                requireActivity().startClosableChat()
             }
         }
     }

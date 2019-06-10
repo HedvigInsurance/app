@@ -7,7 +7,8 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:id="@+id/chatRoot">
 
     <FrameLayout
         android:layout_width="match_parent"
