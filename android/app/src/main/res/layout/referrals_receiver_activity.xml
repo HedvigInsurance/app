@@ -19,13 +19,13 @@
             app:srcCompat="@drawable/ic_invite_success" />
 
         <TextView
+            android:id="@+id/referralsReceiverTitle"
             style="@style/Headline.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/base_margin_double"
             android:gravity="center"
-            android:text="@string/REFERRAL_LINK_INVITATION_SCREEN_HEADLINE"
-            tools:text="Bonusregn till folket!" />
+            tools:text="@string/REFERRAL_STARTSCREEN_HEADLINE" />
 
         <TextView
             style="@style/Body.Regular"
@@ -33,8 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/base_margin"
             android:gravity="center"
-            android:text="@string/REFERRAL_LINK_INVITATION_SCREEN_BODY"
-            tools:text="Du har blivit inbjuden av Lucas och kommer få rabatt på 10 kr/mån! Vill du acceptera inbjudan eller fortsätta utan rabatt?" />
+            android:text="@string/REFERRAL_STARTSCREEN_BODY" />
 
         <Button
             android:id="@+id/referralReceiverContinueButton"
@@ -47,7 +46,7 @@
             android:fontFamily="@font/circular_book"
             android:paddingLeft="@dimen/referral_receiver_continue_button_padding_edge"
             android:paddingRight="@dimen/referral_receiver_continue_button_padding_edge"
-            android:text="@string/REFERRAL_LINK_INVITATION_SCREEN_BTN_ACCEPT"
+            android:text="@string/REFERRAL_STARTSCREEN_BTN_CTA"
             android:textAllCaps="false"
             android:textColor="@color/off_white"
             android:textSize="@dimen/text_medium"
@@ -70,7 +69,7 @@
             android:fontFamily="@font/circular_book"
             android:paddingLeft="@dimen/referral_receiver_continue_without_button_padding_edge"
             android:paddingRight="@dimen/referral_receiver_continue_without_button_padding_edge"
-            android:text="@string/REFERRAL_LINK_INVITATION_SCREEN_BTN_DECLINE"
+            android:text="@string/REFERRAL_STARTSCREEN_BTN_SKIP"
             android:textAllCaps="false"
             android:textColor="@color/off_black_dark"
             android:textSize="@dimen/text_medium"

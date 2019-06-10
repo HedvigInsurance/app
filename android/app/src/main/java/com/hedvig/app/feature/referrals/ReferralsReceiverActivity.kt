@@ -6,13 +6,20 @@ import com.hedvig.app.BaseActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.util.extensions.removeReferralsCode
+import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.referrals_receiver_activity.*
 
-class ReferralsReceiverActivity: BaseActivity() {
+class ReferralsReceiverActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.referrals_receiver_activity)
+
+        //todo fetch data for this
+        referralsReceiverTitle.text = interpolateTextKey(
+            getString(R.string.REFERRAL_STARTSCREEN_HEADLINE),
+            "USER" to "Fredrik",
+            "REFERRAL_VALUE" to "10")
 
         referralReceiverContinueButton.setOnClickListener {
             startChat()
