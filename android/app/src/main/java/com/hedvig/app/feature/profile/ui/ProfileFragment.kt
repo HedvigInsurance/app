@@ -17,7 +17,7 @@ import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import com.hedvig.app.util.extensions.setupLargeTitle
-import com.hedvig.app.util.extensions.triggerRestartCurrentActivity
+import com.hedvig.app.util.extensions.*
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
@@ -104,12 +104,12 @@ class ProfileFragment : BaseTabFragment() {
             }
             logout.setOnClickListener {
                 profileViewModel.logout {
-                    requireContext().applicationContext.setIsLoggedIn(false)
+                    requireContext().setIsLoggedIn(false)
                     localBroadcastManager.sendBroadcast(Intent(PROFILE_NAVIGATION_BROADCAST).apply {
                         putExtra("action", "logout")
                     })
                     asyncStorageNative.deleteKey("@hedvig:token")
-                    requireActivity().triggerRestartCurrentActivity()
+                    requireActivity().triggerRestartActivity()
                 }
             }
         })

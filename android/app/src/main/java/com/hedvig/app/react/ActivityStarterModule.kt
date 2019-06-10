@@ -21,14 +21,16 @@ import com.facebook.react.bridge.ReadableType
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
+import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.chat.UploadBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
+import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
-import com.hedvig.app.util.extensions.triggerRestartCurrentActivity
+import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.react.AsyncStorageNative
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -48,13 +50,6 @@ class ActivityStarterModule(
     private val firebaseAnalytics by lazy { FirebaseAnalytics.getInstance(reactApplicationContext) }
 
     private val localBroadcastManager = LocalBroadcastManager.getInstance(reactContext)
-
-    private val navController by lazy {
-        reactApplicationContext.currentActivity?.let {
-            Navigation.findNavController(it, R.id.rootNavigationHost)
-        }
-            ?: throw RuntimeException("Trying to reactApplicationContext.currentActivity but it is null")
-    }
 
     private val fileUploadBroadcastReceiver = FileUploadBroadcastReceiver()
 
@@ -82,30 +77,27 @@ class ActivityStarterModule(
         val activity = reactApplicationContext.currentActivity
         if (activity != null) {
             asyncStorageNative.setKey("@hedvig:isViewingOffer", "true")
-            navController
-                .proxyNavigate(R.id.action_chatFragment_to_offerFragment)
+            currentActivity?.let {
+                it.startActivity(Intent(it, OfferActivity::class.java))
+            }
         }
     }
 
     @ReactMethod
     fun navigateToChatFromOffer() {
-        val activity = reactApplicationContext.currentActivity
-        if (activity != null) {
-            navController
-                .proxyNavigate(R.id.action_offerFragment_to_chatFragment)
+        currentActivity?.let {
+            it.startActivity(Intent(it, OfferActivity::class.java))
         }
     }
 
     @ReactMethod
     fun navigateToLoggedInFromChat() {
-        val activity = reactApplicationContext.currentActivity
-        if (activity != null) {
+        currentActivity?.let { activity ->
             reactApplicationContext.setIsLoggedIn(true)
-
-            when (navController.currentDestination?.id) {
-                R.id.loggedInChatFragment -> navController.popBackStack()
-                R.id.chatFragment -> navController.proxyNavigate(R.id.action_chatFragment_to_logged_in_navigation)
-            }
+            val intent = Intent(activity, LoggedInActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            activity.startActivity(intent)
         }
     }
 
@@ -134,7 +126,9 @@ class ActivityStarterModule(
 
     @ReactMethod
     fun restartApplication() =
-        reactApplicationContext.currentActivity?.triggerRestartCurrentActivity()
+        reactApplicationContext.currentActivity?.let {
+            it.triggerRestartActivity(it::class.java)
+        }
 
     @ReactMethod
     fun reloadChat() =
