@@ -22,6 +22,28 @@ class SplashActivity : BaseActivity() {
 
     val loggedInService: LoginStatusService by inject()
 
+    override fun onStart() {
+        super.onStart()
+
+        FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnSuccessListener { pendingDynamicLinkData ->
+            if (pendingDynamicLinkData != null && pendingDynamicLinkData.link != null) {
+                val link = pendingDynamicLinkData.link
+                val referee = link.getQueryParameter("memberId")
+                val incentive = link.getQueryParameter("incentive")
+                if (referee != null && incentive != null) {
+                    getSharedPreferences("referrals", Context.MODE_PRIVATE).edit().putString("referee", referee)
+                        .putString("incentive", incentive).apply()
+
+                    val b = Bundle()
+                    b.putString("invitedByMemberId", referee)
+                    b.putString("incentive", incentive)
+
+                    FirebaseAnalytics.getInstance(this).logEvent("referrals_open", b)
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         whenApiVersion(Build.VERSION_CODES.M) {
