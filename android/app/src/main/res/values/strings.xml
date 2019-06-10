@@ -7,4 +7,5 @@
 
     <string name="two_hundred_thousand" translatable="false">200 000</string>
     <string name="one_million" translatable="false">1 000 000</string>
+    <string name="CHAT_TITLE">Chat</string>
 </resources>

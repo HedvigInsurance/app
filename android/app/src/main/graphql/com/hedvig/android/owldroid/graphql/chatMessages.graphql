@@ -1,0 +1,14 @@
+query ChatMessages {
+  messages {
+    id
+    header {
+      fromMyself
+    }
+    body {
+      ... on MessageBodyCore {
+        type
+        text
+      }
+    }
+  }
+}

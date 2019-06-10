@@ -113,6 +113,7 @@ val viewModelModule = module {
     viewModel { ChatViewModel(get(), get()) }
     viewModel { WhatsNewViewModel(get()) }
     viewModel { BaseTabViewModel(get(), get()) }
+    viewModel { com.hedvig.app.feature.chat.native.ChatViewModel(get()) }
 }
 
 val serviceModule = module {
@@ -134,6 +135,7 @@ val repositoriesModule = module {
     single { ProfileRepository(get()) }
     single { UserRepository(get()) }
     single { WhatsNewRepository(get(), get()) }
+    single { com.hedvig.app.feature.chat.native.ChatRepository(get()) }
 }
 
 val trackerModule = module {

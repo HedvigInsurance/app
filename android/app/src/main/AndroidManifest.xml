@@ -25,6 +25,10 @@
         tools:replace="android:label">
 
         <activity
+            android:name=".feature.chat.native.NativeChatActivity"
+            android:theme="@style/Theme.Exponent.Light" />
+
+        <activity
             android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
@@ -68,22 +72,22 @@
 
         <activity
             android:name=".feature.referrals.ReferralsSuccessfulInviteActivity"
-            android:parentActivityName=".MainActivity"
-            android:noHistory="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
+            android:noHistory="true"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Exponent.Splash"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".feature.referrals.ReferralsActivity"
-            android:parentActivityName=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Exponent.Splash"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name="com.hedvig.app.service.PushNotificationService"
