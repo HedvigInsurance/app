@@ -28,6 +28,7 @@ import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
+import com.hedvig.app.feature.referrals.PromotionCodeBottomSheet
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import com.hedvig.app.util.extensions.triggerRestartActivity
@@ -110,6 +111,12 @@ class ActivityStarterModule(
     @ReactMethod
     fun showPerilOverlay(subject: String, iconId: String, title: String, description: String) {
         PerilBottomSheet.newInstance(subject, PerilIcon.from(iconId), title, description)
+            .show(fragmentManager, "perilSheet")
+    }
+
+    @ReactMethod
+    fun showPromotionOverlay() {
+        PromotionCodeBottomSheet.newInstance()
             .show(fragmentManager, "perilSheet")
     }
 

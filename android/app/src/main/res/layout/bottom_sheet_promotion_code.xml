@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/base_margin_triple"
+    android:paddingEnd="@dimen/base_margin_triple"
+    android:paddingBottom="@dimen/base_margin_triple">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_margin_triple"
+        android:layout_marginBottom="@dimen/base_margin"
+        android:text="@string/REFERRAL_ADDCOUPON_HEADLINE"
+        android:textSize="@dimen/text_xlarge"
+        android:theme="@style/Header.Regular" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_margin"
+        android:text="@string/REFERRAL_ADDCOUPON_BODY"
+        android:theme="@style/Body.Small" />
+
+    <EditText
+        android:id="@+id/bottomSheetAddPromotionCodeEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_margin_triple"
+        android:lines="1"
+        android:padding="@dimen/base_margin_double"
+        android:hint="@string/REFERRAL_ADDCOUPON_INPUTPLACEHOLDER"
+        android:background="@drawable/background_edit_text_rounded_corners"/>
+
+    <Button
+        android:id="@+id/bottomSheetAddPromotionCodeButton"
+        style="@style/HedvigButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/base_margin_quadruple"
+        android:text="@string/CLAIMS_HONESTY_PLEDGE_BOTTOM_SHEET_BUTTON_LABEL"
+        app:backgroundTint="@color/purple"
+        tools:backgroundTint="@color/purple" />
+
+    <TextView
+        android:id="@+id/bottomSheetPromotionCodeTermsAndCondition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_margin"
+        android:gravity="center"
+        android:text="@string/REFERRAL_ADDCOUPON_TC"
+        android:theme="@style/Body.Small" />
+
+    <TextView
+        android:id="@+id/bottomSheetPromotionCodeTermsAndConditionLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_margin"
+        android:textColor="@color/purple"
+        android:gravity="center"
+        android:theme="@style/Body.Small" />
+
+</LinearLayout>
