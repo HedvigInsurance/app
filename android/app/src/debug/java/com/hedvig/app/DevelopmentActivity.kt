@@ -13,6 +13,5 @@ class DevelopmentActivity : AppCompatActivity() {
         findViewById<Button>(R.id.openWhatsNew).setOnClickListener {
             WhatsNewDialog.newInstance("2.8.1").show(supportFragmentManager, "whats_new")
         }
-        }
     }
 }
