@@ -25,4 +25,14 @@
         android:backgroundTint="@color/purple"
         android:text="Open What's new screen" />
 
+    <Button
+        android:id="@+id/openNativeChat"
+        style="@style/HedvigButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:backgroundTint="@color/purple"
+        android:text="Open native chat screen" />
+
 </LinearLayout>

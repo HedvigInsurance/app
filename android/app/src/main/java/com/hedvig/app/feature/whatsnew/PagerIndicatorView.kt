@@ -30,6 +30,7 @@ class PagerIndicatorView : LinearLayout {
             field = value
             value?.let { pager ->
                 pager.addOnPageChangeListener(PageChangeListener())
+                removeAllViews()
                 pager.adapter?.count?.let { count ->
                     for (i in 0 until count) {
                         if (i == count - 1) {

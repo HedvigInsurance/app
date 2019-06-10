@@ -36,6 +36,7 @@ class WhatsNewDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        whatsNewViewModel.fetchNews(arguments?.getString(SINCE_VERSION))
 
         whatsNewViewModel.news.observe(this) { data ->
             data?.let { bindData(it) }
@@ -43,7 +44,7 @@ class WhatsNewDialog : DialogFragment() {
     }
 
     private fun bindData(data: WhatsNewQuery.Data) {
-        pager.adapter = PagerAdapter(childFragmentManager, data.news)
+        pager.adapter = PagerAdapter(childFragmentManager, data.news + data.news)
         pagerIndicator.pager = pager
         proceed.text = if (data.news.size > 1) {
             resources.getString(R.string.NEWS_PROCEED)
@@ -87,5 +88,15 @@ class WhatsNewDialog : DialogFragment() {
 
     companion object {
         const val TAG = "whats_new_dialog"
+
+        private const val SINCE_VERSION = "since_version"
+
+        fun newInstance(sinceVersion: String? = null) = WhatsNewDialog().apply {
+            sinceVersion?.let { sv ->
+                arguments = Bundle().apply {
+                    putString(SINCE_VERSION, sv)
+                }
+            }
+        }
     }
 }
