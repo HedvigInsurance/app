@@ -10,8 +10,6 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.util.hasNotch
 import com.hedvig.app.util.whenApiVersion
-import android.app.ActivityOptions
-import android.graphics.Rect
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
 import timber.log.Timber
@@ -75,7 +73,7 @@ val Activity.localBroadcastManager get() = android.support.v4.content.LocalBroad
 fun Activity.startClosableChat() {
     Timber.i("startClosableChat")
     val intent = Intent(this, ChatActivity::class.java)
-    intent.putExtra(ChatActivity.ARGS_SHOW_CLOSE, true)
+    intent.putExtra(ChatActivity.EXTRA_SHOW_CLOSE, true)
 
     val options =
         ActivityOptionsCompat.makeCustomAnimation(this, R.anim.activity_slide_up_in, R.anim.stay_in_place)

@@ -9,8 +9,6 @@ import android.view.GestureDetector
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.ProgressBar
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import com.hedvig.app.BaseActivity
 import com.hedvig.app.R
@@ -24,7 +22,7 @@ import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.percentageFade
-import kotlinx.android.synthetic.main.fragment_marketing.*
+import kotlinx.android.synthetic.main.marketing_activity.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -54,7 +52,7 @@ class MarketingActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_marketing)
+        setContentView(R.layout.marketing_activity)
 
         setupSystemDecoration()
         observeMarketingStories()

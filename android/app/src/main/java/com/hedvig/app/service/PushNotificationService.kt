@@ -9,7 +9,6 @@ import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.TaskStackBuilder
-import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -59,7 +58,7 @@ class PushNotificationService : FirebaseMessagingService() {
 
     private fun sendChatMessageNotification() {
         val chatIntent = Intent(this, ChatActivity::class.java)
-        chatIntent.putExtra(ChatActivity.ARGS_SHOW_CLOSE, true)
+        chatIntent.putExtra(ChatActivity.EXTRA_SHOW_CLOSE, true)
 
         val pendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
             addNextIntentWithParentStack(chatIntent)

@@ -1,9 +1,6 @@
 package com.hedvig.app.feature.offer
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactInstanceManager
 import com.facebook.react.ReactNativeHost
@@ -14,7 +11,6 @@ import com.hedvig.app.ReactBaseActivity
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.setDarkNavigationBar
 import com.hedvig.app.util.extensions.setLightStatusBarText
-import com.hedvig.app.util.extensions.statusBarColor
 
 class OfferActivity: ReactBaseActivity() {
     private var mReactRootView: ReactRootView? = null
