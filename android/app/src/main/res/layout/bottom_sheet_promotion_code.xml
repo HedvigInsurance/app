@@ -47,6 +47,17 @@
         tools:backgroundTint="@color/purple" />
 
     <TextView
+        android:id="@+id/bottomSheetPromotionCodeMissingCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_margin"
+        android:gravity="center"
+        android:textColor="@color/pink"
+        android:visibility="gone"
+        android:text="@string/REFERRAL_ERROR_MISSINGCODE_BODY"
+        android:theme="@style/Body.Small" />
+
+    <TextView
         android:id="@+id/bottomSheetPromotionCodeTermsAndCondition"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

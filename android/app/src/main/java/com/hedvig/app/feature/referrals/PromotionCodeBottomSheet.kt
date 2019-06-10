@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import com.hedvig.app.R
 import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
+import com.hedvig.app.util.extensions.view.hide
+import com.hedvig.app.util.extensions.view.remove
+import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.bottom_sheet_promotion_code.*
 
@@ -35,7 +38,17 @@ class PromotionCodeBottomSheet : RoundedBottomSheetDialogFragment() {
 
     private fun addPromotionCode(code: String) {
         Toast.makeText(requireContext(), "Send $code", Toast.LENGTH_SHORT).show()
+        resetErrorState()
+    }
+
+    private fun resetErrorState() {
+        dialog.bottomSheetAddPromotionCodeEditText.background = requireContext().getDrawable(R.drawable.background_edit_text_rounded_corners)
+        dialog.bottomSheetPromotionCodeMissingCode.remove()
+    }
+
+    private fun wrongPromotionCode() {
         dialog.bottomSheetAddPromotionCodeEditText.background = requireContext().getDrawable(R.drawable.background_edit_text_rounded_corners_failed)
+        dialog.bottomSheetPromotionCodeMissingCode.show()
     }
 
     companion object {
