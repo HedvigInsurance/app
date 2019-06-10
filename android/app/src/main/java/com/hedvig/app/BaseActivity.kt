@@ -14,7 +14,6 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        // TODO: do we need this and should it be in splash?
         FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnSuccessListener { pendingDynamicLinkData ->
             if (pendingDynamicLinkData != null && pendingDynamicLinkData.link != null) {
                 val link = pendingDynamicLinkData.link
