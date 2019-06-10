@@ -10,13 +10,13 @@ class WhatsNewRepository(
     private val apolloClient: ApolloClient,
     private val context: Context
 ) {
-    fun fetchWhatsNew() =
+    fun fetchWhatsNew(sinceVersion: String? = null) =
         Rx2Apollo.from(
             apolloClient.query(
                 WhatsNewQuery
                     .builder()
                     .locale(Locale.SV_SE)
-                    .sinceVersion(latestSeenNews())
+                    .sinceVersion(sinceVersion ?: latestSeenNews())
                     .build()
             )
         )
