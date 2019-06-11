@@ -76,4 +76,6 @@
     <dimen name="referral_progress_text_label_radius">8dp</dimen>
     <dimen name="referral_progress_text_padding">16dp</dimen>
     <dimen name="referral_progress_arrow_square_size">4dp</dimen>
+    <dimen name="sub_sphere_size">80dp</dimen>
+    <dimen name="sub_sphere_offset">180dp</dimen>
 </resources>

@@ -15,9 +15,7 @@ import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.util.CustomTypefaceSpan
-import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.compatFont
-import com.hedvig.app.util.extensions.compatSetTint
 import com.hedvig.app.util.extensions.concat
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setupLargeTitle
@@ -49,9 +47,6 @@ class PaymentFragment : Fragment() {
         setupLargeTitle(R.string.PROFILE_PAYMENT_TITLE, R.font.circular_bold, R.drawable.ic_back) {
             navController.popBackStack()
         }
-
-        priceSphere.drawable.compatSetTint(requireContext().compatColor(R.color.green))
-        deductibleSphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_green))
 
         val today = Calendar.getInstance()
         val year = today.get(Calendar.YEAR).toString()
