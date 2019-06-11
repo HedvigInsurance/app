@@ -82,4 +82,5 @@
     <dimen name="pager_indicator_inactive_size">4dp</dimen>
     <dimen name="pager_indicator_hedvig_logo_size">16dp</dimen>
     <dimen name="pager_indicator_height">32dp</dimen>
+    <dimen name="news_close_button_size">28dp</dimen>
 </resources>

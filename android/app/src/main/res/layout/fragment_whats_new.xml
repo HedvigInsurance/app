@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/close"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="@dimen/news_close_button_size"
+            android:layout_height="@dimen/news_close_button_size"
             android:layout_marginStart="@dimen/base_margin_double"
             android:layout_marginTop="@dimen/base_margin_double"
             android:background="?attr/selectableItemBackgroundBorderless"
