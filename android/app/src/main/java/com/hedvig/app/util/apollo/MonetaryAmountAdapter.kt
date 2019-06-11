@@ -9,18 +9,22 @@ import javax.money.MonetaryAmount
 class MonetaryAmountAdapter : CustomTypeAdapter<MonetaryAmount> {
     override fun encode(value: MonetaryAmount): CustomTypeValue<*> {
         val jsonObject = JSONObject()
-        jsonObject.put("amount", value.number.doubleValueExact())
-        jsonObject.put("currency", value.currency.currencyCode)
+        jsonObject.put(KEY_AMOUNT, value.number.doubleValueExact())
+        jsonObject.put(KEY_CURRENCY, value.currency.currencyCode)
         return CustomTypeValue.fromRawValue(jsonObject.toString())
     }
 
     override fun decode(value: CustomTypeValue<*>): MonetaryAmount {
         val jsonObject = JSONObject(value.value as String)
 
-        val amount = jsonObject.getDouble("amount")
-        val currency = jsonObject.getString("currency")
+        val amount = jsonObject.getDouble(KEY_AMOUNT)
+        val currency = jsonObject.getString(KEY_CURRENCY)
 
         return Monetary.getDefaultAmountFactory().setNumber(amount).setCurrency(currency).create()
     }
 
+    companion object {
+        private const val KEY_AMOUNT = "amount"
+        private const val KEY_CURRENCY = "currency"
+    }
 }
