@@ -49,18 +49,6 @@ class InvitesAdapter(
         return count
     }
 
-    private fun calculateDiscount(): Int {
-        var totalDiscount = 0
-        (data.sender as? ProfileQuery.AsActiveReferral?)?.let { totalDiscount += it.discount.number.intValueExact() }
-        data.receivers?.filterIsInstance(ProfileQuery.AsActiveReferral1::class.java)?.forEach { receiver -> totalDiscount += receiver.discount.number.intValueExact() }
-        return min(totalDiscount, monthlyCost)
-    }
-
-    private fun calculateInvitesLeftToFree(): Int {
-        val amount = monthlyCost - calculateDiscount()
-        return ceil(amount / data.referralInformation.incentive.number.doubleValueExact()).toInt()
-    }
-
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder.itemViewType) {
             HEADER -> (viewHolder as? HeaderViewHolder)?.apply {
@@ -89,13 +77,6 @@ class InvitesAdapter(
             }
         }
     }
-
-    private fun getReferralFromPosition(position: Int): Any? =
-        try {
-            data.receivers?.get(position - 1)
-        } catch (e: IndexOutOfBoundsException) {
-            null
-        } ?: data.sender
 
     private fun bindActiveRow(viewHolder: ItemViewHolder, nameString: String?, discountString: String?) = viewHolder.apply {
         setupAvatarWithLetter(this, nameString)
@@ -157,6 +138,25 @@ class InvitesAdapter(
                 )
             }
         }
+    }
+
+    private fun getReferralFromPosition(position: Int): Any? =
+        try {
+            data.receivers?.get(position - 1)
+        } catch (e: IndexOutOfBoundsException) {
+            null
+        } ?: data.sender
+
+    private fun calculateDiscount(): Int {
+        var totalDiscount = 0
+        (data.sender as? ProfileQuery.AsActiveReferral?)?.let { totalDiscount += it.discount.number.intValueExact() }
+        data.receivers?.filterIsInstance(ProfileQuery.AsActiveReferral1::class.java)?.forEach { receiver -> totalDiscount += receiver.discount.number.intValueExact() }
+        return min(totalDiscount, monthlyCost)
+    }
+
+    private fun calculateInvitesLeftToFree(): Int {
+        val amount = monthlyCost - calculateDiscount()
+        return ceil(amount / data.referralInformation.incentive.number.doubleValueExact()).toInt()
     }
 
     companion object {
