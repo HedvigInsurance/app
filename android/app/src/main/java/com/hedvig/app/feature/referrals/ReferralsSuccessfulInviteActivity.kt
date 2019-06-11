@@ -27,6 +27,7 @@ class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             window.statusBarColor = compatColor(R.color.dark_purple)
         }
+        referralSuccessImage.show()
         referralSuccessTitle.text = interpolateTextKey(
             getString(R.string.REFERRAL_SUCCESS_HEADLINE),
             "USER" to "???" // TODO fetch
@@ -42,6 +43,7 @@ class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
     private fun showUltimateSuccess() {
         window.statusBarColor = compatColor(R.color.yellow)
         referralSuccessRoot.setBackgroundColor(compatColor(R.color.yellow))
+        referralUltimateSuccessImage.show()
         referralUltimateSuccessTitle.text = getString(R.string.REFERRAL_ULTIMATE_SUCCESS_TITLE)
         referralUltimateSuccessTitle.show()
         referralUltimateSuccessBody.text = getString(R.string.REFERRAL_ULTIMATE_SUCCESS_BODY)

@@ -29,4 +29,44 @@ query Profile {
     name
     paragraph
   }
+  memberReferralCampaign {
+    memberId
+    referralInformation {
+      code
+      link
+      incentive
+    }
+    sender {
+      __typename
+      ... on ActiveReferral {
+        name
+        discount
+      }
+      ... on InProgressReferral {
+        name
+      }
+      ... on TerminatedReferral {
+        name
+      }
+      ... on NotInitiatedReferral {
+        name
+      }
+    }
+    receivers {
+      __typename
+      ... on ActiveReferral {
+        name
+        discount
+      }
+      ... on InProgressReferral {
+        name
+      }
+      ... on TerminatedReferral {
+        name
+      }
+      ... on NotInitiatedReferral {
+        name
+      }
+    }
+  }
 }
