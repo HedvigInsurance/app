@@ -67,13 +67,18 @@ class ProgressTankView : View {
 
     //strings
     private val callToAction = context.getString(R.string.REFERRAL_PROGRESS_BAR_CTA)
-    private val currentPremiumPrice = interpolateTextKey(
-        context.getString(R.string.REFERRAL_PROGRESS_CURRENT_PREMIUM_PRICE),
-        "CURRENT_PREMIUM_PRICE" to premium.toString())
     private val bottomLabelText = context.getString(R.string.REFERRAL_PROGRESS_FREE)
-    private val currentInvitedActiveValue = interpolateTextKey(
-        context.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
-        "REFERRAL_VALUE" to (premium - discountedPremium).toString())
+    // use by lazy to get premium on first draw instead of on init
+    private val currentPremiumPrice by lazy {
+        interpolateTextKey(
+            context.getString(R.string.REFERRAL_PROGRESS_CURRENT_PREMIUM_PRICE),
+            "CURRENT_PREMIUM_PRICE" to premium.toString())
+    }
+    private val currentInvitedActiveValue by lazy {
+        interpolateTextKey(
+            context.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
+            "REFERRAL_VALUE" to (premium - discountedPremium).toString())
+    }
 
 
     //font

@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.hedvig.android.owldroid.graphql.ProfileQuery
-import com.hedvig.android.owldroid.type.ReferralStatus
 import com.hedvig.app.R
 import com.hedvig.app.util.LightClass
 import com.hedvig.app.util.extensions.compatColor
@@ -18,10 +17,8 @@ import com.hedvig.app.util.hashColor
 import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.referral_header.view.*
 import kotlinx.android.synthetic.main.referral_invite_row.view.*
-import timber.log.Timber
 import kotlin.math.ceil
 import kotlin.math.min
-import kotlin.math.roundToInt
 
 class InvitesAdapter(
     private val monthlyCost: Int,
@@ -52,32 +49,10 @@ class InvitesAdapter(
         return count
     }
 
-
-    private fun getStatusValue(position: Int): ReferralStatus =
-        try {
-            data.receivers?.get(position - 1)?.status
-        } catch (e: IndexOutOfBoundsException) {
-            null
-        } ?: data.sender?.status ?: ReferralStatus.`$UNKNOWN`
-
-    private fun getNameValue(position: Int): String =
-        try {
-            data.receivers?.get(position - 1)?.name
-        } catch (e: IndexOutOfBoundsException) {
-            null
-        } ?: data.sender?.name ?: "this is not correct"
-
-    private fun getDiscountValue(position: Int): String =
-        try {
-            data.receivers?.get(position - 1)?.discount?.number?.doubleValueExact()?.toString()
-        } catch (e: IndexOutOfBoundsException) {
-            null
-        } ?: data.sender?.discount?.number?.doubleValueExact().toString() ?: "this is not correct"
-
     private fun calculateDiscount(): Int {
         var totalDiscount = 0
-        data.sender?.discount?.let { totalDiscount += it.number.intValueExact() }
-        data.receivers?.forEach { receiver -> receiver.discount.let { totalDiscount += it.number.intValueExact() } }
+        (data.sender as? ProfileQuery.AsActiveReferral?)?.let { totalDiscount += it.discount.number.intValueExact() }
+        data.receivers?.filterIsInstance(ProfileQuery.AsActiveReferral1::class.java)?.forEach { receiver -> totalDiscount += receiver.discount.number.intValueExact() }
         return min(totalDiscount, monthlyCost)
     }
 
@@ -101,55 +76,68 @@ class InvitesAdapter(
                 )
             }
             ITEM -> (viewHolder as? ItemViewHolder)?.apply {
-                name.text = getNameValue(position)
-
-                when (getStatusValue(position)) {
-                    ReferralStatus.ACTIVE -> {
-                        setupAvatarWithLetter(this, getNameValue(position))
-
-                        name.text = getNameValue(position)
-                        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_NEWSTATE)
-
-                        statusIconContainer.setBackgroundResource(R.drawable.background_rounded_corners)
-                        statusIconContainer.background.setTint(
-                            statusIconContainer.context.compatColor(
-                                R.color.light_gray
-                            )
-                        )
-                        discount.text = interpolateTextKey(
-                            discount.resources.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
-                            "REFERRAL_VALUE" to getDiscountValue(position)
-                        )
-                        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_filled_checkmark))
-                    }
-                    ReferralStatus.IN_PROGRESS -> {
-                        setupAvatarWithLetter(this, getNameValue(position))
-
-                        name.text = getNameValue(position)
-                        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_STARTEDSTATE)
-
-                        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
-                    }
-                    ReferralStatus.NOT_INITIATED -> {
-                        avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.ic_ghost))
-                        avatar.scaleType = ImageView.ScaleType.CENTER
-                        name.text = name.resources.getString(R.string.REFERRAL_INVITE_ANON)
-                        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_OPENEDSTATE)
-                        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
-                    }
-                    ReferralStatus.TERMINATED -> {
-                        setupAvatarWithLetter(this, getNameValue(position))
-                        name.text = getNameValue(position)
-                        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_QUITSTATE)
-                        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_cross))
-                    }
-                    ReferralStatus.`$UNKNOWN` -> {
-                        Timber.i("ReferralStatus is UNKNOWN")
-                        // we should fix so that this field is not rendered
-                    }
+                when (val referral = getReferralFromPosition(position)) {
+                    is ProfileQuery.AsActiveReferral -> bindActiveRow(this, referral.name, referral.discount.number?.doubleValueExact().toString())
+                    is ProfileQuery.AsActiveReferral1 -> bindActiveRow(this, referral.name, referral.discount.number?.doubleValueExact().toString())
+                    is ProfileQuery.AsInProgressReferral -> bindInProgress(this, referral.name)
+                    is ProfileQuery.AsInProgressReferral1 -> bindInProgress(this, referral.name)
+                    is ProfileQuery.AsNotInitiatedReferral,
+                    is ProfileQuery.AsNotInitiatedReferral1 -> bindNotInitiated(this)
+                    is ProfileQuery.AsTerminatedReferral -> bindTerminated(this, referral.name)
+                    is ProfileQuery.AsTerminatedReferral1 -> bindTerminated(this, referral.name)
                 }
             }
         }
+    }
+
+    private fun getReferralFromPosition(position: Int): Any? =
+        try {
+            data.receivers?.get(position - 1)
+        } catch (e: IndexOutOfBoundsException) {
+            null
+        } ?: data.sender
+
+    private fun bindActiveRow(viewHolder: ItemViewHolder, nameString: String?, discountString: String?) = viewHolder.apply {
+        setupAvatarWithLetter(this, nameString)
+
+        name.text = nameString
+        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_NEWSTATE)
+
+        statusIconContainer.setBackgroundResource(R.drawable.background_rounded_corners)
+        statusIconContainer.background.setTint(
+            statusIconContainer.context.compatColor(
+                R.color.light_gray
+            )
+        )
+        discount.text = interpolateTextKey(
+            discount.resources.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
+            "REFERRAL_VALUE" to discountString
+        )
+        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_filled_checkmark))
+    }
+
+    private fun bindInProgress(viewHolder: ItemViewHolder, nameString: String?) = viewHolder.apply {
+        setupAvatarWithLetter(this, nameString)
+
+        name.text = nameString
+        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_STARTEDSTATE)
+
+        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
+    }
+
+    private fun bindNotInitiated(viewHolder: ItemViewHolder) = viewHolder.apply {
+        avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.ic_ghost))
+        avatar.scaleType = ImageView.ScaleType.CENTER
+        name.text = name.resources.getString(R.string.REFERRAL_INVITE_ANON)
+        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_OPENEDSTATE)
+        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
+    }
+
+    private fun bindTerminated(viewHolder: ItemViewHolder, nameString: String?) = viewHolder.apply {
+        setupAvatarWithLetter(this, nameString)
+        name.text = nameString
+        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_QUITSTATE)
+        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_cross))
     }
 
     private fun setupAvatarWithLetter(viewHolder: ItemViewHolder, name: String?) {

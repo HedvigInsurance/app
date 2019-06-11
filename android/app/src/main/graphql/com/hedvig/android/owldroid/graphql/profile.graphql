@@ -37,14 +37,36 @@ query Profile {
       incentive
     }
     sender {
-      name
-      status
-      discount
+      __typename
+      ... on ActiveReferral {
+        name
+        discount
+      }
+      ... on InProgressReferral {
+        name
+      }
+      ... on TerminatedReferral {
+        name
+      }
+      ... on NotInitiatedReferral {
+        name
+      }
     }
     receivers {
-      name
-      status
-      discount
+      __typename
+      ... on ActiveReferral {
+        name
+        discount
+      }
+      ... on InProgressReferral {
+        name
+      }
+      ... on TerminatedReferral {
+        name
+      }
+      ... on NotInitiatedReferral {
+        name
+      }
     }
   }
 }
