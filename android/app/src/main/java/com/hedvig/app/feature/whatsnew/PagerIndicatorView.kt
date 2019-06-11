@@ -33,7 +33,7 @@ class PagerIndicatorView : LinearLayout {
                 removeAllViews()
                 pager.adapter?.count?.let { count ->
                     for (i in 0 until count) {
-                        if (i == count - 1) {
+                        if (isPositionLast(i, count)) {
                             LayoutInflater.from(context).inflate(R.layout.hedvig_logo, this, true)
                         } else {
                             LayoutInflater.from(context).inflate(R.layout.pager_indicator_view, this, true)
@@ -82,10 +82,5 @@ class PagerIndicatorView : LinearLayout {
     private fun expandIndicator(indicator: ImageView, percentage: Float) {
         indicator.drawable.mutate().setTint(percentageFade(gray, purple, percentage))
         indicator.setScaleXY(1.0f + percentage / 2)
-    }
-
-    companion object {
-        private fun isPositionLast(position: Int, count: Int) = position == count - 1
-        private fun isPositionNextToLast(position: Int, count: Int) = position + 1 == count - 1
     }
 }

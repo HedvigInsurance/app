@@ -81,7 +81,7 @@ class WhatsNewDialog : DialogFragment() {
 
         override fun onPageSelected(page: Int) {
             pager.adapter?.count?.let { count ->
-                proceed.text = if (page == count - 2 || page == count - 1) {
+                proceed.text = if (isPositionLast(page, count) || isPositionNextToLast(page, count)) {
                     resources.getString(R.string.NEWS_DISMISS)
                 } else {
                     resources.getString(R.string.NEWS_PROCEED)
