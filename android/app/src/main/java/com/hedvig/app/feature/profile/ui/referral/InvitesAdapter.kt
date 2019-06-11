@@ -13,6 +13,8 @@ import com.hedvig.app.feature.referrals.MockReferralStatus
 import com.hedvig.app.util.LightClass
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.compatDrawable
+import com.hedvig.app.util.extensions.view.remove
+import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.getLightness
 import com.hedvig.app.util.hashColor
 import com.hedvig.app.util.interpolateTextKey
@@ -44,7 +46,18 @@ class InvitesAdapter(
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder.itemViewType) {
             HEADER -> (viewHolder as? HeaderViewHolder)?.apply {
-                progressTankView.initialize(100, 20, 10)
+                val hasHigPremiumt = true
+                if (hasHigPremiumt) {
+                    progressTankView.initialize(100, 20, 10)
+                    progressTankView.show()
+                    referralProgressHighPremiumContainer.remove()
+                } else {
+                    referralProgressHighPremiumContainer.show()
+                    // TODO set up with data and string
+                    // referralProgressHighPremiumDiscount.text =
+                    // referralProgressHighPremiumCurrentPrice.text
+                    progressTankView.remove()
+                }
                 code.text = data.referralInformation.code
                 subtitle.text = interpolateTextKey(
                     subtitle.resources.getString(R.string.REFERRAL_PROGRESS_HEADLINE),
@@ -130,6 +143,9 @@ class InvitesAdapter(
 
     inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val progressTankView: ProgressTankView = view.discountView
+        val referralProgressHighPremiumContainer: LinearLayout = view.referralProgressHighPremiumContainer
+        val referralProgressHighPremiumDiscount: TextView = view.referralProgressHighPremiumDiscount
+        val referralProgressHighPremiumCurrentPrice: TextView = view.referralProgressHighPremiumCurrentPrice
         val subtitle: TextView = view.subtitle
         val explainer: TextView = view.explainer
         val code: TextView = view.code
