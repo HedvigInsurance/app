@@ -37,7 +37,7 @@ class CharityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupLargeTitle(R.string.PROFILE_CHARITY_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            requireActivity().findNavController(R.id.rootNavigationHost).popBackStack()
+            requireActivity().findNavController(R.id.loggedInFragment).popBackStack()
         }
 
         loadData()
