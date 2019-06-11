@@ -7,8 +7,8 @@ import com.hedvig.app.BuildConfig
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.feature.whatsnew.WhatsNewDialog
-import com.hedvig.app.start
 import com.hedvig.app.util.extensions.setupLargeTitle
+import com.hedvig.app.util.extensions.start
 import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.fragment_about_app.*
 import org.koin.android.viewmodel.ext.android.viewModel
