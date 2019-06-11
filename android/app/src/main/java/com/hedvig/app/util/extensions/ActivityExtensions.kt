@@ -1,6 +1,7 @@
 package com.hedvig.app.util.extensions
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
@@ -15,6 +16,9 @@ import com.hedvig.app.util.extensions.view.setupLargeTitle
 import com.hedvig.app.util.hasNotch
 import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.app_bar.*
+import com.hedvig.app.feature.chat.ChatActivity
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.ActivityOptionsCompat
 
 fun Activity.setLightNavigationBar() {
     window.navigationBarColor = compatColor(R.color.off_white)
@@ -104,4 +108,16 @@ fun AppCompatActivity.setupLargeTitle(
         backgroundColor,
         backAction
     )
+}
+
+val Activity.localBroadcastManager get() = android.support.v4.content.LocalBroadcastManager.getInstance(this)
+
+fun Activity.startClosableChat() {
+    val intent = Intent(this, ChatActivity::class.java)
+    intent.putExtra(ChatActivity.EXTRA_SHOW_CLOSE, true)
+
+    val options =
+        ActivityOptionsCompat.makeCustomAnimation(this, R.anim.activity_slide_up_in, R.anim.stay_in_place)
+
+    ActivityCompat.startActivity(this, intent, options.toBundle())
 }

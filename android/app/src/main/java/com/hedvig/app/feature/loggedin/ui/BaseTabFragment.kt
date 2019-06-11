@@ -8,9 +8,8 @@ import android.view.MenuItem
 import android.view.View
 import androidx.navigation.findNavController
 import com.hedvig.app.R
-import com.hedvig.app.feature.chat.ChatFragment
 import com.hedvig.app.feature.claims.ui.ClaimsViewModel
-import com.hedvig.app.util.extensions.proxyNavigate
+import com.hedvig.app.util.extensions.startClosableChat
 import com.hedvig.app.util.extensions.view.updatePadding
 import kotlinx.android.synthetic.main.app_bar.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -19,7 +18,7 @@ abstract class BaseTabFragment : Fragment() {
 
     val baseTabViewModel: ClaimsViewModel by sharedViewModel()
 
-    val navController by lazy { requireActivity().findNavController(R.id.rootNavigationHost) }
+    val navController by lazy { requireActivity().findNavController(R.id.loggedNavigationHost) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +37,7 @@ abstract class BaseTabFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         baseTabViewModel.triggerFreeTextChat {
-            navController.proxyNavigate(R.id.action_loggedInFragment_to_chatFragment, Bundle().apply {
-                putBoolean(ChatFragment.ARGS_SHOW_CLOSE, true)
-            })
+            requireActivity().startClosableChat()
         }
         return true
     }

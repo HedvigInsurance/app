@@ -25,11 +25,12 @@
         tools:replace="android:label">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Exponent.Splash"
+            android:noHistory="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -65,6 +66,36 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoggedInActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Light"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".feature.marketing.ui.MarketingActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Light"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".feature.offer.OfferActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Light"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".feature.chat.ChatActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Light"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".SplashActivity"/>
+
 
         <activity
             android:name=".feature.referrals.ReferralsSuccessfulInviteActivity"

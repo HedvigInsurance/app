@@ -2,42 +2,33 @@ package com.hedvig.app.feature.marketing.ui
 
 import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.GestureDetector
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.ProgressBar
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
+import com.hedvig.app.BaseActivity
 import com.hedvig.app.R
+import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.marketing.service.MarketingTracker
 import com.hedvig.app.util.OnSwipeListener
 import com.hedvig.app.util.SimpleOnSwipeListener
-import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.compatSetTint
-import com.hedvig.app.util.extensions.doOnEnd
-import com.hedvig.app.util.extensions.hideStatusBar
-import com.hedvig.app.util.extensions.proxyNavigate
-import com.hedvig.app.util.extensions.setDarkNavigationBar
-import com.hedvig.app.util.extensions.setLightNavigationBar
-import com.hedvig.app.util.extensions.showStatusBar
+import com.hedvig.app.util.extensions.*
 import com.hedvig.app.util.extensions.view.doOnLayout
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.percentageFade
-import kotlinx.android.synthetic.main.fragment_marketing.*
+import kotlinx.android.synthetic.main.marketing_activity.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class MarketingFragment : Fragment() {
+class MarketingActivity: BaseActivity() {
 
     enum class MarketingResult {
         ONBOARD,
@@ -53,20 +44,16 @@ class MarketingFragment : Fragment() {
 
     val tracker: MarketingTracker by inject()
 
-    val marketingStoriesViewModel: MarketingStoriesViewModel by sharedViewModel()
+    val marketingStoriesViewModel: MarketingStoriesViewModel by viewModel()
 
     private var buttonsAnimator: ValueAnimator? = null
     private var blurDismissAnimator: ValueAnimator? = null
     private var topHideAnimation: ValueAnimator? = null
 
-    private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.rootNavigationHost)
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.marketing_activity)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_marketing, container, false)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupSystemDecoration()
         observeMarketingStories()
     }
@@ -81,9 +68,9 @@ class MarketingFragment : Fragment() {
         topHideAnimation?.cancel()
     }
 
-    override fun onDestroyView() {
+    override fun onDestroy() {
         cleanupSystemDecoration()
-        super.onDestroyView()
+        super.onDestroy()
     }
 
     private fun observeMarketingStories() {
@@ -103,7 +90,7 @@ class MarketingFragment : Fragment() {
         // FIXME Handle the zero stories case (wat do?)
         val nStories = stories?.size ?: return
         pager.adapter = StoryPagerAdapter(
-            childFragmentManager,
+            supportFragmentManager,
             nStories
         )
         pager.show()
@@ -182,8 +169,8 @@ class MarketingFragment : Fragment() {
                     storyProgressIndicatorContainer.alpha = opacity.animatedValue as Float
 
                     val backgroundColor = percentageFade(
-                        requireContext().compatColor(R.color.transparent_white),
-                        requireContext().compatColor(R.color.blur_white),
+                        compatColor(R.color.transparent_white),
+                        compatColor(R.color.blur_white),
                         opacity.animatedFraction
                     )
                     blurOverlay.setBackgroundColor(backgroundColor)
@@ -195,7 +182,7 @@ class MarketingFragment : Fragment() {
                 start()
             }
 
-            val swipeListener = GestureDetector(context, SimpleOnSwipeListener { direction ->
+            val swipeListener = GestureDetector(this, SimpleOnSwipeListener { direction ->
                 when (direction) {
                     OnSwipeListener.Direction.DOWN -> {
                         tracker.dismissBlurOverlay()
@@ -213,14 +200,14 @@ class MarketingFragment : Fragment() {
                                 getHedvig.translationY = translation.animatedValue as Float
                                 val elapsed = translation.animatedFraction
                                 val backgroundColor = percentageFade(
-                                    requireContext().compatColor(R.color.purple),
-                                    requireContext().compatColor(R.color.white),
+                                    compatColor(R.color.purple),
+                                    compatColor(R.color.white),
                                     elapsed
                                 )
                                 getHedvig.background.compatSetTint(backgroundColor)
                                 val textColor = percentageFade(
-                                    requireContext().compatColor(R.color.white),
-                                    requireContext().compatColor(R.color.black),
+                                    compatColor(R.color.white),
+                                    compatColor(R.color.black),
                                     elapsed
                                 )
                                 getHedvig.setTextColor(textColor)
@@ -229,8 +216,8 @@ class MarketingFragment : Fragment() {
                                 storyProgressIndicatorContainer.alpha = translation.animatedFraction
 
                                 val blurBackgroundColor = percentageFade(
-                                    requireContext().compatColor(R.color.blur_white),
-                                    requireContext().compatColor(R.color.transparent_white),
+                                    compatColor(R.color.blur_white),
+                                    compatColor(R.color.transparent_white),
                                     translation.animatedFraction
                                 )
                                 blurOverlay.setBackgroundColor(blurBackgroundColor)
@@ -260,14 +247,14 @@ class MarketingFragment : Fragment() {
                     getHedvig.translationY = translation.animatedValue as Float
                     val elapsed = translation.animatedFraction
                     val backgroundColor = percentageFade(
-                        requireContext().compatColor(R.color.white),
-                        requireContext().compatColor(R.color.purple),
+                        compatColor(R.color.white),
+                        compatColor(R.color.purple),
                         elapsed
                     )
                     getHedvig.background.compatSetTint(backgroundColor)
                     val textColor = percentageFade(
-                        requireContext().compatColor(R.color.black),
-                        requireContext().compatColor(R.color.white),
+                        compatColor(R.color.black),
+                        compatColor(R.color.white),
                         elapsed
                     )
                     getHedvig.setTextColor(textColor)
@@ -298,10 +285,10 @@ class MarketingFragment : Fragment() {
                 marketingStoriesViewModel.page.value,
                 marketingStoriesViewModel.blurred.value
             )
-            val args = Bundle()
-            args.putString("intent", "login")
-            args.putBoolean("show_restart", true)
-            navController.proxyNavigate(R.id.action_marketingFragment_to_chatFragment, args)
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("intent", "login")
+            intent.putExtra("show_restart", true)
+            startActivity(intent)
         }
 
         getHedvig.setHapticClickListener {
@@ -309,21 +296,21 @@ class MarketingFragment : Fragment() {
                 marketingStoriesViewModel.page.value,
                 marketingStoriesViewModel.blurred.value
             )
-            val args = Bundle()
-            args.putString("intent", "onboarding")
-            args.putBoolean("show_restart", true)
-            navController.proxyNavigate(R.id.action_marketingFragment_to_chatFragment, args)
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("intent", "onboarding")
+            intent.putExtra("show_restart", true)
+            startActivity(intent)
         }
     }
 
     private fun setupSystemDecoration() {
-        activity?.hideStatusBar()
-        activity?.setDarkNavigationBar()
+        hideStatusBar()
+        setDarkNavigationBar()
     }
 
     private fun cleanupSystemDecoration() {
-        activity?.showStatusBar()
-        activity?.setLightNavigationBar()
+        showStatusBar()
+        setLightNavigationBar()
     }
 
     companion object {

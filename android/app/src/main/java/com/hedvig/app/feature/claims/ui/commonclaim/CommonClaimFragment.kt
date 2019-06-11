@@ -44,7 +44,7 @@ class CommonClaimFragment : BaseCommonClaimFragment() {
                 commonClaimCreateClaimButton.setHapticClickListener {
                     tracker.createClaimClick(data.title)
                     HonestyPledgeBottomSheet
-                        .newInstance(data.title, R.id.action_claimsCommonClaimFragment_to_chatFragment)
+                        .newInstance(data.title)
                         .show(childFragmentManager, "honestyPledge")
                 }
             }
