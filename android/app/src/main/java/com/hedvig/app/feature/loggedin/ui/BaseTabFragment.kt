@@ -16,7 +16,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 abstract class BaseTabFragment : Fragment() {
 
-    val baseTabViewModel: ClaimsViewModel by sharedViewModel()
+    private val baseTabViewModel: ClaimsViewModel by sharedViewModel()
 
     val navController by lazy { requireActivity().findNavController(R.id.loggedNavigationHost) }
 

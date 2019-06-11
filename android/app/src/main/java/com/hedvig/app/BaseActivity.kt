@@ -1,11 +1,10 @@
 package com.hedvig.app
 
+import android.app.Activity
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import io.reactivex.disposables.CompositeDisposable
-import android.content.Context
-import android.os.Bundle
+import kotlin.reflect.KClass
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -15,5 +14,4 @@ abstract class BaseActivity : AppCompatActivity() {
         disposables.clear()
         super.onDestroy()
     }
-
 }

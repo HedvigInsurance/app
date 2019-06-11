@@ -12,12 +12,13 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
 import com.hedvig.app.feature.loggedin.ui.BaseTabViewModel
 import com.hedvig.app.feature.loggedin.ui.TabNotification
+import com.hedvig.app.feature.profile.ui.aboutapp.AboutAppActivity
 import com.hedvig.app.feature.referrals.ReferralsActivity
 import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import com.hedvig.app.util.extensions.setupLargeTitle
-import com.hedvig.app.util.extensions.*
+import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
@@ -38,7 +39,6 @@ class ProfileFragment : BaseTabFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         populateData()
         loadReferralFeature()
@@ -100,7 +100,7 @@ class ProfileFragment : BaseTabFragment() {
                 navController.proxyNavigate(R.id.action_loggedInFragment_to_feedbackFragment)
             }
             aboutAppRow.setOnClickListener {
-                navController.proxyNavigate(R.id.action_loggedInFragment_to_aboutAppFragment)
+                startActivity(Intent(requireActivity(), AboutAppActivity::class.java))
             }
             logout.setOnClickListener {
                 profileViewModel.logout {

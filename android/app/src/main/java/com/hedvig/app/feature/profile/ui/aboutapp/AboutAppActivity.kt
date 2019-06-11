@@ -2,41 +2,35 @@ package com.hedvig.app.feature.profile.ui.aboutapp
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import com.hedvig.app.BaseActivity
 import com.hedvig.app.BuildConfig
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
-import com.hedvig.app.util.extensions.proxyNavigate
+import com.hedvig.app.feature.whatsnew.WhatsNewDialog
+import com.hedvig.app.start
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.fragment_about_app.*
-import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class AboutAppFragment : Fragment() {
+class AboutAppActivity : BaseActivity() {
 
-    val profileViewModel: ProfileViewModel by sharedViewModel()
+    private val profileViewModel: ProfileViewModel by viewModel()
 
-    private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.loggedNavigationHost)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_about_app, container, false)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_about_app)
 
         setupLargeTitle(R.string.PROFILE_ABOUT_APP_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            navController.popBackStack()
+            onBackPressed()
         }
 
         licenseAttributions.setOnClickListener {
-            navController.proxyNavigate(R.id.action_aboutAppFragment_to_licensesFragment)
+            start(LicensesActivity::class)
+        }
+
+        whatsNew.setOnClickListener {
+            WhatsNewDialog.newInstance(NEWS_BASE_VERSION).show(supportFragmentManager, WhatsNewDialog.TAG)
         }
 
         versionNumber.text = interpolateTextKey(
@@ -52,5 +46,9 @@ class AboutAppFragment : Fragment() {
                 )
             }
         })
+    }
+
+    companion object {
+        private const val NEWS_BASE_VERSION = "2.8.1"
     }
 }

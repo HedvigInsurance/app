@@ -28,9 +28,9 @@
             android:name=".SplashActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
+            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Exponent.Splash"
-            android:noHistory="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -73,6 +73,23 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Exponent.Light"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".feature.profile.ui.aboutapp.AboutAppActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Light"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".feature.profile.ui.aboutapp.LicensesActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Light"
+            android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".feature.marketing.ui.MarketingActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -91,30 +108,30 @@
             android:name=".feature.chat.ChatActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
+            android:parentActivityName=".SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Exponent.Light"
-            android:windowSoftInputMode="adjustResize"
-            android:parentActivityName=".SplashActivity"/>
+            android:windowSoftInputMode="adjustResize" />
 
 
         <activity
             android:name=".feature.referrals.ReferralsSuccessfulInviteActivity"
-            android:parentActivityName=".MainActivity"
-            android:noHistory="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
+            android:noHistory="true"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Exponent.Splash"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".feature.referrals.ReferralsActivity"
-            android:parentActivityName=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Exponent.Splash"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name="com.hedvig.app.service.PushNotificationService"
