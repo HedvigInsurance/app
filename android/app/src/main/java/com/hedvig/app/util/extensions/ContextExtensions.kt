@@ -65,3 +65,5 @@ fun Context.setReferralsCode(referralCode: String){
 fun Context.removeReferralsCode(){
     getSharedPreferences().edit().remove(SHARED_PREFERENCE_REFERRALS_CODE).apply()
 }
+fun Context.getReferralsCode() =
+    getSharedPreferences().getString(SHARED_PREFERENCE_REFERRALS_CODE, "")

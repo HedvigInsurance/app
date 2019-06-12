@@ -46,22 +46,34 @@ class ReferralsActivity : AppCompatActivity() {
                     Timber.i("No data")
                 }
             }
+            data?.memberReferralCampaign?.referralInformation?.let { referralInformation ->
+                //todo let's se if we should create the link probably not
+                profileViewModel.firebaseWithCodeLink.observe(this) {
+                    it?.let { referralLink ->
+                        bindReferralsButton(referralInformation.incentive.number.doubleValueExact(), referralInformation.code, referralLink.toString())
+                    }
+                }
+                profileViewModel.generateReferralWithCodeLink(referralInformation.code)
+            }
         }
     }
 
     private fun bindData(monthlyCost: Int, data: ProfileQuery.MemberReferralCampaign) {
         invites.adapter = InvitesAdapter(monthlyCost, data)
+    }
+
+    private fun bindReferralsButton(incentive: Double, code: String, referralLink: String) {
         referralButton.setHapticClickListener {
-            tracker.clickReferral(data.referralInformation.incentive.number.intValueExact())
+            tracker.clickReferral(incentive.toInt())
             showShareSheet("TODO Copy") { intent ->
                 intent.apply {
                     putExtra(
                         Intent.EXTRA_TEXT,
                         interpolateTextKey(
                             resources.getString(R.string.REFERRAL_SMS_MESSAGE),
-                            "REFERRAL_VALUE" to data.referralInformation.incentive.number.doubleValueExact().toString(),
-                            "REFERRAL_CODE" to data.referralInformation.code,
-                            "REFERRAL_LINK" to data.referralInformation.link
+                            "REFERRAL_VALUE" to incentive.toString(),
+                            "REFERRAL_CODE" to code,
+                            "REFERRAL_LINK" to referralLink
                         )
                     )
                     type = "text/plain"
