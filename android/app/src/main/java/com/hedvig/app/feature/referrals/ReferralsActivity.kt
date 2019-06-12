@@ -1,9 +1,9 @@
 package com.hedvig.app.feature.referrals
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.SplashActivity
@@ -17,7 +17,7 @@ import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.fragment_new_referral.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.math.BigDecimal
+import timber.log.Timber
 
 class ReferralsActivity : AppCompatActivity() {
 
@@ -38,22 +38,42 @@ class ReferralsActivity : AppCompatActivity() {
             )
         )
 
-        bindData(mockData)
+        profileViewModel.data.observe(this) { data ->
+            data?.insurance?.monthlyCost?.let { monthlyCost ->
+                data.memberReferralCampaign?.let {
+                    bindData(monthlyCost, it)
+                } ?: run {
+                    Timber.i("No data")
+                }
+            }
+            data?.memberReferralCampaign?.referralInformation?.let { referralInformation ->
+                //todo let's se if we should create the link probably not
+                profileViewModel.firebaseWithCodeLink.observe(this) {
+                    it?.let { referralLink ->
+                        bindReferralsButton(referralInformation.incentive.number.doubleValueExact(), referralInformation.code, referralLink.toString())
+                    }
+                }
+                profileViewModel.generateReferralWithCodeLink(referralInformation.code)
+            }
+        }
     }
 
-    private fun bindData(data: MockData) {
-        invites.adapter = InvitesAdapter(data)
+    private fun bindData(monthlyCost: Int, data: ProfileQuery.MemberReferralCampaign) {
+        invites.adapter = InvitesAdapter(monthlyCost, data)
+    }
+
+    private fun bindReferralsButton(incentive: Double, code: String, referralLink: String) {
         referralButton.setHapticClickListener {
-            tracker.clickReferral(data.referralInformation.discount.amount.toInt())
+            tracker.clickReferral(incentive.toInt())
             showShareSheet("TODO Copy") { intent ->
                 intent.apply {
                     putExtra(
                         Intent.EXTRA_TEXT,
                         interpolateTextKey(
                             resources.getString(R.string.REFERRAL_SMS_MESSAGE),
-                            "REFERRAL_VALUE" to data.referralInformation.discount.amount.toString(),
-                            "REFERRAL_CODE" to data.referralInformation.code,
-                            "REFERRAL_LINK" to data.referralInformation.link.toString()
+                            "REFERRAL_VALUE" to incentive.toString(),
+                            "REFERRAL_CODE" to code,
+                            "REFERRAL_LINK" to referralLink
                         )
                     )
                     type = "text/plain"
@@ -63,34 +83,7 @@ class ReferralsActivity : AppCompatActivity() {
     }
 
     companion object {
-
         const val EXTRA_IS_FROM_REFERRALS_NOTIFICATION = "extra_is_from_referrals_notification"
-
-        private val tenSek = MockMonetaryAmount(
-            BigDecimal.TEN,
-            "SEK"
-        )
-
-        private val mockData = MockData(
-            MockReferralInformation(
-                "HDVG87",
-                Uri.parse("https://hedvigdev.page.link/HDVG87"),
-                tenSek
-            ),
-            MockReferral(
-                "Tester",
-                MockReferralStatus.ACTIVE,
-                tenSek
-            ),
-            listOf(
-                MockReferral(null, MockReferralStatus.NOT_INITIATED, tenSek),
-                MockReferral("Oscar", MockReferralStatus.ACTIVE, tenSek),
-                MockReferral("Sam", MockReferralStatus.INITIATED, tenSek),
-                MockReferral("Fredrik", MockReferralStatus.ACTIVE, tenSek),
-                MockReferral("Alex", MockReferralStatus.ACTIVE, tenSek),
-                MockReferral("Meletis", MockReferralStatus.TERMINATED, tenSek)
-            )
-        )
     }
 
     override fun onBackPressed() {
@@ -105,33 +98,3 @@ class ReferralsActivity : AppCompatActivity() {
     }
 }
 
-data class MockData(
-    val referralInformation: MockReferralInformation,
-    val sender: MockReferral,
-    val receivers: List<MockReferral>
-)
-
-data class MockReferralInformation(
-    val code: String,
-    val link: Uri,
-    val discount: MockMonetaryAmount
-)
-
-data class MockMonetaryAmount(
-    val amount: BigDecimal,
-    val currency: String
-)
-
-data class MockReferral(
-    val name: String?,
-    val status: MockReferralStatus,
-    val discount: MockMonetaryAmount
-)
-
-enum class MockReferralStatus {
-    ACTIVE,
-    IN_PROGRESS,
-    INITIATED,
-    NOT_INITIATED,
-    TERMINATED
-}

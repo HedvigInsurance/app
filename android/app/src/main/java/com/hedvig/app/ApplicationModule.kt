@@ -28,12 +28,15 @@ import com.hedvig.app.feature.marketing.ui.MarketingStoriesViewModel
 import com.hedvig.app.feature.profile.data.ProfileRepository
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
+import com.hedvig.app.feature.referrals.ReferralRepository
+import com.hedvig.app.feature.referrals.ReferralViewModel
 import com.hedvig.app.service.FileService
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.service.Referrals
 import com.hedvig.app.service.RemoteConfig
 import com.hedvig.app.service.TextKeys
 import com.hedvig.app.util.apollo.ApolloTimberLogger
+import com.hedvig.app.util.apollo.MonetaryAmountAdapter
 import com.hedvig.app.util.apollo.PromiscuousLocalDateAdapter
 import com.hedvig.app.util.react.AsyncStorageNative
 import com.hedvig.app.util.react.AsyncStorageNativeImpl
@@ -93,6 +96,7 @@ val applicationModule = module {
             .serverUrl(BuildConfig.GRAPHQL_URL)
             .okHttpClient(get())
             .addCustomTypeAdapter(CustomType.LOCALDATE, PromiscuousLocalDateAdapter())
+            .addCustomTypeAdapter(CustomType.MONETARYAMOUNT, MonetaryAmountAdapter())
             .normalizedCache(get())
 
         if (isDebug()) {
@@ -110,6 +114,7 @@ val viewModelModule = module {
     viewModel { DashboardViewModel(get(), get()) }
     viewModel { ChatViewModel(get(), get()) }
     viewModel { BaseTabViewModel(get(), get()) }
+    viewModel { ReferralViewModel(get()) }
 }
 
 val serviceModule = module {
@@ -129,6 +134,7 @@ val repositoriesModule = module {
     single { DashboardRepository(get()) }
     single { MarketingStoriesRepository(get(), get(), get()) }
     single { ProfileRepository(get()) }
+    single { ReferralRepository(get()) }
     single { UserRepository(get()) }
 }
 

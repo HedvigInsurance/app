@@ -2,14 +2,21 @@ package com.hedvig.app.feature.referrals
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import com.hedvig.android.owldroid.type.RedeemCodeStatus
 import com.hedvig.app.BaseActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.chat.ChatActivity
+import com.hedvig.app.util.extensions.getReferralsCode
+import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.removeReferralsCode
 import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.referrals_receiver_activity.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class ReferralsReceiverActivity : BaseActivity() {
+
+    private val referralViewModel: ReferralViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +28,17 @@ class ReferralsReceiverActivity : BaseActivity() {
             "USER" to "Fredrik",
             "REFERRAL_VALUE" to "10")
 
+        referralViewModel.redeemCodeStatus.observe(this) { redeemStatusCode ->
+            when (redeemStatusCode) {
+                RedeemCodeStatus.ACCEPTED -> startChat()
+                else -> {
+                    //todo handle can't redeem code
+                    Toast.makeText(this, "The code ${getReferralsCode()} is invalid!", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
         referralReceiverContinueButton.setOnClickListener {
-            startChat()
+            referralViewModel.redeemReferralCode(getReferralsCode())
         }
         referralReceiverContinueWithoutButton.setOnClickListener {
             removeReferralsCode()
