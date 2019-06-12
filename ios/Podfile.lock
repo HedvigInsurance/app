@@ -466,7 +466,7 @@ SPEC CHECKSUMS:
   Apollo: 4d690a9b2e48e8820182df4b988d7a253e1ee589
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
-  Branch-SDK: 32185de9e9438d0e82a34ab7f942fbbbd12108dc
+  Branch-SDK: a9af035315c388b684545a74e6bce35083c89d6a
   Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
   DeviceKit: 72d36709552d4b3582abd76a53949148acad9811
   Disk: 76cccb6fed1c27cd661bbdea7b117d887c2f72e5
@@ -500,26 +500,26 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
-  lottie-react-native: db4bd75685428c4ad0ec2f913145abff3d38b640
+  lottie-react-native: 18115f3f300157ffa93b4f233dce33bf683f1c3a
   MarkdownKit: 379028e9cd3ebf05ccac87205cd9aead446159d4
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   PresentationFramework: 6fcbe9ea9e165887f0b2de8ba5a9651430fbb407
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
-  React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
-  react-native-blur: c35c1f6c2c76db7108bde7ed343bd2b01d64e0c0
-  react-native-branch: 8988998ef912c6373dc39a24e4638f02a1268265
-  react-native-config: 9314df2fa7cca076e4bb38b8068210029beded14
-  react-native-fast-image: cba3d9bf9c2cf8ddb643d887a686c53a5dd90a2c
-  react-native-image-picker: f42de90075c5b1af53417af927631d909a1a746e
-  react-native-video: 6db316323366025251a815c49ca0e2edabe30a2a
-  ReactNativeAnalyticsSegmentIo: d571ea899d7dfcd864fbd6dfbbd04e23ef04786a
-  ReactNativeHeicConverter: 5fc5378c507c55dd3b4b5555bcf00b2597ce8063
-  RNAudio: 190cf085b4dddd366f4f3f7be1794c78d7d434a3
-  RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
-  RNFS: bbb1a64eb245763daf34aea86f97c97c4e85f74c
-  RNGestureHandler: 968e4453152673aedcbbb7c1ada6700c214cea7a
-  RNSound: b360b3862d3118ed1c74bb9825696b5957686ac4
-  RNSVG: 6252323c0312735f0af5f58b5adf2965b6a9ffbf
+  React: 8f3a876d251889ca61b2860a1d2d75a9cb231f2a
+  react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
+  react-native-branch: 3294bdc6f60d23c311f545e2663ce6dc3079de21
+  react-native-config: 0776928c49d1ba694a754d6b7a78162e4f014820
+  react-native-fast-image: c180ad22c7e76e08cbd0d37ebc04dea62bfa777b
+  react-native-image-picker: 3fac3bf5b8ec802785c884c5bde0239ad8433b34
+  react-native-video: 62eb89f533cb7dc038f1f98a2cc036b352b42520
+  ReactNativeAnalyticsSegmentIo: d097dbc85f06e2203687839d017095fe0a08f322
+  ReactNativeHeicConverter: 15f09832b8cbee662221526160fc8bb179bc6d32
+  RNAudio: 305edc1f825b2a26d73865f136a94a8034f8b9ce
+  RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
+  RNFS: 400ad8fd0b73622e3571584d9886d9d8dbe93b06
+  RNGestureHandler: 958a96afdbec1e2ed7fe616d31b3304106092c3d
+  RNSound: 24fa73ccfa6236a0b493e3f4bf3c952028dc3ce2
+  RNSVG: 5e59688752986880ace09daecb8d64bc7a910db8
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
   SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
   Starscream: 08172b481e145289c4930cb567230fb55897cfa4
@@ -527,8 +527,8 @@ SPEC CHECKSUMS:
   SwiftGen: f872ca75cbd17bf7103c17f13dcfa0d9a15667b0
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
   "UICollectionView+AnimatedScroll": 901fdefe36e1dd7a17ca567f366b22ff5da521e6
-  yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
+  yoga: 639ce56fe36141275feec9ab81f18d21ec1bbc45
 
 PODFILE CHECKSUM: 793b8a0cf001ffcd8b28ba0139ac39371bcfec5f
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.7.1

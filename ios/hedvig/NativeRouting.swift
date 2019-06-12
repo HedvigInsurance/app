@@ -245,6 +245,42 @@ class NativeRouting: RCTEventEmitter {
         }
     }
 
+    @objc func registerForPushNotifications() {
+        guard !PushNotificationsState.hasAskedForActivatingPushNotifications else {
+            return
+        }
+        guard !UIApplication.shared.isRegisteredForRemoteNotifications else {
+            return
+        }
+
+        DispatchQueue.main.async {
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+                return
+            }
+
+            var topController = rootViewController
+
+            while let newTopController = topController.presentedViewController {
+                topController = newTopController
+            }
+
+            PushNotificationsState.didAskForPushNotifications()
+
+            let alert = Alert(
+                title: String(key: .PUSH_NOTIFICATIONS_ALERT_TITLE),
+                message: String(key: .PUSH_NOTIFICATIONS_ALERT_MESSAGE),
+                actions: [
+                    Alert.Action(title: String(key: .PUSH_NOTIFICATIONS_ALERT_ACTION_OK), action: {
+                        UIApplication.shared.appDelegate.registerForPushNotifications()
+                    }),
+                    Alert.Action(title: String(key: .PUSH_NOTIFICATIONS_ALERT_ACTION_NOT_NOW), action: {})
+                ]
+            )
+
+            topController.present(alert)
+        }
+    }
+
     @objc func registerExternalComponentId(_ componentId: String, componentName componentNameString: String) {
         componentIds.append((componentId: componentId, componentName: componentNameString))
     }

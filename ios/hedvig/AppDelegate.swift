@@ -11,12 +11,13 @@ import UIKit
 let log = Logger.self
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     let bag = DisposeBag()
     var rootWindow = UIWindow(frame: UIScreen.main.bounds)
     var splashWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
     private let applicationWillTerminateCallbacker = Callbacker<Void>()
     let applicationWillTerminateSignal: Signal<Void>
+    let gcmMessageIDKey = "gcm.message_id"
 
     override init() {
         applicationWillTerminateSignal = applicationWillTerminateCallbacker.signal()
@@ -106,6 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         FirebaseApp.configure()
+        Messaging.messaging().delegate = self
 
         bag += RCTApolloClient
             .getClient()
@@ -192,17 +194,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         bag += ApplicationState.presentRootViewController(rootWindow)
     }
 
-    // func application(_: UIApplication, didReceive notification: UILocalNotification) {
-    //    RNFirebaseNotifications.instance().didReceive(notification)
-    // }
+    func messaging(_: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        ApolloContainer.shared.client.perform(mutation: RegisterPushTokenMutation(pushToken: fcmToken)).onValue { result in
+            if result.data?.registerPushToken != nil {
+                log.info("Did register push token for user")
+            } else {
+                log.info("Failed to register push token for user")
+            }
+        }
+    }
 
-    // func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    //    RNFirebaseNotifications.instance().didReceiveRemoteNotification(userInfo, fetchCompletionHandler: completionHandler)
-    // }
+    func registerForPushNotifications() {
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().delegate = self
 
-    // func application(_: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-    //    RNFirebaseMessaging.instance().didRegister(notificationSettings)
-    // }
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: { _, _ in }
+            )
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+        }
+
+        UIApplication.shared.registerForRemoteNotifications()
+    }
+
+    func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        if let messageID = userInfo[gcmMessageIDKey] {
+            log.info("Message ID: \(messageID)")
+        }
+
+        log.info("\(userInfo)")
+    }
+
+    func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if let messageID = userInfo[gcmMessageIDKey] {
+            log.info("Message ID: \(messageID)")
+        }
+
+        log.info("\(userInfo)")
+
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
 
     func handleDynamicLink(_ dynamicLink: DynamicLink?) -> Bool {
         guard let dynamicLink = dynamicLink else { return false }
