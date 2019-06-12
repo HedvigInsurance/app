@@ -8,9 +8,11 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.hedvig.app.feature.marketing.ui.MarketingActivity
 import com.hedvig.app.feature.offer.OfferActivity
+import com.hedvig.app.feature.referrals.ReferralsReceiverActivity
 import com.hedvig.app.service.LoginStatus
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.util.extensions.compatColor
+import com.hedvig.app.util.extensions.setReferralsCode
 import com.hedvig.app.util.whenApiVersion
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
@@ -21,6 +23,15 @@ import timber.log.Timber
 class SplashActivity : BaseActivity() {
 
     val loggedInService: LoginStatusService by inject()
+
+    private var referralCode: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        whenApiVersion(Build.VERSION_CODES.M) {
+            window.statusBarColor = compatColor(R.color.off_white)
+        }
+    }
 
     override fun onStart() {
         super.onStart()
@@ -40,14 +51,10 @@ class SplashActivity : BaseActivity() {
 
                     FirebaseAnalytics.getInstance(this).logEvent("referrals_open", b)
                 }
-            }
-        }
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        whenApiVersion(Build.VERSION_CODES.M) {
-            window.statusBarColor = compatColor(R.color.off_white)
+                referralCode = link.getQueryParameter("referralCode")
+                referralCode?.let { setReferralsCode(it) }
+            }
         }
 
         disposables += loggedInService
@@ -58,8 +65,18 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun navigateToActivity(loginStatus: LoginStatus) = when (loginStatus) {
-        LoginStatus.ONBOARDING -> startActivity(Intent(this, MarketingActivity::class.java))
-        LoginStatus.IN_OFFER -> startActivity(Intent(this, OfferActivity::class.java))
+        LoginStatus.ONBOARDING -> {
+            referralCode?.let {
+                val intent = Intent(this, ReferralsReceiverActivity::class.java)
+                intent.putExtra(ReferralsReceiverActivity.EXTRA_REFERRAL_CODE, it)
+                startActivity(intent)
+            } ?: startActivity(Intent(this, MarketingActivity::class.java))
+        }
+        LoginStatus.IN_OFFER -> {
+            val intent = Intent(this, OfferActivity::class.java)
+            referralCode?.let { intent.putExtra(OfferActivity.EXTRA_REFERRAL_CODE, it) }
+            startActivity(intent)
+        }
         LoginStatus.LOGGED_IN -> startActivity(Intent(this, LoggedInActivity::class.java))
     }
 }

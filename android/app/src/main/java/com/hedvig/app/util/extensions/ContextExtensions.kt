@@ -17,6 +17,7 @@ import com.hedvig.app.SplashActivity
 
 private const val SHARED_PREFERENCE_NAME = "hedvig_shared_preference"
 private const val SHARED_PREFERENCE_IS_LOGGED_IN = "shared_preference_is_logged_in"
+private const val SHARED_PREFERENCE_REFERRALS_CODE = "shared_preference_referrals_code"
 
 fun Context.compatColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
@@ -56,4 +57,11 @@ fun Context.showShareSheet(title: String, configureClosure: ((Intent) -> Unit)?)
     startActivity(
         Intent.createChooser(intent, title)
     )
+}
+
+fun Context.setReferralsCode(referralCode: String){
+    getSharedPreferences().edit().putString(SHARED_PREFERENCE_REFERRALS_CODE, referralCode).apply()
+}
+fun Context.removeReferralsCode(){
+    getSharedPreferences().edit().remove(SHARED_PREFERENCE_REFERRALS_CODE).apply()
 }
