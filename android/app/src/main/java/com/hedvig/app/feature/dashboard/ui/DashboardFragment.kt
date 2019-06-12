@@ -125,11 +125,6 @@ class DashboardFragment : BaseTabFragment() {
         dashboardData.insurance.type?.let { setupAdditionalInformationRow(it) }
 
         setupDirectDebitStatus(directDebitData.directDebitStatus)
-
-        //remove
-        insuranceActive.setOnClickListener {
-            PromotionCodeBottomSheet.newInstance().show(fragmentManager, "ds")
-        }
     }
 
     private fun makePerilCategoryRow(category: DashboardQuery.PerilCategory): PerilCategoryView {
