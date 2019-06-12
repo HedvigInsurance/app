@@ -21,8 +21,8 @@ class ReferralViewModel(
         disposables += referralRepository
             .redeemReferralCode(code)
             .subscribe({
-                it.data()?.redeemCode?.let { response ->
-                    redeemCodeStatus.postValue(response.status)
+                it.data()?.redeemCode?.let { status ->
+                    redeemCodeStatus.postValue(status)
                 }
             }, { error ->
                 Timber.e(error, "Failed to redeem code")
