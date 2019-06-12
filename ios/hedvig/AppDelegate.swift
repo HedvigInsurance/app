@@ -280,6 +280,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UserDefaults.standard.set(invitedByMemberId, forKey: "referral_invitedByMemberId")
         UserDefaults.standard.set(incentive, forKey: "referral_incentive")
 
+        bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
+            self.getTopMostViewController()?.present(
+                ReferralsReceiverConsent(),
+                style: .modal,
+                options: [.prefersNavigationBarHidden(true)]
+            ).onValue { result in
+                if result == .accept {
+                    self.bag += self.rootWindow.rootViewController?.present(
+                        OnboardingChat(intent: .onboard),
+                        options: [.prefersNavigationBarHidden(false)]
+                    ).disposable
+                }
+            }
+        }
+
         return true
     }
 
