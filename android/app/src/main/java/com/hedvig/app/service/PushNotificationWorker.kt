@@ -19,8 +19,8 @@ class PushNotificationWorker(
     params: WorkerParameters
 ) : Worker(context, params), KoinComponent {
 
-    val apolloClient: ApolloClient by inject()
-    val asyncStorageNative: AsyncStorageNative by inject()
+    private val apolloClient: ApolloClient by inject()
+    private val asyncStorageNative: AsyncStorageNative by inject()
 
     private val disposables = CompositeDisposable()
 
@@ -44,7 +44,7 @@ class PushNotificationWorker(
                     Timber.e("Failed to register a hedvig token: %s", response.errors().toString())
                     return@subscribe
                 }
-                response.data()?.createSessionV2()?.token()?.let { hedvigToken ->
+                response.data()?.createSessionV2?.token?.let { hedvigToken ->
                     asyncStorageNative.setKey(HEDVIG_TOKEN, hedvigToken)
                     Timber.i("Successfully saved hedvig token")
                     done()

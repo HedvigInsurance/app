@@ -5,12 +5,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hedvig.app.R
-import com.hedvig.app.feature.claims.ui.commonclaim.bulletpoint.BulletPointsAdapter
-import com.hedvig.app.feature.claims.ui.pledge.HonestyPledgeBottomSheet
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.app.BuildConfig
+import com.hedvig.app.R
+import com.hedvig.app.feature.claims.ui.commonclaim.bulletpoint.BulletPointsAdapter
+import com.hedvig.app.feature.claims.ui.pledge.HonestyPledgeBottomSheet
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.view.disable
@@ -28,23 +28,23 @@ class CommonClaimFragment : BaseCommonClaimFragment() {
 
     override fun bindData(insuranceStatus: InsuranceStatus, data: CommonClaimQuery.CommonClaim) {
         super.bindData(insuranceStatus, data)
-        val layout = data.layout() as? CommonClaimQuery.AsTitleAndBulletPoints ?: return
-        val backgroundColor = lightenColor(requireContext().compatColor(layout.color().mapppedColor()), 0.3f)
-        setupLargeTitle(data.title(), R.font.circular_bold, R.drawable.ic_back, backgroundColor) {
+        val layout = data.layout as? CommonClaimQuery.AsTitleAndBulletPoints ?: return
+        val backgroundColor = lightenColor(requireContext().compatColor(layout.color.mapppedColor()), 0.3f)
+        setupLargeTitle(data.title, R.font.circular_bold, R.drawable.ic_back, backgroundColor) {
             navController.popBackStack()
         }
 
         commonClaimFirstMessageContainer.setBackgroundColor(backgroundColor)
 
-        commonClaimFirstMessage.text = layout.title()
-        commonClaimCreateClaimButton.text = layout.buttonTitle()
+        commonClaimFirstMessage.text = layout.title
+        commonClaimCreateClaimButton.text = layout.buttonTitle
         when (insuranceStatus) {
             InsuranceStatus.ACTIVE -> {
                 commonClaimCreateClaimButton.enable()
                 commonClaimCreateClaimButton.setHapticClickListener {
-                    tracker.createClaimClick(data.title())
+                    tracker.createClaimClick(data.title)
                     HonestyPledgeBottomSheet
-                        .newInstance(data.title(), R.id.action_claimsCommonClaimFragment_to_chatFragment)
+                        .newInstance(data.title)
                         .show(childFragmentManager, "honestyPledge")
                 }
             }
@@ -57,7 +57,7 @@ class CommonClaimFragment : BaseCommonClaimFragment() {
         bulletPointsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         bulletPointsRecyclerView.adapter =
             BulletPointsAdapter(
-                layout.bulletPoints(),
+                layout.bulletPoints,
                 BuildConfig.BASE_URL,
                 requestBuilder
             )

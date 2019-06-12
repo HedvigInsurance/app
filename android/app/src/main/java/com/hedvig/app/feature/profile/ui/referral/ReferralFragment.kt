@@ -28,9 +28,9 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class ReferralFragment : Fragment() {
 
-    val tracker: ProfileTracker by inject()
+    private val tracker: ProfileTracker by inject()
 
-    val profileViewModel: ProfileViewModel by sharedViewModel()
+    private val profileViewModel: ProfileViewModel by sharedViewModel()
 
     private var buttonAnimator: ValueAnimator? = null
 
@@ -41,7 +41,7 @@ class ReferralFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupLargeTitle(R.string.PROFILE_REFERRAL_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            requireActivity().findNavController(R.id.rootNavigationHost).popBackStack()
+            requireActivity().findNavController(R.id.loggedNavigationHost).popBackStack()
         }
         referralButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
             null,
@@ -71,7 +71,7 @@ class ReferralFragment : Fragment() {
                 }
 
                 profileViewModel.data.observe(this, Observer { data ->
-                    data?.member()?.id()?.let { memberId ->
+                    data?.member?.id?.let { memberId ->
                         profileViewModel.generateReferralLink(memberId)
                         profileViewModel.firebaseLink.observe(this, Observer { link ->
                             referralButton.show()

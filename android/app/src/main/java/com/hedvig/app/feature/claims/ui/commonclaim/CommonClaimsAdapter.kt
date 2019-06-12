@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.RequestBuilder
-import com.hedvig.app.R
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
+import com.hedvig.app.R
 import kotlinx.android.synthetic.main.claims_common_claim_cell.view.*
 import org.jetbrains.annotations.NotNull
 import timber.log.Timber
@@ -38,7 +38,7 @@ class CommonClaimsAdapter(
         viewHolder.apply {
             val commonClaim = commonClaims[position]
 
-            when (commonClaim.layout()) {
+            when (commonClaim.layout) {
                 is CommonClaimQuery.AsTitleAndBulletPoints ->
                     view.setOnClickListener { navigateToCommonClaimFragment.invoke(commonClaim) }
                 is CommonClaimQuery.AsEmergency ->
@@ -47,8 +47,8 @@ class CommonClaimsAdapter(
                     view.setOnClickListener { Timber.i("Not a recognized view") }
             }
 
-            requestBuilder.load(Uri.parse(baseUrl + commonClaim.icon().svgUrl())).into(commonClaimIcon)
-            commonClaimLabel.text = commonClaim.title()
+            requestBuilder.load(Uri.parse(baseUrl + commonClaim.icon.svgUrl)).into(commonClaimIcon)
+            commonClaimLabel.text = commonClaim.title
         }
     }
 

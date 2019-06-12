@@ -17,7 +17,7 @@ class LoggedInFragment : Fragment() {
 
         tabContentContainer.adapter = TabPagerAdapter(childFragmentManager)
         bottomTabs.setOnNavigationItemSelectedListener { menuItem ->
-            tabContentContainer.currentItem = LoggedInTabs.fromId(menuItem.itemId).ordinal
+            tabContentContainer.setCurrentItem(LoggedInTabs.fromId(menuItem.itemId).ordinal, false)
             true
         }
     }

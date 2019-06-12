@@ -10,7 +10,7 @@ import com.ice.restring.Restring
 import com.ice.restring.RestringUtil
 import timber.log.Timber
 
-class TextKeys(val apolloClient: ApolloClient) {
+class TextKeys(private val apolloClient: ApolloClient) {
     fun refreshTextKeys() {
         val textKeysQuery = TextKeysQuery
             .builder()
@@ -28,15 +28,15 @@ class TextKeys(val apolloClient: ApolloClient) {
                 }
 
                 override fun onResponse(response: Response<TextKeysQuery.Data>) {
-                    val data = response.data()?.languages()
+                    val data = response.data()?.languages
 
                     data
-                        ?.filter { !BuildConfig.EXCLUDED_LANGUAGES.contains(it.code()) }
+                        ?.filter { !BuildConfig.EXCLUDED_LANGUAGES.contains(it.code) }
                         ?.forEach { language ->
-                            language.translations()
-                                ?.filter { it.key()?.value() != null }
+                            language.translations
+                                ?.filter { it.key?.value != null }
                                 ?.map { translation ->
-                                    translation.key()?.value() as String to translation.text().replace(
+                                    translation.key?.value as String to translation.text.replace(
                                         "\\n",
                                         "\n"
                                     ) as String?
@@ -44,8 +44,8 @@ class TextKeys(val apolloClient: ApolloClient) {
                                 ?.toMap()
                                 ?.toMutableMap()
                                 ?.let { textKeys ->
-                                    Restring.setStrings(formatLanguageCode(language.code()), textKeys)
-                                    if (language.code() == BuildConfig.DEFAULT_LANGUAGE) {
+                                    Restring.setStrings(formatLanguageCode(language.code), textKeys)
+                                    if (language.code == BuildConfig.DEFAULT_LANGUAGE) {
                                         Restring.setStrings(RestringUtil.DEFAULT_LANGUAGE, textKeys)
                                     }
                                 }
