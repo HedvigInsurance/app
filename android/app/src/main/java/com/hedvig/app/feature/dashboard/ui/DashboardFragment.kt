@@ -13,6 +13,7 @@ import com.hedvig.android.owldroid.type.InsuranceType
 import com.hedvig.app.R
 import com.hedvig.app.feature.dashboard.service.DashboardTracker
 import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
+import com.hedvig.app.feature.referrals.PromotionCodeBottomSheet
 import com.hedvig.app.util.extensions.addViews
 import com.hedvig.app.util.extensions.compatDrawable
 import com.hedvig.app.util.extensions.displayMetrics
@@ -124,6 +125,11 @@ class DashboardFragment : BaseTabFragment() {
         dashboardData.insurance.type?.let { setupAdditionalInformationRow(it) }
 
         setupDirectDebitStatus(directDebitData.directDebitStatus)
+
+        //remove
+        insuranceActive.setOnClickListener {
+            PromotionCodeBottomSheet.newInstance().show(fragmentManager, "ds")
+        }
     }
 
     private fun makePerilCategoryRow(category: DashboardQuery.PerilCategory): PerilCategoryView {

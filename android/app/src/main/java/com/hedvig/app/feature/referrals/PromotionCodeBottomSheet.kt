@@ -3,17 +3,23 @@ package com.hedvig.app.feature.referrals
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
+import android.view.KeyEvent
 import android.view.LayoutInflater
-import android.widget.Toast
+import android.view.inputmethod.EditorInfo
+import com.hedvig.android.owldroid.type.RedeemCodeStatus
 import com.hedvig.app.R
 import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
-import com.hedvig.app.util.extensions.view.hide
+import com.hedvig.app.util.extensions.hideKeyboard
+import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.bottom_sheet_promotion_code.*
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class PromotionCodeBottomSheet : RoundedBottomSheetDialogFragment() {
+
+    val referralViewModel: ReferralViewModel by sharedViewModel()
 
     override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
 
@@ -22,7 +28,7 @@ class PromotionCodeBottomSheet : RoundedBottomSheetDialogFragment() {
         dialog.setContentView(view)
 
         dialog.bottomSheetAddPromotionCodeButton.setOnClickListener {
-            addPromotionCode(dialog.bottomSheetAddPromotionCodeEditText.text.toString())
+            redeemPromotionCode(dialog.bottomSheetAddPromotionCodeEditText.text.toString())
         }
         dialog.bottomSheetPromotionCodeTermsAndCondition.text = interpolateTextKey(
             getString(R.string.REFERRAL_ADDCOUPON_TC),
@@ -34,11 +40,36 @@ class PromotionCodeBottomSheet : RoundedBottomSheetDialogFragment() {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.hedvig.com/TODO"))
             startActivity(intent)
         }
+        dialog.bottomSheetAddPromotionCodeEditText.setOnEditorActionListener { view, actionId, _ ->
+            return@setOnEditorActionListener if (actionId == EditorInfo.IME_ACTION_DONE) {
+                redeemPromotionCode(dialog.bottomSheetAddPromotionCodeEditText.text.toString())
+                view.context.hideKeyboard(view)
+                true
+            } else {
+                false
+            }
+        }
+        referralViewModel.redeemCodeStatus.observe(this) {
+            when (it) {
+                RedeemCodeStatus.ACCEPTED -> {
+                    //TODO trigger refresh of offer screen
+                    dismiss()
+                }
+                else -> {
+                    wrongPromotionCode()
+                }
+            }
+        }
     }
 
-    private fun addPromotionCode(code: String) {
-        Toast.makeText(requireContext(), "Send $code", Toast.LENGTH_SHORT).show()
+    override fun onResume() {
+        super.onResume()
         resetErrorState()
+    }
+
+    private fun redeemPromotionCode(code: String) {
+        resetErrorState()
+        referralViewModel.redeemReferralCode(code)
     }
 
     private fun resetErrorState() {
