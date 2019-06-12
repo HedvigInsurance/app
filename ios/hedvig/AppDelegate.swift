@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     let bag = DisposeBag()
     var rootWindow = UIWindow(frame: UIScreen.main.bounds)
     var splashWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
+
+    let hasFinishedLoading = ReadWriteSignal<Bool>(false)
     private let applicationWillTerminateCallbacker = Callbacker<Void>()
     let applicationWillTerminateSignal: Signal<Void>
     let gcmMessageIDKey = "gcm.message_id"
@@ -85,9 +87,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         splashWindow?.windowLevel = .alert
         splashWindow?.makeKeyAndVisible()
 
-        let hasLoadedCallbacker = Callbacker<Void>()
         let launch = Launch(
-            hasLoadedSignal: hasLoadedCallbacker.signal()
+            hasLoadedSignal: hasFinishedLoading.filter { $0 }.toVoid()
         )
 
         let launchPresentation = Presentation(
@@ -108,6 +109,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
+
+        if #available(iOS 10, *) {
+            UNUserNotificationCenter.current().delegate = self
+        }
 
         bag += RCTApolloClient
             .getClient()
@@ -169,12 +174,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             .onValue { _ in
                 if let disposable = ApplicationState.presentRootViewController(self.rootWindow) {
                     self.bag += disposable
-                    hasLoadedCallbacker.callAll()
+                    self.hasFinishedLoading.value = true
                     return
                 }
 
                 self.bag += rootNavigationController.present(Marketing()).disposable
-                hasLoadedCallbacker.callAll()
+                self.hasFinishedLoading.value = true
             }
 
         RNBranch.initSession(launchOptions: launchOptions, isReferrable: true)
@@ -194,6 +199,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         bag += ApplicationState.presentRootViewController(rootWindow)
     }
 
+    func getTopMostViewController() -> UIViewController? {
+        guard let rootViewController = rootWindow.rootViewController else {
+            return nil
+        }
+
+        var topController = rootViewController
+
+        while let newTopController = topController.presentedViewController {
+            topController = newTopController
+        }
+
+        return topController
+    }
+
     func messaging(_: Messaging, didReceiveRegistrationToken fcmToken: String) {
         ApolloContainer.shared.client.perform(mutation: RegisterPushTokenMutation(pushToken: fcmToken)).onValue { result in
             if result.data?.registerPushToken != nil {
@@ -206,8 +225,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func registerForPushNotifications() {
         if #available(iOS 10.0, *) {
-            UNUserNotificationCenter.current().delegate = self
-
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
@@ -222,23 +239,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UIApplication.shared.registerForRemoteNotifications()
     }
 
-    func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        if let messageID = userInfo[gcmMessageIDKey] {
-            log.info("Message ID: \(messageID)")
+    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        guard let notificationType = userInfo["TYPE"] as? String else { return }
+
+        if response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+            if notificationType == "NEW_MESSAGE" {
+                let chatOverlay = DraggableOverlay(presentable: FreeTextChat())
+
+                bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
+                    self.getTopMostViewController()?.present(
+                        chatOverlay,
+                        style: .default,
+                        options: [.prefersNavigationBarHidden(false)]
+                    )
+                }
+            }
         }
 
-        log.info("\(userInfo)")
-    }
-
-    func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        if let messageID = userInfo[gcmMessageIDKey] {
-            log.info("Message ID: \(messageID)")
-        }
-
-        log.info("\(userInfo)")
-
-        completionHandler(UIBackgroundFetchResult.newData)
+        completionHandler()
     }
 
     func handleDynamicLink(_ dynamicLink: DynamicLink?) -> Bool {
