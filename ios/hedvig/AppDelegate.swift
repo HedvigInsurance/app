@@ -306,6 +306,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         options: [.prefersNavigationBarHidden(false)]
                     )
                 }
+            } else if notificationType == "REFERRAL_SUCCESS" {
+                let referralsNotification = ReferralsNotification()
+                let referralsNotificationIdentifier = PresentableIdentifier("\(type(of: referralsNotification))")
+
+                guard !screenStack.contains(referralsNotificationIdentifier) else {
+                    return
+                }
+
+                bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
+                    self.getTopMostViewController()?.present(
+                        referralsNotification,
+                        style: .default,
+                        options: [.prefersNavigationBarHidden(false)]
+                    )
+                }
             }
         }
 
