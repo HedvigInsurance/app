@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     let applicationWillTerminateSignal: Signal<Void>
     let gcmMessageIDKey = "gcm.message_id"
 
+    var screenStack: [PresentableIdentifier] = []
+
     override init() {
         applicationWillTerminateSignal = applicationWillTerminateCallbacker.signal()
         super.init()
@@ -47,6 +49,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         commonClaimEmergencyOpenCallMeChat = { viewController in
             let chatOverlay = DraggableOverlay(presentable: CallMeChat())
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
+        }
+
+        presentablePresentationEventHandler = { (event: () -> PresentationEvent, file, function, line) in
+            let presentationEvent = event()
+            let message: String
+            var data: String?
+
+            switch presentationEvent {
+            case let .willEnqueue(presentableId, context):
+                message = "\(context) will enqueue modal presentation of \(presentableId)"
+            case let .willDequeue(presentableId, context):
+                message = "\(context) will dequeue modal presentation of \(presentableId)"
+            case let .willPresent(presentableId, context, styleName):
+                message = "\(context) will '\(styleName)' present: \(presentableId)"
+            case let .didCancel(presentableId, context):
+                message = "\(context) did cancel presentation of: \(presentableId)"
+            case let .didDismiss(presentableId, context, result):
+                switch result {
+                case let .success(result):
+                    message = "\(context) did end presentation of: \(presentableId)"
+                    data = "\(result)"
+                case let .failure(error):
+                    message = "\(context) did end presentation of: \(presentableId)"
+                    data = "\(error)"
+                }
+            case let .didDeallocate(presentableId, context):
+                message = "\(presentableId) was deallocated after presentation from \(context)"
+            case let .didLeak(presentableId, context):
+                message = "WARNING \(presentableId) was NOT deallocated after presentation from \(context)"
+            }
+
+            switch presentationEvent {
+            case let .willPresent(presentableId, _, _):
+                self.screenStack.append(presentableId)
+            case let .didDismiss(presentableId, _, _):
+                if let index = self.screenStack.lastIndex(of: presentableId) {
+                    self.screenStack.remove(at: index)
+                }
+            default:
+                break
+            }
+
+            presentableLogPresentation(message, data, file, function, line)
         }
 
         viewControllerWasPresented = { viewController in
@@ -246,6 +291,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if response.actionIdentifier == UNNotificationDefaultActionIdentifier {
             if notificationType == "NEW_MESSAGE" {
                 let chatOverlay = DraggableOverlay(presentable: FreeTextChat())
+                let chatOverlayIdentifier = PresentableIdentifier("\(type(of: chatOverlay))")
+
+                guard !screenStack.contains(chatOverlayIdentifier) else {
+                    return
+                }
 
                 bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
                     self.getTopMostViewController()?.present(
