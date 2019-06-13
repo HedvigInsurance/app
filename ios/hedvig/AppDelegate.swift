@@ -292,8 +292,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if notificationType == "NEW_MESSAGE" {
                 let chatOverlay = DraggableOverlay(presentable: FreeTextChat())
                 let chatOverlayIdentifier = PresentableIdentifier("\(type(of: chatOverlay))")
+                let onboardingChat = OnboardingChat(intent: .onboard)
+                let onboardingChatIdentifier = PresentableIdentifier("\(type(of: onboardingChat))")
 
-                guard !screenStack.contains(chatOverlayIdentifier) else {
+                guard !screenStack.contains(chatOverlayIdentifier), !screenStack.contains(onboardingChatIdentifier) else {
                     return
                 }
 
