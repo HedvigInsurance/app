@@ -18,64 +18,76 @@
             android:layout_marginTop="@dimen/base_margin"
             app:srcCompat="@drawable/ic_invite_success" />
 
-        <TextView
-            android:id="@+id/referralsReceiverTitle"
-            style="@style/Headline.Large"
-            android:layout_width="wrap_content"
+        <include layout="@layout/loading_spinner" />
+
+        <LinearLayout
+            android:id="@+id/referralsReceiverInformationContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/base_margin_double"
-            android:gravity="center"
-            tools:text="@string/REFERRAL_STARTSCREEN_HEADLINE" />
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:orientation="vertical">
 
-        <TextView
-            style="@style/Body.Regular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/base_margin"
-            android:gravity="center"
-            android:text="@string/REFERRAL_STARTSCREEN_BODY" />
+            <TextView
+                android:id="@+id/referralsReceiverTitle"
+                style="@style/Headline.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_margin_double"
+                android:gravity="center"
+                tools:text="@string/REFERRAL_STARTSCREEN_HEADLINE" />
 
-        <Button
-            android:id="@+id/referralReceiverContinueButton"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/referral_receiver_continue_button_height"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/base_margin_triple"
-            android:background="@drawable/button_primary"
-            android:fontFamily="@font/circular_book"
-            android:paddingLeft="@dimen/referral_receiver_continue_button_padding_edge"
-            android:paddingRight="@dimen/referral_receiver_continue_button_padding_edge"
-            android:text="@string/REFERRAL_STARTSCREEN_BTN_CTA"
-            android:textAllCaps="false"
-            android:textColor="@color/off_white"
-            android:textSize="@dimen/text_medium"
-            app:backgroundTint="@color/purple"
-            app:layout_constraintBottom_toTopOf="@id/login"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:backgroundTint="@color/purple"
-            tools:text="Anmäl försenat bagage" />
+            <TextView
+                style="@style/Body.Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_margin"
+                android:gravity="center"
+                android:text="@string/REFERRAL_STARTSCREEN_BODY" />
 
-        <Button
-            android:id="@+id/referralReceiverContinueWithoutButton"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/referral_receiver_continue_without_button_height"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/base_margin_double"
-            android:layout_marginBottom="@dimen/base_margin_quadruple"
-            android:background="@drawable/button_primary"
-            android:fontFamily="@font/circular_book"
-            android:paddingLeft="@dimen/referral_receiver_continue_without_button_padding_edge"
-            android:paddingRight="@dimen/referral_receiver_continue_without_button_padding_edge"
-            android:text="@string/REFERRAL_STARTSCREEN_BTN_SKIP"
-            android:textAllCaps="false"
-            android:textColor="@color/off_black_dark"
-            android:textSize="@dimen/text_medium"
-            app:backgroundTint="@color/light_gray"
-            tools:backgroundTint="@color/light_gray"
-            tools:text="Nej, fortsätt utan rabatt" />
+            <Button
+                android:id="@+id/referralReceiverContinueButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/referral_receiver_continue_button_height"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/base_margin_triple"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/circular_book"
+                android:paddingLeft="@dimen/referral_receiver_continue_button_padding_edge"
+                android:paddingRight="@dimen/referral_receiver_continue_button_padding_edge"
+                android:text="@string/REFERRAL_STARTSCREEN_BTN_CTA"
+                android:textAllCaps="false"
+                android:textColor="@color/off_white"
+                android:textSize="@dimen/text_medium"
+                app:backgroundTint="@color/purple"
+                app:layout_constraintBottom_toTopOf="@id/login"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:backgroundTint="@color/purple"
+                tools:text="Anmäl försenat bagage" />
+
+            <Button
+                android:id="@+id/referralReceiverContinueWithoutButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/referral_receiver_continue_without_button_height"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/base_margin_double"
+                android:layout_marginBottom="@dimen/base_margin_quadruple"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/circular_book"
+                android:paddingLeft="@dimen/referral_receiver_continue_without_button_padding_edge"
+                android:paddingRight="@dimen/referral_receiver_continue_without_button_padding_edge"
+                android:text="@string/REFERRAL_STARTSCREEN_BTN_SKIP"
+                android:textAllCaps="false"
+                android:textColor="@color/off_black_dark"
+                android:textSize="@dimen/text_medium"
+                app:backgroundTint="@color/light_gray"
+                tools:backgroundTint="@color/light_gray"
+                tools:text="Nej, fortsätt utan rabatt" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
