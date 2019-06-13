@@ -162,6 +162,7 @@ class InvitesAdapter(
         data.receivers?.getOrNull(position - 1)
             ?: data.sender
 
+    //TODO: Let's get the data from backend
     private fun calculateDiscount(): Int {
         var totalDiscount = 0
         (data.sender as? ProfileQuery.AsActiveReferral?)?.let { totalDiscount += it.discount.number.intValueExact() }
@@ -169,6 +170,7 @@ class InvitesAdapter(
         return min(totalDiscount, monthlyCost)
     }
 
+    //TODO: Let's get the data from backend
     private fun calculateInvitesLeftToFree(): Int {
         val amount = monthlyCost - calculateDiscount()
         return ceil(amount / data.referralInformation.incentive.number.doubleValueExact()).toInt()
