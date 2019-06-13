@@ -90,7 +90,7 @@ class ClaimsFragment : BaseTabFragment() {
                 commonClaimCreateClaimButton.setHapticClickListener {
                     tracker.createClaimClick("main_screen")
                     HonestyPledgeBottomSheet
-                        .newInstance("main_screen", R.id.action_loggedInFragment_to_chatFragment)
+                        .newInstance("main_screen")
                         .show(childFragmentManager, "honestyPledge")
                 }
             }

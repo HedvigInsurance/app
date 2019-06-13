@@ -3,8 +3,8 @@
     android:name="androidx.navigation.fragment.NavHostFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:defaultNavHost="true"
-    android:id="@+id/rootNavigationHost"
-    app:navGraph="@navigation/root"
+    android:id="@+id/loggedNavigationHost"
+    app:navGraph="@navigation/logged_in_navigation"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 

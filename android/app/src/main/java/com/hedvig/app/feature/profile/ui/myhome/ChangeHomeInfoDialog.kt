@@ -1,5 +1,6 @@
 package com.hedvig.app.feature.profile.ui.myhome
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
@@ -8,16 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.hedvig.app.R
-import com.hedvig.app.feature.chat.ChatFragment
+import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.util.extensions.proxyNavigate
+import com.hedvig.app.util.extensions.startClosableChat
 import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.dialog_change_home_info.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class ChangeHomeInfoDialog : DialogFragment() {
     val profileViewModel: ProfileViewModel by sharedViewModel()
-    val navController by lazy { requireActivity().findNavController(R.id.rootNavigationHost) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.dialog_change_home_info, container, false)
@@ -35,12 +36,7 @@ class ChangeHomeInfoDialog : DialogFragment() {
         dialogConfirm.setOnClickListener {
             profileViewModel.triggerFreeTextChat {
                 dismiss()
-                navController.proxyNavigate(
-                    R.id.action_myHomeFragment_to_chatFragment,
-                    Bundle().apply {
-                        putBoolean(ChatFragment.ARGS_SHOW_CLOSE, true)
-                    }
-                )
+                requireActivity().startClosableChat()
             }
         }
     }

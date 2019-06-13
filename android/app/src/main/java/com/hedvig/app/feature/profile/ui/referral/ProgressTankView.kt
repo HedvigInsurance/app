@@ -95,6 +95,8 @@ class ProgressTankView : View {
     private var isInitialized = false
     private var hasDiscount = false
 
+    private var isWaitingForAnimation = false
+
     fun initialize(premium: Int, discount: Int, step: Int) {
         this.premium = premium
         this.discountedPremium = premium - discount
@@ -105,7 +107,7 @@ class ProgressTankView : View {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (!isInitialized) return
+        if (!isInitialized || isWaitingForAnimation) return
         hasDiscount = discountedSegments != 0
         if (hasDiscount) {
             resetMask()
@@ -415,24 +417,28 @@ class ProgressTankView : View {
 
     // Animation
     private fun startAnimation() {
-        postInvalidateOnAnimation()
-        tankSpringAnimation.setStartValue(SPRING_START_VALUE)
-        tankSpringAnimation.start()
+        isWaitingForAnimation = true
+        postDelayed({
+            isWaitingForAnimation = false
+            postInvalidateOnAnimation()
+            tankSpringAnimation.setStartValue(SPRING_START_VALUE)
+            tankSpringAnimation.start()
+        }, INITIAL_ANIMATION_DELAY_MILLIS)
         postDelayed({
             postInvalidateOnAnimation()
             bottomLabelSpringAnimation.setStartValue(SPRING_START_VALUE)
             bottomLabelSpringAnimation.start()
-        }, 125)
+        }, INITIAL_ANIMATION_DELAY_MILLIS + TEXT_LABEL_ANIMATION_DELAY_MILLIS)
         postDelayed({
             postInvalidateOnAnimation()
             rightLabelSpringAnimation.setStartValue(SPRING_START_VALUE)
             rightLabelSpringAnimation.start()
-        }, 250)
+        }, INITIAL_ANIMATION_DELAY_MILLIS + (TEXT_LABEL_ANIMATION_DELAY_MILLIS * 2))
         postDelayed({
             postInvalidateOnAnimation()
             topLabelSpringAnimation.setStartValue(SPRING_START_VALUE)
             topLabelSpringAnimation.start()
-        }, 375)
+        }, INITIAL_ANIMATION_DELAY_MILLIS + (TEXT_LABEL_ANIMATION_DELAY_MILLIS * 3))
     }
 
     // Helpers
@@ -460,6 +466,8 @@ class ProgressTankView : View {
     companion object {
         private const val SPRING_START_VALUE = 100f
         private const val SPRING_MIN_VALUE = 0f
+        private const val INITIAL_ANIMATION_DELAY_MILLIS = 200L
+        private const val TEXT_LABEL_ANIMATION_DELAY_MILLIS = 125L
     }
 
     // Animation interpolators

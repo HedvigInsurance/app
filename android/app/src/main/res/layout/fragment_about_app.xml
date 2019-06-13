@@ -20,22 +20,29 @@
             android:orientation="vertical">
 
             <com.hedvig.app.feature.profile.ui.ProfileMenuRow
-                android:id="@id/licenseAttributions"
+                android:id="@+id/licenseAttributions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/Body.Small"
                 app:name="@string/PROFILE_ABOUT_APP_LICENSE_ATTRIBUTIONS" />
 
+            <com.hedvig.app.feature.profile.ui.ProfileMenuRow
+                android:id="@+id/whatsNew"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:name="@string/PROFILE_ABOUT_APP_OPEN_WHATS_NEW" />
+
             <TextView
                 android:id="@id/versionNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_margin"
                 android:gravity="center"
                 android:theme="@style/Body.Small"
                 tools:text="Version: 3.4.5" />
 
             <TextView
-                android:id="@id/memberId"
+                android:id="@+id/memberId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

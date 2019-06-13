@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.hedvig.app.MainActivity
+import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.whatsnew.WhatsNewDialog
 import com.hedvig.app.feature.whatsnew.WhatsNewViewModel
@@ -34,9 +34,9 @@ class LoggedInFragment : Fragment() {
             true
         }
 
-        if (requireActivity().intent.getBooleanExtra(MainActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP, false)){
+        if (requireActivity().intent.getBooleanExtra(LoggedInActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP, false)){
             bottomTabs.selectedItemId = R.id.profile
-            requireActivity().intent.removeExtra(MainActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP)
+            requireActivity().intent.removeExtra(LoggedInActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP)
         }
 
         bindData()

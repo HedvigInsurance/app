@@ -38,13 +38,16 @@ class WhatsNewDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         whatsNewViewModel.fetchNews(arguments?.getString(SINCE_VERSION))
 
+        close.setHapticClickListener {
+            dialog?.dismiss()
+        }
         whatsNewViewModel.news.observe(this) { data ->
             data?.let { bindData(it) }
         }
     }
 
     private fun bindData(data: WhatsNewQuery.Data) {
-        pager.adapter = PagerAdapter(childFragmentManager, data.news + data.news)
+        pager.adapter = PagerAdapter(childFragmentManager, data.news)
         pagerIndicator.pager = pager
         proceed.text = if (data.news.size > 1) {
             resources.getString(R.string.NEWS_PROCEED)
@@ -66,6 +69,7 @@ class WhatsNewDialog : DialogFragment() {
                     newsContainer.alpha = 1.0f - offsetPercentage
                     val translation = -(screenWidth * offsetPercentage)
                     proceed.translationX = translation
+                    topBar.translationX = translation
                     pagerIndicator.translationX = translation
                 }
                 if (position == count - 1 && offsetPercentage == 0f) {
@@ -77,7 +81,7 @@ class WhatsNewDialog : DialogFragment() {
 
         override fun onPageSelected(page: Int) {
             pager.adapter?.count?.let { count ->
-                proceed.text = if (page == count - 2 || page == count - 1) {
+                proceed.text = if (isPositionLast(page, count) || isPositionNextToLast(page, count)) {
                     resources.getString(R.string.NEWS_DISMISS)
                 } else {
                     resources.getString(R.string.NEWS_PROCEED)
