@@ -78,6 +78,8 @@
     <dimen name="referral_progress_text_label_radius">8dp</dimen>
     <dimen name="referral_progress_text_padding">16dp</dimen>
     <dimen name="referral_progress_arrow_square_size">4dp</dimen>
+    <dimen name="referral_current_discount_huge_text">48sp</dimen>
+
     <dimen name="pager_indicator_active_size">8dp</dimen>
     <dimen name="pager_indicator_inactive_size">4dp</dimen>
     <dimen name="pager_indicator_hedvig_logo_size">16dp</dimen>
