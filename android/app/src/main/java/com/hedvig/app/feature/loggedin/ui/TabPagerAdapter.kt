@@ -17,4 +17,3 @@ class TabPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(f
 
     override fun getCount() = 3
 }
-

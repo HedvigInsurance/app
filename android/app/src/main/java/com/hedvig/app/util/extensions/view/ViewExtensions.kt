@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.HapticFeedbackConstants
 import android.view.TouchDelegate
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.whenApiVersion
@@ -90,9 +91,24 @@ fun View.updatePadding(
     top ?: paddingTop,
     end ?: paddingEnd,
     bottom ?: paddingBottom
-
 )
 
+inline fun <reified T : ViewGroup.LayoutParams> View.setSize(
+    @Dimension width: Int? = null,
+    @Dimension height: Int? = null
+) {
+    layoutParams = T::class.java
+        .getConstructor(Int::class.java, Int::class.java)
+        .newInstance(
+            width ?: layoutParams.width,
+            height ?: layoutParams.height
+        )
+}
+
+fun View.setScaleXY(scale: Float) {
+    scaleX = scale
+    scaleY = scale
+}
 
 fun View.setupLargeTitle(
     title: String,
