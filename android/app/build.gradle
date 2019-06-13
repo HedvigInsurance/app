@@ -43,7 +43,7 @@ android {
         minSdkVersion 21
         multiDexEnabled true
         versionCode 43
-        versionName '2.8.1'
+        versionName '2.9.0'
 
         resValue "string", "build_config_package", "com.hedvig.app"
         vectorDrawables.useSupportLibrary = true

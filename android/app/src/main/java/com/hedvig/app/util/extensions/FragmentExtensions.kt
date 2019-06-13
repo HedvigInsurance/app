@@ -56,3 +56,7 @@ var Fragment.statusBarColor: Int
     set(@ColorInt value) {
         requireActivity().window.statusBarColor = value
     }
+
+
+val Fragment.screenWidth: Int
+    get() = requireActivity().screenWidth
