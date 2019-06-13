@@ -159,11 +159,8 @@ class InvitesAdapter(
     }
 
     private fun getReferralFromPosition(position: Int): Any? =
-        try {
-            data.receivers?.get(position - 1)
-        } catch (e: IndexOutOfBoundsException) {
-            null
-        } ?: data.sender
+        data.receivers?.getOrNull(position - 1)
+            ?: data.sender
 
     private fun calculateDiscount(): Int {
         var totalDiscount = 0

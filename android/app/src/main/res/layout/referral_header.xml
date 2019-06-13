@@ -33,8 +33,7 @@
             android:layout_height="wrap_content"
             style="@style/Headline"
             android:layout_marginTop="@dimen/base_margin_double"
-            android:text="@string/REFERRAL_PROGRESS_HIGH_PREMIUM_DISCOUNT_SUBTITLE"
-            tools:text="rabatt per månad"/>
+            android:text="@string/REFERRAL_PROGRESS_HIGH_PREMIUM_DISCOUNT_SUBTITLE"/>
 
         <TextView
             android:id="@+id/referralProgressHighPremiumCurrentPrice"
