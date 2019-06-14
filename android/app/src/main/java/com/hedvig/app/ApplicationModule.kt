@@ -28,6 +28,8 @@ import com.hedvig.app.feature.marketing.ui.MarketingStoriesViewModel
 import com.hedvig.app.feature.profile.data.ProfileRepository
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
+import com.hedvig.app.feature.referrals.ReferralRepository
+import com.hedvig.app.feature.referrals.ReferralViewModel
 import com.hedvig.app.feature.whatsnew.WhatsNewRepository
 import com.hedvig.app.feature.whatsnew.WhatsNewViewModel
 import com.hedvig.app.service.FileService
@@ -115,6 +117,7 @@ val viewModelModule = module {
     viewModel { ChatViewModel(get(), get()) }
     viewModel { WhatsNewViewModel(get()) }
     viewModel { BaseTabViewModel(get(), get()) }
+    viewModel { ReferralViewModel(get()) }
 }
 
 val serviceModule = module {
@@ -134,6 +137,7 @@ val repositoriesModule = module {
     single { DashboardRepository(get()) }
     single { MarketingStoriesRepository(get(), get(), get()) }
     single { ProfileRepository(get()) }
+    single { ReferralRepository(get()) }
     single { UserRepository(get()) }
     single { WhatsNewRepository(get(), get()) }
 }
