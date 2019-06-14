@@ -13,6 +13,7 @@ import com.hedvig.app.service.LoginStatus
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.setReferralsCode
+import com.hedvig.app.util.safeLet
 import com.hedvig.app.util.whenApiVersion
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
@@ -25,6 +26,7 @@ class SplashActivity : BaseActivity() {
     val loggedInService: LoginStatusService by inject()
 
     private var referralCode: String? = null
+    private var referralIncentive: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +55,7 @@ class SplashActivity : BaseActivity() {
                 }
 
                 referralCode = link.getQueryParameter("referralCode")
+                referralIncentive = link.getQueryParameter("referralIncentive")
                 referralCode?.let { setReferralsCode(it) }
             }
         }
@@ -66,9 +69,10 @@ class SplashActivity : BaseActivity() {
 
     private fun navigateToActivity(loginStatus: LoginStatus) = when (loginStatus) {
         LoginStatus.ONBOARDING -> {
-            referralCode?.let {
+            safeLet(referralCode, referralIncentive) { referralCode, incentive ->
                 val intent = Intent(this, ReferralsReceiverActivity::class.java)
-                intent.putExtra(ReferralsReceiverActivity.EXTRA_REFERRAL_CODE, it)
+                intent.putExtra(ReferralsReceiverActivity.EXTRA_REFERRAL_CODE, referralCode)
+                intent.putExtra(ReferralsReceiverActivity.EXTRA_REFERRAL_INCENTIVE, incentive)
                 startActivity(intent)
             } ?: startActivity(Intent(this, MarketingActivity::class.java))
         }

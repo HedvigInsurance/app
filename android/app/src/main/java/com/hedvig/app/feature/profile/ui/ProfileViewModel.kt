@@ -17,6 +17,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.zipWith
 import timber.log.Timber
+import javax.money.MonetaryAmount
 
 class ProfileViewModel(
     private val profileRepository: ProfileRepository,
@@ -148,9 +149,9 @@ class ProfileViewModel(
         }
     }
 
-    fun generateReferralWithCodeLink(code: String) {
+    fun generateReferralWithCodeLink(code: String, incentive: String) {
         remoteConfigData.value?.let { data ->
-            disposables += referrals.generateFirebaseReferralWithCodeLink(code, data)
+            disposables += referrals.generateFirebaseReferralWithCodeLink(code, incentive, data)
                 .subscribe({ uri ->
                     firebaseWithCodeLink.postValue(uri)
                 }, { error ->

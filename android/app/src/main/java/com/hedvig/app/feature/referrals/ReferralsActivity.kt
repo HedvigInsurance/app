@@ -53,7 +53,7 @@ class ReferralsActivity : AppCompatActivity() {
                         bindReferralsButton(referralInformation.incentive.number.doubleValueExact(), referralInformation.code, referralLink.toString())
                     }
                 }
-                profileViewModel.generateReferralWithCodeLink(referralInformation.code)
+                profileViewModel.generateReferralWithCodeLink(referralInformation.code, referralInformation.incentive.number.intValueExact().toString())
             }
         }
     }

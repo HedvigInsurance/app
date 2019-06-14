@@ -35,13 +35,13 @@ class Referrals(val context: Context) {
         }
     }
 
-    fun generateFirebaseReferralWithCodeLink(code: String, remoteConfigData: RemoteConfigData) : Single<Uri> {
+    fun generateFirebaseReferralWithCodeLink(code: String, incentive: String, remoteConfigData: RemoteConfigData) : Single<Uri> {
         return Single.create { subscriber ->
             FirebaseDynamicLinks
                 .getInstance()
                 .createDynamicLink()
                 .setDomainUriPrefix(remoteConfigData.referralsDomain)
-                .setLink(Uri.parse("https://www.hedvig.com/referrals?referralCode=$code"))
+                .setLink(Uri.parse("https://www.hedvig.com/referrals?referralCode=$code&referralIncentive=$incentive"))
                 .setAndroidParameters(DynamicLink.AndroidParameters.Builder().build())
                 .setIosParameters(DynamicLink.IosParameters.Builder(remoteConfigData.referralsIosBundleId).build())
                 .setSocialMetaTagParameters(

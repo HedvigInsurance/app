@@ -27,9 +27,6 @@ class ReferralsReceiverActivity : BaseActivity() {
         setContentView(R.layout.referrals_receiver_activity)
 
         referralViewModel.apply {
-            referralCampaignMemberInformation.observe(this@ReferralsReceiverActivity) {
-                it?.let { campaignMemberInformation -> bindTitle(campaignMemberInformation)  }
-            }
             redeemCodeStatus.observe(this@ReferralsReceiverActivity) { redeemStatusCode ->
                 when (redeemStatusCode) {
                     RedeemCodeStatus.ACCEPTED -> startChat()
@@ -41,20 +38,15 @@ class ReferralsReceiverActivity : BaseActivity() {
             }
         }
         referralReceiverContinueButton.setOnClickListener {
-            referralViewModel.redeemReferralCode(getReferralsCode())
+            referralViewModel.redeemReferralCode(intent.getStringExtra(EXTRA_REFERRAL_CODE))
         }
         referralReceiverContinueWithoutButton.setOnClickListener {
             removeReferralsCode()
             startChat()
         }
-        referralViewModel.fetchReferralCampaignMemberInformation(getReferralsCode())
-    }
-
-    private fun bindTitle(campaignMemberInformation: ReferralCampaignMemberInformationQuery.ReferralCampaignMemberInformation){
         referralsReceiverTitle.text = interpolateTextKey(
             getString(R.string.REFERRAL_STARTSCREEN_HEADLINE),
-            "USER" to campaignMemberInformation.name,
-            "REFERRAL_VALUE" to campaignMemberInformation.incentive.number.intValueExact().toString())
+            "REFERRAL_VALUE" to intent.getStringExtra(EXTRA_REFERRAL_INCENTIVE))
         referralsReceiverInformationContainer.show()
         loadingSpinner.remove()
     }
@@ -68,5 +60,6 @@ class ReferralsReceiverActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_REFERRAL_CODE = "extra_referral_code"
+        const val EXTRA_REFERRAL_INCENTIVE = "extra_referral_incentive"
     }
 }
