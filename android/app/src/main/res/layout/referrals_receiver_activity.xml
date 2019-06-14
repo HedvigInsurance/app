@@ -69,8 +69,7 @@
                 app:layout_constraintBottom_toTopOf="@id/login"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:backgroundTint="@color/purple"
-                tools:text="Anmäl försenat bagage" />
+                tools:backgroundTint="@color/purple" />
 
             <Button
                 android:id="@+id/referralReceiverContinueWithoutButton"
@@ -89,8 +88,7 @@
                 android:textColor="@color/off_black_dark"
                 android:textSize="@dimen/text_medium"
                 app:backgroundTint="@color/light_gray"
-                tools:backgroundTint="@color/light_gray"
-                tools:text="Nej, fortsätt utan rabatt" />
+                tools:backgroundTint="@color/light_gray" />
         </LinearLayout>
 
     </LinearLayout>

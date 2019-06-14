@@ -35,6 +35,7 @@ class Referrals(val context: Context) {
         }
     }
 
+    //TODO: this should not be used when the referral landing page is up and running
     fun generateFirebaseReferralWithCodeLink(code: String, incentive: String, remoteConfigData: RemoteConfigData) : Single<Uri> {
         return Single.create { subscriber ->
             FirebaseDynamicLinks

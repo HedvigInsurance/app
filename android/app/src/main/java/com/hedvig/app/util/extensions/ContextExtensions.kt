@@ -58,12 +58,3 @@ fun Context.showShareSheet(title: String, configureClosure: ((Intent) -> Unit)?)
         Intent.createChooser(intent, title)
     )
 }
-
-fun Context.setReferralsCode(referralCode: String){
-    getSharedPreferences().edit().putString(SHARED_PREFERENCE_REFERRALS_CODE, referralCode).apply()
-}
-fun Context.removeReferralsCode(){
-    getSharedPreferences().edit().remove(SHARED_PREFERENCE_REFERRALS_CODE).apply()
-}
-fun Context.getReferralsCode() =
-    getSharedPreferences().getString(SHARED_PREFERENCE_REFERRALS_CODE, "")
