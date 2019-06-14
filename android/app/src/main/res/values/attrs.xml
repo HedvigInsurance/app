@@ -14,4 +14,7 @@
         <attr name="perilIcon" format="string" />
         <attr name="perilText" format="string" />
     </declare-styleable>
+    <declare-styleable name="PagerIndicatorView">
+        <attr name="pager" format="reference" />
+    </declare-styleable>
 </resources>
