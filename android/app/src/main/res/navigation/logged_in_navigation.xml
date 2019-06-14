@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loggedInFragment"
-        android:name="com.hedvig.app.feature.loggedin.LoggedInFragment"
+        android:name="com.hedvig.app.feature.loggedin.ui.LoggedInFragment"
         android:label="LoggedInFragment">
 
         <action
@@ -99,15 +99,6 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@+id/loggedInFragment" />
 
-        <action
-            android:id="@+id/action_loggedInFragment_to_aboutAppFragment"
-            app:destination="@id/aboutAppFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@+id/loggedInFragment" />
-
     </fragment>
 
     <fragment
@@ -118,16 +109,21 @@
     <fragment
         android:id="@+id/claimsCommonClaimFragment"
         android:name="com.hedvig.app.feature.claims.ui.commonclaim.CommonClaimFragment"
-        android:label="CommonClaimFragment"/>
+        android:label="CommonClaimFragment" />
 
     <fragment
         android:id="@+id/claimsEmergencyFragment"
         android:name="com.hedvig.app.feature.claims.ui.commonclaim.EmergencyFragment"
-        android:label="EmergencyFragment"/>
+        android:label="EmergencyFragment" />
 
     <fragment
         android:id="@+id/referralFragment"
-        android:name="com.hedvig.app.feature.profile.ui.referral.ReferralFragment"
+        android:name="com.hedvig.app.feature.profile.ui.referral.OldReferralFragment"
+        android:label="ReferralFragment" />
+
+    <fragment
+        android:id="@+id/newReferralFragment"
+        android:name="com.hedvig.app.feature.profile.ui.referral.NewReferralFragment"
         android:label="ReferralFragment" />
 
     <fragment
@@ -138,7 +134,7 @@
     <fragment
         android:id="@+id/myHomeFragment"
         android:name="com.hedvig.app.feature.profile.ui.myhome.MyHomeFragment"
-        android:label="MyHomeFragment"/>
+        android:label="MyHomeFragment" />
 
     <fragment
         android:id="@+id/coinsuredFragment"
@@ -170,23 +166,4 @@
         android:name="com.hedvig.app.feature.profile.ui.feedback.FeedbackFragment"
         android:label="FeedbackFragment" />
 
-    <fragment
-        android:id="@+id/aboutAppFragment"
-        android:name="com.hedvig.app.feature.profile.ui.aboutapp.AboutAppFragment"
-        android:label="AboutAppFragment">
-
-        <action
-            android:id="@+id/action_aboutAppFragment_to_licensesFragment"
-            app:destination="@id/licensesFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@+id/aboutAppFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/licensesFragment"
-        android:name="com.hedvig.app.feature.profile.ui.aboutapp.LicensesFragment"
-        android:label="LicensesFragment" />
 </navigation>

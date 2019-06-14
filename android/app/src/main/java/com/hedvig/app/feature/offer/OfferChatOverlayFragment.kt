@@ -32,9 +32,9 @@ import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class OfferChatOverlayFragment : DialogFragment(), DefaultHardwareBackBtnHandler {
-    val asyncStorageNative: AsyncStorageNative by inject()
+    private val asyncStorageNative: AsyncStorageNative by inject()
 
-    val chatViewModel: ChatViewModel by sharedViewModel()
+    private val chatViewModel: ChatViewModel by sharedViewModel()
     private lateinit var dialogView: ViewGroup
 
     private var mReactRootView: ReactRootView? = null

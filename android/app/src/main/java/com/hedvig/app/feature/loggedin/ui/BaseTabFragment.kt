@@ -1,4 +1,4 @@
-package com.hedvig.app.feature.loggedin
+package com.hedvig.app.feature.loggedin.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -16,7 +16,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 abstract class BaseTabFragment : Fragment() {
 
-    val baseTabViewModel: ClaimsViewModel by sharedViewModel()
+    private val baseTabViewModel: ClaimsViewModel by sharedViewModel()
 
     val navController by lazy { requireActivity().findNavController(R.id.loggedNavigationHost) }
 

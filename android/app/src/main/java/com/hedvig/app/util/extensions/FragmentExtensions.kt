@@ -1,5 +1,6 @@
 package com.hedvig.app.util.extensions
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -14,8 +15,10 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
+import com.hedvig.app.util.extensions.view.setupLargeTitle
 import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.app_bar.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 
 val Fragment.localBroadcastManager get() = LocalBroadcastManager.getInstance(requireContext())
 
@@ -39,25 +42,7 @@ fun Fragment.setupLargeTitle(
     @ColorInt backgroundColor: Int? = null,
     backAction: (() -> Unit)? = null
 ) {
-    (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-    toolbar.title = null // Always remove the underlying toolbar title
-    collapsingToolbar.title = title
-    val resolvedFont = requireContext().compatFont(font)
-    collapsingToolbar.setExpandedTitleTypeface(resolvedFont)
-    collapsingToolbar.setCollapsedTitleTypeface(resolvedFont)
-
-    backgroundColor?.let { color ->
-        toolbar.setBackgroundColor(color)
-        collapsingToolbar.setBackgroundColor(color)
-        whenApiVersion(Build.VERSION_CODES.M) {
-            val flags = requireActivity().window.decorView.systemUiVisibility
-            requireActivity().window.decorView.systemUiVisibility = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            requireActivity().window.statusBarColor = backgroundColor
-        }
-    }
-
-    icon?.let { toolbar.setNavigationIcon(it) }
-    backAction?.let { toolbar.setNavigationOnClickListener { it() } }
+    appBarLayout.setupLargeTitle(title, font, (requireActivity() as AppCompatActivity), icon, backgroundColor, backAction)
 }
 
 fun Fragment.makeACall(uri: Uri) {
@@ -71,3 +56,7 @@ var Fragment.statusBarColor: Int
     set(@ColorInt value) {
         requireActivity().window.statusBarColor = value
     }
+
+
+val Fragment.screenWidth: Int
+    get() = requireActivity().screenWidth
