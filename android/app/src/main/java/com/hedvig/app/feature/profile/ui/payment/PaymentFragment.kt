@@ -83,7 +83,7 @@ class PaymentFragment : Fragment() {
             resetViews()
             sphereContainer.show()
 
-            val monthlyCost = profileData?.insurance?.monthlyCost?.toString()
+            val monthlyCost = profileData?.paymentWithDiscount?.netPremium?.number?.intValueExact()
             val amountPartOne = SpannableString("$monthlyCost\n")
             val perMonthLabel = resources.getString(R.string.PROFILE_PAYMENT_PER_MONTH_LABEL)
             val amountPartTwo = SpannableString(perMonthLabel)

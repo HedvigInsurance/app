@@ -1,25 +1,24 @@
 package com.hedvig.app.feature.referrals
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.MainActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
-import com.hedvig.app.feature.profile.ui.referral.*
+import com.hedvig.app.feature.profile.ui.referral.InvitesAdapter
 import com.hedvig.app.ui.decoration.BottomPaddingItemDecoration
-import com.hedvig.app.util.extensions.*
+import com.hedvig.app.util.extensions.observe
+import com.hedvig.app.util.extensions.setupLargeTitle
+import com.hedvig.app.util.extensions.showShareSheet
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.fragment_new_referral.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
-import java.math.BigDecimal
 
 class ReferralsActivity : AppCompatActivity() {
 
@@ -41,7 +40,10 @@ class ReferralsActivity : AppCompatActivity() {
         )
 
         profileViewModel.data.observe(this) { data ->
-            data?.insurance?.monthlyCost?.let { monthlyCost ->
+            safeLet(data?.paymentWithDiscount?.grossPremium?.number?.intValueExact(), data?.memberReferralCampaign) {
+
+            }
+            data?.paymentWithDiscount?.grossPremium?.number?.intValueExact()?.let { monthlyCost ->
                 data.memberReferralCampaign?.let {
                     bindData(monthlyCost, it)
                 } ?: run {
