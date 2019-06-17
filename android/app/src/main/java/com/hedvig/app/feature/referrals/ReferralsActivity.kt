@@ -4,8 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.hedvig.android.owldroid.graphql.ProfileQuery
-import com.hedvig.app.MainActivity
+import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
+import com.hedvig.app.SplashActivity
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.feature.profile.ui.referral.InvitesAdapter
@@ -50,22 +51,34 @@ class ReferralsActivity : AppCompatActivity() {
                     Timber.i("No data")
                 }
             }
+            data?.memberReferralCampaign?.referralInformation?.let { referralInformation ->
+                //todo let's se if we should create the link probably not
+                profileViewModel.firebaseWithCodeLink.observe(this) {
+                    it?.let { referralLink ->
+                        bindReferralsButton(referralInformation.incentive.number.doubleValueExact(), referralInformation.code, referralLink.toString())
+                    }
+                }
+                profileViewModel.generateReferralWithCodeLink(referralInformation.code, referralInformation.incentive.number.intValueExact().toString())
+            }
         }
     }
 
     private fun bindData(monthlyCost: Int, data: ProfileQuery.MemberReferralCampaign) {
         invites.adapter = InvitesAdapter(monthlyCost, data)
+    }
+
+    private fun bindReferralsButton(incentive: Double, code: String, referralLink: String) {
         referralButton.setHapticClickListener {
-            tracker.clickReferral(data.referralInformation.incentive.number.intValueExact())
+            tracker.clickReferral(incentive.toInt())
             showShareSheet("TODO Copy") { intent ->
                 intent.apply {
                     putExtra(
                         Intent.EXTRA_TEXT,
                         interpolateTextKey(
                             resources.getString(R.string.REFERRAL_SMS_MESSAGE),
-                            "REFERRAL_VALUE" to data.referralInformation.incentive.number.doubleValueExact().toString(),
-                            "REFERRAL_CODE" to data.referralInformation.code,
-                            "REFERRAL_LINK" to data.referralInformation.link
+                            "REFERRAL_VALUE" to incentive.toString(),
+                            "REFERRAL_CODE" to code,
+                            "REFERRAL_LINK" to referralLink
                         )
                     )
                     type = "text/plain"
@@ -80,9 +93,9 @@ class ReferralsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (intent.getBooleanExtra(EXTRA_IS_FROM_REFERRALS_NOTIFICATION, false)) {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, SplashActivity::class.java)
             intent.flags = intent.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
-            intent.putExtra(MainActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP, true)
+            intent.putExtra(LoggedInActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP, true)
             startActivity(intent)
         } else {
             super.onBackPressed()

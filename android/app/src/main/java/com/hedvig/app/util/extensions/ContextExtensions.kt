@@ -13,9 +13,11 @@ import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.content.res.AppCompatResources
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.hedvig.app.SplashActivity
 
 private const val SHARED_PREFERENCE_NAME = "hedvig_shared_preference"
 private const val SHARED_PREFERENCE_IS_LOGGED_IN = "shared_preference_is_logged_in"
+private const val SHARED_PREFERENCE_REFERRALS_CODE = "shared_preference_referrals_code"
 
 fun Context.compatColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
@@ -28,8 +30,8 @@ fun Context.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun Activity.triggerRestartCurrentActivity() {
-    val startActivity = Intent(this, this::class.java)
+fun Context.triggerRestartActivity(activity: Class<*> = SplashActivity::class.java) {
+    val startActivity = Intent(this, activity)
     val pendingIntentId = 56665 // Randomly chosen identifier, this number has no significance.
     val pendingIntent =
         PendingIntent.getActivity(this, pendingIntentId, startActivity, PendingIntent.FLAG_CANCEL_CURRENT)

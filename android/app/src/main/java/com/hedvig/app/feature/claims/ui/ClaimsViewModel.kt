@@ -5,8 +5,10 @@ import android.arch.lifecycle.ViewModel
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.app.data.chat.ChatRepository
 import com.hedvig.app.feature.claims.data.ClaimsRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 class ClaimsViewModel(
@@ -37,18 +39,24 @@ class ClaimsViewModel(
     fun triggerClaimsChat(claimTypeId: String? = null, done: () -> Unit) {
         disposables += claimsRepository
             .triggerClaimsChat(claimTypeId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ done() }, { Timber.e(it) })
     }
 
     fun triggerFreeTextChat(done: () -> Unit) {
         disposables += chatRepository
             .triggerFreeTextChat()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ done() }, { Timber.e(it) })
     }
 
     fun triggerCallMeChat(done: () -> Unit) {
         disposables += claimsRepository
             .triggerCallMeChat()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ done() }, { Timber.e(it) })
     }
 }

@@ -68,6 +68,8 @@
     <dimen name="referral_invite_avatar_max_size">32dp</dimen>
     <dimen name="referral_row_height">72dp</dimen>
     <dimen name="referral_extra_bottom_space">85dp</dimen>
+    <dimen name="bottom_navigation_notification_size">8dp</dimen>
+    <dimen name="profile_row_notification_size">16dp</dimen>
 
     <dimen name="referral_progress_bar_width">100dp</dimen>
     <dimen name="referral_progress_roof_height">40dp</dimen>
@@ -78,4 +80,15 @@
     <dimen name="referral_progress_arrow_square_size">4dp</dimen>
     <dimen name="sub_sphere_size">80dp</dimen>
     <dimen name="sub_sphere_offset">180dp</dimen>
+    <dimen name="referral_receiver_continue_button_height">48dp</dimen>
+    <dimen name="referral_receiver_continue_without_button_height">32dp</dimen>
+    <dimen name="referral_receiver_continue_button_padding_edge">32dp</dimen>
+    <dimen name="referral_receiver_continue_without_button_padding_edge">24dp</dimen>
+    <dimen name="referral_current_discount_huge_text">48sp</dimen>
+
+    <dimen name="pager_indicator_active_size">8dp</dimen>
+    <dimen name="pager_indicator_inactive_size">4dp</dimen>
+    <dimen name="pager_indicator_hedvig_logo_size">16dp</dimen>
+    <dimen name="pager_indicator_height">32dp</dimen>
+    <dimen name="news_close_button_size">28dp</dimen>
 </resources>

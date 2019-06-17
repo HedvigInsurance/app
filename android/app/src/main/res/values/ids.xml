@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="marketing_screen_content" type="id" />
-    <item name="chatFragment" type="id"/>
     <item name="logo_content" type="id" />
     <item name="profile_screen_content" type="id" />
     <item name="profile_member_info_screen_content" type="id" />
@@ -77,9 +76,7 @@
     <item name="separator" type="id" />
     <item name="loadingAnimation" type="id" />
     <item name="aboutAppRow" type="id" />
-    <item name="licenseAttributions" type="id" />
     <item name="versionNumber" type="id" />
-    <item name="memberId" type="id" />
     <item name="changeHomeInformation" type="id" />
     <item name="dialogTitle" type="id" />
     <item name="dialogConfirm" type="id" />

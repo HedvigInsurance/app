@@ -12,6 +12,8 @@ import com.hedvig.app.R
 import com.hedvig.app.util.LightClass
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.compatDrawable
+import com.hedvig.app.util.extensions.view.remove
+import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.getLightness
 import com.hedvig.app.util.hashColor
 import com.hedvig.app.util.interpolateTextKey
@@ -49,22 +51,26 @@ class InvitesAdapter(
         return count
     }
 
-    private fun calculateDiscount(): Int {
-        var totalDiscount = 0
-        (data.sender as? ProfileQuery.AsActiveReferral?)?.let { totalDiscount += it.discount.number.intValueExact() }
-        data.receivers?.filterIsInstance(ProfileQuery.AsActiveReferral1::class.java)?.forEach { receiver -> totalDiscount += receiver.discount.number.intValueExact() }
-        return min(totalDiscount, monthlyCost)
-    }
-
-    private fun calculateInvitesLeftToFree(): Int {
-        val amount = monthlyCost - calculateDiscount()
-        return ceil(amount / data.referralInformation.incentive.number.doubleValueExact()).toInt()
-    }
-
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder.itemViewType) {
             HEADER -> (viewHolder as? HeaderViewHolder)?.apply {
-                progressTankView.initialize(monthlyCost, calculateDiscount(), data.referralInformation.incentive.number.intValueExact())
+                val incentive = data.referralInformation.incentive.number.toFloat()
+                if (monthlyCost / incentive <= PROGRESS_TANK_MAX_SEGMENTS) {
+                    progressTankView.initialize(monthlyCost, calculateDiscount(), data.referralInformation.incentive.number.intValueExact())
+                    progressTankView.show()
+                    referralProgressHighPremiumContainer.remove()
+                } else {
+                    referralProgressHighPremiumContainer.show()
+                    referralProgressHighPremiumDiscount.text = interpolateTextKey(
+                        referralProgressHighPremiumDiscount.resources.getString(R.string.REFERRAL_PROGRESS_HIGH_PREMIUM_DISCOUNT),
+                        "DISCOUNT_VALUE" to calculateDiscount().toString()
+                    )
+                    referralProgressHighPremiumCurrentPrice.text = interpolateTextKey(
+                        referralProgressHighPremiumDiscount.resources.getString(R.string.REFERRAL_PROGRESS_HIGH_PREMIUM_DESCRIPTION),
+                        "MONTHLY_COST" to monthlyCost.toString()
+                    )
+                    progressTankView.remove()
+                }
                 code.text = data.referralInformation.code
                 subtitle.text = interpolateTextKey(
                     subtitle.resources.getString(R.string.REFERRAL_PROGRESS_HEADLINE),
@@ -89,13 +95,6 @@ class InvitesAdapter(
             }
         }
     }
-
-    private fun getReferralFromPosition(position: Int): Any? =
-        try {
-            data.receivers?.get(position - 1)
-        } catch (e: IndexOutOfBoundsException) {
-            null
-        } ?: data.sender
 
     private fun bindActiveRow(viewHolder: ItemViewHolder, nameString: String?, discountString: String?) = viewHolder.apply {
         setupAvatarWithLetter(this, nameString)
@@ -159,13 +158,36 @@ class InvitesAdapter(
         }
     }
 
+    private fun getReferralFromPosition(position: Int): Any? =
+        data.receivers?.getOrNull(position - 1)
+            ?: data.sender
+
+    //TODO: Let's get the data from backend
+    private fun calculateDiscount(): Int {
+        var totalDiscount = 0
+        (data.sender as? ProfileQuery.AsActiveReferral?)?.let { totalDiscount += it.discount.number.intValueExact() }
+        data.receivers?.filterIsInstance(ProfileQuery.AsActiveReferral1::class.java)?.forEach { receiver -> totalDiscount += receiver.discount.number.intValueExact() }
+        return min(totalDiscount, monthlyCost)
+    }
+
+    //TODO: Let's get the data from backend
+    private fun calculateInvitesLeftToFree(): Int {
+        val amount = monthlyCost - calculateDiscount()
+        return ceil(amount / data.referralInformation.incentive.number.doubleValueExact()).toInt()
+    }
+
     companion object {
         private const val HEADER = 0
         private const val ITEM = 1
+
+        private const val PROGRESS_TANK_MAX_SEGMENTS = 20
     }
 
     inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val progressTankView: ProgressTankView = view.discountView
+        val referralProgressHighPremiumContainer: LinearLayout = view.referralProgressHighPremiumContainer
+        val referralProgressHighPremiumDiscount: TextView = view.referralProgressHighPremiumDiscount
+        val referralProgressHighPremiumCurrentPrice: TextView = view.referralProgressHighPremiumCurrentPrice
         val subtitle: TextView = view.subtitle
         val explainer: TextView = view.explainer
         val code: TextView = view.code

@@ -9,13 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.R
-import com.hedvig.app.feature.loggedin.BaseTabFragment
+import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
+import com.hedvig.app.feature.loggedin.ui.BaseTabViewModel
+import com.hedvig.app.feature.loggedin.ui.TabNotification
+import com.hedvig.app.feature.profile.ui.aboutapp.AboutAppActivity
 import com.hedvig.app.feature.referrals.ReferralsActivity
 import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import com.hedvig.app.util.extensions.setupLargeTitle
-import com.hedvig.app.util.extensions.triggerRestartCurrentActivity
+import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
@@ -29,13 +32,13 @@ class ProfileFragment : BaseTabFragment() {
     private val asyncStorageNative: AsyncStorageNative by inject()
 
     private val profileViewModel: ProfileViewModel by sharedViewModel()
+    private val tabViewModel: BaseTabViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_profile, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         populateData()
         loadReferralFeature()
@@ -47,14 +50,26 @@ class ProfileFragment : BaseTabFragment() {
                 if (!rcd.referralsEnabled) {
                     return@Observer
                 }
-                profileReferralRow.setHighlighted()
-                profileReferralRow.name = interpolateTextKey(
-                    resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
-                    "INCENTIVE" to "${rcd.referralsIncentiveAmount}"
-                )
+                if (rcd.newReferralsEnabled) {
+                    if (tabViewModel.tabNotification.value == TabNotification.REFERRALS) {
+                        profileReferralRow.hasNotification = true
+                    }
+                    profileReferralRow.name = resources.getString(R.string.PROFILE_ROW_NEW_REFERRAL_TITLE)
+                    profileReferralRow.description = resources.getString(R.string.PROFILE_ROW_NEW_REFERRAL_DESCRIPTION)
+                } else {
+                    profileReferralRow.setHighlighted()
+                    profileReferralRow.name = interpolateTextKey(
+                        resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
+                        "INCENTIVE" to rcd.referralsIncentiveAmount.toString()
+                    )
+                }
                 profileReferralRow.setOnClickListener {
+                    if (tabViewModel.tabNotification.value == TabNotification.REFERRALS) {
+                        profileReferralRow.hasNotification = false
+                        tabViewModel.removeReferralNotification()
+                    }
                     if (rcd.newReferralsEnabled) {
-                        startActivityForResult(Intent(requireContext(), ReferralsActivity::class.java), 111)
+                        startActivity(Intent(requireContext(), ReferralsActivity::class.java))
                     } else {
                         navController.proxyNavigate(R.id.action_loggedInFragment_to_referralFragment)
                     }
@@ -85,16 +100,16 @@ class ProfileFragment : BaseTabFragment() {
                 navController.proxyNavigate(R.id.action_loggedInFragment_to_feedbackFragment)
             }
             aboutAppRow.setOnClickListener {
-                navController.proxyNavigate(R.id.action_loggedInFragment_to_aboutAppFragment)
+                startActivity(Intent(requireActivity(), AboutAppActivity::class.java))
             }
             logout.setOnClickListener {
                 profileViewModel.logout {
-                    requireContext().applicationContext.setIsLoggedIn(false)
+                    requireContext().setIsLoggedIn(false)
                     localBroadcastManager.sendBroadcast(Intent(PROFILE_NAVIGATION_BROADCAST).apply {
                         putExtra("action", "logout")
                     })
                     asyncStorageNative.deleteKey("@hedvig:token")
-                    requireActivity().triggerRestartCurrentActivity()
+                    requireActivity().triggerRestartActivity()
                 }
             }
         })
