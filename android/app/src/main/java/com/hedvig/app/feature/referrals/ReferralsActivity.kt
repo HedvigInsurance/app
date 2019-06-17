@@ -9,11 +9,14 @@ import com.hedvig.app.R
 import com.hedvig.app.SplashActivity
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
-import com.hedvig.app.feature.profile.ui.referral.*
+import com.hedvig.app.feature.profile.ui.referral.InvitesAdapter
 import com.hedvig.app.ui.decoration.BottomPaddingItemDecoration
-import com.hedvig.app.util.extensions.*
+import com.hedvig.app.util.extensions.observe
+import com.hedvig.app.util.extensions.setupLargeTitle
+import com.hedvig.app.util.extensions.showShareSheet
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.interpolateTextKey
+import com.hedvig.app.util.safeLet
 import kotlinx.android.synthetic.main.fragment_new_referral.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -39,21 +42,28 @@ class ReferralsActivity : AppCompatActivity() {
         )
 
         profileViewModel.data.observe(this) { data ->
-            data?.insurance?.monthlyCost?.let { monthlyCost ->
-                data.memberReferralCampaign?.let {
-                    bindData(monthlyCost, it)
-                } ?: run {
-                    Timber.i("No data")
-                }
-            }
+            safeLet(
+                data?.paymentWithDiscount?.grossPremium?.number?.intValueExact(),
+                data?.memberReferralCampaign
+            ) { monthlyCost, referralCampaign ->
+                bindData(monthlyCost, referralCampaign)
+            } ?: Timber.e("No data")
+
             data?.memberReferralCampaign?.referralInformation?.let { referralInformation ->
                 //todo let's se if we should create the link probably not
                 profileViewModel.firebaseWithCodeLink.observe(this) {
                     it?.let { referralLink ->
-                        bindReferralsButton(referralInformation.incentive.number.doubleValueExact(), referralInformation.code, referralLink.toString())
+                        bindReferralsButton(
+                            referralInformation.incentive.number.doubleValueExact(),
+                            referralInformation.code,
+                            referralLink.toString()
+                        )
                     }
                 }
-                profileViewModel.generateReferralWithCodeLink(referralInformation.code, referralInformation.incentive.number.intValueExact().toString())
+                profileViewModel.generateReferralWithCodeLink(
+                    referralInformation.code,
+                    referralInformation.incentive.number.intValueExact().toString()
+                )
             }
         }
     }

@@ -11,7 +11,6 @@ query Profile {
     postalNumber
     type
     certificateUrl
-    monthlyCost
     personsInHousehold
     livingSpace
   }
@@ -68,5 +67,10 @@ query Profile {
         name
       }
     }
+  }
+  paymentWithDiscount {
+    discount
+    grossPremium
+    netPremium
   }
 }
