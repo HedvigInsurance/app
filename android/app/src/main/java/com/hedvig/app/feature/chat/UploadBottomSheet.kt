@@ -3,6 +3,7 @@ package com.hedvig.app.feature.chat
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import com.hedvig.app.R
@@ -20,7 +21,8 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
     val chatViewModel: ChatViewModel by sharedViewModel()
 
-    override fun setupDialog(dialog: Dialog, style: Int) {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
         val view = LayoutInflater
             .from(requireContext())
             .inflate(R.layout.file_upload_dialog, null)
@@ -35,6 +37,7 @@ class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
         }
 
         setupSubscriptions()
+        return dialog
     }
 
     private fun setupSubscriptions() {

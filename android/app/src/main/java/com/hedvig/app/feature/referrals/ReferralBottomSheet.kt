@@ -1,6 +1,5 @@
 package com.hedvig.app.feature.referrals
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
@@ -15,8 +14,9 @@ import kotlinx.android.synthetic.main.referral_more_info_bottom_sheet.*
 class ReferralBottomSheet : RoundedBottomSheetDialogFragment() {
 
     override fun getTheme() = R.style.PerilBottomSheetDialogTheme
-    @SuppressLint("InflateParams")
-    override fun setupDialog(dialog: Dialog, style: Int) {
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.referral_more_info_bottom_sheet, null)
         dialog.setContentView(view)
         arguments?.let { args ->
@@ -27,6 +27,7 @@ class ReferralBottomSheet : RoundedBottomSheetDialogFragment() {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TERMS_AND_CONDITION_LINK)))
             }
         }
+        return dialog
     }
 
     companion object {

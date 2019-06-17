@@ -15,7 +15,6 @@ import com.hedvig.app.feature.profile.ui.referral.InvitesAdapter
 import com.hedvig.app.ui.decoration.BottomPaddingItemDecoration
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setupLargeTitle
-import com.hedvig.app.util.extensions.showBottomSheetDialog
 import com.hedvig.app.util.extensions.showShareSheet
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.updatePadding
