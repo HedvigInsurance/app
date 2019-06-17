@@ -25,7 +25,8 @@ class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
 
     override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
 
-    override fun setupDialog(dialog: Dialog, style: Int) {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_honesty_pledge, null)
         dialog.setContentView(view)
 
@@ -36,6 +37,7 @@ class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
                 requireActivity().startClosableChat()
             }
         }
+        return dialog
     }
 
     companion object {

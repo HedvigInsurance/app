@@ -3,6 +3,8 @@ package com.hedvig.app.feature.referrals
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
@@ -15,8 +17,10 @@ import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.showShareSheet
 import com.hedvig.app.util.extensions.view.setHapticClickListener
+import com.hedvig.app.util.extensions.view.updatePadding
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.safeLet
+import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_new_referral.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -66,6 +70,26 @@ class ReferralsActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.referral_more_info_menu, menu)
+        toolbar.updatePadding(end = resources.getDimensionPixelSize(R.dimen.base_margin_double))
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.referralMoreInfo -> {
+                profileViewModel.data.value?.memberReferralCampaign?.referralInformation?.incentive?.number?.intValueExact()?.let { incentive ->
+                    ReferralBottomSheet.newInstance(incentive.toString())
+                        .show(supportFragmentManager, "moreInfoSheet")
+                }
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun bindData(monthlyCost: Int, data: ProfileQuery.MemberReferralCampaign) {
