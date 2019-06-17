@@ -142,6 +142,7 @@
                     android:text="@string/PROFILE_PAYMENT_PRICE_LABEL" />
 
                 <TextView
+                    android:id="@+id/grossPremium"
                     style="@style/Body.Regular.Emphasized"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -156,6 +157,7 @@
                     android:text="@string/PROFILE_PAYMENT_DISCOUNT_LABEL" />
 
                 <TextView
+                    android:id="@+id/discount"
                     style="@style/Body.Regular.Emphasized"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -170,6 +172,7 @@
                     android:text="@string/PROFILE_PAYMENT_FINAL_COST_LABEL" />
 
                 <TextView
+                    android:id="@+id/netPremium"
                     style="@style/Body.Regular.Emphasized"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

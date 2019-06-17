@@ -101,6 +101,21 @@ class PaymentFragment : Fragment() {
             )
             profile_payment_amount.text = amountPartOne.concat(amountPartTwo)
 
+            grossPremium.text = interpolateTextKey(
+                resources.getString(R.string.PROFILE_PAYMENT_PRICE),
+                "PRICE" to profileData?.paymentWithDiscount?.grossPremium?.number?.intValueExact().toString()
+            )
+
+            discount.text = interpolateTextKey(
+                resources.getString(R.string.PROFILE_PAYMENT_DISCOUNT),
+                "DISCOUNT" to (profileData?.paymentWithDiscount?.discount?.number?.intValueExact()?.unaryMinus()).toString()
+            )
+
+            netPremium.text = interpolateTextKey(
+                resources.getString(R.string.PROFILE_PAYMENT_FINAL_COST),
+                "FINAL_COST" to profileData?.paymentWithDiscount?.netPremium?.number?.intValueExact().toString()
+            )
+
             bindBankAccountInformation()
         })
         directDebitViewModel.data.observe(this, Observer {
