@@ -30,7 +30,9 @@ import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.feature.referrals.ReferralRepository
 import com.hedvig.app.feature.referrals.ReferralViewModel
+import com.hedvig.app.feature.referrals.ReferralsTracker
 import com.hedvig.app.feature.whatsnew.WhatsNewRepository
+import com.hedvig.app.feature.whatsnew.WhatsNewTracker
 import com.hedvig.app.feature.whatsnew.WhatsNewViewModel
 import com.hedvig.app.service.FileService
 import com.hedvig.app.service.LoginStatusService
@@ -147,4 +149,6 @@ val trackerModule = module {
     single { DashboardTracker(get()) }
     single { MarketingTracker(get()) }
     single { ProfileTracker(get()) }
+    single { WhatsNewTracker(get()) }
+    single { ReferralsTracker(get()) }
 }
