@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/base_margin_double"
     android:paddingEnd="@dimen/base_margin_triple"
     android:paddingBottom="@dimen/peril_bottom_extra_spacing"
-    tools:background="@drawable/bottom_sheet_dialog_no_title_fragment_background">
+    android:background="@drawable/bottom_sheet_dialog_no_title_fragment_background">
 
     <TextView
         style="@style/Headline.Large"
@@ -51,6 +51,5 @@
         android:textColor="@color/off_black"
         android:theme="@style/HedvigButton"
         app:backgroundTint="@color/light_gray"
-        tools:backgroundTint="@color/light_gray"
-        tools:visibility="visible" />
+        tools:backgroundTint="@color/light_gray" />
 </LinearLayout>
