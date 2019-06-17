@@ -13,8 +13,14 @@ import kotlinx.android.synthetic.main.chat_message_hedvig.view.*
 import kotlinx.android.synthetic.main.chat_message_user.view.*
 
 class ChatAdapter(
-    private val messages: List<ChatMessagesQuery.Message>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var messages: List<ChatMessagesQuery.Message> = listOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
             FROM_HEDVIG -> HedvigMessage(
@@ -75,6 +81,8 @@ class ChatAdapter(
     companion object {
         private const val FROM_HEDVIG = 0
         private const val FROM_ME = 1
+
+        private fun isLast(position: Int, items: List<*>) = items.size - 1 == position
     }
 }
 

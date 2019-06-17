@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.observe
-import com.hedvig.app.util.extensions.setupLargeTitle
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.koin.android.ext.android.inject
 
@@ -18,14 +17,13 @@ class NativeChatActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_chat)
 
-        setupLargeTitle(R.string.CHAT_TITLE, R.font.soray_extrabold)
-
+        messages.adapter = ChatAdapter()
         chatViewModel.messages.observe(this) { data ->
             data?.let { bindData(it) }
         }
     }
 
     private fun bindData(data: ChatMessagesQuery.Data) {
-        messages.adapter = ChatAdapter(data.messages)
+        (messages.adapter as? ChatAdapter)?.messages = data.messages
     }
 }
