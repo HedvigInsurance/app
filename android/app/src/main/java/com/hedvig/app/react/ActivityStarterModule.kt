@@ -198,6 +198,11 @@ class ActivityStarterModule(
 
     companion object {
         const val BROADCAST_RELOAD_CHAT = "reloadChat"
+        const val REDEEMED_CODE_BROADCAST = "redeemedCode"
+
+        const val BROADCAST_MESSAGE_NAME = "message"
+
+        const val MESSAGE_PROMOTION_CODE_REDEEMED = "promotionCodeRedeemed"
 
         const val FILE_UPLOAD_INTENT = "file_upload"
         const val FILE_UPLOAD_RESULT = "file_upload_result"

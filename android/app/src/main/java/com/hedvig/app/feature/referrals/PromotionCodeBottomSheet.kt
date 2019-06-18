@@ -3,13 +3,15 @@ package com.hedvig.app.feature.referrals
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
-import android.view.KeyEvent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import com.hedvig.android.owldroid.type.RedeemCodeStatus
 import com.hedvig.app.R
+import com.hedvig.app.react.ActivityStarterModule
 import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
 import com.hedvig.app.util.extensions.hideKeyboard
+import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
@@ -23,7 +25,8 @@ class PromotionCodeBottomSheet : RoundedBottomSheetDialogFragment() {
 
     override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
 
-    override fun setupDialog(dialog: Dialog, style: Int) {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_promotion_code, null)
         dialog.setContentView(view)
 
@@ -36,8 +39,7 @@ class PromotionCodeBottomSheet : RoundedBottomSheetDialogFragment() {
         )
         dialog.bottomSheetPromotionCodeTermsAndConditionLink.text = getString(R.string.REFERRAL_ADDCOUPON_TERMS_CONDITIONS)
         dialog.bottomSheetPromotionCodeTermsAndConditionLink.setOnClickListener {
-            //todo get correct url!!
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.hedvig.com/TODO"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.hedvig.com/invite/terms"))
             startActivity(intent)
         }
         dialog.bottomSheetAddPromotionCodeEditText.setOnEditorActionListener { view, actionId, _ ->
@@ -52,7 +54,9 @@ class PromotionCodeBottomSheet : RoundedBottomSheetDialogFragment() {
         referralViewModel.redeemCodeStatus.observe(this) {
             when (it) {
                 RedeemCodeStatus.ACCEPTED -> {
-                    //TODO trigger refresh of offer screen
+                    localBroadcastManager.sendBroadcast(Intent(ActivityStarterModule.REDEEMED_CODE_BROADCAST).apply {
+                        putExtra(ActivityStarterModule.BROADCAST_MESSAGE_NAME, ActivityStarterModule.MESSAGE_PROMOTION_CODE_REDEEMED)
+                    })
                     dismiss()
                 }
                 else -> {
@@ -60,6 +64,7 @@ class PromotionCodeBottomSheet : RoundedBottomSheetDialogFragment() {
                 }
             }
         }
+        return dialog
     }
 
     override fun onResume() {
