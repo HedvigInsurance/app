@@ -265,6 +265,15 @@
 		EBCAA8C622843E24003C4833 /* UIBarButtonItem+Viewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAA8C522843E24003C4833 /* UIBarButtonItem+Viewable.swift */; };
 		EBCAA8CB22846FE6003C4833 /* UIViewController+PreferredContentSizeSignal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAA8CA22846FE6003C4833 /* UIViewController+PreferredContentSizeSignal.swift */; };
 		EBD5C968223933D20049A78A /* ClearDirectDebitStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD5C967223933D20049A78A /* ClearDirectDebitStatus.swift */; };
+		EBE8B8C322B91FC000E32499 /* Notification+KeyboardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8C222B91FBF00E32499 /* Notification+KeyboardInfo.swift */; };
+		EBE8B8C522B91FC900E32499 /* String+VariableStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8C422B91FC900E32499 /* String+VariableStyles.swift */; };
+		EBE8B8C722B91FEC00E32499 /* LoadableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8C622B91FEC00E32499 /* LoadableView.swift */; };
+		EBE8B8C922B91FF500E32499 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8C822B91FF500E32499 /* TextField.swift */; };
+		EBE8B8CB22B9201900E32499 /* UIStackView+DraggableOverlaySizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8CA22B9201900E32499 /* UIStackView+DraggableOverlaySizing.swift */; };
+		EBE8B8D022B9202300E32499 /* ApplyDiscount.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8CD22B9202300E32499 /* ApplyDiscount.swift */; };
+		EBE8B8D122B9202300E32499 /* DiscountTerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8CF22B9202300E32499 /* DiscountTerms.swift */; };
+		EBE8B8D322B9203F00E32499 /* ApplyDiscountSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8D222B9203F00E32499 /* ApplyDiscountSection.swift */; };
+		EBE8B8D522B9205000E32499 /* ReferralsMoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8D422B9205000E32499 /* ReferralsMoreInfo.swift */; };
 		EBECC26621B9230000716BEA /* NativeRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBECC26521B9230000716BEA /* NativeRouting.swift */; };
 		EBECC26821B92E4800716BEA /* NativeRouting.m in Sources */ = {isa = PBXBuildFile; fileRef = EBECC26721B92E4800716BEA /* NativeRouting.m */; };
 		EBFA05E722B0DF86009D3FAE /* RegisterPushToken.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EBFA05E622B0DF86009D3FAE /* RegisterPushToken.graphql */; };
@@ -562,6 +571,15 @@
 		EBCAA8C522843E24003C4833 /* UIBarButtonItem+Viewable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Viewable.swift"; sourceTree = "<group>"; };
 		EBCAA8CA22846FE6003C4833 /* UIViewController+PreferredContentSizeSignal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+PreferredContentSizeSignal.swift"; sourceTree = "<group>"; };
 		EBD5C967223933D20049A78A /* ClearDirectDebitStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearDirectDebitStatus.swift; sourceTree = "<group>"; };
+		EBE8B8C222B91FBF00E32499 /* Notification+KeyboardInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Notification+KeyboardInfo.swift"; sourceTree = "<group>"; };
+		EBE8B8C422B91FC900E32499 /* String+VariableStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+VariableStyles.swift"; sourceTree = "<group>"; };
+		EBE8B8C622B91FEC00E32499 /* LoadableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadableView.swift; sourceTree = "<group>"; };
+		EBE8B8C822B91FF500E32499 /* TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		EBE8B8CA22B9201900E32499 /* UIStackView+DraggableOverlaySizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStackView+DraggableOverlaySizing.swift"; sourceTree = "<group>"; };
+		EBE8B8CD22B9202300E32499 /* ApplyDiscount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyDiscount.swift; sourceTree = "<group>"; };
+		EBE8B8CF22B9202300E32499 /* DiscountTerms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscountTerms.swift; sourceTree = "<group>"; };
+		EBE8B8D222B9203F00E32499 /* ApplyDiscountSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyDiscountSection.swift; sourceTree = "<group>"; };
+		EBE8B8D422B9205000E32499 /* ReferralsMoreInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsMoreInfo.swift; sourceTree = "<group>"; };
 		EBECC26521B9230000716BEA /* NativeRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeRouting.swift; sourceTree = "<group>"; };
 		EBECC26721B92E4800716BEA /* NativeRouting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NativeRouting.m; sourceTree = "<group>"; };
 		EBFA05E622B0DF86009D3FAE /* RegisterPushToken.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RegisterPushToken.graphql; sourceTree = "<group>"; };
@@ -707,6 +725,7 @@
 		EB11E94F2277047700D95365 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				EBE8B8CC22B9202300E32499 /* OfferScreen */,
 				EBFA060922B134EE009D3FAE /* ReferralsNotificationScreen */,
 				EBFA060522B134EE009D3FAE /* ReferralsReceiverConsentScreen */,
 				EB11ED12227ADBDE00D95365 /* ClaimsScreen */,
@@ -810,6 +829,7 @@
 			isa = PBXGroup;
 			children = (
 				EB11E9702277047700D95365 /* DraggableOverlay.swift */,
+				EBE8B8CA22B9201900E32499 /* UIStackView+DraggableOverlaySizing.swift */,
 			);
 			path = DraggableOverlayScreen;
 			sourceTree = "<group>";
@@ -920,6 +940,7 @@
 		EB11E9932277047700D95365 /* Referrals */ = {
 			isa = PBXGroup;
 			children = (
+				EBE8B8D422B9205000E32499 /* ReferralsMoreInfo.swift */,
 				EBFA060122B134C6009D3FAE /* ReferralsInvitation.swift */,
 				EBFA060222B134C7009D3FAE /* ReferralsInvitationAnonymous.swift */,
 				EBFA05EF22B134C0009D3FAE /* Viewables */,
@@ -941,6 +962,7 @@
 		EB11E99B2277047700D95365 /* Viewables */ = {
 			isa = PBXGroup;
 			children = (
+				EBE8B8D222B9203F00E32499 /* ApplyDiscountSection.swift */,
 				EB11E99C2277047700D95365 /* DeductibleCircle.swift */,
 				EB11E99D2277047700D95365 /* MonthlyPaymentCircle.swift */,
 				EB11E99E2277047700D95365 /* UpdatingMessage.swift */,
@@ -1111,6 +1133,8 @@
 		EB11E9CF2277047700D95365 /* Viewables */ = {
 			isa = PBXGroup;
 			children = (
+				EBE8B8C822B91FF500E32499 /* TextField.swift */,
+				EBE8B8C622B91FEC00E32499 /* LoadableView.swift */,
 				EBFA061122B13515009D3FAE /* ActivityBarButton.swift */,
 				EB11EB2D2277382600D95365 /* Divider.swift */,
 				EB11E9D02277047700D95365 /* BackgroundWithLabel.swift */,
@@ -1141,6 +1165,8 @@
 			isa = PBXGroup;
 			children = (
 				EBFA061522B1354A009D3FAE /* TextStyle+LineHeight.swift */,
+				EBE8B8C222B91FBF00E32499 /* Notification+KeyboardInfo.swift */,
+				EBE8B8C422B91FC900E32499 /* String+VariableStyles.swift */,
 				EBFA061322B13542009D3FAE /* String+Color.swift */,
 				EB384A3B228C403D00D226D1 /* UIViewController+TabBarBadge.swift */,
 				EBFA05EA22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift */,
@@ -1419,6 +1445,23 @@
 				EBCAA8B52282255B003C4833 /* ChatPreview.swift */,
 			);
 			path = ChatPreview;
+			sourceTree = "<group>";
+		};
+		EBE8B8CC22B9202300E32499 /* OfferScreen */ = {
+			isa = PBXGroup;
+			children = (
+				EBE8B8CD22B9202300E32499 /* ApplyDiscount.swift */,
+				EBE8B8CE22B9202300E32499 /* Viewables */,
+			);
+			path = OfferScreen;
+			sourceTree = "<group>";
+		};
+		EBE8B8CE22B9202300E32499 /* Viewables */ = {
+			isa = PBXGroup;
+			children = (
+				EBE8B8CF22B9202300E32499 /* DiscountTerms.swift */,
+			);
+			path = Viewables;
 			sourceTree = "<group>";
 		};
 		EBECC1A621B811F400716BEA /* ugglan */ = {
@@ -1711,6 +1754,7 @@
 				EB11EA5F2277047700D95365 /* LogoutSection.swift in Sources */,
 				EB11EA732277047700D95365 /* ReportBugRow.swift in Sources */,
 				EBCAA8A22281C28E003C4833 /* PerilExpandableRow.swift in Sources */,
+				EBE8B8C322B91FC000E32499 /* Notification+KeyboardInfo.swift in Sources */,
 				EB11EA542277047700D95365 /* LoadingIndicator.swift in Sources */,
 				EB11ED30227ADBDE00D95365 /* BulletPointCard.swift in Sources */,
 				EB11EAB52277047700D95365 /* SectionView+Viewable.swift in Sources */,
@@ -1774,6 +1818,7 @@
 				EBCAA8B72282255B003C4833 /* ChatPreview.swift in Sources */,
 				EB11EAB92277047700D95365 /* UIView+addConstraint.swift in Sources */,
 				EB11ED31227ADBDE00D95365 /* HonestyPledge.swift in Sources */,
+				EBE8B8D522B9205000E32499 /* ReferralsMoreInfo.swift in Sources */,
 				EB11ED37227ADBDE00D95365 /* DismissCardAnimationController.swift in Sources */,
 				EB384A44228D4D0C00D226D1 /* Offer.swift in Sources */,
 				EB11EAA92277047700D95365 /* MarkdownText.swift in Sources */,
@@ -1788,6 +1833,7 @@
 				EB11ED35227ADBDE00D95365 /* CardControllerTransitioningDelegate.swift in Sources */,
 				EB11EAA22277047700D95365 /* CircleLabelWithSubLabel.swift in Sources */,
 				EB11EA4A2277047700D95365 /* Logo.swift in Sources */,
+				EBE8B8D022B9202300E32499 /* ApplyDiscount.swift in Sources */,
 				EB265B1E221AF1F0009DA493 /* MyHomeRouting.swift in Sources */,
 				EB11EACA2277047700D95365 /* CollectionKit+ScrollTo.swift in Sources */,
 				B56386491DB9693800A0598C /* AppDelegate.swift in Sources */,
@@ -1812,6 +1858,7 @@
 				EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */,
 				EB11EA842277047700D95365 /* AddressCircle.swift in Sources */,
 				EB384A40228C407600D226D1 /* WhenEnabled.swift in Sources */,
+				EBE8B8D122B9202300E32499 /* DiscountTerms.swift in Sources */,
 				EB11EA4E2277047700D95365 /* StoriesIndicator.swift in Sources */,
 				EBCAA8C422843E00003C4833 /* ChatButton.swift in Sources */,
 				EB11EA852277047700D95365 /* MyHome.swift in Sources */,
@@ -1835,7 +1882,9 @@
 				EB11EAB02277047700D95365 /* UIWebView+Signal.swift in Sources */,
 				EBCAA8A32281C28E003C4833 /* PerilCollection.swift in Sources */,
 				EB11EA7A2277047700D95365 /* DeductibleCircle.swift in Sources */,
+				EBE8B8C722B91FEC00E32499 /* LoadableView.swift in Sources */,
 				EBCAA816228086BC003C4833 /* DashboardRouting.swift in Sources */,
+				EBE8B8D322B9203F00E32499 /* ApplyDiscountSection.swift in Sources */,
 				EB11ED28227ADBDE00D95365 /* Claims.swift in Sources */,
 				EB11EAE02277047800D95365 /* RemoteConfigContainer.swift in Sources */,
 				EBFA060022B134C0009D3FAE /* ReferralsInvitationLeftIcon.swift in Sources */,
@@ -1862,6 +1911,7 @@
 				EB11ED2E227ADBDE00D95365 /* SlideToClaim.swift in Sources */,
 				EBECC26821B92E4800716BEA /* NativeRouting.m in Sources */,
 				EB11EA7B2277047700D95365 /* MonthlyPaymentCircle.swift in Sources */,
+				EBE8B8CB22B9201900E32499 /* UIStackView+DraggableOverlaySizing.swift in Sources */,
 				EB11EA4C2277047700D95365 /* NewMemberButton.swift in Sources */,
 				EB11EA552277047700D95365 /* SkipToNextButton.swift in Sources */,
 				EB11EA5A2277047700D95365 /* Marketing.swift in Sources */,
@@ -1895,6 +1945,7 @@
 				EB11EA672277047700D95365 /* InsuranceCertificateRow.swift in Sources */,
 				EB11EAA82277047700D95365 /* CachedImage.swift in Sources */,
 				EB11EA632277047700D95365 /* AboutRow.swift in Sources */,
+				EBE8B8C922B91FF500E32499 /* TextField.swift in Sources */,
 				EB11ED33227ADBDE00D95365 /* CommonClaimTitleAndBulletPoints.swift in Sources */,
 				EB11EA682277047700D95365 /* HomeRow.swift in Sources */,
 				EBFA05FE22B134C0009D3FAE /* ReferralsInvitationOnboardingIcon.swift in Sources */,
@@ -1908,6 +1959,7 @@
 				EB11EA962277047700D95365 /* MyCoinsured.swift in Sources */,
 				EB11EADA2277047800D95365 /* TransitionStyle.swift in Sources */,
 				EB11ED2F227ADBDE00D95365 /* BulletPointTable.swift in Sources */,
+				EBE8B8C522B91FC900E32499 /* String+VariableStyles.swift in Sources */,
 				EB11EA4D2277047700D95365 /* ExistingMemberButton.swift in Sources */,
 				EBCAA8B62282255B003C4833 /* MessageBubble.swift in Sources */,
 				EB11EA8A2277047700D95365 /* SelectedCharity.swift in Sources */,
