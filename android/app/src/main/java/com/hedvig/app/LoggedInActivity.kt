@@ -29,4 +29,8 @@ class LoggedInActivity : BaseActivity() {
             )
         )
     }
+
+    companion object {
+        const val EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP = "extra_navigate_to_profile_on_start"
+    }
 }

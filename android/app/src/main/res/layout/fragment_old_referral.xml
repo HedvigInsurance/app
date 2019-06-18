@@ -15,18 +15,18 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_marginBottom="60dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="60dp">
 
             <ImageView
                 android:id="@+id/celebration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
-                app:srcCompat="@drawable/celebration"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/celebration" />
 
             <TextView
                 android:id="@+id/subtitle"
@@ -174,14 +174,14 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_primary"
+        android:drawablePadding="8dp"
         android:text="@string/PROFILE_REFERRAL_SHARE"
         android:theme="@style/HedvigButton"
-        android:visibility="gone"
         android:translationY="75dp"
-        android:drawablePadding="8dp"
-        android:layout_gravity="bottom|center_horizontal"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/termsContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

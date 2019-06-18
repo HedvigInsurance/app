@@ -1,0 +1,3 @@
+mutation RedeemReferralCodeMutation($code: String!) {
+  redeemCode(code: $code)
+}

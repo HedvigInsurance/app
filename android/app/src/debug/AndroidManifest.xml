@@ -6,12 +6,22 @@
 
     <application
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="28">
 
         <activity
             android:name="com.facebook.react.devsupport.DevSettingsActivity"
             android:theme="@style/Theme.Exponent.Splash" />
+
+        <activity
+            android:name=".DevelopmentActivity"
+            android:label="Hedvig Development Screen"
+            android:theme="@style/Theme.Exponent.Light">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
     </application>
 

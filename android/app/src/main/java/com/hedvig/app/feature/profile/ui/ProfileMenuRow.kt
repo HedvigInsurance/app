@@ -59,6 +59,16 @@ class ProfileMenuRow : ConstraintLayout {
             profile_menu_row_name.gravity = Gravity.NO_GRAVITY
         }
 
+    var hasNotification: Boolean? = null
+        set(value) {
+            if (value == true) {
+                notificationIcon.show()
+            } else {
+                notificationIcon.remove()
+            }
+            field = value
+        }
+
     fun setHighlighted() {
         profile_menu_row.background = context.compatDrawable(R.drawable.purple_selectable)
 
