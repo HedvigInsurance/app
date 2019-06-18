@@ -37,11 +37,6 @@ class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
         dialog.bottomSheetAddPromotionCodeButton.setHapticClickListener {
             redeemPromotionCode(dialog.bottomSheetAddPromotionCodeEditText.text.toString())
         }
-        dialog.bottomSheetPromotionCodeTermsAndCondition.text = interpolateTextKey(
-            getString(R.string.REFERRAL_ADDCOUPON_TC),
-            "TERMS_AND_CONDITIONS_LINK" to ""
-        )
-        dialog.bottomSheetPromotionCodeTermsAndConditionLink.text = getString(R.string.REFERRAL_ADDCOUPON_TERMS_CONDITIONS)
         dialog.bottomSheetPromotionCodeTermsAndConditionLink.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.hedvig.com/invite/terms"))
             startActivity(intent)
