@@ -7,12 +7,16 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.compatColor
+import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.referrals_successful_invite_actvity.*
+import org.koin.android.ext.android.inject
 
 class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
+
+    private val tracker: ReferralsTracker by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +28,8 @@ class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
 
     private fun showSuccess() {
         whenApiVersion(Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            window.decorView.systemUiVisibility =
+                window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             window.statusBarColor = compatColor(R.color.dark_purple)
         }
         referralSuccessImage.show()
@@ -51,12 +56,14 @@ class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
-        referralSuccessInvite.setOnClickListener {
+        referralSuccessInvite.setHapticClickListener {
+            tracker.inviteMoreFriends()
             val intent = Intent(this, ReferralsActivity::class.java)
             intent.putExtra(ReferralsActivity.EXTRA_IS_FROM_REFERRALS_NOTIFICATION, true)
             startActivity(intent)
         }
-        referralSuccessCloseButton.setOnClickListener {
+        referralSuccessCloseButton.setHapticClickListener {
+            tracker.closeReferralSuccess()
             finish()
         }
     }

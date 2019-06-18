@@ -11,12 +11,17 @@ import UIKit
 let log = Logger.self
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     let bag = DisposeBag()
     var rootWindow = UIWindow(frame: UIScreen.main.bounds)
     var splashWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
+
+    let hasFinishedLoading = ReadWriteSignal<Bool>(false)
     private let applicationWillTerminateCallbacker = Callbacker<Void>()
     let applicationWillTerminateSignal: Signal<Void>
+    let gcmMessageIDKey = "gcm.message_id"
+
+    var screenStack: [PresentableIdentifier] = []
 
     override init() {
         applicationWillTerminateSignal = applicationWillTerminateCallbacker.signal()
@@ -44,6 +49,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         commonClaimEmergencyOpenCallMeChat = { viewController in
             let chatOverlay = DraggableOverlay(presentable: CallMeChat())
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
+        }
+
+        presentablePresentationEventHandler = { (event: () -> PresentationEvent, file, function, line) in
+            let presentationEvent = event()
+            let message: String
+            var data: String?
+
+            switch presentationEvent {
+            case let .willEnqueue(presentableId, context):
+                message = "\(context) will enqueue modal presentation of \(presentableId)"
+            case let .willDequeue(presentableId, context):
+                message = "\(context) will dequeue modal presentation of \(presentableId)"
+            case let .willPresent(presentableId, context, styleName):
+                message = "\(context) will '\(styleName)' present: \(presentableId)"
+            case let .didCancel(presentableId, context):
+                message = "\(context) did cancel presentation of: \(presentableId)"
+            case let .didDismiss(presentableId, context, result):
+                switch result {
+                case let .success(result):
+                    message = "\(context) did end presentation of: \(presentableId)"
+                    data = "\(result)"
+                case let .failure(error):
+                    message = "\(context) did end presentation of: \(presentableId)"
+                    data = "\(error)"
+                }
+            case let .didDeallocate(presentableId, context):
+                message = "\(presentableId) was deallocated after presentation from \(context)"
+            case let .didLeak(presentableId, context):
+                message = "WARNING \(presentableId) was NOT deallocated after presentation from \(context)"
+            }
+
+            switch presentationEvent {
+            case let .willPresent(presentableId, _, _):
+                self.screenStack.append(presentableId)
+            case let .didDismiss(presentableId, _, _):
+                if let index = self.screenStack.lastIndex(of: presentableId) {
+                    self.screenStack.remove(at: index)
+                }
+            default:
+                break
+            }
+
+            presentableLogPresentation(message, data, file, function, line)
         }
 
         viewControllerWasPresented = { viewController in
@@ -84,9 +132,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         splashWindow?.windowLevel = .alert
         splashWindow?.makeKeyAndVisible()
 
-        let hasLoadedCallbacker = Callbacker<Void>()
         let launch = Launch(
-            hasLoadedSignal: hasLoadedCallbacker.signal()
+            hasLoadedSignal: hasFinishedLoading.filter { $0 }.toVoid()
         )
 
         let launchPresentation = Presentation(
@@ -106,6 +153,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         FirebaseApp.configure()
+        Messaging.messaging().delegate = self
+
+        if #available(iOS 10, *) {
+            UNUserNotificationCenter.current().delegate = self
+        }
 
         bag += RCTApolloClient
             .getClient()
@@ -167,12 +219,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .onValue { _ in
                 if let disposable = ApplicationState.presentRootViewController(self.rootWindow) {
                     self.bag += disposable
-                    hasLoadedCallbacker.callAll()
+                    self.hasFinishedLoading.value = true
                     return
                 }
 
                 self.bag += rootNavigationController.present(Marketing()).disposable
-                hasLoadedCallbacker.callAll()
+                self.hasFinishedLoading.value = true
             }
 
         RNBranch.initSession(launchOptions: launchOptions, isReferrable: true)
@@ -192,17 +244,88 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         bag += ApplicationState.presentRootViewController(rootWindow)
     }
 
-    // func application(_: UIApplication, didReceive notification: UILocalNotification) {
-    //    RNFirebaseNotifications.instance().didReceive(notification)
-    // }
+    func getTopMostViewController() -> UIViewController? {
+        guard let rootViewController = rootWindow.rootViewController else {
+            return nil
+        }
 
-    // func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    //    RNFirebaseNotifications.instance().didReceiveRemoteNotification(userInfo, fetchCompletionHandler: completionHandler)
-    // }
+        var topController = rootViewController
 
-    // func application(_: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-    //    RNFirebaseMessaging.instance().didRegister(notificationSettings)
-    // }
+        while let newTopController = topController.presentedViewController {
+            topController = newTopController
+        }
+
+        return topController
+    }
+
+    func messaging(_: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        ApolloContainer.shared.client.perform(mutation: RegisterPushTokenMutation(pushToken: fcmToken)).onValue { result in
+            if result.data?.registerPushToken != nil {
+                log.info("Did register push token for user")
+            } else {
+                log.info("Failed to register push token for user")
+            }
+        }
+    }
+
+    func registerForPushNotifications() {
+        if #available(iOS 10.0, *) {
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: { _, _ in }
+            )
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+        }
+
+        UIApplication.shared.registerForRemoteNotifications()
+    }
+
+    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        guard let notificationType = userInfo["TYPE"] as? String else { return }
+
+        if response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+            if notificationType == "NEW_MESSAGE" {
+                let chatOverlay = DraggableOverlay(presentable: FreeTextChat())
+                let chatOverlayIdentifier = PresentableIdentifier("\(type(of: chatOverlay))")
+                let onboardingChat = OnboardingChat(intent: .onboard)
+                let onboardingChatIdentifier = PresentableIdentifier("\(type(of: onboardingChat))")
+
+                guard !screenStack.contains(chatOverlayIdentifier), !screenStack.contains(onboardingChatIdentifier) else {
+                    return
+                }
+
+                bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
+                    self.getTopMostViewController()?.present(
+                        chatOverlay,
+                        style: .default,
+                        options: [.prefersNavigationBarHidden(false)]
+                    )
+                }
+            } else if notificationType == "REFERRAL_SUCCESS" {
+                let referralsNotification = ReferralsNotification()
+                let referralsNotificationIdentifier = PresentableIdentifier("\(type(of: referralsNotification))")
+
+                guard !screenStack.contains(referralsNotificationIdentifier) else {
+                    return
+                }
+
+                bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
+                    self.getTopMostViewController()?.present(
+                        referralsNotification,
+                        style: .default,
+                        options: [.prefersNavigationBarHidden(false)]
+                    )
+                }
+            }
+        }
+
+        completionHandler()
+    }
 
     func handleDynamicLink(_ dynamicLink: DynamicLink?) -> Bool {
         guard let dynamicLink = dynamicLink else { return false }
@@ -223,6 +346,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         UserDefaults.standard.set(invitedByMemberId, forKey: "referral_invitedByMemberId")
         UserDefaults.standard.set(incentive, forKey: "referral_incentive")
+
+        bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
+            self.getTopMostViewController()?.present(
+                ReferralsReceiverConsent(),
+                style: .modal,
+                options: [.prefersNavigationBarHidden(true)]
+            ).onValue { result in
+                if result == .accept {
+                    self.bag += self.rootWindow.rootViewController?.present(
+                        OnboardingChat(intent: .onboard),
+                        options: [.prefersNavigationBarHidden(false)]
+                    ).disposable
+                }
+            }
+        }
 
         return true
     }
