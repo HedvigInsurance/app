@@ -54,7 +54,7 @@ class ReferralsReceiverActivity : BaseActivity() {
 
     private fun startChat() {
         val intent = Intent(this, ChatActivity::class.java)
-        intent.putExtra("intent", "login")
+        intent.putExtra("intent", "onboarding")
         intent.putExtra("show_restart", true)
         startActivity(intent)
     }
