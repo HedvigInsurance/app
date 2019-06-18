@@ -13,7 +13,6 @@ import com.hedvig.android.owldroid.type.InsuranceType
 import com.hedvig.app.R
 import com.hedvig.app.feature.dashboard.service.DashboardTracker
 import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
-import com.hedvig.app.feature.referrals.PromotionCodeBottomSheet
 import com.hedvig.app.util.extensions.addViews
 import com.hedvig.app.util.extensions.compatDrawable
 import com.hedvig.app.util.extensions.displayMetrics

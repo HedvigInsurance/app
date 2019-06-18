@@ -19,7 +19,7 @@ import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.bottom_sheet_promotion_code.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class PromotionCodeBottomSheet : RoundedBottomSheetDialogFragment() {
+class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
 
     val referralViewModel: ReferralViewModel by sharedViewModel()
 
@@ -89,6 +89,6 @@ class PromotionCodeBottomSheet : RoundedBottomSheetDialogFragment() {
 
     companion object {
         fun newInstance() =
-            PromotionCodeBottomSheet()
+            RedeemCodeBottomSheet()
     }
 }
