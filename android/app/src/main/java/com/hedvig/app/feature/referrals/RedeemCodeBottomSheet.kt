@@ -30,7 +30,7 @@ class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_promotion_code, null)
         dialog.setContentView(view)
 
-        dialog.bottomSheetAddPromotionCodeButton.setOnClickListener {
+        dialog.bottomSheetAddPromotionCodeButton.setHapticClickListener {
             redeemPromotionCode(dialog.bottomSheetAddPromotionCodeEditText.text.toString())
         }
         dialog.bottomSheetPromotionCodeTermsAndCondition.text = interpolateTextKey(
