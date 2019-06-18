@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.LocalBroadcastManager
-import androidx.navigation.Navigation
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.facebook.react.bridge.LifecycleEventListener
@@ -22,13 +21,12 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.app.LoggedInActivity
-import com.hedvig.app.R
 import com.hedvig.app.feature.chat.UploadBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
-import com.hedvig.app.util.extensions.proxyNavigate
+import com.hedvig.app.feature.referrals.RedeemCodeBottomSheet
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.react.AsyncStorageNative
@@ -114,6 +112,12 @@ class ActivityStarterModule(
     }
 
     @ReactMethod
+    fun showRedeemCodeOverlay() {
+        RedeemCodeBottomSheet.newInstance()
+            .show(fragmentManager, RedeemCodeBottomSheet.TAG)
+    }
+
+    @ReactMethod
     fun showFileUploadOverlay(onUpload: Promise) {
         val uploadBottomSheet = UploadBottomSheet()
         uploadBottomSheet.show(fragmentManager, "FileUploadOverlay")
@@ -191,6 +195,11 @@ class ActivityStarterModule(
 
     companion object {
         const val BROADCAST_RELOAD_CHAT = "reloadChat"
+        const val REDEEMED_CODE_BROADCAST = "redeemedCode"
+
+        const val BROADCAST_MESSAGE_NAME = "message"
+
+        const val MESSAGE_PROMOTION_CODE_REDEEMED = "promotionCodeRedeemed"
 
         const val FILE_UPLOAD_INTENT = "file_upload"
         const val FILE_UPLOAD_RESULT = "file_upload_result"

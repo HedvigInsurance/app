@@ -84,6 +84,8 @@
     <dimen name="referral_receiver_continue_without_button_height">32dp</dimen>
     <dimen name="referral_receiver_continue_button_padding_edge">32dp</dimen>
     <dimen name="referral_receiver_continue_without_button_padding_edge">24dp</dimen>
+    <dimen name="referral_background_edit_text_rounded_corner_radius">32dp</dimen>
+    <dimen name="referral_background_edit_text_stroke_width">1dp</dimen>
     <dimen name="referral_current_discount_huge_text">48sp</dimen>
 
     <dimen name="pager_indicator_active_size">8dp</dimen>
