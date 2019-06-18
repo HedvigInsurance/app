@@ -15,8 +15,7 @@
         android:layout_marginTop="@dimen/base_margin_triple"
         android:layout_marginBottom="@dimen/base_margin"
         android:text="@string/REFERRAL_ADDCOUPON_HEADLINE"
-        android:textSize="@dimen/text_xlarge"
-        android:theme="@style/Header.Regular" />
+        android:theme="@style/Headline.Large" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -56,8 +55,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/base_margin_quadruple"
         android:text="@string/REFERRAL_ADDCOUPON_BTN_SUBMIT"
-        app:backgroundTint="@color/purple"
-        tools:backgroundTint="@color/purple" />
+        android:backgroundTint="@color/purple"/>
 
     <TextView
         android:id="@+id/bottomSheetPromotionCodeTermsAndCondition"
@@ -75,6 +73,6 @@
         android:layout_marginTop="@dimen/base_margin"
         android:textColor="@color/purple"
         android:gravity="center"
-        android:theme="@style/Body.Small" />
+        android:theme="@style/Body.Small.Link" />
 
 </LinearLayout>

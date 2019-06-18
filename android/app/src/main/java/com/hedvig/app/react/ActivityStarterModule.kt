@@ -114,7 +114,7 @@ class ActivityStarterModule(
     @ReactMethod
     fun showRedeemCodeOverlay() {
         RedeemCodeBottomSheet.newInstance()
-            .show(fragmentManager, "perilSheet")
+            .show(fragmentManager, RedeemCodeBottomSheet.TAG)
     }
 
     @ReactMethod

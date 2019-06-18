@@ -88,6 +88,8 @@ class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
     }
 
     companion object {
+        const val TAG = "redeemCodeBottomSheet"
+
         fun newInstance() =
             RedeemCodeBottomSheet()
     }
