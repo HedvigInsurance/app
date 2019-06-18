@@ -14,14 +14,18 @@ import com.hedvig.app.util.extensions.hideKeyboard
 import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.remove
+import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.bottom_sheet_promotion_code.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
 
     val referralViewModel: ReferralViewModel by sharedViewModel()
+
+    private val tracker: ReferralsTracker by inject()
 
     override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
 
@@ -73,6 +77,7 @@ class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
     }
 
     private fun redeemPromotionCode(code: String) {
+        tracker.redeemReferralCodeOverlay()
         resetErrorState()
         referralViewModel.redeemReferralCode(code)
     }

@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_margin_double"
         android:gravity="center"
-        android:text="@string/REFERRAL_ADDCOUPON_TC"
+        android:text="@string/REFERRAL_ADDCOUPON_TC_EXPLANATION"
         android:theme="@style/Body.Small" />
 
     <TextView
@@ -71,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_margin"
-        android:textColor="@color/purple"
+        android:text="@string/REFERRAL_ADDCOUPON_TC_LINK"
         android:gravity="center"
         android:theme="@style/Body.Small.Link" />
 
