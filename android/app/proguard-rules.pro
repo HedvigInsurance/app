@@ -35,3 +35,7 @@
 
 # Gson
 -keep class com.hedvig.app.feature.chat.dto.** { *; }
+
+# Monetary amount
+-keep class javax.money.** { *; }
+-keep class org.javamoney.moneta.internal.** { *; }
