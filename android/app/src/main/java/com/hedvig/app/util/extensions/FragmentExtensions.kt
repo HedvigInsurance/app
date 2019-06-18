@@ -22,9 +22,6 @@ import kotlinx.android.synthetic.main.app_bar.view.*
 
 val Fragment.localBroadcastManager get() = LocalBroadcastManager.getInstance(requireContext())
 
-fun FragmentManager.showBottomSheetDialog(@LayoutRes layout: Int) =
-    RoundedBottomSheetDialogFragment.newInstance(layout).show(this, "BottomSheetDialogFragment")
-
 fun Fragment.setupLargeTitle(
     @StringRes title: Int,
     @FontRes font: Int,
