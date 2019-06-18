@@ -14,11 +14,13 @@ import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.screenWidth
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import kotlinx.android.synthetic.main.fragment_whats_new.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class WhatsNewDialog : DialogFragment() {
 
     private val whatsNewViewModel: WhatsNewViewModel by sharedViewModel()
+    private val tracker: WhatsNewTracker by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +58,7 @@ class WhatsNewDialog : DialogFragment() {
         }
         pager.addOnPageChangeListener(PageChangeListener())
         proceed.setHapticClickListener {
+            tracker.trackClickProceed()
             pager.currentItem += 1
         }
     }

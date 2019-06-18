@@ -23,6 +23,7 @@ class OfferActivity: ReactBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // todo handle EXTRA_REFERRAL_CODE if needed
         val reactRootView = ReactRootView(this)
         mReactRootView = reactRootView
         reactRootView.startReactApplication(reactInstanceManager, "Offer")
@@ -43,5 +44,9 @@ class OfferActivity: ReactBaseActivity() {
             reactInstanceManager.onHostDestroy(this)
             reactNativeHost.clear()
         }
+    }
+
+    companion object {
+        const val EXTRA_REFERRAL_CODE = "extra_referral_code"
     }
 }

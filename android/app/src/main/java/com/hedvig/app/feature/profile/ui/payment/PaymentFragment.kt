@@ -15,9 +15,7 @@ import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.util.CustomTypefaceSpan
-import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.compatFont
-import com.hedvig.app.util.extensions.compatSetTint
 import com.hedvig.app.util.extensions.concat
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setupLargeTitle
@@ -49,9 +47,6 @@ class PaymentFragment : Fragment() {
         setupLargeTitle(R.string.PROFILE_PAYMENT_TITLE, R.font.circular_bold, R.drawable.ic_back) {
             navController.popBackStack()
         }
-
-        priceSphere.drawable.compatSetTint(requireContext().compatColor(R.color.green))
-        deductibleSphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_green))
 
         val today = Calendar.getInstance()
         val year = today.get(Calendar.YEAR).toString()
@@ -88,7 +83,7 @@ class PaymentFragment : Fragment() {
             resetViews()
             sphereContainer.show()
 
-            val monthlyCost = profileData?.insurance?.monthlyCost?.toString()
+            val monthlyCost = profileData?.paymentWithDiscount?.netPremium?.number?.intValueExact()
             val amountPartOne = SpannableString("$monthlyCost\n")
             val perMonthLabel = resources.getString(R.string.PROFILE_PAYMENT_PER_MONTH_LABEL)
             val amountPartTwo = SpannableString(perMonthLabel)
@@ -105,6 +100,21 @@ class PaymentFragment : Fragment() {
                 Spanned.SPAN_EXCLUSIVE_INCLUSIVE
             )
             profile_payment_amount.text = amountPartOne.concat(amountPartTwo)
+
+            grossPremium.text = interpolateTextKey(
+                resources.getString(R.string.PROFILE_PAYMENT_PRICE),
+                "PRICE" to profileData?.paymentWithDiscount?.grossPremium?.number?.intValueExact().toString()
+            )
+
+            discount.text = interpolateTextKey(
+                resources.getString(R.string.PROFILE_PAYMENT_DISCOUNT),
+                "DISCOUNT" to (profileData?.paymentWithDiscount?.discount?.number?.intValueExact()?.unaryMinus()).toString()
+            )
+
+            netPremium.text = interpolateTextKey(
+                resources.getString(R.string.PROFILE_PAYMENT_FINAL_COST),
+                "FINAL_COST" to profileData?.paymentWithDiscount?.netPremium?.number?.intValueExact().toString()
+            )
 
             bindBankAccountInformation()
         })

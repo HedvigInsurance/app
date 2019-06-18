@@ -54,6 +54,12 @@ class OfferChatOverlayFragment : DialogFragment(), DefaultHardwareBackBtnHandler
         dialogView = LayoutInflater.from(activity).inflate(R.layout.offer_chat_overlay_dialog, null) as ViewGroup
         dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(dialogView)
+
+        setUpDialogTopBar(dialogView)
+
+        mReactRootView = ReactRootView(requireContext())
+        mReactRootView!!.startReactApplication(reactInstanceManager, "OfferChat", arguments)
+        (dialogView.findViewById<View>(R.id.reactViewContainer) as FrameLayout).addView(mReactRootView)
         return dialog
     }
 
@@ -65,14 +71,6 @@ class OfferChatOverlayFragment : DialogFragment(), DefaultHardwareBackBtnHandler
             setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             setBackgroundDrawable(ColorDrawable(Color.WHITE))
         }
-    }
-
-    override fun setupDialog(dialog: Dialog, style: Int) {
-        setUpDialogTopBar(dialogView)
-
-        mReactRootView = ReactRootView(requireContext())
-        mReactRootView!!.startReactApplication(reactInstanceManager, "OfferChat", arguments)
-        (dialogView.findViewById<View>(R.id.reactViewContainer) as FrameLayout).addView(mReactRootView)
     }
 
     private fun setUpDialogTopBar(dialogView: ViewGroup) {

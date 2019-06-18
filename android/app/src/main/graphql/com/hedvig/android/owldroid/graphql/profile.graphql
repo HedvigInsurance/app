@@ -11,7 +11,6 @@ query Profile {
     postalNumber
     type
     certificateUrl
-    monthlyCost
     personsInHousehold
     livingSpace
   }
@@ -28,5 +27,50 @@ query Profile {
     id
     name
     paragraph
+  }
+  memberReferralCampaign {
+    memberId
+    referralInformation {
+      code
+      link
+      incentive
+    }
+    sender {
+      __typename
+      ... on ActiveReferral {
+        name
+        discount
+      }
+      ... on InProgressReferral {
+        name
+      }
+      ... on TerminatedReferral {
+        name
+      }
+      ... on NotInitiatedReferral {
+        name
+      }
+    }
+    receivers {
+      __typename
+      ... on ActiveReferral {
+        name
+        discount
+      }
+      ... on InProgressReferral {
+        name
+      }
+      ... on TerminatedReferral {
+        name
+      }
+      ... on NotInitiatedReferral {
+        name
+      }
+    }
+  }
+  paymentWithDiscount {
+    discount
+    grossPremium
+    netPremium
   }
 }
