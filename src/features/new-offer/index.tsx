@@ -16,13 +16,12 @@ import { AnimationValueProvider } from 'animated-react-native-components';
 import { Spacing } from 'src/components/Spacing';
 import { ScrollContent } from 'src/features/new-offer/components/scroll-content';
 import { Checkout } from 'src/features/new-offer/components/checkout';
-import { TranslationsConsumer } from 'src/components/translations/consumer';
 import { SignButton } from 'src/features/new-offer/components/sign-button';
-import { NEW_OFFER_OPTIONS } from 'src/navigation/screens/new-offer/options';
 import { AndroidHeader } from 'src/features/new-offer/android-header';
 import { Provider } from 'constate';
 
 import { NewOfferComponent } from 'src/graphql/components';
+import { DiscountButton } from './components/discount-button';
 
 const AnimatedScrollView = Animated.createAnimatedComponent<ScrollViewProps>(
   ScrollView,
@@ -144,7 +143,7 @@ export const NewOffer: React.SFC = () => (
                   >
                     <FixedContainer animatedValue={animatedValue}>
                       <Spacing height={15} />
-                      <PriceBubble price={data!.insurance.monthlyCost!} />
+                      <PriceBubble discountedPrice={data!.paymentWithDiscount!.netPremium} price={data!.paymentWithDiscount!.grossPremium} />
                       <Spacing height={15} />
                       <FeaturesContainer animatedValue={animatedValue}>
                         <FeaturesBubbles
@@ -158,6 +157,7 @@ export const NewOffer: React.SFC = () => (
                           type={data!.insurance.type!}
                         />
                       </FeaturesContainer>
+                      <DiscountButton grossPremium={data!.paymentWithDiscount!.grossPremium} netPremium={data!.paymentWithDiscount!.netPremium} onClick={() => { }} />
                     </FixedContainer>
                     <ScrollContent
                       insuredAtOtherCompany={
