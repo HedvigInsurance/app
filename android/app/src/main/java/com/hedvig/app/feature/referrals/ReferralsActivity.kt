@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.app.BuildConfig
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.SplashActivity
@@ -54,19 +55,10 @@ class ReferralsActivity : AppCompatActivity() {
             } ?: Timber.e("No data")
 
             data?.memberReferralCampaign?.referralInformation?.let { referralInformation ->
-                //todo let's se if we should create the link probably not
-                profileViewModel.firebaseWithCodeLink.observe(this) {
-                    it?.let { referralLink ->
-                        bindReferralsButton(
-                            referralInformation.incentive.number.doubleValueExact(),
-                            referralInformation.code,
-                            referralLink.toString()
-                        )
-                    }
-                }
-                profileViewModel.generateReferralWithCodeLink(
+                bindReferralsButton(
+                    referralInformation.incentive.number.doubleValueExact(),
                     referralInformation.code,
-                    referralInformation.incentive.number.intValueExact().toString()
+                    BuildConfig.REFERRALS_LANDING_BASE_URL + referralInformation.code
                 )
             }
         }
