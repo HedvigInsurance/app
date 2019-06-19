@@ -2,12 +2,14 @@ package com.hedvig.app.util.extensions
 
 import android.app.Activity
 import android.app.AlarmManager
+import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.FontRes
+import android.support.annotation.StringRes
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.content.res.AppCompatResources
@@ -58,3 +60,27 @@ fun Context.showShareSheet(title: String, configureClosure: ((Intent) -> Unit)?)
         Intent.createChooser(intent, title)
     )
 }
+
+/**
+ * Note: This extension will not accept an Application Context
+ */
+fun Context.showAlert(
+    @StringRes title: Int,
+    @StringRes message: Int,
+    @StringRes positiveLabel: Int,
+    @StringRes negativeLabel: Int,
+    positiveAction: () -> Unit,
+    negativeAction: (() -> Unit)? = null
+) =
+    AlertDialog
+        .Builder(this)
+        .setTitle(resources.getString(title))
+        .setMessage(resources.getString(message))
+        .setPositiveButton(resources.getString(positiveLabel)) { _, _ ->
+            positiveAction()
+        }
+        .setNegativeButton(resources.getString(negativeLabel)) { _, _ ->
+            negativeAction?.let { it() }
+        }
+        .create()
+        .show()

@@ -641,7 +641,6 @@ export interface BulletPoint {
 }
 /** The emergency layout shows a few actions for the user to rely on in the case of an emergency */
 export interface Emergency {
-  /** The color to show as the background */
   color: HedvigColor;
 
   title: string;
@@ -3805,11 +3804,11 @@ export interface CommonClaimsQueryArgs {
   locale: Locale;
 }
 export interface NewsQueryArgs {
+  platform: Platform;
+
   sinceVersion: string;
 
   locale: Locale;
-
-  platform: Platform;
 }
 export interface TranslationsLanguageArgs {
   where?: TranslationWhereInput | null;
@@ -3989,18 +3988,18 @@ export enum TranslationOrderByInput {
 }
 
 export enum HedvigColor {
-  Black = 'Black',
   OffWhite = 'OffWhite',
-  DarkPurple = 'DarkPurple',
+  Pink = 'Pink',
+  Black = 'Black',
+  BlackPurple = 'BlackPurple',
   OffBlack = 'OffBlack',
   LightGray = 'LightGray',
-  Pink = 'Pink',
-  Turquoise = 'Turquoise',
-  DarkGray = 'DarkGray',
+  DarkPurple = 'DarkPurple',
   White = 'White',
+  Turquoise = 'Turquoise',
   Yellow = 'Yellow',
-  BlackPurple = 'BlackPurple',
   Purple = 'Purple',
+  DarkGray = 'DarkGray',
 }
 
 export enum MarketingStoryOrderByInput {
@@ -4095,13 +4094,13 @@ export enum RegisterAccountProcessingStatus {
 }
 
 export enum Locale {
-  sv_SE = 'sv_SE',
   en_SE = 'en_SE',
+  sv_SE = 'sv_SE',
 }
 
 export enum Platform {
-  iOS = 'iOS',
   Android = 'Android',
+  iOS = 'iOS',
 }
 
 export enum LoggingSource {
@@ -4286,6 +4285,8 @@ export type NewOfferPaymentWithDiscount = {
   netPremium: MonetaryAmount;
 
   grossPremium: MonetaryAmount;
+
+  discount: MonetaryAmount;
 };
 
 export type OfferPerilsVariables = {};
@@ -4398,6 +4399,7 @@ export const NewOfferDocument = gql`
     paymentWithDiscount {
       netPremium
       grossPremium
+      discount
     }
   }
 `;

@@ -9,5 +9,6 @@ query NewOffer {
     paymentWithDiscount {
         netPremium
         grossPremium
+        discount
     }
 }

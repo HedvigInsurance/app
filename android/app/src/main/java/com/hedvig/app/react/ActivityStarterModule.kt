@@ -21,6 +21,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.app.LoggedInActivity
+import com.hedvig.app.R
 import com.hedvig.app.feature.chat.UploadBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
@@ -28,6 +29,7 @@ import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
 import com.hedvig.app.feature.referrals.RedeemCodeBottomSheet
 import com.hedvig.app.util.extensions.setIsLoggedIn
+import com.hedvig.app.util.extensions.showAlert
 import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.react.AsyncStorageNative
 import io.reactivex.disposables.CompositeDisposable
@@ -116,6 +118,21 @@ class ActivityStarterModule(
         RedeemCodeBottomSheet.newInstance()
             .show(fragmentManager, RedeemCodeBottomSheet.TAG)
     }
+
+    @ReactMethod
+    fun showRemoveCodeAlert(onCompleted: Promise) = currentActivity?.showAlert(
+        R.string.OFFER_REMOVE_DISCOUNT_ALERT_TITLE,
+        R.string.OFFER_REMOVE_DISCOUNT_ALERT_DESCRIPTION,
+        R.string.OFFER_REMOVE_DISCOUNT_ALERT_REMOVE,
+        R.string.OFFER_REMOVE_DISCOUNT_ALERT_CANCEL,
+        {
+            // TODO: Remove the code here!
+            onCompleted.resolve(true)
+        },
+        {
+            onCompleted.resolve(false)
+        }
+    )
 
     @ReactMethod
     fun showFileUploadOverlay(onUpload: Promise) {

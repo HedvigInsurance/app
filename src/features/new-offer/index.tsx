@@ -6,6 +6,7 @@ import {
   View,
   ViewProps,
   Platform,
+  NativeModules,
 } from 'react-native';
 import styled from '@sampettersson/primitives';
 import { colors } from '@hedviginsurance/brand';
@@ -124,7 +125,7 @@ const bounceScrollView = () => {
 export const NewOffer: React.SFC = () => (
   <Provider>
     <NewOfferComponent>
-      {({ data, loading, error }) =>
+      {({ data, loading, error, refetch }) =>
         loading || error ? null : (
           <>
             <AnimationValueProvider initialValue={0}>
@@ -157,7 +158,21 @@ export const NewOffer: React.SFC = () => (
                           type={data!.insurance.type!}
                         />
                       </FeaturesContainer>
-                      <DiscountButton grossPremium={data!.paymentWithDiscount!.grossPremium} netPremium={data!.paymentWithDiscount!.netPremium} onClick={() => { }} />
+                      <DiscountButton discount={data!.paymentWithDiscount!.discount} onPress={() => {
+                        if (Number(data!.paymentWithDiscount!.discount!.amount) !== 0) {
+                          if (Platform.OS === 'ios') {
+                            // TODO: Sam, implement here ;)
+                          }
+                          if (Platform.OS === 'android') {
+                            NativeModules.ActivityStarter.showRemoveCodeAlert()
+                              .then((didRemoveCode: boolean) => {
+                                if (didRemoveCode) {
+                                  refetch()
+                                }
+                              })
+                          }
+                        }
+                      }} />
                     </FixedContainer>
                     <ScrollContent
                       insuredAtOtherCompany={

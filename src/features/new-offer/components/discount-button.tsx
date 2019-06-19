@@ -7,9 +7,8 @@ import { MonetaryAmount } from 'src/graphql/components';
 import { TranslationsConsumer } from 'src/components/translations/consumer';
 
 interface DiscountButtonProps {
-  netPremium: MonetaryAmount;
-  grossPremium: MonetaryAmount;
-  onClick: () => void;
+  discount: MonetaryAmount;
+  onPress: () => void;
 }
 
 const ButtonStyle = styled(TouchableOpacity)({
@@ -29,11 +28,11 @@ const TextStyle = styled(Text)({
   fontSize: 14
 })
 
-export const DiscountButton: React.SFC<DiscountButtonProps> = ({ grossPremium, netPremium, onClick }) => (
+export const DiscountButton: React.SFC<DiscountButtonProps> = ({ discount, onPress }) => (
   <>
-    <ButtonStyle onClick={onClick}>
+    <ButtonStyle onPress={onPress}>
       <TranslationsConsumer
-        textKey={netPremium.amount !== grossPremium.amount ? "OFFER_REMOVE_DISCOUNT_BUTTON" : "OFFER_ADD_DISCOUNT_BUTTON"}
+        textKey={Number(discount.amount) !== 0 ? "OFFER_REMOVE_DISCOUNT_BUTTON" : "OFFER_ADD_DISCOUNT_BUTTON"}
       >
         {(text) => (
           <TextStyle>{text}</TextStyle>
