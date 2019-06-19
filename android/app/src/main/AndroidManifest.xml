@@ -137,6 +137,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Exponent.Splash"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".LoggedInTerminatedActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:parentActivityName=".SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Splash"
+            android:windowSoftInputMode="adjustResize" />
+
         <service
             android:name="com.hedvig.app.service.PushNotificationService"
             android:exported="false"
