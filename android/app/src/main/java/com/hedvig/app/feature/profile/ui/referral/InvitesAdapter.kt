@@ -141,11 +141,11 @@ class InvitesAdapter(
 
     private fun setupAvatarWithLetter(viewHolder: ItemViewHolder, name: String?) {
         viewHolder.apply {
-            name?.let { n ->
+            if (!name.isNullOrBlank()) {
                 avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.sphere))
-                val hashedColor = avatar.context.compatColor(hashColor(n))
+                val hashedColor = avatar.context.compatColor(hashColor(name))
                 avatar.drawable.mutate().setTint(hashedColor)
-                avatarLetter.text = n[0].toString().capitalize()
+                avatarLetter.text = name[0].toString().capitalize()
                 avatarLetter.setTextColor(
                     avatarLetter.context.compatColor(
                         when (getLightness(hashedColor)) {
