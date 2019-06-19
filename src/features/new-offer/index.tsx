@@ -171,6 +171,18 @@ export const NewOffer: React.SFC = () => (
                                 }
                               })
                           }
+                        } else {
+                          if (Platform.OS === 'ios') {
+                            // TODO: Sam, implement here ;)
+                          }
+                          if (Platform.OS === 'android') {
+                            NativeModules.ActivityStarter.showRedeemCodeOverlay()
+                              .then((didInputValidCode: boolean) => {
+                                if (didInputValidCode) {
+                                  refetch()
+                                }
+                              })
+                          }
                         }
                       }} />
                     </FixedContainer>

@@ -53,10 +53,15 @@ class ActivityStarterModule(
 
     private val fileUploadBroadcastReceiver = FileUploadBroadcastReceiver()
 
+    private val referralCodeBroadcastReceiver = ReferralCodeBroadcastReceiver()
+
     private var fileUploadCallback: Promise? = null
+
+    private var redeemCodeCallback: Promise? = null
 
     init {
         localBroadcastManager.registerReceiver(fileUploadBroadcastReceiver, IntentFilter(FILE_UPLOAD_INTENT))
+        localBroadcastManager.registerReceiver(referralCodeBroadcastReceiver, IntentFilter(REDEEMED_CODE_BROADCAST))
     }
 
     override fun getName() = "ActivityStarter"
@@ -69,6 +74,7 @@ class ActivityStarterModule(
 
     override fun onHostDestroy() {
         localBroadcastManager.unregisterReceiver(fileUploadBroadcastReceiver)
+        localBroadcastManager.unregisterReceiver(referralCodeBroadcastReceiver)
         disposables.clear()
     }
 
@@ -114,7 +120,8 @@ class ActivityStarterModule(
     }
 
     @ReactMethod
-    fun showRedeemCodeOverlay() {
+    fun showRedeemCodeOverlay(onRedeem: Promise) {
+        redeemCodeCallback = onRedeem
         RedeemCodeBottomSheet.newInstance()
             .show(fragmentManager, RedeemCodeBottomSheet.TAG)
     }
@@ -205,6 +212,16 @@ class ActivityStarterModule(
                     fileUploadCallback?.reject("E_NETWORK_ERROR", "failed to upload")
                         ?: Timber.e("File upload failed but no callback present") // TODO improve
                     fileUploadCallback = null
+                }
+            }
+        }
+    }
+
+    private inner class ReferralCodeBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            when (intent.getStringExtra(BROADCAST_MESSAGE_NAME)) {
+                MESSAGE_PROMOTION_CODE_REDEEMED -> {
+                    redeemCodeCallback?.resolve(true)
                 }
             }
         }
