@@ -80,6 +80,6 @@ class SplashActivity : BaseActivity() {
             startActivity(intent)
         }
         LoginStatus.LOGGED_IN -> startActivity(Intent(this, LoggedInActivity::class.java))
-        LoginStatus.LOGGED_IN_TERMINATED -> startActivity(In)
+        LoginStatus.LOGGED_IN_TERMINATED -> startActivity(Intent(this, LoggedInTerminatedActivity::class.java))
     }
 }
