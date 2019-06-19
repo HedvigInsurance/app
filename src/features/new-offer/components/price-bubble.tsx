@@ -103,7 +103,7 @@ export const PriceBubble: React.SFC<PriceBubbleProps> = ({ price, discountedPric
           }}
         >
           <Circle>
-            {discountedPrice ? (
+            {discountedPrice.amount !== price.amount ? (
               <>
                 <GrossPrice>{formatMonetaryAmount(price)} kr/mån</GrossPrice>
                 <NetPrice>{formatMonetaryAmount(discountedPrice)}</NetPrice>
@@ -113,7 +113,7 @@ export const PriceBubble: React.SFC<PriceBubbleProps> = ({ price, discountedPric
               )}
             <MonthlyLabel>kr/mån</MonthlyLabel>
           </Circle>
-          {discountedPrice && (
+          {discountedPrice.amount !== price.amount && (
             <DiscountCircle>
               <TranslationsConsumer textKey="OFFER_SCREEN_INVITED_BUBBLE">
                 {(text) => (
