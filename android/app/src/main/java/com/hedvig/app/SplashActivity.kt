@@ -53,8 +53,8 @@ class SplashActivity : BaseActivity() {
                     FirebaseAnalytics.getInstance(this).logEvent("referrals_open", b)
                 }
 
-                referralCode = link.getQueryParameter("referralCode")
-                referralIncentive = link.getQueryParameter("referralIncentive")
+                referralCode = link.getQueryParameter("code")
+                referralIncentive = "10" //FIXME: this must be changed when we hav an other incentive then 10
             }
         }
 
