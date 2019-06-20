@@ -93,4 +93,6 @@
     <dimen name="pager_indicator_hedvig_logo_size">16dp</dimen>
     <dimen name="pager_indicator_height">32dp</dimen>
     <dimen name="news_close_button_size">28dp</dimen>
+
+    <dimen name="redeem_bottom_sheet_extra_padding_below_edit_text">64dp</dimen>
 </resources>
