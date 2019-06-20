@@ -16,17 +16,14 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hedvig.app.R
 import com.hedvig.app.SplashActivity
+import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.referrals.ReferralsSuccessfulInviteActivity
 import com.hedvig.app.util.interpolateTextKey
-import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.util.whenApiVersion
-import timber.log.Timber
 
 class PushNotificationService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
-        Timber.i("Acquired new token: %s", token)
-
         val work = OneTimeWorkRequest.Builder(PushNotificationWorker::class.java)
             .setInputData(
                 Data.Builder()
@@ -40,47 +37,49 @@ class PushNotificationService : FirebaseMessagingService() {
             .enqueue()
     }
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) = when (remoteMessage?.data?.get(NOTIFICATION_TYPE_KEY)) {
-        NOTIFICATION_TYPE_NEW_MESSAGE -> {
-            setupNotificationChannel(
-                NOTIFICATION_CHAT_CHANNEL_ID,
-                resources.getString(R.string.NOTIFICATION_CHAT_CHANNEL_NAME),
-                resources.getString(R.string.NOTIFICATION_CHAT_CHANNEL_DESCRIPTION)
-            )
-            sendChatMessageNotification()
+    override fun onMessageReceived(remoteMessage: RemoteMessage?) =
+        when (remoteMessage?.data?.get(NOTIFICATION_TYPE_KEY)) {
+            NOTIFICATION_TYPE_NEW_MESSAGE -> {
+                setupNotificationChannel(
+                    NOTIFICATION_CHAT_CHANNEL_ID,
+                    resources.getString(R.string.NOTIFICATION_CHAT_CHANNEL_NAME),
+                    resources.getString(R.string.NOTIFICATION_CHAT_CHANNEL_DESCRIPTION)
+                )
+                sendChatMessageNotification()
+            }
+            NOTIFICATION_TYPE_REFERRAL_SUCCESS -> {
+                setupNotificationChannel(
+                    NOTIFICATION_REFERRAL_CHANNEL_ID,
+                    resources.getString(R.string.NOTIFICATION_REFERRAL_CHANNEL_NAME),
+                    resources.getString(R.string.NOTIFICATION_REFERRAL_CHANNEL_DESCRIPTION)
+                )
+                sendReferralsNotification(remoteMessage)
+            }
+            else -> {
+                setupNotificationChannel(
+                    NOTIFICATION_CHAT_CHANNEL_ID,
+                    resources.getString(R.string.NOTIFICATION_CHANNEL_NAME),
+                    resources.getString(R.string.NOTIFICATION_CHANNEL_DESCRIPTION)
+                )
+                val title = remoteMessage?.data?.get(DATA_MESSAGE_TITLE)
+                    ?: resources.getString(R.string.NOTIFICATION_CHAT_TITLE)
+                val body = remoteMessage?.data?.get(DATA_MESSAGE_BODY)
+                    ?: resources.getString(R.string.NOTIFICATION_CHAT_BODY)
+                sendDefaultNotification(title, body)
+            }
         }
-        NOTIFICATION_TYPE_REFERRAL_SUCCESS -> {
-            setupNotificationChannel(
-                NOTIFICATION_REFERRAL_CHANNEL_ID,
-                resources.getString(R.string.NOTIFICATION_REFERRAL_CHANNEL_NAME),
-                resources.getString(R.string.NOTIFICATION_REFERRAL_CHANNEL_DESCRIPTION)
-            )
-            sendReferralsNotification(remoteMessage)
-        }
-        else -> {
-            setupNotificationChannel(
-                NOTIFICATION_CHAT_CHANNEL_ID,
-                resources.getString(R.string.NOTIFICATION_CHANNEL_NAME),
-                resources.getString(R.string.NOTIFICATION_CHANNEL_DESCRIPTION)
-            )
-            val title = remoteMessage?.data?.get(DATA_MESSAGE_TITLE)
-                ?: resources.getString(R.string.NOTIFICATION_CHAT_TITLE)
-            val body = remoteMessage?.data?.get(DATA_MESSAGE_BODY)
-                ?: resources.getString(R.string.NOTIFICATION_CHAT_BODY)
-            sendDefaultNotification(title, body)
-        }
-    }
 
-    private fun setupNotificationChannel(channelId: String, channelName: String, channelDescription: String) = whenApiVersion(Build.VERSION_CODES.O) {
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
-        notificationManager?.createNotificationChannel(
-            NotificationChannel(
-                channelId,
-                channelName,
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply { description = channelDescription }
-        )
-    }
+    private fun setupNotificationChannel(channelId: String, channelName: String, channelDescription: String) =
+        whenApiVersion(Build.VERSION_CODES.O) {
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
+            notificationManager?.createNotificationChannel(
+                NotificationChannel(
+                    channelId,
+                    channelName,
+                    NotificationManager.IMPORTANCE_HIGH
+                ).apply { description = channelDescription }
+            )
+        }
 
     private fun sendChatMessageNotification() {
         val chatIntent = Intent(this, ChatActivity::class.java)
