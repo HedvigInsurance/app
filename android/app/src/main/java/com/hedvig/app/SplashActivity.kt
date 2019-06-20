@@ -74,10 +74,8 @@ class SplashActivity : BaseActivity() {
 
     private fun handleIntent(intent: Intent) {
         val appLinkAction = intent.action
-        val appLinkData: Uri? = intent.data
         if (Intent.ACTION_VIEW == appLinkAction) {
-            Timber.i("Inside")
-            Uri.parse(appLinkData?.getQueryParameter("link"))?.let { handleNewReferralLink(it) }
+            Uri.parse(intent.data?.getQueryParameter("link"))?.let { handleNewReferralLink(it) }
         }
     }
 
