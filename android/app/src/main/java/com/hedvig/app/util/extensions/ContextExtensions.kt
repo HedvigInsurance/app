@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.AlarmManager
 import android.app.AlertDialog
 import android.app.PendingIntent
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.support.annotation.ColorRes
@@ -15,6 +17,7 @@ import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.content.res.AppCompatResources
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import com.hedvig.app.SplashActivity
 
 private const val SHARED_PREFERENCE_NAME = "hedvig_shared_preference"
@@ -84,3 +87,20 @@ fun Context.showAlert(
         }
         .create()
         .show()
+
+fun Context.copyToClipboard(
+    text: String
+) {
+    (getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager)
+        ?.primaryClip = ClipData.newPlainText(null, text)
+}
+
+fun Context.makeToast(
+    @StringRes text: Int,
+    length: Int = Toast.LENGTH_LONG
+) = makeToast(resources.getString(text), length)
+
+fun Context.makeToast(
+    text: String,
+    length: Int = Toast.LENGTH_LONG
+) = Toast.makeText(this, text, length).show()
