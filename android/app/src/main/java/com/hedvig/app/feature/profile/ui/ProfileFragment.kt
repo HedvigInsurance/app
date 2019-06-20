@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.iid.FirebaseInstanceId
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.R
 import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
@@ -14,7 +15,7 @@ import com.hedvig.app.feature.loggedin.ui.BaseTabViewModel
 import com.hedvig.app.feature.loggedin.ui.TabNotification
 import com.hedvig.app.feature.profile.ui.aboutapp.AboutAppActivity
 import com.hedvig.app.feature.referrals.ReferralsActivity
-import com.hedvig.app.util.extensions.localBroadcastManager
+import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import com.hedvig.app.util.extensions.setupLargeTitle
@@ -45,10 +46,10 @@ class ProfileFragment : BaseTabFragment() {
     }
 
     private fun loadReferralFeature() {
-        profileViewModel.remoteConfigData.observe(this, Observer { remoteConfigData ->
+        profileViewModel.remoteConfigData.observe(this) { remoteConfigData ->
             remoteConfigData?.let { rcd ->
                 if (!rcd.referralsEnabled) {
-                    return@Observer
+                    return@let
                 }
                 if (rcd.newReferralsEnabled) {
                     if (tabViewModel.tabNotification.value == TabNotification.REFERRALS) {
@@ -76,7 +77,7 @@ class ProfileFragment : BaseTabFragment() {
                 }
                 profileReferralRow.show()
             }
-        })
+        }
     }
 
     private fun populateData() {
@@ -105,10 +106,8 @@ class ProfileFragment : BaseTabFragment() {
             logout.setOnClickListener {
                 profileViewModel.logout {
                     requireContext().setIsLoggedIn(false)
-                    localBroadcastManager.sendBroadcast(Intent(PROFILE_NAVIGATION_BROADCAST).apply {
-                        putExtra("action", "logout")
-                    })
                     asyncStorageNative.deleteKey("@hedvig:token")
+                    FirebaseInstanceId.getInstance().deleteInstanceId()
                     requireActivity().triggerRestartActivity()
                 }
             }
@@ -167,9 +166,5 @@ class ProfileFragment : BaseTabFragment() {
                 startActivity(intent)
             }
         }
-    }
-
-    companion object {
-        const val PROFILE_NAVIGATION_BROADCAST = "profileNavigation"
     }
 }

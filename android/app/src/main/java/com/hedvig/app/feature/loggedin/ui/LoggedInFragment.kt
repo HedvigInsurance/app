@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.google.firebase.iid.FirebaseInstanceId
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.whatsnew.WhatsNewDialog
@@ -66,6 +67,8 @@ class LoggedInFragment : Fragment() {
         whatsNewViewModel.news.observe(this) { data ->
             data?.let {
                 if (data.news.size > 0) {
+                    // Yep, this is actually happening
+                    FirebaseInstanceId.getInstance().deleteInstanceId()
                     WhatsNewDialog.newInstance().show(childFragmentManager, WhatsNewDialog.TAG)
                 }
             }

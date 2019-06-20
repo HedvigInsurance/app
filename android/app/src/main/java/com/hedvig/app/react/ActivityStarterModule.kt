@@ -18,6 +18,7 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReadableType
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.iid.FirebaseInstanceId
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.app.LoggedInActivity
@@ -100,6 +101,7 @@ class ActivityStarterModule(
     fun navigateToLoggedInFromChat() {
         currentActivity?.let { activity ->
             reactApplicationContext.setIsLoggedIn(true)
+            FirebaseInstanceId.getInstance().deleteInstanceId()
             val intent = Intent(activity, LoggedInActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
