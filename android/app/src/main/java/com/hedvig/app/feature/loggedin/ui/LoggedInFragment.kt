@@ -16,6 +16,9 @@ import com.hedvig.app.feature.whatsnew.WhatsNewViewModel
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.remove
 import kotlinx.android.synthetic.main.logged_in_screen.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -68,7 +71,9 @@ class LoggedInFragment : Fragment() {
             data?.let {
                 if (data.news.size > 0) {
                     // Yep, this is actually happening
-                    FirebaseInstanceId.getInstance().deleteInstanceId()
+                    GlobalScope.launch(Dispatchers.IO) {
+                        FirebaseInstanceId.getInstance().deleteInstanceId()
+                    }
                     WhatsNewDialog.newInstance().show(childFragmentManager, WhatsNewDialog.TAG)
                 }
             }
