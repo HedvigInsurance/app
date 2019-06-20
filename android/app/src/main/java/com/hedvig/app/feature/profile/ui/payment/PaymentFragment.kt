@@ -14,12 +14,14 @@ import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
+import com.hedvig.app.feature.referrals.RedeemCodeBottomSheet
 import com.hedvig.app.util.CustomTypefaceSpan
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.extensions.concat
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.view.remove
+import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.viewmodel.DirectDebitViewModel
@@ -66,12 +68,18 @@ class PaymentFragment : Fragment() {
             "DAY" to BILLING_DAY.toString()
         )
 
-        changeBankAccount.setOnClickListener {
+        changeBankAccount.setHapticClickListener {
             navController.proxyNavigate(R.id.action_paymentFragment_to_trustlyFragment)
         }
 
-        connectBankAccount.setOnClickListener {
+        connectBankAccount.setHapticClickListener {
             navController.proxyNavigate(R.id.action_paymentFragment_to_trustlyFragment)
+        }
+
+        redeemCode.setHapticClickListener {
+            RedeemCodeBottomSheet
+                .newInstance()
+                .show(childFragmentManager, RedeemCodeBottomSheet.TAG)
         }
 
         loadData()
@@ -141,6 +149,7 @@ class PaymentFragment : Fragment() {
                 separator.show()
                 accountNumber.text = profileData.bankAccount?.descriptor ?: ""
                 changeBankAccount.show()
+                redeemCode.show()
             }
             DirectDebitStatus.PENDING -> {
                 paymentDetailsContainer.show()
