@@ -85,7 +85,10 @@ class ActivityStarterModule(
         if (activity != null) {
             asyncStorageNative.setKey("@hedvig:isViewingOffer", "true")
             currentActivity?.let {
-                it.startActivity(Intent(it, OfferActivity::class.java))
+                it.startActivity(Intent(it, OfferActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                })
             }
         }
     }
