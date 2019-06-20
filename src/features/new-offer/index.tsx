@@ -144,7 +144,11 @@ export const NewOffer: React.SFC = () => (
                   >
                     <FixedContainer animatedValue={animatedValue}>
                       <Spacing height={15} />
-                      <PriceBubble discountedPrice={data!.paymentWithDiscount!.netPremium} price={data!.paymentWithDiscount!.grossPremium} />
+                      <PriceBubble
+                        netPremium={data!.paymentWithDiscount!.netPremium}
+                        grossPremium={data!.paymentWithDiscount!.grossPremium}
+                        discount={data!.paymentWithDiscount!.discount}
+                      />
                       <Spacing height={15} />
                       <FeaturesContainer animatedValue={animatedValue}>
                         <FeaturesBubbles
@@ -159,7 +163,7 @@ export const NewOffer: React.SFC = () => (
                         />
                       </FeaturesContainer>
                       <DiscountButton discount={data!.paymentWithDiscount!.discount} onPress={() => {
-                        if (Number(data!.paymentWithDiscount!.discount!.amount) !== 0) {
+                        if (Number(data!.paymentWithDiscount!.discount!.amount) !== 0 && false) {
                           if (Platform.OS === 'ios') {
                             // TODO: Sam, implement here ;)
                           }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Theme.Exponent.Light.V27" parent="Theme.Exponent.Light.V23">
         <item name="android:navigationBarColor">@color/off_white</item>
         <item name="android:windowLightNavigationBar">true</item>
     </style>
 
-    <style name="Theme.Exponent.Light" parent="Theme.Exponent.Light.V27"/>
+    <style name="Theme.Exponent.Light" parent="Theme.Exponent.Light.V27" />
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -18,6 +19,8 @@
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="bottomSheetStyle">@style/NoTitleBottomSheet</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
     <style name="PerilBottomSheetDialogTheme" parent="BaseBottomSheetDialog">

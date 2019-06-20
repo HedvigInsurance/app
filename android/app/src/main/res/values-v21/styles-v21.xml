@@ -10,6 +10,8 @@
         <item name="bottomSheetStyle">@style/NoTitleBottomSheet</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
     <style name="PerilBottomSheetDialogTheme" parent="BaseBottomSheetDialog">

@@ -48,7 +48,7 @@ const DiscountCircle = styled(Circle)({
 const DiscountText = styled(Text)({
   color: colors.WHITE,
   fontFamily: fonts.CIRCULAR,
-  fontSize: 16,
+  fontSize: getCircleSize() === LARGE_CIRCLE_SIZE ? 16 : 12,
   fontWeight: 'bold'
 })
 
@@ -76,13 +76,14 @@ const NetPrice = styled(Price)({
 })
 
 interface PriceBubbleProps {
-  price: MonetaryAmount;
-  discountedPrice?: MonetaryAmount
+  grossPremium: MonetaryAmount;
+  netPremium: MonetaryAmount;
+  discount: MonetaryAmount;
 }
 
 const formatMonetaryAmount = (monetaryAmount: MonetaryAmount) => Number(monetaryAmount.amount)
 
-export const PriceBubble: React.SFC<PriceBubbleProps> = ({ price, discountedPrice }) => (
+export const PriceBubble: React.SFC<PriceBubbleProps> = ({ grossPremium, netPremium, discount }) => (
   <Sequence>
     <Delay config={{ delay: 650 }} />
     <Spring
@@ -103,17 +104,17 @@ export const PriceBubble: React.SFC<PriceBubbleProps> = ({ price, discountedPric
           }}
         >
           <Circle>
-            {discountedPrice.amount !== price.amount ? (
+            {Number(discount.amount) !== 0 ? (
               <>
-                <GrossPrice>{formatMonetaryAmount(price)} kr/mån</GrossPrice>
-                <NetPrice>{formatMonetaryAmount(discountedPrice)}</NetPrice>
+                <GrossPrice>{formatMonetaryAmount(grossPremium)} kr/mån</GrossPrice>
+                <NetPrice>{formatMonetaryAmount(netPremium)}</NetPrice>
               </>
             ) : (
-                <Price>{formatMonetaryAmount(price)}</Price>
+                <Price>{formatMonetaryAmount(grossPremium)}</Price>
               )}
             <MonthlyLabel>kr/mån</MonthlyLabel>
           </Circle>
-          {discountedPrice.amount !== price.amount && (
+          {Number(discount.amount) !== 0 && (
             <DiscountCircle>
               <TranslationsConsumer textKey="OFFER_SCREEN_INVITED_BUBBLE">
                 {(text) => (

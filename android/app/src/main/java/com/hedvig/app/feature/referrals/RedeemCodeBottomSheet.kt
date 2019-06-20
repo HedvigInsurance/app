@@ -22,11 +22,11 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
 
-    val referralViewModel: ReferralViewModel by sharedViewModel()
+    private val referralViewModel: ReferralViewModel by sharedViewModel()
 
     private val tracker: ReferralsTracker by inject()
 
-    override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
+    //override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)

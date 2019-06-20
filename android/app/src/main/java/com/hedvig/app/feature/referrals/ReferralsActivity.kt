@@ -65,8 +65,7 @@ class ReferralsActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.referral_more_info_menu, menu)
+        menuInflater.inflate(R.menu.referral_more_info_menu, menu)
         toolbar.updatePadding(end = resources.getDimensionPixelSize(R.dimen.base_margin_double))
         return true
     }
@@ -74,10 +73,11 @@ class ReferralsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.referralMoreInfo -> {
-                profileViewModel.data.value?.memberReferralCampaign?.referralInformation?.incentive?.number?.intValueExact()?.let { incentive ->
-                    ReferralBottomSheet.newInstance(incentive.toString())
-                        .show(supportFragmentManager, "moreInfoSheet")
-                }
+                profileViewModel.data.value?.memberReferralCampaign?.referralInformation?.incentive?.number?.intValueExact()
+                    ?.let { incentive ->
+                        ReferralBottomSheet.newInstance(incentive.toString())
+                            .show(supportFragmentManager, "moreInfoSheet")
+                    }
                 return true
             }
         }
