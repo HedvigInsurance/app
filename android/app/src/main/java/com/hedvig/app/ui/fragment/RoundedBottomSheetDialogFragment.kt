@@ -8,7 +8,7 @@ import com.hedvig.app.R
 
 abstract class RoundedBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
-    //override fun getTheme(): Int = R.style.BottomSheetDialogTheme
+    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
 }

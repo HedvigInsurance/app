@@ -19,8 +19,6 @@
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="bottomSheetStyle">@style/NoTitleBottomSheet</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
     <style name="PerilBottomSheetDialogTheme" parent="BaseBottomSheetDialog">

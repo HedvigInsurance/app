@@ -6,8 +6,6 @@
         <item name="colorAccent">@color/colorAccentLight</item>
         <item name="android:windowBackground">@color/off_white</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-
-        <item name="bottomSheetDialogTheme">@style/NoTitleBottomSheetDialogTheme</item>
     </style>
 
     <style name="Theme.Exponent.Light" parent="Theme.Exponent.Light.V21" />
@@ -169,14 +167,10 @@
     </style>
 
     <style name="NoTitleBottomSheetDialogTheme" parent="BaseBottomSheetDialog">
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="bottomSheetStyle">@style/NoTitleBottomSheet</item>
     </style>
 
     <style name="NoTitleBottomSheet">
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="android:background">@drawable/bottom_sheet_dialog_no_title_fragment_background</item>
     </style>
 

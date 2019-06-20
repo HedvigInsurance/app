@@ -26,7 +26,7 @@ class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
 
     private val tracker: ReferralsTracker by inject()
 
-    //override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
+    override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
