@@ -92,7 +92,7 @@ class ActivityStarterModule(
     @ReactMethod
     fun navigateToChatFromOffer() {
         currentActivity?.let {
-            it.startActivity(Intent(it, OfferActivity::class.java))
+            it.startActivity(Intent(it, LoggedInActivity::class.java))
         }
     }
 
