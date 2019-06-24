@@ -10,6 +10,15 @@ import UIKit
 
 let log = Logger.self
 
+extension Sequence where Element == PresentableIdentifier {
+    var hasChatScreen: Bool {
+        let onboardingChat = OnboardingChat(intent: .onboard)
+        let onboardingChatIdentifier = PresentableIdentifier("\(type(of: onboardingChat))")
+
+        return contains(onboardingChatIdentifier)
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     let bag = DisposeBag()
@@ -341,7 +350,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     style: .modal,
                     options: [.prefersNavigationBarHidden(true)]
                 ).onValue { result in
-                    if result == .accept {
+                    if result == .accept, !self.screenStack.hasChatScreen {
                         self.bag += self.rootWindow.rootViewController?.present(
                             OnboardingChat(intent: .onboard),
                             options: [.prefersNavigationBarHidden(false)]
