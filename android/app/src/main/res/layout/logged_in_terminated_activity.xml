@@ -7,8 +7,28 @@
 
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/INSURANCE_STATUS_TERMINATED_ALERT_TITLE"
+        android:layout_marginTop="@dimen/base_margin_quadruple"
+        android:gravity="center"
+        style="@style/Headline.Large"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/INSURANCE_STATUS_TERMINATED_ALERT_MESSAGE"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:gravity="center"
+        style="@style/Body.Regular"/>
+
+    <Button
+        android:id="@+id/terminatedOpenChatButton"
+        style="@style/HedvigButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        style="@style/Headline.Large"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:text="@string/INSURANCE_STATUS_TERMINATED_ALERT_ACTION_CHAT"
+        android:backgroundTint="@color/purple"/>
 </LinearLayout>

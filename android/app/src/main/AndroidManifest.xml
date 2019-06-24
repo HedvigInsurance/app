@@ -144,7 +144,7 @@
             android:noHistory="true"
             android:parentActivityName=".SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Exponent.Splash"
+            android:theme="@style/Theme.Exponent.Light"
             android:windowSoftInputMode="adjustResize" />
 
         <service

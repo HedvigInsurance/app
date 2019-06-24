@@ -39,6 +39,7 @@ import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.service.Referrals
 import com.hedvig.app.service.RemoteConfig
 import com.hedvig.app.service.TextKeys
+import com.hedvig.app.terminated.TerminatedTracker
 import com.hedvig.app.util.apollo.ApolloTimberLogger
 import com.hedvig.app.util.apollo.MonetaryAmountAdapter
 import com.hedvig.app.util.apollo.PromiscuousLocalDateAdapter
@@ -151,4 +152,5 @@ val trackerModule = module {
     single { ProfileTracker(get()) }
     single { WhatsNewTracker(get()) }
     single { ReferralsTracker(get()) }
+    single { TerminatedTracker(get()) }
 }

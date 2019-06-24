@@ -1,18 +1,18 @@
 package com.hedvig.app
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.navigation.findNavController
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.hedvig.app.util.NavigationAnalytics
+import com.hedvig.app.feature.chat.ChatActivity
+import com.hedvig.app.terminated.TerminatedTracker
+import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.ice.restring.Restring
+import kotlinx.android.synthetic.main.logged_in_terminated_activity.*
 import org.koin.android.ext.android.inject
 
 class LoggedInTerminatedActivity : BaseActivity() {
 
-    val firebaseAnalytics: FirebaseAnalytics by inject()
-
-    private val navController by lazy { findNavController(R.id.loggedNavigationHost) }
+    val tracker: TerminatedTracker by inject()
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(Restring.wrapContext(newBase))
@@ -22,9 +22,9 @@ class LoggedInTerminatedActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.logged_in_terminated_activity)
 
-    }
-
-    companion object {
-        const val EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP = "extra_navigate_to_profile_on_start"
+        terminatedOpenChatButton.setHapticClickListener {
+            val intent = Intent(this, ChatActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
