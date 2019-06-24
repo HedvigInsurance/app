@@ -75,10 +75,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     data = "\(error)"
                 }
             #if DEBUG
-            case let .didDeallocate(presentableId, context):
-                message = "\(presentableId) was deallocated after presentation from \(context)"
-            case let .didLeak(presentableId, context):
-                message = "WARNING \(presentableId) was NOT deallocated after presentation from \(context)"
+                case let .didDeallocate(presentableId, context):
+                    message = "\(presentableId) was deallocated after presentation from \(context)"
+                case let .didLeak(presentableId, context):
+                    message = "WARNING \(presentableId) was NOT deallocated after presentation from \(context)"
             #endif
             }
 
@@ -334,6 +334,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         guard let deepLink = dynamicLink.url else { return false }
         let queryItems = URLComponents(url: deepLink, resolvingAgainstBaseURL: true)?.queryItems
 
+        if let referralCode = queryItems?.filter({ item in item.name == "code" }).first?.value {
+            bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
+                self.getTopMostViewController()?.present(
+                    ReferralsReceiverConsent(referralCode: referralCode),
+                    style: .modal,
+                    options: [.prefersNavigationBarHidden(true)]
+                ).onValue { result in
+                    if result == .accept {
+                        self.bag += self.rootWindow.rootViewController?.present(
+                            OnboardingChat(intent: .onboard),
+                            options: [.prefersNavigationBarHidden(false)]
+                        ).disposable
+                    }
+                }
+            }
+
+            return true
+        }
+
         guard let invitedByMemberId = queryItems?.filter({ item in item.name == "invitedBy" }).first?.value else {
             return false
         }
@@ -348,21 +367,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         UserDefaults.standard.set(invitedByMemberId, forKey: "referral_invitedByMemberId")
         UserDefaults.standard.set(incentive, forKey: "referral_incentive")
-
-        bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
-            self.getTopMostViewController()?.present(
-                ReferralsReceiverConsent(),
-                style: .modal,
-                options: [.prefersNavigationBarHidden(true)]
-            ).onValue { result in
-                if result == .accept {
-                    self.bag += self.rootWindow.rootViewController?.present(
-                        OnboardingChat(intent: .onboard),
-                        options: [.prefersNavigationBarHidden(false)]
-                    ).disposable
-                }
-            }
-        }
 
         return true
     }
