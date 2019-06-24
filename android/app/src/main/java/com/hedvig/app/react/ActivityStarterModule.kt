@@ -18,9 +18,11 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReadableType
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.iid.FirebaseInstanceId
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.app.LoggedInActivity
+import com.hedvig.app.R
 import com.hedvig.app.feature.chat.UploadBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
@@ -28,6 +30,7 @@ import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
 import com.hedvig.app.feature.referrals.RedeemCodeBottomSheet
 import com.hedvig.app.util.extensions.setIsLoggedIn
+import com.hedvig.app.util.extensions.showAlert
 import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.react.AsyncStorageNative
 import io.reactivex.disposables.CompositeDisposable
@@ -51,10 +54,15 @@ class ActivityStarterModule(
 
     private val fileUploadBroadcastReceiver = FileUploadBroadcastReceiver()
 
+    private val referralCodeBroadcastReceiver = ReferralCodeBroadcastReceiver()
+
     private var fileUploadCallback: Promise? = null
+
+    private var redeemCodeCallback: Promise? = null
 
     init {
         localBroadcastManager.registerReceiver(fileUploadBroadcastReceiver, IntentFilter(FILE_UPLOAD_INTENT))
+        localBroadcastManager.registerReceiver(referralCodeBroadcastReceiver, IntentFilter(REDEEMED_CODE_BROADCAST))
     }
 
     override fun getName() = "ActivityStarter"
@@ -67,6 +75,7 @@ class ActivityStarterModule(
 
     override fun onHostDestroy() {
         localBroadcastManager.unregisterReceiver(fileUploadBroadcastReceiver)
+        localBroadcastManager.unregisterReceiver(referralCodeBroadcastReceiver)
         disposables.clear()
     }
 
@@ -76,7 +85,10 @@ class ActivityStarterModule(
         if (activity != null) {
             asyncStorageNative.setKey("@hedvig:isViewingOffer", "true")
             currentActivity?.let {
-                it.startActivity(Intent(it, OfferActivity::class.java))
+                it.startActivity(Intent(it, OfferActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                })
             }
         }
     }
@@ -84,7 +96,7 @@ class ActivityStarterModule(
     @ReactMethod
     fun navigateToChatFromOffer() {
         currentActivity?.let {
-            it.startActivity(Intent(it, OfferActivity::class.java))
+            it.startActivity(Intent(it, LoggedInActivity::class.java))
         }
     }
 
@@ -92,6 +104,7 @@ class ActivityStarterModule(
     fun navigateToLoggedInFromChat() {
         currentActivity?.let { activity ->
             reactApplicationContext.setIsLoggedIn(true)
+            FirebaseInstanceId.getInstance().deleteInstanceId()
             val intent = Intent(activity, LoggedInActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -112,10 +125,26 @@ class ActivityStarterModule(
     }
 
     @ReactMethod
-    fun showRedeemCodeOverlay() {
+    fun showRedeemCodeOverlay(onRedeem: Promise) {
+        redeemCodeCallback = onRedeem
         RedeemCodeBottomSheet.newInstance()
             .show(fragmentManager, RedeemCodeBottomSheet.TAG)
     }
+
+    @ReactMethod
+    fun showRemoveCodeAlert(onCompleted: Promise) = currentActivity?.showAlert(
+        R.string.OFFER_REMOVE_DISCOUNT_ALERT_TITLE,
+        R.string.OFFER_REMOVE_DISCOUNT_ALERT_DESCRIPTION,
+        R.string.OFFER_REMOVE_DISCOUNT_ALERT_REMOVE,
+        R.string.OFFER_REMOVE_DISCOUNT_ALERT_CANCEL,
+        {
+            // TODO: Remove the code here!
+            onCompleted.resolve(true)
+        },
+        {
+            onCompleted.resolve(false)
+        }
+    )
 
     @ReactMethod
     fun showFileUploadOverlay(onUpload: Promise) {
@@ -188,6 +217,16 @@ class ActivityStarterModule(
                     fileUploadCallback?.reject("E_NETWORK_ERROR", "failed to upload")
                         ?: Timber.e("File upload failed but no callback present") // TODO improve
                     fileUploadCallback = null
+                }
+            }
+        }
+    }
+
+    private inner class ReferralCodeBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            when (intent.getStringExtra(BROADCAST_MESSAGE_NAME)) {
+                MESSAGE_PROMOTION_CODE_REDEEMED -> {
+                    redeemCodeCallback?.resolve(true)
                 }
             }
         }

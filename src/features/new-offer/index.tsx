@@ -6,6 +6,7 @@ import {
   View,
   ViewProps,
   Platform,
+  NativeModules,
 } from 'react-native';
 import styled from '@sampettersson/primitives';
 import { colors } from '@hedviginsurance/brand';
@@ -16,13 +17,12 @@ import { AnimationValueProvider } from 'animated-react-native-components';
 import { Spacing } from 'src/components/Spacing';
 import { ScrollContent } from 'src/features/new-offer/components/scroll-content';
 import { Checkout } from 'src/features/new-offer/components/checkout';
-import { TranslationsConsumer } from 'src/components/translations/consumer';
 import { SignButton } from 'src/features/new-offer/components/sign-button';
-import { NEW_OFFER_OPTIONS } from 'src/navigation/screens/new-offer/options';
 import { AndroidHeader } from 'src/features/new-offer/android-header';
 import { Provider } from 'constate';
 
 import { NewOfferComponent } from 'src/graphql/components';
+import { DiscountButton } from './components/discount-button';
 
 const AnimatedScrollView = Animated.createAnimatedComponent<ScrollViewProps>(
   ScrollView,
@@ -125,7 +125,7 @@ const bounceScrollView = () => {
 export const NewOffer: React.SFC = () => (
   <Provider>
     <NewOfferComponent>
-      {({ data, loading, error }) =>
+      {({ data, loading, error, refetch }) =>
         loading || error ? null : (
           <>
             <AnimationValueProvider initialValue={0}>
@@ -144,7 +144,7 @@ export const NewOffer: React.SFC = () => (
                   >
                     <FixedContainer animatedValue={animatedValue}>
                       <Spacing height={15} />
-                      <PriceBubble price={data!.insurance.monthlyCost!} />
+                      <PriceBubble discountedPrice={data!.paymentWithDiscount!.netPremium} price={data!.paymentWithDiscount!.grossPremium} />
                       <Spacing height={15} />
                       <FeaturesContainer animatedValue={animatedValue}>
                         <FeaturesBubbles
@@ -158,6 +158,33 @@ export const NewOffer: React.SFC = () => (
                           type={data!.insurance.type!}
                         />
                       </FeaturesContainer>
+                      <DiscountButton discount={data!.paymentWithDiscount!.discount} onPress={() => {
+                        if (Number(data!.paymentWithDiscount!.discount!.amount) !== 0) {
+                          if (Platform.OS === 'ios') {
+                            // TODO: Sam, implement here ;)
+                          }
+                          if (Platform.OS === 'android') {
+                            NativeModules.ActivityStarter.showRemoveCodeAlert()
+                              .then((didRemoveCode: boolean) => {
+                                if (didRemoveCode) {
+                                  refetch()
+                                }
+                              })
+                          }
+                        } else {
+                          if (Platform.OS === 'ios') {
+                            // TODO: Sam, implement here ;)
+                          }
+                          if (Platform.OS === 'android') {
+                            NativeModules.ActivityStarter.showRedeemCodeOverlay()
+                              .then((didInputValidCode: boolean) => {
+                                if (didInputValidCode) {
+                                  refetch()
+                                }
+                              })
+                          }
+                        }
+                      }} />
                     </FixedContainer>
                     <ScrollContent
                       insuredAtOtherCompany={

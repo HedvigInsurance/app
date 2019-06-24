@@ -16,7 +16,6 @@ import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
-import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.bottom_sheet_promotion_code.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -54,7 +53,10 @@ class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
             when (it) {
                 RedeemCodeStatus.ACCEPTED -> {
                     localBroadcastManager.sendBroadcast(Intent(ActivityStarterModule.REDEEMED_CODE_BROADCAST).apply {
-                        putExtra(ActivityStarterModule.BROADCAST_MESSAGE_NAME, ActivityStarterModule.MESSAGE_PROMOTION_CODE_REDEEMED)
+                        putExtra(
+                            ActivityStarterModule.BROADCAST_MESSAGE_NAME,
+                            ActivityStarterModule.MESSAGE_PROMOTION_CODE_REDEEMED
+                        )
                     })
                     dismiss()
                 }
@@ -78,12 +80,14 @@ class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
     }
 
     private fun resetErrorState() {
-        dialog.bottomSheetAddPromotionCodeEditText.background = requireContext().getDrawable(R.drawable.background_edit_text_rounded_corners)
+        dialog.bottomSheetAddPromotionCodeEditText.background =
+            requireContext().getDrawable(R.drawable.background_edit_text_rounded_corners)
         dialog.bottomSheetPromotionCodeMissingCode.remove()
     }
 
     private fun wrongPromotionCode() {
-        dialog.bottomSheetAddPromotionCodeEditText.background = requireContext().getDrawable(R.drawable.background_edit_text_rounded_corners_failed)
+        dialog.bottomSheetAddPromotionCodeEditText.background =
+            requireContext().getDrawable(R.drawable.background_edit_text_rounded_corners_failed)
         dialog.bottomSheetPromotionCodeMissingCode.show()
     }
 

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.google.firebase.iid.FirebaseInstanceId
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.whatsnew.WhatsNewDialog
@@ -15,12 +16,16 @@ import com.hedvig.app.feature.whatsnew.WhatsNewViewModel
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.remove
 import kotlinx.android.synthetic.main.logged_in_screen.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoggedInFragment : Fragment() {
 
     private val tabViewModel: BaseTabViewModel by sharedViewModel()
-    private val whatsNewViewModel: WhatsNewViewModel by sharedViewModel()
+    private val whatsNewViewModel: WhatsNewViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.logged_in_screen, container, false)
@@ -34,7 +39,7 @@ class LoggedInFragment : Fragment() {
             true
         }
 
-        if (requireActivity().intent.getBooleanExtra(LoggedInActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP, false)){
+        if (requireActivity().intent.getBooleanExtra(LoggedInActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP, false)) {
             bottomTabs.selectedItemId = R.id.profile
             requireActivity().intent.removeExtra(LoggedInActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP)
         }
@@ -65,10 +70,15 @@ class LoggedInFragment : Fragment() {
         whatsNewViewModel.news.observe(this) { data ->
             data?.let {
                 if (data.news.size > 0) {
-                    WhatsNewDialog().show(childFragmentManager, WhatsNewDialog.TAG)
+                    // Yep, this is actually happening
+                    GlobalScope.launch(Dispatchers.IO) {
+                        FirebaseInstanceId.getInstance().deleteInstanceId()
+                    }
+                    WhatsNewDialog.newInstance().show(childFragmentManager, WhatsNewDialog.TAG)
                 }
             }
         }
+        whatsNewViewModel.fetchNews()
     }
 }
 

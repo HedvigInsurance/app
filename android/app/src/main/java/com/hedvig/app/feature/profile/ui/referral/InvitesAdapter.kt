@@ -12,6 +12,8 @@ import com.hedvig.app.R
 import com.hedvig.app.util.LightClass
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.compatDrawable
+import com.hedvig.app.util.extensions.copyToClipboard
+import com.hedvig.app.util.extensions.makeToast
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.getLightness
@@ -56,7 +58,11 @@ class InvitesAdapter(
             HEADER -> (viewHolder as? HeaderViewHolder)?.apply {
                 val incentive = data.referralInformation.incentive.number.toFloat()
                 if (monthlyCost / incentive <= PROGRESS_TANK_MAX_SEGMENTS) {
-                    progressTankView.initialize(monthlyCost, calculateDiscount(), data.referralInformation.incentive.number.intValueExact())
+                    progressTankView.initialize(
+                        monthlyCost,
+                        calculateDiscount(),
+                        data.referralInformation.incentive.number.intValueExact()
+                    )
                     progressTankView.show()
                     referralProgressHighPremiumContainer.remove()
                 } else {
@@ -72,6 +78,11 @@ class InvitesAdapter(
                     progressTankView.remove()
                 }
                 code.text = data.referralInformation.code
+                code.setOnLongClickListener {
+                    code.context.copyToClipboard(data.referralInformation.code)
+                    code.context.makeToast(R.string.REFERRAL_INVITE_CODE_COPIED_MESSAGE)
+                    true
+                }
                 subtitle.text = interpolateTextKey(
                     subtitle.resources.getString(R.string.REFERRAL_PROGRESS_HEADLINE),
                     "NUMBER_OF_FRIENDS_LEFT" to calculateInvitesLeftToFree().toString()
@@ -83,8 +94,16 @@ class InvitesAdapter(
             }
             ITEM -> (viewHolder as? ItemViewHolder)?.apply {
                 when (val referral = getReferralFromPosition(position)) {
-                    is ProfileQuery.AsActiveReferral -> bindActiveRow(this, referral.name, referral.discount.number?.doubleValueExact().toString())
-                    is ProfileQuery.AsActiveReferral1 -> bindActiveRow(this, referral.name, referral.discount.number?.doubleValueExact().toString())
+                    is ProfileQuery.AsActiveReferral -> bindActiveRow(
+                        this,
+                        referral.name,
+                        referral.discount.number?.doubleValueExact().toString()
+                    )
+                    is ProfileQuery.AsActiveReferral1 -> bindActiveRow(
+                        this,
+                        referral.name,
+                        referral.discount.number?.doubleValueExact().toString()
+                    )
                     is ProfileQuery.AsInProgressReferral -> bindInProgress(this, referral.name)
                     is ProfileQuery.AsInProgressReferral1 -> bindInProgress(this, referral.name)
                     is ProfileQuery.AsNotInitiatedReferral,
@@ -96,24 +115,25 @@ class InvitesAdapter(
         }
     }
 
-    private fun bindActiveRow(viewHolder: ItemViewHolder, nameString: String?, discountString: String?) = viewHolder.apply {
-        setupAvatarWithLetter(this, nameString)
+    private fun bindActiveRow(viewHolder: ItemViewHolder, nameString: String?, discountString: String?) =
+        viewHolder.apply {
+            setupAvatarWithLetter(this, nameString)
 
-        name.text = nameString
-        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_NEWSTATE)
+            name.text = nameString
+            statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_NEWSTATE)
 
-        statusIconContainer.setBackgroundResource(R.drawable.background_rounded_corners)
-        statusIconContainer.background.setTint(
-            statusIconContainer.context.compatColor(
-                R.color.light_gray
+            statusIconContainer.setBackgroundResource(R.drawable.background_rounded_corners)
+            statusIconContainer.background.setTint(
+                statusIconContainer.context.compatColor(
+                    R.color.light_gray
+                )
             )
-        )
-        discount.text = interpolateTextKey(
-            discount.resources.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
-            "REFERRAL_VALUE" to discountString
-        )
-        statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_filled_checkmark))
-    }
+            discount.text = interpolateTextKey(
+                discount.resources.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
+                "REFERRAL_VALUE" to discountString
+            )
+            statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_filled_checkmark))
+        }
 
     private fun bindInProgress(viewHolder: ItemViewHolder, nameString: String?) = viewHolder.apply {
         setupAvatarWithLetter(this, nameString)
@@ -141,11 +161,11 @@ class InvitesAdapter(
 
     private fun setupAvatarWithLetter(viewHolder: ItemViewHolder, name: String?) {
         viewHolder.apply {
-            name?.let { n ->
+            if (!name.isNullOrBlank()) {
                 avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.sphere))
-                val hashedColor = avatar.context.compatColor(hashColor(n))
+                val hashedColor = avatar.context.compatColor(hashColor(name))
                 avatar.drawable.mutate().setTint(hashedColor)
-                avatarLetter.text = n[0].toString().capitalize()
+                avatarLetter.text = name[0].toString().capitalize()
                 avatarLetter.setTextColor(
                     avatarLetter.context.compatColor(
                         when (getLightness(hashedColor)) {
@@ -166,7 +186,8 @@ class InvitesAdapter(
     private fun calculateDiscount(): Int {
         var totalDiscount = 0
         (data.sender as? ProfileQuery.AsActiveReferral?)?.let { totalDiscount += it.discount.number.intValueExact() }
-        data.receivers?.filterIsInstance(ProfileQuery.AsActiveReferral1::class.java)?.forEach { receiver -> totalDiscount += receiver.discount.number.intValueExact() }
+        data.receivers?.filterIsInstance(ProfileQuery.AsActiveReferral1::class.java)
+            ?.forEach { receiver -> totalDiscount += receiver.discount.number.intValueExact() }
         return min(totalDiscount, monthlyCost)
     }
 

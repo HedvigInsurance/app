@@ -6,4 +6,9 @@ query NewOffer {
         insuredAtOtherCompany
         type
     }
+    paymentWithDiscount {
+        netPremium
+        grossPremium
+        discount
+    }
 }
