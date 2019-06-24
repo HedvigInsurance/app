@@ -34,32 +34,5 @@ class Referrals(val context: Context) {
                 }
         }
     }
-
-    //TODO: this should not be used when the referral landing page is up and running
-    fun generateFirebaseReferralWithCodeLink(code: String, incentive: String, remoteConfigData: RemoteConfigData) : Single<Uri> {
-        return Single.create { subscriber ->
-            FirebaseDynamicLinks
-                .getInstance()
-                .createDynamicLink()
-                .setDomainUriPrefix(remoteConfigData.referralsDomain)
-                .setLink(Uri.parse("https://www.hedvig.com/referrals?referralCode=$code&referralIncentive=$incentive"))
-                .setAndroidParameters(DynamicLink.AndroidParameters.Builder().build())
-                .setIosParameters(DynamicLink.IosParameters.Builder(remoteConfigData.referralsIosBundleId).build())
-                .setSocialMetaTagParameters(
-                    DynamicLink.SocialMetaTagParameters.Builder()
-                        .setTitle(context.resources.getString(R.string.PROFILE_REFERRAL_LINK_SOCIAL_TITLE))
-                        .setDescription(context.resources.getString(R.string.PROFILE_REFERRAL_LINK_SOCIAL_DESCRIPTION))
-                        .setImageUrl(Uri.parse(context.resources.getString(R.string.PROFILE_REFERRAL_LINK_SOCIAL_IMAGE_URL)))
-                        .build()
-                )
-                .buildShortDynamicLink()
-                .addOnFailureListener { error ->
-                    subscriber.onError(error)
-                }
-                .addOnSuccessListener { link ->
-                    subscriber.onSuccess(link.shortLink)
-                }
-        }
-    }
 }
 

@@ -41,7 +41,6 @@ import com.hedvig.app.service.RemoteConfig
 import com.hedvig.app.service.TextKeys
 import com.hedvig.app.terminated.TerminatedTracker
 import com.hedvig.app.util.apollo.ApolloTimberLogger
-import com.hedvig.app.util.apollo.MonetaryAmountAdapter
 import com.hedvig.app.util.apollo.PromiscuousLocalDateAdapter
 import com.hedvig.app.util.react.AsyncStorageNative
 import com.hedvig.app.util.react.AsyncStorageNativeImpl
@@ -101,7 +100,6 @@ val applicationModule = module {
             .serverUrl(BuildConfig.GRAPHQL_URL)
             .okHttpClient(get())
             .addCustomTypeAdapter(CustomType.LOCALDATE, PromiscuousLocalDateAdapter())
-            .addCustomTypeAdapter(CustomType.MONETARYAMOUNT, MonetaryAmountAdapter())
             .normalizedCache(get())
 
         if (isDebug()) {

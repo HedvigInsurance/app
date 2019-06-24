@@ -15,11 +15,11 @@ import com.hedvig.app.util.extensions.screenWidth
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import kotlinx.android.synthetic.main.fragment_whats_new.*
 import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class WhatsNewDialog : DialogFragment() {
 
-    private val whatsNewViewModel: WhatsNewViewModel by sharedViewModel()
+    private val whatsNewViewModel: WhatsNewViewModel by viewModel()
     private val tracker: WhatsNewTracker by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +40,8 @@ class WhatsNewDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         whatsNewViewModel.fetchNews(arguments?.getString(SINCE_VERSION))
 
-        close.setHapticClickListener {
+        close.setOnClickListener {
+            whatsNewViewModel.hasSeenNews(BuildConfig.VERSION_NAME)
             dialog?.dismiss()
         }
         whatsNewViewModel.news.observe(this) { data ->

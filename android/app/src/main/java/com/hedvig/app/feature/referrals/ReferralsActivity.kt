@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.app.BuildConfig
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.SplashActivity
@@ -47,26 +48,17 @@ class ReferralsActivity : AppCompatActivity() {
 
         profileViewModel.data.observe(this) { data ->
             safeLet(
-                data?.paymentWithDiscount?.grossPremium?.number?.intValueExact(),
+                data?.paymentWithDiscount?.grossPremium?.amount?.toBigDecimal()?.toInt(),
                 data?.memberReferralCampaign
             ) { monthlyCost, referralCampaign ->
                 bindData(monthlyCost, referralCampaign)
             } ?: Timber.e("No data")
 
             data?.memberReferralCampaign?.referralInformation?.let { referralInformation ->
-                //todo let's se if we should create the link probably not
-                profileViewModel.firebaseWithCodeLink.observe(this) {
-                    it?.let { referralLink ->
-                        bindReferralsButton(
-                            referralInformation.incentive.number.doubleValueExact(),
-                            referralInformation.code,
-                            referralLink.toString()
-                        )
-                    }
-                }
-                profileViewModel.generateReferralWithCodeLink(
+                bindReferralsButton(
+                    referralInformation.incentive.amount.toBigDecimal().toDouble(),
                     referralInformation.code,
-                    referralInformation.incentive.number.intValueExact().toString()
+                    BuildConfig.REFERRALS_LANDING_BASE_URL + referralInformation.code
                 )
             }
         }
@@ -82,8 +74,8 @@ class ReferralsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.referralMoreInfo -> {
-                profileViewModel.data.value?.memberReferralCampaign?.referralInformation?.incentive?.number?.intValueExact()?.let { incentive ->
-                    ReferralBottomSheet.newInstance(incentive.toString())
+                profileViewModel.data.value?.memberReferralCampaign?.referralInformation?.incentive?.amount?.toBigDecimal()?.toInt()?.toString()?.let { incentive ->
+                    ReferralBottomSheet.newInstance(incentive)
                         .show(supportFragmentManager, "moreInfoSheet")
                 }
                 return true

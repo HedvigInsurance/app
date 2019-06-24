@@ -83,7 +83,7 @@ class PaymentFragment : Fragment() {
             resetViews()
             sphereContainer.show()
 
-            val monthlyCost = profileData?.paymentWithDiscount?.netPremium?.number?.intValueExact()
+            val monthlyCost = profileData?.paymentWithDiscount?.netPremium?.amount?.toBigDecimal()?.toInt()
             val amountPartOne = SpannableString("$monthlyCost\n")
             val perMonthLabel = resources.getString(R.string.PROFILE_PAYMENT_PER_MONTH_LABEL)
             val amountPartTwo = SpannableString(perMonthLabel)
@@ -103,17 +103,17 @@ class PaymentFragment : Fragment() {
 
             grossPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_PRICE),
-                "PRICE" to profileData?.paymentWithDiscount?.grossPremium?.number?.intValueExact().toString()
+                "PRICE" to profileData?.paymentWithDiscount?.grossPremium?.amount
             )
 
             discount.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_DISCOUNT),
-                "DISCOUNT" to (profileData?.paymentWithDiscount?.discount?.number?.intValueExact()?.unaryMinus()).toString()
+                "DISCOUNT" to (profileData?.paymentWithDiscount?.discount?.amount?.toBigDecimal()?.unaryMinus()).toString()
             )
 
             netPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_FINAL_COST),
-                "FINAL_COST" to profileData?.paymentWithDiscount?.netPremium?.number?.intValueExact().toString()
+                "FINAL_COST" to profileData?.paymentWithDiscount?.netPremium?.amount
             )
 
             bindBankAccountInformation()

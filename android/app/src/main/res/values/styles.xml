@@ -6,6 +6,7 @@
         <item name="colorAccent">@color/colorAccentLight</item>
         <item name="android:windowBackground">@color/off_white</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:alertDialogTheme">@style/AlertDialog</item>
     </style>
 
     <style name="Theme.Exponent.Light" parent="Theme.Exponent.Light.V21" />
@@ -195,5 +196,11 @@
         <item name="itemTextColor">@color/bottom_navigation</item>
         <item name="itemTextAppearanceInactive">@style/TabBar</item>
         <item name="itemTextAppearanceActive">@style/TabBar</item>
+    </style>
+
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/purple</item>
+        <item name="android:background">@drawable/background_rounded_corners</item>
+        <item name="android:fontFamily">@font/circular_book</item>
     </style>
 </resources>

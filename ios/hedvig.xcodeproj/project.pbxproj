@@ -241,6 +241,8 @@
 		EB433C96221D49C1000156D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */; };
 		EB4695BE220051BF0004C75D /* Pods-Hedvig-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */; };
 		EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4695CD220083800004C75D /* RCTApolloClient.swift */; };
+		EB8E2A5C22C0C21B009F6180 /* TerminatedInsurance.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A5B22C0C21B009F6180 /* TerminatedInsurance.swift */; };
+		EB8E2A5E22C0C233009F6180 /* ReferralsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A5D22C0C233009F6180 /* ReferralsContent.swift */; };
 		EBCAA816228086BC003C4833 /* DashboardRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAA815228086BC003C4833 /* DashboardRouting.swift */; };
 		EBCAA89D2281C28E003C4833 /* MyProtectionSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAA88C2281C28D003C4833 /* MyProtectionSection.swift */; };
 		EBCAA8A02281C28E003C4833 /* Peril.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAA88F2281C28D003C4833 /* Peril.swift */; };
@@ -546,6 +548,8 @@
 		EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Pods-Hedvig-acknowledgements.plist"; sourceTree = "<group>"; };
 		EB4695CD220083800004C75D /* RCTApolloClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCTApolloClient.swift; sourceTree = "<group>"; };
+		EB8E2A5B22C0C21B009F6180 /* TerminatedInsurance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminatedInsurance.swift; sourceTree = "<group>"; };
+		EB8E2A5D22C0C233009F6180 /* ReferralsContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsContent.swift; sourceTree = "<group>"; };
 		EBC15BDB2126C0D700D0E296 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNFirebase.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBCAA815228086BC003C4833 /* DashboardRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardRouting.swift; sourceTree = "<group>"; };
 		EBCAA88C2281C28D003C4833 /* MyProtectionSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProtectionSection.swift; sourceTree = "<group>"; };
@@ -744,6 +748,7 @@
 		EB11E9502277047700D95365 /* LoggedInScreen */ = {
 			isa = PBXGroup;
 			children = (
+				EB8E2A5B22C0C21B009F6180 /* TerminatedInsurance.swift */,
 				EB11E9512277047700D95365 /* LoggedIn.swift */,
 			);
 			path = LoggedInScreen;
@@ -1475,6 +1480,7 @@
 		EBFA05EF22B134C0009D3FAE /* Viewables */ = {
 			isa = PBXGroup;
 			children = (
+				EB8E2A5D22C0C233009F6180 /* ReferralsContent.swift */,
 				EBFA05F022B134C0009D3FAE /* ReferralsInvitationsTable.swift */,
 				EBFA05F122B134C0009D3FAE /* ReferralsProgressBar.swift */,
 				EBFA05F222B134C0009D3FAE /* ReferralsTitle.swift */,
@@ -1851,6 +1857,7 @@
 				EB11ED2D227ADBDE00D95365 /* EmergencyActions.swift in Sources */,
 				EBCAA8A62281C28E003C4833 /* PendingInsurance.swift in Sources */,
 				EB11EAB12277047700D95365 /* Callbacker+Signal.swift in Sources */,
+				EB8E2A5C22C0C21B009F6180 /* TerminatedInsurance.swift in Sources */,
 				EB11EB29227735E600D95365 /* Dashboard.swift in Sources */,
 				EB11EAA02277047700D95365 /* DraggableOverlayHeader.swift in Sources */,
 				EB11EAC72277047700D95365 /* FormView+Viewable.swift in Sources */,
@@ -1976,6 +1983,7 @@
 				EB11EA462277047700D95365 /* MarketingPresentationStyle.swift in Sources */,
 				EB11EA742277047700D95365 /* Feedback.swift in Sources */,
 				EB11EA4B2277047700D95365 /* MemberActionButtons.swift in Sources */,
+				EB8E2A5E22C0C233009F6180 /* ReferralsContent.swift in Sources */,
 				EB11EAAE2277047700D95365 /* MailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

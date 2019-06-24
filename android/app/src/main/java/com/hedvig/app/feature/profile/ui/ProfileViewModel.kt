@@ -17,7 +17,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.zipWith
 import timber.log.Timber
-import javax.money.MonetaryAmount
 
 class ProfileViewModel(
     private val profileRepository: ProfileRepository,
@@ -30,7 +29,6 @@ class ProfileViewModel(
     val dirty: MutableLiveData<Boolean> = MutableLiveData<Boolean>().default(false)
     val trustlyUrl: LiveEvent<String> = LiveEvent()
     val firebaseLink: MutableLiveData<Uri> = MutableLiveData()
-    val firebaseWithCodeLink: MutableLiveData<Uri> = MutableLiveData()
     val remoteConfigData: MutableLiveData<RemoteConfigData> = MutableLiveData()
 
     private val disposables = CompositeDisposable()
@@ -143,17 +141,6 @@ class ProfileViewModel(
             disposables += referrals.generateFirebaseLink(memberId, data)
                 .subscribe({ uri ->
                     firebaseLink.postValue(uri)
-                }, { error ->
-                    Timber.e(error)
-                })
-        }
-    }
-
-    fun generateReferralWithCodeLink(code: String, incentive: String) {
-        remoteConfigData.value?.let { data ->
-            disposables += referrals.generateFirebaseReferralWithCodeLink(code, incentive, data)
-                .subscribe({ uri ->
-                    firebaseWithCodeLink.postValue(uri)
                 }, { error ->
                     Timber.e(error)
                 })

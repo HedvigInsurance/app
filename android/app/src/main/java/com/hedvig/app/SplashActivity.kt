@@ -2,6 +2,7 @@ package com.hedvig.app
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -33,6 +34,8 @@ class SplashActivity : BaseActivity() {
         whenApiVersion(Build.VERSION_CODES.M) {
             window.statusBarColor = compatColor(R.color.off_white)
         }
+
+        handleIntent(intent)
     }
 
     override fun onStart() {
@@ -54,8 +57,7 @@ class SplashActivity : BaseActivity() {
                     FirebaseAnalytics.getInstance(this).logEvent("referrals_open", b)
                 }
 
-                referralCode = link.getQueryParameter("referralCode")
-                referralIncentive = link.getQueryParameter("referralIncentive")
+                handleNewReferralLink(link)
             }
         }
 
@@ -64,6 +66,23 @@ class SplashActivity : BaseActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ navigateToActivity(it) }, { Timber.e(it) })
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent) {
+        val appLinkAction = intent.action
+        if (Intent.ACTION_VIEW == appLinkAction) {
+            Uri.parse(intent.data?.getQueryParameter("link"))?.let { handleNewReferralLink(it) }
+        }
+    }
+
+    private fun handleNewReferralLink(link: Uri) {
+        referralCode = link.getQueryParameter("code")
+        referralIncentive = "10" //FIXME: this must be changed when we hav an other incentive then 10
     }
 
     private fun navigateToActivity(loginStatus: LoginStatus) = when (loginStatus) {
