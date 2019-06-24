@@ -29,12 +29,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_margin_triple"
-        android:lines="1"
-        android:singleLine="true"
-        android:padding="@dimen/base_margin_double"
+        android:background="@drawable/background_edit_text_rounded_corners"
         android:hint="@string/REFERRAL_ADDCOUPON_INPUTPLACEHOLDER"
         android:imeOptions="actionDone"
-        android:background="@drawable/background_edit_text_rounded_corners"/>
+        android:lines="1"
+        android:padding="@dimen/base_margin_double"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/bottomSheetPromotionCodeMissingCode"
@@ -42,10 +42,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_margin_double"
         android:gravity="center"
-        android:textColor="@color/pink"
-        android:visibility="gone"
         android:text="@string/REFERRAL_ERROR_MISSINGCODE_BODY"
-        android:theme="@style/Body.Small" />
+        android:textColor="@color/pink"
+        android:theme="@style/Body.Small"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/bottomSheetAddPromotionCodeButton"
@@ -54,8 +54,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/base_margin_quadruple"
-        android:text="@string/REFERRAL_ADDCOUPON_BTN_SUBMIT"
-        android:backgroundTint="@color/purple"/>
+        android:backgroundTint="@color/purple"
+        android:text="@string/REFERRAL_ADDCOUPON_BTN_SUBMIT" />
 
     <TextView
         android:id="@+id/bottomSheetPromotionCodeTermsAndCondition"
@@ -71,8 +71,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_margin"
-        android:text="@string/REFERRAL_ADDCOUPON_TC_LINK"
         android:gravity="center"
+        android:text="@string/REFERRAL_ADDCOUPON_TC_LINK"
         android:theme="@style/Body.Small.Link" />
 
 </LinearLayout>

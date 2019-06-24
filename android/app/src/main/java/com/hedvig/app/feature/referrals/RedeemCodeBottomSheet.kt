@@ -20,9 +20,11 @@ import kotlinx.android.synthetic.main.bottom_sheet_promotion_code.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
+
 class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
 
-    val referralViewModel: ReferralViewModel by sharedViewModel()
+    private val referralViewModel: ReferralViewModel by sharedViewModel()
+
 
     private val tracker: ReferralsTracker by inject()
 
@@ -31,6 +33,7 @@ class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_promotion_code, null)
+
         dialog.setContentView(view)
 
         dialog.bottomSheetAddPromotionCodeButton.setHapticClickListener {
@@ -65,6 +68,11 @@ class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
                 }
             }
         }
+        handleExpandWithKeyboard(
+            view,
+            requireContext().resources.getDimensionPixelSize(R.dimen.redeem_bottom_sheet_extra_padding_below_edit_text),
+            requireContext().resources.getDimensionPixelSize(R.dimen.base_margin_triple)
+        )
         return dialog
     }
 
