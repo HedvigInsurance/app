@@ -28,6 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/base_margin_double"
-        android:text="@string/INSURANCE_STATUS_TERMINATED_ALERT_ACTION_CHAT"
+        android:text="@string/INSURANCE_STATUS_TERMINATED_ALERT_CTA"
         android:backgroundTint="@color/purple"/>
 </LinearLayout>
