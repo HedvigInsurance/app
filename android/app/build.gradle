@@ -25,8 +25,7 @@ apollo {
     generateModelBuilder = true
     customTypeMapping = [
             "URL"      : "java.lang.String",
-            "LocalDate": "org.threeten.bp.LocalDate",
-            "MonetaryAmount": "javax.money.MonetaryAmount"
+            "LocalDate": "org.threeten.bp.LocalDate"
     ]
 }
 
