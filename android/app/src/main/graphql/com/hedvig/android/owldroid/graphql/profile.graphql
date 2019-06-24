@@ -33,13 +33,19 @@ query Profile {
     referralInformation {
       code
       link
-      incentive
+      incentive {
+        amount
+        currency
+      }
     }
     sender {
       __typename
       ... on ActiveReferral {
         name
-        discount
+        discount {
+          amount
+          currency
+        }
       }
       ... on InProgressReferral {
         name
@@ -55,7 +61,10 @@ query Profile {
       __typename
       ... on ActiveReferral {
         name
-        discount
+        discount {
+          amount
+          currency
+        }
       }
       ... on InProgressReferral {
         name
@@ -69,8 +78,17 @@ query Profile {
     }
   }
   paymentWithDiscount {
-    discount
-    grossPremium
-    netPremium
+    discount {
+      amount
+      currency
+    }
+    grossPremium {
+      amount
+      currency
+    }
+    netPremium {
+      amount
+      currency
+    }
   }
 }

@@ -17,8 +17,6 @@ export type Object = any;
 
 export type Url = any;
 
-export type MonetaryAmount = any;
-
 export type Uuid = any;
 
 /** The `Upload` scalar type represents a file upload. */
@@ -561,9 +559,15 @@ export interface MemberReferralCampaign {
 }
 
 export interface ActiveReferral {
-  discount: MonetaryAmount;
+  discount: MonetaryAmountV2;
 
   name?: string | null;
+}
+
+export interface MonetaryAmountV2 {
+  amount: string;
+
+  currency: string;
 }
 
 export interface InProgressReferral {
@@ -581,21 +585,21 @@ export interface TerminatedReferral {
 export interface ReferralInformation {
   code: string;
 
-  incentive: MonetaryAmount;
+  incentive: MonetaryAmountV2;
 
   link: string;
 }
 
 export interface PaymentWithDiscount {
-  discount: MonetaryAmount;
+  discount: MonetaryAmountV2;
 
-  grossPremium: MonetaryAmount;
+  grossPremium: MonetaryAmountV2;
 
-  netPremium: MonetaryAmount;
+  netPremium: MonetaryAmountV2;
 }
 
 export interface ReferralCampaignMemberInformation {
-  incentive: MonetaryAmount;
+  incentive: MonetaryAmountV2;
 
   name: string;
 }
@@ -713,6 +717,8 @@ export interface Mutation {
   cancelDirectDebitRequest: CancelDirectDebitStatus;
 
   redeemCode?: RedeemCodeStatus | null;
+
+  removeDiscountCode?: PaymentWithDiscount | null;
 }
 
 export interface SessionInformation {
@@ -4282,11 +4288,29 @@ export type NewOfferInsurance = {
 export type NewOfferPaymentWithDiscount = {
   __typename?: 'PaymentWithDiscount';
 
-  netPremium: MonetaryAmount;
+  netPremium: NewOfferNetPremium;
 
-  grossPremium: MonetaryAmount;
+  grossPremium: NewOfferGrossPremium;
 
-  discount: MonetaryAmount;
+  discount: NewOfferDiscount;
+};
+
+export type NewOfferNetPremium = {
+  __typename?: 'MonetaryAmountV2';
+
+  amount: string;
+};
+
+export type NewOfferGrossPremium = {
+  __typename?: 'MonetaryAmountV2';
+
+  amount: string;
+};
+
+export type NewOfferDiscount = {
+  __typename?: 'MonetaryAmountV2';
+
+  amount: string;
 };
 
 export type OfferPerilsVariables = {};
@@ -4397,9 +4421,15 @@ export const NewOfferDocument = gql`
       type
     }
     paymentWithDiscount {
-      netPremium
-      grossPremium
-      discount
+      netPremium {
+        amount
+      }
+      grossPremium {
+        amount
+      }
+      discount {
+        amount
+      }
     }
   }
 `;
