@@ -138,8 +138,7 @@ class ActivityStarterModule(
         R.string.OFFER_REMOVE_DISCOUNT_ALERT_REMOVE,
         R.string.OFFER_REMOVE_DISCOUNT_ALERT_CANCEL,
         {
-//            disposables += Rx2Apollo
-//                .from(apolloClient.mutate())
+            // TODO: Remove the code here!
             onCompleted.resolve(true)
         },
         {
