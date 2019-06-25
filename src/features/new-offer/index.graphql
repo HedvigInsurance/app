@@ -7,8 +7,14 @@ query NewOffer {
         type
     }
     paymentWithDiscount {
-        netPremium
-        grossPremium
-        discount
+        netPremium {
+            amount
+        }
+        grossPremium {
+            amount
+        }
+        discount {
+            amount
+        }
     }
 }

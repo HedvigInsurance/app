@@ -56,12 +56,12 @@ class InvitesAdapter(
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder.itemViewType) {
             HEADER -> (viewHolder as? HeaderViewHolder)?.apply {
-                val incentive = data.referralInformation.incentive.number.toFloat()
+                val incentive = data.referralInformation.incentive.amount.toBigDecimal().toInt()
                 if (monthlyCost / incentive <= PROGRESS_TANK_MAX_SEGMENTS) {
                     progressTankView.initialize(
                         monthlyCost,
                         calculateDiscount(),
-                        data.referralInformation.incentive.number.intValueExact()
+                        data.referralInformation.incentive.amount.toBigDecimal().toInt()
                     )
                     progressTankView.show()
                     referralProgressHighPremiumContainer.remove()
@@ -89,7 +89,7 @@ class InvitesAdapter(
                 )
                 explainer.text = interpolateTextKey(
                     explainer.resources.getString(R.string.REFERRAL_PROGRESS_BODY),
-                    "REFERRAL_VALUE" to data.referralInformation.incentive.number.intValueExact().toString()
+                    "REFERRAL_VALUE" to data.referralInformation.incentive.amount.toBigDecimal().toInt().toString()
                 )
             }
             ITEM -> (viewHolder as? ItemViewHolder)?.apply {
@@ -97,12 +97,12 @@ class InvitesAdapter(
                     is ProfileQuery.AsActiveReferral -> bindActiveRow(
                         this,
                         referral.name,
-                        referral.discount.number?.doubleValueExact().toString()
+                        referral.discount.amount
                     )
                     is ProfileQuery.AsActiveReferral1 -> bindActiveRow(
                         this,
                         referral.name,
-                        referral.discount.number?.doubleValueExact().toString()
+                        referral.discount.amount
                     )
                     is ProfileQuery.AsInProgressReferral -> bindInProgress(this, referral.name)
                     is ProfileQuery.AsInProgressReferral1 -> bindInProgress(this, referral.name)
@@ -185,16 +185,16 @@ class InvitesAdapter(
     //TODO: Let's get the data from backend
     private fun calculateDiscount(): Int {
         var totalDiscount = 0
-        (data.sender as? ProfileQuery.AsActiveReferral?)?.let { totalDiscount += it.discount.number.intValueExact() }
+        (data.sender as? ProfileQuery.AsActiveReferral?)?.let { totalDiscount += it.discount.amount.toBigDecimal().toInt() }
         data.receivers?.filterIsInstance(ProfileQuery.AsActiveReferral1::class.java)
-            ?.forEach { receiver -> totalDiscount += receiver.discount.number.intValueExact() }
+            ?.forEach { receiver -> totalDiscount += receiver.discount.amount.toBigDecimal().toInt() }
         return min(totalDiscount, monthlyCost)
     }
 
     //TODO: Let's get the data from backend
     private fun calculateInvitesLeftToFree(): Int {
         val amount = monthlyCost - calculateDiscount()
-        return ceil(amount / data.referralInformation.incentive.number.doubleValueExact()).toInt()
+        return ceil(amount / data.referralInformation.incentive.amount.toBigDecimal().toDouble()).toInt()
     }
 
     companion object {

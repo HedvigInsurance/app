@@ -3,7 +3,7 @@ import { View, ViewProps, Text, Animated, Dimensions } from 'react-native';
 import styled from '@sampettersson/primitives';
 import { colors, fonts } from '@hedviginsurance/brand';
 import { Sequence, Spring, Delay } from 'animated-react-native-components';
-import { MonetaryAmount } from 'src/graphql/components';
+import { MonetaryAmountV2 } from 'src/graphql/components';
 import { TranslationsConsumer } from 'src/components/translations/consumer';
 
 const AnimatedView = Animated.createAnimatedComponent<ViewProps>(View);
@@ -41,16 +41,16 @@ const DiscountCircle = styled(Circle)({
   height: getCircleSize() * 0.54,
   width: getCircleSize() * 0.54,
   borderRadius: (getCircleSize() * 0.54) / 2,
-  transform: [{ translateX: getCircleSize() * 0.80 }],
+  transform: [{ translateX: getCircleSize() * 0.8 }],
   position: 'absolute',
-})
+});
 
 const DiscountText = styled(Text)({
   color: colors.WHITE,
   fontFamily: fonts.CIRCULAR,
   fontSize: 16,
-  fontWeight: 'bold'
-})
+  fontWeight: 'bold',
+});
 
 const Price = styled(Text)({
   color: colors.BLACK,
@@ -68,21 +68,25 @@ const GrossPrice = styled(Text)({
   fontFamily: fonts.CIRCULAR,
   fontSize: 14,
   textDecorationLine: 'line-through',
-  textDecorationStyle: 'solid'
-})
+  textDecorationStyle: 'solid',
+});
 
 const NetPrice = styled(Price)({
-  color: colors.PINK
-})
+  color: colors.PINK,
+});
 
 interface PriceBubbleProps {
-  price: MonetaryAmount;
-  discountedPrice?: MonetaryAmount
+  price: MonetaryAmountV2;
+  discountedPrice?: MonetaryAmountV2;
 }
 
-const formatMonetaryAmount = (monetaryAmount: MonetaryAmount) => Number(monetaryAmount.amount)
+const formatMonetaryAmount = (monetaryAmount: MonetaryAmountV2) =>
+  Number(monetaryAmount.amount);
 
-export const PriceBubble: React.SFC<PriceBubbleProps> = ({ price, discountedPrice }) => (
+export const PriceBubble: React.SFC<PriceBubbleProps> = ({
+  price,
+  discountedPrice,
+}) => (
   <Sequence>
     <Delay config={{ delay: 650 }} />
     <Spring
@@ -109,16 +113,14 @@ export const PriceBubble: React.SFC<PriceBubbleProps> = ({ price, discountedPric
                 <NetPrice>{formatMonetaryAmount(discountedPrice)}</NetPrice>
               </>
             ) : (
-                <Price>{formatMonetaryAmount(price)}</Price>
-              )}
+              <Price>{formatMonetaryAmount(price)}</Price>
+            )}
             <MonthlyLabel>kr/mån</MonthlyLabel>
           </Circle>
           {discountedPrice.amount !== price.amount && (
             <DiscountCircle>
               <TranslationsConsumer textKey="OFFER_SCREEN_INVITED_BUBBLE">
-                {(text) => (
-                  <DiscountText>{text}</DiscountText>
-                )}
+                {(text) => <DiscountText>{text}</DiscountText>}
               </TranslationsConsumer>
             </DiscountCircle>
           )}

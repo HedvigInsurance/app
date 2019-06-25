@@ -48,7 +48,7 @@ class ReferralsActivity : AppCompatActivity() {
 
         profileViewModel.data.observe(this) { data ->
             safeLet(
-                data?.paymentWithDiscount?.grossPremium?.number?.intValueExact(),
+                data?.paymentWithDiscount?.grossPremium?.amount?.toBigDecimal()?.toInt(),
                 data?.memberReferralCampaign
             ) { monthlyCost, referralCampaign ->
                 bindData(monthlyCost, referralCampaign)
@@ -56,7 +56,7 @@ class ReferralsActivity : AppCompatActivity() {
 
             data?.memberReferralCampaign?.referralInformation?.let { referralInformation ->
                 bindReferralsButton(
-                    referralInformation.incentive.number.doubleValueExact(),
+                    referralInformation.incentive.amount.toBigDecimal().toDouble(),
                     referralInformation.code,
                     BuildConfig.REFERRALS_LANDING_BASE_URL + referralInformation.code
                 )
@@ -74,8 +74,8 @@ class ReferralsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.referralMoreInfo -> {
-                profileViewModel.data.value?.memberReferralCampaign?.referralInformation?.incentive?.number?.intValueExact()?.let { incentive ->
-                    ReferralBottomSheet.newInstance(incentive.toString())
+                profileViewModel.data.value?.memberReferralCampaign?.referralInformation?.incentive?.amount?.toBigDecimal()?.toInt()?.toString()?.let { incentive ->
+                    ReferralBottomSheet.newInstance(incentive)
                         .show(supportFragmentManager, "moreInfoSheet")
                 }
                 return true

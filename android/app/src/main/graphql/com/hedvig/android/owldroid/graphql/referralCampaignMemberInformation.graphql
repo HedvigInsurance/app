@@ -1,6 +1,9 @@
 query ReferralCampaignMemberInformation($code: String!) {
   referralCampaignMemberInformation(code: $code) {
     name
-    incentive
+    incentive {
+      amount
+      currency
+    }
   }
 }

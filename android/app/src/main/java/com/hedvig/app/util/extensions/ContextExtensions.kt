@@ -8,6 +8,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.FontRes
@@ -22,7 +24,6 @@ import com.hedvig.app.SplashActivity
 
 private const val SHARED_PREFERENCE_NAME = "hedvig_shared_preference"
 private const val SHARED_PREFERENCE_IS_LOGGED_IN = "shared_preference_is_logged_in"
-private const val SHARED_PREFERENCE_REFERRALS_CODE = "shared_preference_referrals_code"
 
 fun Context.compatColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
@@ -70,11 +71,11 @@ fun Context.showShareSheet(title: String, configureClosure: ((Intent) -> Unit)?)
 fun Context.showAlert(
     @StringRes title: Int,
     @StringRes message: Int,
-    @StringRes positiveLabel: Int,
-    @StringRes negativeLabel: Int,
+    @StringRes positiveLabel: Int = android.R.string.ok,
+    @StringRes negativeLabel: Int = android.R.string.cancel,
     positiveAction: () -> Unit,
     negativeAction: (() -> Unit)? = null
-) =
+): AlertDialog =
     AlertDialog
         .Builder(this)
         .setTitle(resources.getString(title))
@@ -85,8 +86,10 @@ fun Context.showAlert(
         .setNegativeButton(resources.getString(negativeLabel)) { _, _ ->
             negativeAction?.let { it() }
         }
-        .create()
         .show()
+        .apply {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
 
 fun Context.copyToClipboard(
     text: String
