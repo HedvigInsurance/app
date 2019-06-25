@@ -92,14 +92,14 @@ class SplashActivity : BaseActivity() {
                 intent.putExtra(ReferralsReceiverActivity.EXTRA_REFERRAL_CODE, referralCode)
                 intent.putExtra(ReferralsReceiverActivity.EXTRA_REFERRAL_INCENTIVE, incentive)
                 startActivity(intent)
-            } ?: start(MarketingActivity::class)
+            } ?: startActivity(Intent(this, MarketingActivity::class.java))
         }
         LoginStatus.IN_OFFER -> {
             val intent = Intent(this, OfferActivity::class.java)
             referralCode?.let { intent.putExtra(OfferActivity.EXTRA_REFERRAL_CODE, it) }
             startActivity(intent)
         }
-        LoginStatus.LOGGED_IN -> start(LoggedInActivity::class)
-        LoginStatus.LOGGED_IN_TERMINATED -> start(LoggedInTerminatedActivity::class)
+        LoginStatus.LOGGED_IN -> startActivity(Intent(this, LoggedInActivity::class.java))
+        LoginStatus.LOGGED_IN_TERMINATED -> startActivity(Intent(this, LoggedInTerminatedActivity::class.java))
     }
 }

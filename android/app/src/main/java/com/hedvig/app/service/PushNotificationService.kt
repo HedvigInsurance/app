@@ -19,11 +19,14 @@ import com.hedvig.app.SplashActivity
 import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.referrals.ReferralsSuccessfulInviteActivity
 import com.hedvig.app.util.interpolateTextKey
+import com.hedvig.app.util.safeLet
 import com.hedvig.app.util.whenApiVersion
+import timber.log.Timber
 
 class PushNotificationService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
+        Timber.i("Got new token: $token")
         val work = OneTimeWorkRequest.Builder(PushNotificationWorker::class.java)
             .setInputData(
                 Data.Builder()
@@ -107,7 +110,11 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     private fun sendReferralsNotification(remoteMessage: RemoteMessage?) {
-        val referralsIntent = Intent(this, ReferralsSuccessfulInviteActivity::class.java)
+        val referralName = remoteMessage?.data?.get(DATA_MESSAGE_REFERRED_SUCCESS_NAME)
+        val referralIncentive = remoteMessage?.data?.get(DATA_MESSAGE_REFERRED_SUCCESS_INCENTIVE_AMOUNT)
+        val referralsIntent = safeLet(referralName, referralIncentive) { name, incentive ->
+            ReferralsSuccessfulInviteActivity.newInstance(this, name, incentive)
+        } ?: ReferralsSuccessfulInviteActivity.newInstance(this)
 
         val pendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
             addNextIntentWithParentStack(referralsIntent)
@@ -120,10 +127,10 @@ class PushNotificationService : FirebaseMessagingService() {
             .setContentTitle(resources.getString(R.string.NOTIFICATION_REFERRAL_COMPLETED_TITLE))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
-            .setChannelId(NOTIFICATION_CHANNEL_ID)
+            .setChannelId(NOTIFICATION_REFERRAL_CHANNEL_ID)
             .setContentIntent(pendingIntent)
 
-        val contentText = remoteMessage?.data?.get(DATA_MESSAGE_REFERRED_SUCCESS_NAME)?.let {
+        val contentText = referralName?.let {
             interpolateTextKey(
                 resources.getString(R.string.NOTIFICATION_REFERRAL_COMPLETED_CONTENT_WITH_NAME),
                 "NAME" to it
@@ -180,5 +187,6 @@ class PushNotificationService : FirebaseMessagingService() {
         const val DATA_MESSAGE_BODY = "DATA_MESSAGE_BODY"
 
         const val DATA_MESSAGE_REFERRED_SUCCESS_NAME = "DATA_MESSAGE_REFERRED_SUCCESS_NAME"
+        const val DATA_MESSAGE_REFERRED_SUCCESS_INCENTIVE_AMOUNT = "DATA_MESSAGE_REFERRED_SUCCESS_INCENTIVE_AMOUNT"
     }
 }
