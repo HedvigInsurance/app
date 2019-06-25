@@ -1,11 +1,14 @@
 package com.hedvig.app.feature.loggedin.ui
 
 import android.os.Bundle
+import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.hedvig.app.R
 import com.hedvig.app.feature.claims.ui.ClaimsViewModel
@@ -20,10 +23,16 @@ abstract class BaseTabFragment : Fragment() {
 
     val navController by lazy { requireActivity().findNavController(R.id.loggedNavigationHost) }
 
+    @get:LayoutRes
+    abstract val layout: Int
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(layout, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

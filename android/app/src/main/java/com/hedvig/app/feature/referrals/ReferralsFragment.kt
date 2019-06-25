@@ -2,14 +2,13 @@ package com.hedvig.app.feature.referrals
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.BuildConfig
-import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
-import com.hedvig.app.SplashActivity
+import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.feature.profile.ui.referral.InvitesAdapter
@@ -24,22 +23,23 @@ import com.hedvig.app.util.safeLet
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_new_referral.*
 import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
-class ReferralsActivity : AppCompatActivity() {
+class ReferralsFragment : BaseTabFragment() {
 
     val tracker: ProfileTracker by inject()
 
-    val profileViewModel: ProfileViewModel by viewModel()
+    val profileViewModel: ProfileViewModel by sharedViewModel()
+
+    override val layout = R.layout.fragment_new_referral
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_new_referral)
 
-        setupLargeTitle(R.string.PROFILE_REFERRAL_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            onBackPressed()
-        }
+        setupLargeTitle(R.string.PROFILE_REFERRAL_TITLE, R.font.circular_bold)
+        setHasOptionsMenu(true)
+
         invites.addItemDecoration(
             BottomPaddingItemDecoration(
                 resources.getDimensionPixelSize(R.dimen.referral_extra_bottom_space)
@@ -64,20 +64,19 @@ class ReferralsActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.referral_more_info_menu, menu)
         toolbar.updatePadding(end = resources.getDimensionPixelSize(R.dimen.base_margin_double))
-        return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
             R.id.referralMoreInfo -> {
-                profileViewModel.data.value?.memberReferralCampaign?.referralInformation?.incentive?.amount?.toBigDecimal()?.toInt()?.toString()?.let { incentive ->
-                    ReferralBottomSheet.newInstance(incentive)
-                        .show(supportFragmentManager, "moreInfoSheet")
-                }
+                profileViewModel.data.value?.memberReferralCampaign?.referralInformation?.incentive?.amount?.toBigDecimal()
+                    ?.toInt()?.toString()?.let { incentive ->
+                        ReferralBottomSheet.newInstance(incentive)
+                            .show(childFragmentManager, "moreInfoSheet")
+                    }
                 return true
             }
         }
@@ -91,7 +90,7 @@ class ReferralsActivity : AppCompatActivity() {
     private fun bindReferralsButton(incentive: Double, code: String, referralLink: String) {
         referralButton.setHapticClickListener {
             tracker.clickReferral(incentive.toInt())
-            showShareSheet("TODO Copy") { intent ->
+            requireContext().showShareSheet("TODO Copy") { intent ->
                 intent.apply {
                     putExtra(
                         Intent.EXTRA_TEXT,
@@ -105,21 +104,6 @@ class ReferralsActivity : AppCompatActivity() {
                     type = "text/plain"
                 }
             }
-        }
-    }
-
-    companion object {
-        const val EXTRA_IS_FROM_REFERRALS_NOTIFICATION = "extra_is_from_referrals_notification"
-    }
-
-    override fun onBackPressed() {
-        if (intent.getBooleanExtra(EXTRA_IS_FROM_REFERRALS_NOTIFICATION, false)) {
-            val intent = Intent(this, SplashActivity::class.java)
-            intent.flags = intent.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
-            intent.putExtra(LoggedInActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP, true)
-            startActivity(intent)
-        } else {
-            super.onBackPressed()
         }
     }
 }

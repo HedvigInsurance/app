@@ -39,9 +39,9 @@ class LoggedInFragment : Fragment() {
             true
         }
 
-        if (requireActivity().intent.getBooleanExtra(LoggedInActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP, false)) {
-            bottomTabs.selectedItemId = R.id.profile
-            requireActivity().intent.removeExtra(LoggedInActivity.EXTRA_NAVIGATE_TO_PROFILE_ON_START_UP)
+        if (requireActivity().intent.getBooleanExtra(LoggedInActivity.EXTRA_IS_FROM_REFERRALS_NOTIFICATION, false)) {
+            bottomTabs.selectedItemId = R.id.referrals
+            requireActivity().intent.removeExtra(LoggedInActivity.EXTRA_IS_FROM_REFERRALS_NOTIFICATION)
         }
 
         bindData()
@@ -57,7 +57,7 @@ class LoggedInFragment : Fragment() {
                 when (tab) {
                     TabNotification.REFERRALS -> {
                         val itemView =
-                            (bottomTabs.getChildAt(0) as BottomNavigationMenuView).getChildAt(LoggedInTabs.PROFILE.ordinal) as BottomNavigationItemView
+                            (bottomTabs.getChildAt(0) as BottomNavigationMenuView).getChildAt(LoggedInTabs.REFERRALS.ordinal) as BottomNavigationItemView
 
                         badge = LayoutInflater
                             .from(requireContext())

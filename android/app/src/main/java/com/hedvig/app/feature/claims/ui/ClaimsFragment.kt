@@ -5,9 +5,7 @@ import android.graphics.drawable.PictureDrawable
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.bumptech.glide.RequestBuilder
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
@@ -41,8 +39,7 @@ class ClaimsFragment : BaseTabFragment() {
     private val requestBuilder: RequestBuilder<PictureDrawable> by lazy { buildRequestBuilder() }
     private val baseMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_claims, container, false)
+    override val layout = R.layout.fragment_claims
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

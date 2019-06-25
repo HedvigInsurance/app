@@ -71,8 +71,7 @@ class DashboardFragment : BaseTabFragment() {
     private var setActivationFiguresInterval: Disposable? = null
     private val compositeDisposable = CompositeDisposable()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_dashboard, container, false)
+    override val layout = R.layout.fragment_dashboard
 
     override fun onResume() {
         super.onResume()
