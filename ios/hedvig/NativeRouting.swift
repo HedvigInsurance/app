@@ -169,6 +169,13 @@ class NativeRouting: RCTEventEmitter {
         }
     }
 
+    @objc func restoreState() {
+        guard let keyWindow = UIApplication.shared.keyWindow else { return }
+        bag += RCTApolloClient.restoreState().onValue { _ in
+            self.bag += ApplicationState.presentRootViewController(keyWindow)
+        }
+    }
+
     @objc func appHasLoaded() {
         appHasLoadedCallbacker.callAll()
     }

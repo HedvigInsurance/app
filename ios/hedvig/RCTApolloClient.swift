@@ -12,6 +12,64 @@ import Flow
 import Foundation
 
 struct RCTApolloClient {
+    static func restoreState() -> CoreSignal<Finite, Void> {
+        return getClient()
+            .valueSignal
+            .withLatestFrom(RCTApolloClient.getToken().valueSignal)
+            .mapLatestToFuture { _, token -> Future<Void> in
+                if token != nil, !ApplicationState.hasPreviousState() {
+                    log.info("Backfilling previous state")
+
+                    return Future { completion in
+                        let bag = DisposeBag()
+
+                        let statusFuture = ApolloContainer
+                            .shared
+                            .client
+                            .fetch(query: InsuranceStatusQuery())
+                            .map { $0.data?.insurance.status }
+
+                        let priceFuture =
+                            ApolloContainer
+                            .shared
+                            .client
+                            .fetch(query: InsurancePriceQuery())
+                            .map { $0.data?.insurance.monthlyCost }
+
+                        bag += join(statusFuture, priceFuture)
+                            .valueThenEndSignal
+                            .debug()
+                            .onValue { status, price in
+                                guard let status = status else {
+                                    ApplicationState.preserveState(.marketing)
+                                    completion(.success)
+                                    return
+                                }
+
+                                switch status {
+                                case .active, .inactiveWithStartDate, .inactive, .terminated:
+                                    ApplicationState.preserveState(.loggedIn)
+                                case .pending:
+                                    if price != 0 {
+                                        ApplicationState.preserveState(.offer)
+                                    } else {
+                                        ApplicationState.preserveState(.onboardingChat)
+                                    }
+                                case .__unknown:
+                                    ApplicationState.preserveState(.marketing)
+                                }
+
+                                completion(.success)
+                            }
+
+                        return bag
+                    }
+                }
+
+                return Future(result: .success)
+            }
+    }
+
     static func getToken() -> Future<String?> {
         return Future<String?> { completion in
             let rctSenderBlock = { response in

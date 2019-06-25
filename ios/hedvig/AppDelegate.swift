@@ -170,71 +170,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UNUserNotificationCenter.current().delegate = self
         }
 
-        bag += RCTApolloClient
-            .getClient()
-            .valueSignal
-            .withLatestFrom(RCTApolloClient.getToken().valueSignal)
-            .mapLatestToFuture { _, token -> Future<Void> in
-                if token != nil, !ApplicationState.hasPreviousState() {
-                    log.info("Backfilling previous state")
-
-                    return Future { completion in
-                        let innerBag = self.bag.innerBag()
-
-                        let statusFuture = ApolloContainer
-                            .shared
-                            .client
-                            .fetch(query: InsuranceStatusQuery())
-                            .map { $0.data?.insurance.status }
-
-                        let priceFuture =
-                            ApolloContainer
-                            .shared
-                            .client
-                            .fetch(query: InsurancePriceQuery())
-                            .map { $0.data?.insurance.monthlyCost }
-
-                        innerBag += join(statusFuture, priceFuture)
-                            .valueThenEndSignal
-                            .debug()
-                            .onValue { status, price in
-                                guard let status = status else {
-                                    ApplicationState.preserveState(.marketing)
-                                    completion(.success)
-                                    return
-                                }
-
-                                switch status {
-                                case .active, .inactiveWithStartDate, .inactive, .terminated:
-                                    ApplicationState.preserveState(.loggedIn)
-                                case .pending:
-                                    if price != 0 {
-                                        ApplicationState.preserveState(.offer)
-                                    } else {
-                                        ApplicationState.preserveState(.onboardingChat)
-                                    }
-                                case .__unknown:
-                                    ApplicationState.preserveState(.marketing)
-                                }
-
-                                completion(.success)
-                            }
-
-                        return innerBag
-                    }
-                }
-
-                return Future(result: .success)
-            }
+        bag += RCTApolloClient.restoreState()
             .delay(by: 0.1)
             .onValue { _ in
-                if let disposable = ApplicationState.presentRootViewController(self.rootWindow) {
-                    self.bag += disposable
-                    self.hasFinishedLoading.value = true
-                    return
-                }
-
-                self.bag += rootNavigationController.present(Marketing()).disposable
+                self.bag += ApplicationState.presentRootViewController(self.rootWindow)
                 self.hasFinishedLoading.value = true
             }
 

@@ -18,6 +18,7 @@
     RCT_EXTERN_METHOD(showPeril: (NSString)categoryTitle idString: (NSString)idString title: (NSString)title description: (NSString)description)
     RCT_EXTERN_METHOD(logEcommercePurchase)
     RCT_EXTERN_METHOD(registerForPushNotifications)
+    RCT_EXTERN_METHOD(restoreState)
     RCT_EXTERN_METHOD(requestCameraPermissions:
                   (BOOL) value
                   resolver:(RCTPromiseResolveBlock)resolve
