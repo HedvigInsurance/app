@@ -13,7 +13,6 @@ import com.hedvig.app.feature.referrals.ReferralsReceiverActivity
 import com.hedvig.app.service.LoginStatus
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.start
 import com.hedvig.app.util.safeLet
 import com.hedvig.app.util.whenApiVersion
 import io.reactivex.android.schedulers.AndroidSchedulers
