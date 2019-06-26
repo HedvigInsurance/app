@@ -2,9 +2,11 @@ package com.hedvig.app.feature.referrals
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import com.hedvig.app.BaseActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.chat.ChatActivity
+import com.hedvig.app.util.extensions.makeToast
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.interpolateTextKey
@@ -22,8 +24,13 @@ class ReferralsReceiverActivity : BaseActivity() {
         setContentView(R.layout.referrals_receiver_activity)
 
         referralViewModel.apply {
-            redeemCodeStatus.observe(this@ReferralsReceiverActivity) {
-                startChat()
+            redeemCodeStatus.observe(this@ReferralsReceiverActivity) { redeemed ->
+                if (redeemed == true) {
+                    startChat()
+                } else {
+                    // TODO let' create string for this
+                    makeToast("The code ${intent.getStringExtra(EXTRA_REFERRAL_CODE)} is invalid!")
+                }
             }
         }
         referralReceiverContinueButton.setHapticClickListener {

@@ -10,10 +10,7 @@ import android.widget.TextView
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.R
 import com.hedvig.app.util.LightClass
-import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.compatDrawable
-import com.hedvig.app.util.extensions.copyToClipboard
-import com.hedvig.app.util.extensions.makeToast
+import com.hedvig.app.util.extensions.*
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.getLightness
@@ -57,7 +54,7 @@ class InvitesAdapter(
         when (viewHolder.itemViewType) {
             HEADER -> (viewHolder as? HeaderViewHolder)?.apply {
                 val incentive =
-                    (data.campaign.incentive as? ProfileQuery.AsMonthlyCostDeduction)?.amount?.amount?.toBigDecimal()?.toInt()
+                    data.campaign?.monthlyCostDeductionIncentive()?.amount?.amount?.toBigDecimal()?.toInt()
                         ?: return@apply
                 if (monthlyCost / incentive <= PROGRESS_TANK_MAX_SEGMENTS) {
                     progressTankView.initialize(
