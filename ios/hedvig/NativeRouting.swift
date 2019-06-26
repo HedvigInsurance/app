@@ -344,7 +344,7 @@ class NativeRouting: RCTEventEmitter {
                 resolve(true)
             }
 
-            let overlay = DraggableOverlay(presentable: applyDiscount, presentationOptions: [.prefersNavigationBarHidden(true)])
+            let overlay = DraggableOverlay(presentable: applyDiscount, presentationOptions: [.defaults, .prefersNavigationBarHidden(true)])
             self.bag += topController.present(overlay).disposable
         }
     }
