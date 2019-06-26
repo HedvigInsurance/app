@@ -144,7 +144,10 @@ export const NewOffer: React.SFC = () => (
                   >
                     <FixedContainer animatedValue={animatedValue}>
                       <Spacing height={15} />
-                      <PriceBubble discountedPrice={data!.paymentWithDiscount!.netPremium} price={data!.paymentWithDiscount!.grossPremium} />
+                      <PriceBubble
+                        discountedPrice={data!.insurance!.cost!.monthlyNet}
+                        price={data!.insurance!.cost!.monthlyGross}
+                      />
                       <Spacing height={15} />
                       <FeaturesContainer animatedValue={animatedValue}>
                         <FeaturesBubbles
@@ -158,33 +161,42 @@ export const NewOffer: React.SFC = () => (
                           type={data!.insurance.type!}
                         />
                       </FeaturesContainer>
-                      <DiscountButton discount={data!.paymentWithDiscount!.discount} onPress={() => {
-                        if (Number(data!.paymentWithDiscount!.discount!.amount) !== 0) {
-                          if (Platform.OS === 'ios') {
-                            // TODO: Sam, implement here ;)
+                      <DiscountButton
+                        discount={data!.insurance!.cost!.monthlyDiscount}
+                        onPress={() => {
+                          if (
+                            Number(
+                              data!.insurance!.cost!.monthlyDiscount!.amount,
+                            ) !== 0
+                          ) {
+                            if (Platform.OS === 'ios') {
+                              // TODO: Sam, implement here ;)
+                            }
+                            if (Platform.OS === 'android') {
+                              NativeModules.ActivityStarter.showRemoveCodeAlert().then(
+                                (didRemoveCode: boolean) => {
+                                  if (didRemoveCode) {
+                                    refetch();
+                                  }
+                                },
+                              );
+                            }
+                          } else {
+                            if (Platform.OS === 'ios') {
+                              // TODO: Sam, implement here ;)
+                            }
+                            if (Platform.OS === 'android') {
+                              NativeModules.ActivityStarter.showRedeemCodeOverlay().then(
+                                (didInputValidCode: boolean) => {
+                                  if (didInputValidCode) {
+                                    refetch();
+                                  }
+                                },
+                              );
+                            }
                           }
-                          if (Platform.OS === 'android') {
-                            NativeModules.ActivityStarter.showRemoveCodeAlert()
-                              .then((didRemoveCode: boolean) => {
-                                if (didRemoveCode) {
-                                  refetch()
-                                }
-                              })
-                          }
-                        } else {
-                          if (Platform.OS === 'ios') {
-                            // TODO: Sam, implement here ;)
-                          }
-                          if (Platform.OS === 'android') {
-                            NativeModules.ActivityStarter.showRedeemCodeOverlay()
-                              .then((didInputValidCode: boolean) => {
-                                if (didInputValidCode) {
-                                  refetch()
-                                }
-                              })
-                          }
-                        }
-                      }} />
+                        }}
+                      />
                     </FixedContainer>
                     <ScrollContent
                       insuredAtOtherCompany={

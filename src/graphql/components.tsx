@@ -106,8 +106,6 @@ export interface Query {
 
   memberReferralCampaign?: MemberReferralCampaign | null;
 
-  paymentWithDiscount?: PaymentWithDiscount | null;
-
   referralCampaignMemberInformation?: ReferralCampaignMemberInformation | null;
 
   commonClaims: CommonClaim[];
@@ -241,6 +239,8 @@ export interface Insurance {
   address?: string | null;
 
   postalNumber?: string | null;
+
+  cost?: InsuranceCost | null;
 
   monthlyCost?: number | null;
 
@@ -590,12 +590,12 @@ export interface ReferralInformation {
   link: string;
 }
 
-export interface PaymentWithDiscount {
-  discount: MonetaryAmountV2;
+export interface InsuranceCost {
+  monthlyDiscount: MonetaryAmountV2;
 
-  grossPremium: MonetaryAmountV2;
+  monthlyGross: MonetaryAmountV2;
 
-  netPremium: MonetaryAmountV2;
+  monthlyNet: MonetaryAmountV2;
 }
 
 export interface ReferralCampaignMemberInformation {
@@ -718,7 +718,7 @@ export interface Mutation {
 
   redeemCode?: RedeemCodeStatus | null;
 
-  removeDiscountCode?: PaymentWithDiscount | null;
+  removeDiscountCode?: InsuranceCost | null;
 }
 
 export interface SessionInformation {
@@ -4285,29 +4285,29 @@ export type NewOfferInsurance = {
   type?: InsuranceType | null;
 };
 
-export type NewOfferPaymentWithDiscount = {
-  __typename?: 'PaymentWithDiscount';
+export type NewOfferInsuranceCost = {
+  __typename?: 'InsuranceCost';
 
-  netPremium: NewOfferNetPremium;
+  montlyNet: NewOfferMontlyNet;
 
-  grossPremium: NewOfferGrossPremium;
+  montlyGross: NewOfferMontlyPremium;
 
-  discount: NewOfferDiscount;
+  montlyDiscount: NewOfferMontlyDiscount;
 };
 
-export type NewOfferNetPremium = {
+export type NewOfferMontlyNet = {
   __typename?: 'MonetaryAmountV2';
 
   amount: string;
 };
 
-export type NewOfferGrossPremium = {
+export type NewOfferMontlyPremium = {
   __typename?: 'MonetaryAmountV2';
 
   amount: string;
 };
 
-export type NewOfferDiscount = {
+export type NewOfferMontlyDiscount = {
   __typename?: 'MonetaryAmountV2';
 
   amount: string;
@@ -4414,24 +4414,24 @@ export function SendChatFileResponseHOC<
 export const NewOfferDocument = gql`
   query NewOffer {
     insurance {
-      address
-      monthlyCost
-      personsInHousehold
-      insuredAtOtherCompany
-      type
+        address
+        monthlyCost
+        personsInHousehold
+        insuredAtOtherCompany
+        type
+        cost {
+            monthlyDiscount {
+                amount
+        	}
+            monthlyGross {
+                amount
+        	}
+            monthlyNet {
+                amount
+        	}
+        }
     }
-    paymentWithDiscount {
-      netPremium {
-        amount
-      }
-      grossPremium {
-        amount
-      }
-      discount {
-        amount
-      }
-    }
-  }
+}
 `;
 export class NewOfferComponent extends React.Component<
   Partial<ReactApollo.QueryProps<NewOfferQuery, NewOfferVariables>>
