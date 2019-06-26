@@ -54,7 +54,7 @@ class InvitesAdapter(
         when (viewHolder.itemViewType) {
             HEADER -> (viewHolder as? HeaderViewHolder)?.apply {
                 val incentive =
-                    data.campaign?.monthlyCostDeductionIncentive()?.amount?.amount?.toBigDecimal()?.toInt()
+                    data.campaign.monthlyCostDeductionIncentive()?.amount?.amount?.toBigDecimal()?.toInt()
                         ?: return@apply
                 if (monthlyCost / incentive <= PROGRESS_TANK_MAX_SEGMENTS) {
                     progressTankView.initialize(
