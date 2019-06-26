@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.hideStatusBar
@@ -56,8 +57,8 @@ class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
     private fun setupButtons() {
         referralSuccessInvite.setHapticClickListener {
             tracker.inviteMoreFriends()
-            val intent = Intent(this, ReferralsActivity::class.java)
-            intent.putExtra(ReferralsActivity.EXTRA_IS_FROM_REFERRALS_NOTIFICATION, true)
+            val intent = Intent(this, LoggedInActivity::class.java)
+            intent.putExtra(LoggedInActivity.EXTRA_IS_FROM_REFERRALS_NOTIFICATION, true)
             startActivity(intent)
         }
         referralSuccessCloseButton.setHapticClickListener {

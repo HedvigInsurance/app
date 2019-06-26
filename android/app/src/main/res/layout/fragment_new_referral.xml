@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hedvig.app.feature.profile.ui.referral.NewReferralFragment">
-
-    <include layout="@layout/app_bar" />
+    tools:context="com.hedvig.app.feature.referrals.ReferralsFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/invites"
@@ -24,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="@dimen/base_margin_triple"
+        android:layout_marginBottom="@dimen/referrals_button_bottom_margin"
         android:background="@drawable/button_primary"
         android:backgroundTint="@color/purple"
         android:drawableEnd="@drawable/icon_share_white"

@@ -11,6 +11,11 @@
         android:title="@string/TAB_TITLE_CLAIM" />
 
     <item
+        android:id="@+id/referrals"
+        android:icon="@drawable/icon_share"
+        android:title="@string/TAB_REFERRALS_TITLE" />
+
+    <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_family"
         android:title="@string/TAB_TITLE_PROFILE" />

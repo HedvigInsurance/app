@@ -1,3 +1,9 @@
 mutation RedeemReferralCodeMutation($code: String!) {
-  redeemCode(code: $code)
+  redeemCode(code: $code) {
+    cost {
+      monthlyDiscount {
+        amount
+      }
+    }
+  }
 }

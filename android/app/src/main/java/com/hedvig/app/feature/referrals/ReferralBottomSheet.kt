@@ -34,6 +34,8 @@ class ReferralBottomSheet : RoundedBottomSheetDialogFragment() {
         private const val TERMS_AND_CONDITION_LINK = "https://www.hedvig.com/invite/terms"
         private const val REFERRAL_VALUE = "referral_value"
 
+        const val TAG = "referrals_more_info"
+
         fun newInstance(incentive: String): ReferralBottomSheet {
             val arguments = Bundle().apply {
                 putString(REFERRAL_VALUE, incentive)

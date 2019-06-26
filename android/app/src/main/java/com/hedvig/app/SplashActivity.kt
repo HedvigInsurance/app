@@ -23,7 +23,7 @@ import timber.log.Timber
 
 class SplashActivity : BaseActivity() {
 
-    val loggedInService: LoginStatusService by inject()
+    private val loggedInService: LoginStatusService by inject()
 
     private var referralCode: String? = null
     private var referralIncentive: String? = null

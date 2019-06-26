@@ -1,9 +1,11 @@
 query ReferralCampaignMemberInformation($code: String!) {
-  referralCampaignMemberInformation(code: $code) {
-    name
+  campaign(code: $code) {
     incentive {
-      amount
-      currency
+      ... on MonthlyCostDeduction {
+        amount {
+          amount
+        }
+      }
     }
   }
 }

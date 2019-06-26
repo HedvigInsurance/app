@@ -113,19 +113,11 @@
             android:theme="@style/Theme.Exponent.Light"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".feature.referrals.ReferralsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTask"
-            android:parentActivityName=".SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Exponent.Splash"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".feature.referrals.ReferralsReceiverActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Exponent.Light"
             android:windowSoftInputMode="adjustResize" />
         <activity

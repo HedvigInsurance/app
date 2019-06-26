@@ -13,6 +13,17 @@ query Profile {
     certificateUrl
     personsInHousehold
     livingSpace
+    cost {
+      monthlyDiscount {
+        amount
+      }
+      monthlyGross {
+        amount
+      }
+      monthlyNet {
+        amount
+      }
+    }
   }
   bankAccount {
     bankName
@@ -28,23 +39,23 @@ query Profile {
     name
     paragraph
   }
-  memberReferralCampaign {
-    memberId
-    referralInformation {
+  referralInformation {
+    campaign {
       code
-      link
       incentive {
-        amount
-        currency
+        ... on MonthlyCostDeduction {
+          amount {
+            amount
+          }
+        }
       }
     }
-    sender {
+    referredBy {
       __typename
       ... on ActiveReferral {
         name
         discount {
           amount
-          currency
         }
       }
       ... on InProgressReferral {
@@ -57,13 +68,12 @@ query Profile {
         name
       }
     }
-    receivers {
+    invitations {
       __typename
       ... on ActiveReferral {
         name
         discount {
           amount
-          currency
         }
       }
       ... on InProgressReferral {
@@ -75,20 +85,6 @@ query Profile {
       ... on NotInitiatedReferral {
         name
       }
-    }
-  }
-  paymentWithDiscount {
-    discount {
-      amount
-      currency
-    }
-    grossPremium {
-      amount
-      currency
-    }
-    netPremium {
-      amount
-      currency
     }
   }
 }

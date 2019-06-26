@@ -36,7 +36,6 @@
     <item name="accountNumber" type="id" />
     <item name="changeBankAccount" type="id" />
     <item name="profile_payment_deductible_sphere" type="id" />
-    <item name="toolbar" type="id" />
     <item name="profile_menu_row" type="id" />
     <item name="profile_menu_row_icon" type="id" />
     <item name="profile_menu_row_name" type="id" />
