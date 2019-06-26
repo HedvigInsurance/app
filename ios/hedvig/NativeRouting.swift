@@ -77,12 +77,12 @@ class NativeRouting: RCTEventEmitter {
 
         bag += ApolloContainer.shared.client.fetch(query: InsurancePriceQuery())
             .valueSignal
-            .compactMap { $0.data?.insurance.monthlyCost }
-            .onValue { monthlyCost in
+            .compactMap { $0.data?.insurance.cost?.monthlyGross.amount }
+            .onValue { monthlyGross in
                 bag.dispose()
                 Analytics.logEvent("ecommerce_purchase", parameters: [
                     "transaction_id": UUID().uuidString,
-                    "value": monthlyCost,
+                    "value": monthlyGross,
                     "currency": "SEK"
                 ])
             }
@@ -157,15 +157,17 @@ class NativeRouting: RCTEventEmitter {
 
     @objc func presentLoggedIn() {
         DispatchQueue.main.async {
-            guard let rootViewController = UIApplication.shared.appDelegate.rootWindow.rootViewController else {
-                return
-            }
+            guard let keyWindow = UIApplication.shared.keyWindow else { return }
+            self.bag += keyWindow.present(LoggedIn(), options: [.prefersNavigationBarHidden(true)], animated: true)
+        }
+    }
 
-            self.bag += rootViewController.present(
-                LoggedIn(),
-                style: .default,
-                options: [.prefersNavigationBarHidden(true)]
-            )
+    @objc func restoreState() {
+        DispatchQueue.main.async {
+            guard let keyWindow = UIApplication.shared.keyWindow else { return }
+            self.bag += RCTApolloClient.restoreState().onValue { _ in
+                self.bag += ApplicationState.presentRootViewController(keyWindow)
+            }
         }
     }
 

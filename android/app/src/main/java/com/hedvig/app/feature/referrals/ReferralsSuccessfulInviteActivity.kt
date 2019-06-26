@@ -1,5 +1,7 @@
 package com.hedvig.app.feature.referrals
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -8,6 +10,7 @@ import android.view.View
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.compatColor
+import com.hedvig.app.util.extensions.hideStatusBar
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
@@ -23,31 +26,26 @@ class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.referrals_successful_invite_actvity)
 
+        hideStatusBar()
         showSuccess()
         setupButtons()
     }
 
     private fun showSuccess() {
-        whenApiVersion(Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility =
-                window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.statusBarColor = compatColor(R.color.dark_purple)
-        }
         referralSuccessImage.show()
         referralSuccessTitle.text = interpolateTextKey(
             getString(R.string.REFERRAL_SUCCESS_HEADLINE),
-            "USER" to "???" // TODO fetch
+            "USER" to intent.getStringExtra(EXTRA_REFERRAL_NAME)
         )
         referralSuccessTitle.show()
         referralSuccessBody.text = interpolateTextKey(
             getString(R.string.REFERRAL_SUCCESS_BODY),
-            "REFERRAL_VALUE" to "???" // TODO fetch
+            "REFERRAL_VALUE" to intent.getStringExtra(EXTRA_REFERRAL_INCENTIVE)
         )
         referralSuccessBody.show()
     }
 
     private fun showUltimateSuccess() {
-        window.statusBarColor = compatColor(R.color.yellow)
         referralSuccessRoot.setBackgroundColor(compatColor(R.color.yellow))
         referralUltimateSuccessImage.show()
         referralUltimateSuccessTitle.text = getString(R.string.REFERRAL_ULTIMATE_SUCCESS_TITLE)
@@ -67,5 +65,16 @@ class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
             tracker.closeReferralSuccess()
             finish()
         }
+    }
+
+    companion object {
+        const val EXTRA_REFERRAL_NAME = "extra_referral_name"
+        const val EXTRA_REFERRAL_INCENTIVE = "extra_referral_incentive"
+
+        fun newInstance(context: Context, name: String, incentive: String) = newInstance(context).apply {
+            putExtra(EXTRA_REFERRAL_NAME, name)
+            putExtra(EXTRA_REFERRAL_INCENTIVE, incentive)
+        }
+        fun newInstance(context: Context) = Intent(context, ReferralsSuccessfulInviteActivity::class.java)
     }
 }

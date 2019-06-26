@@ -25,11 +25,15 @@ struct ApplicationState {
         return UserDefaults.standard.value(forKey: key) as? String != nil
     }
 
-    static func presentRootViewController(_ window: UIWindow) -> Disposable? {
+    static func presentRootViewController(_ window: UIWindow) -> Disposable {
         guard
             let applicationStateRawValue = UserDefaults.standard.value(forKey: key) as? String,
             let applicationState = Screen(rawValue: applicationStateRawValue)
-        else { return nil }
+        else { return window.present(
+            Marketing(),
+            options: [.defaults, .prefersNavigationBarHidden(true)],
+            animated: false
+        ).disposable }
 
         switch applicationState {
         case .marketing:

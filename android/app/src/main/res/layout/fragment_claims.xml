@@ -53,7 +53,8 @@
                     android:layout_gravity="center"
                     android:contentDescription="@null"
                     android:visibility="gone"
-                    app:srcCompat="@drawable/claims_illustration" />
+                    app:srcCompat="@drawable/claims_illustration"
+                    tools:visibility="visible" />
 
                 <TextView
                     style="@style/Headline.Large"
