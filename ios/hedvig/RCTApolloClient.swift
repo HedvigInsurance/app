@@ -29,15 +29,23 @@ struct RCTApolloClient {
                             .fetch(query: InsuranceStatusQuery())
                             .map { $0.data?.insurance.status }
 
-                        let priceFuture =
+                        let priceSignal =
                             ApolloContainer
                             .shared
                             .client
                             .fetch(query: InsurancePriceQuery())
-                            .map { $0.data?.insurance.monthlyCost }
+                            .map { result in
+                                if let price = result.data?.insurance.cost?.monthlyGross.amount {
+                                    return price
+                                }
 
-                        bag += join(statusFuture, priceFuture)
-                            .valueThenEndSignal
+                                return "0.00"
+                            }
+                            .valueSignal
+                            .toInt()
+
+                        bag += statusFuture.valueSignal
+                            .withLatestFrom(priceSignal)
                             .debug()
                             .onValue { status, price in
                                 guard let status = status else {
@@ -50,7 +58,7 @@ struct RCTApolloClient {
                                 case .active, .inactiveWithStartDate, .inactive, .terminated:
                                     ApplicationState.preserveState(.loggedIn)
                                 case .pending:
-                                    if price != 0 {
+                                    if price != nil, price != 0 {
                                         ApplicationState.preserveState(.offer)
                                     } else {
                                         ApplicationState.preserveState(.onboardingChat)
