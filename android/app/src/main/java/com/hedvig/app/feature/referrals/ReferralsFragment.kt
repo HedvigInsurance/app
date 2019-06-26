@@ -71,7 +71,7 @@ class ReferralsFragment : BaseTabFragment() {
                         Intent.EXTRA_TEXT,
                         interpolateTextKey(
                             resources.getString(R.string.REFERRAL_SMS_MESSAGE),
-                            "REFERRAL_VALUE" to incentive.toString(),
+                            "REFERRAL_VALUE" to incentive.toBigDecimal().toInt().toString(),
                             "REFERRAL_CODE" to code,
                             "REFERRAL_LINK" to BuildConfig.REFERRALS_LANDING_BASE_URL + code
                         )
