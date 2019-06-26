@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <include layout="@layout/app_bar" />
+    android:layout_height="match_parent"
+    tools:context=".feature.claims.ui.ClaimsFragment">
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/claimsNestedScrollView"
@@ -39,13 +38,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_corners_background_light_gray"
+                    android:gravity="center"
                     android:paddingStart="@dimen/base_margin_double"
                     android:paddingTop="@dimen/base_margin_triple"
                     android:paddingEnd="@dimen/base_margin_double"
                     android:paddingBottom="@dimen/base_margin_triple"
-                    android:visibility="gone"
-                    android:gravity="center"
-                    android:text="@string/CLAIMS_INACTIVE_INSURANCE_MESSAGE" />
+                    android:text="@string/CLAIMS_INACTIVE_INSURANCE_MESSAGE"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/claimsIllustration"

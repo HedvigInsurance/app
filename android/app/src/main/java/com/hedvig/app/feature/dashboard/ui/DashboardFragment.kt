@@ -2,7 +2,7 @@ package com.hedvig.app.feature.dashboard.ui
 
 import android.content.res.Resources
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.support.design.widget.AppBarLayout
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -19,7 +19,6 @@ import com.hedvig.app.util.extensions.compatDrawable
 import com.hedvig.app.util.extensions.displayMetrics
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.proxyNavigate
-import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.view.animateCollapse
 import com.hedvig.app.util.extensions.view.animateExpand
 import com.hedvig.app.util.extensions.view.remove
@@ -35,7 +34,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.dashboard_footnotes.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.loading_spinner.*
@@ -100,11 +98,6 @@ class DashboardFragment : BaseTabFragment() {
         val dashboardData = dashboardViewModel.data.value ?: return
         val directDebitData = directDebitViewModel.data.value ?: return
         loadingSpinner.remove()
-        val title = interpolateTextKey(
-            resources.getString(R.string.DASHBOARD_TITLE),
-            "NAME" to dashboardData.member.firstName
-        )
-        setupLargeTitle(title, R.font.circular_bold)
         setupInsuranceStatusStatus(dashboardData.insurance)
 
         perilCategoryContainer.removeAllViews()
@@ -344,7 +337,7 @@ class DashboardFragment : BaseTabFragment() {
         val viewBottomPos = position[1] + view.measuredHeight
 
         if (viewBottomPos > bottomBreakPoint) {
-            appBarLayout.setExpanded(false, true)
+            activity?.findViewById<AppBarLayout>(R.id.appBarLayout)?.setExpanded(false, true)
             val d = viewBottomPos - bottomBreakPoint
             dashboardNestedScrollView.scrollY += d
         }

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.hedvig.app.feature.loggedin.ui.LoggedInFragment">
 
+    <include layout="@layout/app_bar" />
+
     <com.hedvig.app.feature.loggedin.ui.TabPager
         android:id="@+id/tabContentContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomTabs"
@@ -21,4 +23,4 @@
         app:itemIconSize="26dp"
         app:menu="@menu/logged_in_menu" />
 
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

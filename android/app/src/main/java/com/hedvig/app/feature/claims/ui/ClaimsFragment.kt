@@ -44,7 +44,6 @@ class ClaimsFragment : BaseTabFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         claimsViewModel.apply {
             loadingSpinner.show()
             fetchCommonClaims()
@@ -72,12 +71,6 @@ class ClaimsFragment : BaseTabFragment() {
     private fun bindData(commonClaimsData: CommonClaimQuery.Data) {
         loadingSpinner.remove()
         claimsViewContent.show()
-
-        setupLargeTitle(
-            R.string.CLAIMS_TITLE,
-            R.font.circular_bold,
-            backgroundColor = requireContext().compatColor(R.color.off_white)
-        )
 
         when (commonClaimsData.insurance.status) {
             InsuranceStatus.ACTIVE -> {

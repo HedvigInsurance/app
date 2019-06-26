@@ -24,7 +24,7 @@ import timber.log.Timber
 
 class SplashActivity : BaseActivity() {
 
-    val loggedInService: LoginStatusService by inject()
+    private val loggedInService: LoginStatusService by inject()
 
     private var referralCode: String? = null
     private var referralIncentive: String? = null
@@ -99,7 +99,7 @@ class SplashActivity : BaseActivity() {
             referralCode?.let { intent.putExtra(OfferActivity.EXTRA_REFERRAL_CODE, it) }
             startActivity(intent)
         }
-        LoginStatus.LOGGED_IN -> start(LoggedInActivity::class)
+        LoginStatus.LOGGED_IN -> startActivity(Intent(this, LoggedInActivity::class.java))
         LoginStatus.LOGGED_IN_TERMINATED -> start(LoggedInTerminatedActivity::class)
     }
 }

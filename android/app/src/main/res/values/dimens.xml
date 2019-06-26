@@ -95,4 +95,5 @@
     <dimen name="news_close_button_size">28dp</dimen>
 
     <dimen name="redeem_bottom_sheet_extra_padding_below_edit_text">64dp</dimen>
+    <dimen name="referrals_button_bottom_margin">80dp</dimen>
 </resources>

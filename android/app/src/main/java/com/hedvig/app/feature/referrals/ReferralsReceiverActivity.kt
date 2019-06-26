@@ -2,8 +2,6 @@ package com.hedvig.app.feature.referrals
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
-import com.hedvig.android.owldroid.type.RedeemCodeStatus
 import com.hedvig.app.BaseActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.chat.ChatActivity
@@ -24,18 +22,8 @@ class ReferralsReceiverActivity : BaseActivity() {
         setContentView(R.layout.referrals_receiver_activity)
 
         referralViewModel.apply {
-            redeemCodeStatus.observe(this@ReferralsReceiverActivity) { redeemStatusCode ->
-                when (redeemStatusCode) {
-                    RedeemCodeStatus.ACCEPTED -> startChat()
-                    else -> {
-                        //todo handle can't redeem code
-                        Toast.makeText(
-                            this@ReferralsReceiverActivity,
-                            "The code ${intent.getStringExtra(EXTRA_REFERRAL_CODE)} is invalid!",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
+            redeemCodeStatus.observe(this@ReferralsReceiverActivity) {
+                startChat()
             }
         }
         referralReceiverContinueButton.setHapticClickListener {
