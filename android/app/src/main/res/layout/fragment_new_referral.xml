@@ -13,6 +13,7 @@
         android:background="@color/off_white"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginBottom="@dimen/bottom_navigation_height"
         tools:itemCount="3"
         tools:listitem="@layout/referral_invite_row" />
 
