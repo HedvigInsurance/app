@@ -292,4 +292,60 @@ class NativeRouting: RCTEventEmitter {
             resolve(status == .authorized)
         }
     }
+
+    @objc func showRemoveCodeAlert(_ _: Bool, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter _: RCTPromiseRejectBlock) {
+        DispatchQueue.main.async {
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+                return
+            }
+
+            var topController = rootViewController
+
+            while let newTopController = topController.presentedViewController {
+                topController = newTopController
+            }
+
+            let alert = Alert<Bool>(
+                title: String(key: .OFFER_REMOVE_DISCOUNT_ALERT_TITLE),
+                message: String(key: .OFFER_REMOVE_DISCOUNT_ALERT_DESCRIPTION),
+                actions: [
+                    Alert.Action(title: String(key: .OFFER_REMOVE_DISCOUNT_ALERT_REMOVE), style: .destructive) { true },
+                    Alert.Action(title: String(key: .OFFER_REMOVE_DISCOUNT_ALERT_CANCEL)) { false }
+                ]
+            )
+
+            let bag = DisposeBag()
+
+            bag += topController.present(alert).onValue { result in
+                bag.dispose()
+                resolve(result)
+            }
+        }
+    }
+
+    @objc func showRedeemCodeOverlay(_ _: Bool, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter _: RCTPromiseRejectBlock) {
+        DispatchQueue.main.async {
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+                return
+            }
+
+            var topController = rootViewController
+
+            while let newTopController = topController.presentedViewController {
+                topController = newTopController
+            }
+
+            let bag = DisposeBag()
+
+            let applyDiscount = ApplyDiscount()
+
+            bag += applyDiscount.didRedeemValidCodeSignal.onValue { _ in
+                bag.dispose()
+                resolve(true)
+            }
+
+            let overlay = DraggableOverlay(presentable: applyDiscount, presentationOptions: [.prefersNavigationBarHidden(true)])
+            self.bag += topController.present(overlay).disposable
+        }
+    }
 }

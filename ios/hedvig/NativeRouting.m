@@ -28,5 +28,13 @@
                       resolver:(RCTPromiseResolveBlock)resolve
                       rejecter:(RCTPromiseRejectBlock)reject
     )
+    RCT_EXTERN_METHOD(showRemoveCodeAlert:
+                  (BOOL) value
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+    RCT_EXTERN_METHOD(showRedeemCodeOverlay:
+                  (BOOL) value
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
     RCT_EXTERN_METHOD(registerExternalComponentId: (NSString)componentId componentName: (NSString)componentName)
 @end

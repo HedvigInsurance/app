@@ -104,9 +104,11 @@ export interface Query {
 
   directDebitStatus: DirectDebitStatus;
 
-  memberReferralCampaign?: MemberReferralCampaign | null;
+  campaign: Campaign;
 
-  referralCampaignMemberInformation?: ReferralCampaignMemberInformation | null;
+  redeemedCampaigns: Campaign[];
+
+  referralInformation: Referrals;
 
   commonClaims: CommonClaim[];
 
@@ -242,10 +244,6 @@ export interface Insurance {
 
   cost?: InsuranceCost | null;
 
-  monthlyCost?: number | null;
-
-  safetyIncreasers?: string[] | null;
-
   personsInHousehold?: number | null;
 
   certificateUrl?: string | null;
@@ -267,6 +265,24 @@ export interface Insurance {
   livingSpace?: number | null;
 
   perilCategories?: PerilCategory[] | null;
+
+  monthlyCost?: number | null;
+
+  safetyIncreasers?: string[] | null;
+}
+
+export interface InsuranceCost {
+  monthlyDiscount: MonetaryAmountV2;
+
+  monthlyGross: MonetaryAmountV2;
+
+  monthlyNet: MonetaryAmountV2;
+}
+
+export interface MonetaryAmountV2 {
+  amount: string;
+
+  currency: string;
 }
 
 export interface Cashback {
@@ -548,26 +564,32 @@ export interface BankAccount {
   directDebitStatus?: DirectDebitStatus | null;
 }
 
-export interface MemberReferralCampaign {
-  memberId: string;
+export interface Campaign {
+  code: string;
 
-  receivers?: Referral[] | null;
+  incentive?: Incentive | null;
+}
 
-  referralInformation: ReferralInformation;
+export interface FreeMonths {
+  quantity?: number | null;
+}
 
-  sender?: Referral | null;
+export interface MonthlyCostDeduction {
+  amount?: MonetaryAmountV2 | null;
+}
+
+export interface Referrals {
+  campaign: Campaign;
+
+  invitations: Referral[];
+
+  referredBy?: Referral | null;
 }
 
 export interface ActiveReferral {
   discount: MonetaryAmountV2;
 
   name?: string | null;
-}
-
-export interface MonetaryAmountV2 {
-  amount: string;
-
-  currency: string;
 }
 
 export interface InProgressReferral {
@@ -580,28 +602,6 @@ export interface NotInitiatedReferral {
 
 export interface TerminatedReferral {
   name?: string | null;
-}
-
-export interface ReferralInformation {
-  code: string;
-
-  incentive: MonetaryAmountV2;
-
-  link: string;
-}
-
-export interface InsuranceCost {
-  monthlyDiscount: MonetaryAmountV2;
-
-  monthlyGross: MonetaryAmountV2;
-
-  monthlyNet: MonetaryAmountV2;
-}
-
-export interface ReferralCampaignMemberInformation {
-  incentive: MonetaryAmountV2;
-
-  name: string;
 }
 /** A list of claim types that are common to show for the user */
 export interface CommonClaim {
@@ -716,9 +716,9 @@ export interface Mutation {
 
   cancelDirectDebitRequest: CancelDirectDebitStatus;
 
-  redeemCode?: RedeemCodeStatus | null;
+  redeemCode: RedemedCodeResult;
 
-  removeDiscountCode?: InsuranceCost | null;
+  removeDiscountCode: RedemedCodeResult;
 }
 
 export interface SessionInformation {
@@ -731,6 +731,12 @@ export interface DirectDebitResponse {
   url: string;
 
   orderId: string;
+}
+
+export interface RedemedCodeResult {
+  campaigns: Campaign[];
+
+  cost: InsuranceCost;
 }
 
 export interface Subscription {
@@ -3803,18 +3809,18 @@ export interface FileQueryArgs {
 export interface DontPanicSessionQueryArgs {
   id: string;
 }
-export interface ReferralCampaignMemberInformationQueryArgs {
+export interface CampaignQueryArgs {
   code: string;
 }
 export interface CommonClaimsQueryArgs {
   locale: Locale;
 }
 export interface NewsQueryArgs {
-  platform: Platform;
-
   sinceVersion: string;
 
   locale: Locale;
+
+  platform: Platform;
 }
 export interface TranslationsLanguageArgs {
   where?: TranslationWhereInput | null;
@@ -3994,18 +4000,18 @@ export enum TranslationOrderByInput {
 }
 
 export enum HedvigColor {
-  OffWhite = 'OffWhite',
-  Pink = 'Pink',
-  Black = 'Black',
-  BlackPurple = 'BlackPurple',
-  OffBlack = 'OffBlack',
-  LightGray = 'LightGray',
-  DarkPurple = 'DarkPurple',
-  White = 'White',
-  Turquoise = 'Turquoise',
-  Yellow = 'Yellow',
-  Purple = 'Purple',
   DarkGray = 'DarkGray',
+  White = 'White',
+  Purple = 'Purple',
+  DarkPurple = 'DarkPurple',
+  BlackPurple = 'BlackPurple',
+  LightGray = 'LightGray',
+  Black = 'Black',
+  OffWhite = 'OffWhite',
+  Yellow = 'Yellow',
+  Pink = 'Pink',
+  Turquoise = 'Turquoise',
+  OffBlack = 'OffBlack',
 }
 
 export enum MarketingStoryOrderByInput {
@@ -4132,11 +4138,6 @@ export enum CancelDirectDebitStatus {
   DECLINED_MISSING_REQUEST = 'DECLINED_MISSING_REQUEST',
 }
 
-export enum RedeemCodeStatus {
-  ACCEPTED = 'ACCEPTED',
-  DECLINED = 'DECLINED',
-}
-
 export enum OfferStatus {
   SUCCESS = 'SUCCESS',
   FAIL = 'FAIL',
@@ -4235,6 +4236,8 @@ export type MessageBodyChoices =
   | MessageBodyChoicesSelection
   | MessageBodyChoicesLink;
 
+export type Incentive = FreeMonths | MonthlyCostDeduction;
+
 export type Referral =
   | ActiveReferral
   | InProgressReferral
@@ -4267,8 +4270,6 @@ export type NewOfferQuery = {
   __typename?: 'Query';
 
   insurance: NewOfferInsurance;
-
-  paymentWithDiscount?: NewOfferPaymentWithDiscount | null;
 };
 
 export type NewOfferInsurance = {
@@ -4283,31 +4284,33 @@ export type NewOfferInsurance = {
   insuredAtOtherCompany?: boolean | null;
 
   type?: InsuranceType | null;
+
+  cost?: NewOfferCost | null;
 };
 
-export type NewOfferInsuranceCost = {
+export type NewOfferCost = {
   __typename?: 'InsuranceCost';
 
-  montlyNet: NewOfferMontlyNet;
+  monthlyDiscount: NewOfferMonthlyDiscount;
 
-  montlyGross: NewOfferMontlyPremium;
+  monthlyGross: NewOfferMonthlyGross;
 
-  montlyDiscount: NewOfferMontlyDiscount;
+  monthlyNet: NewOfferMonthlyNet;
 };
 
-export type NewOfferMontlyNet = {
+export type NewOfferMonthlyDiscount = {
   __typename?: 'MonetaryAmountV2';
 
   amount: string;
 };
 
-export type NewOfferMontlyPremium = {
+export type NewOfferMonthlyGross = {
   __typename?: 'MonetaryAmountV2';
 
   amount: string;
 };
 
-export type NewOfferMontlyDiscount = {
+export type NewOfferMonthlyNet = {
   __typename?: 'MonetaryAmountV2';
 
   amount: string;
@@ -4414,24 +4417,24 @@ export function SendChatFileResponseHOC<
 export const NewOfferDocument = gql`
   query NewOffer {
     insurance {
-        address
-        monthlyCost
-        personsInHousehold
-        insuredAtOtherCompany
-        type
-        cost {
-            monthlyDiscount {
-                amount
-        	}
-            monthlyGross {
-                amount
-        	}
-            monthlyNet {
-                amount
-        	}
+      address
+      monthlyCost
+      personsInHousehold
+      insuredAtOtherCompany
+      type
+      cost {
+        monthlyDiscount {
+          amount
         }
+        monthlyGross {
+          amount
+        }
+        monthlyNet {
+          amount
+        }
+      }
     }
-}
+  }
 `;
 export class NewOfferComponent extends React.Component<
   Partial<ReactApollo.QueryProps<NewOfferQuery, NewOfferVariables>>

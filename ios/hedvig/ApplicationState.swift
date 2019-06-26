@@ -11,6 +11,8 @@ import Foundation
 import Presentation
 
 struct ApplicationState {
+    public static let lastNewsSeenKey = "lastNewsSeen"
+
     enum Screen: String {
         case marketing, onboardingChat, offer, loggedIn
     }
@@ -23,6 +25,14 @@ struct ApplicationState {
 
     static func hasPreviousState() -> Bool {
         return UserDefaults.standard.value(forKey: key) as? String != nil
+    }
+
+    static func getLastNewsSeen() -> String {
+        return UserDefaults.standard.string(forKey: ApplicationState.lastNewsSeenKey) ?? "0.0.0"
+    }
+
+    static func setLastNewsSeen() {
+        UserDefaults.standard.set(Bundle.main.appVersion, forKey: ApplicationState.lastNewsSeenKey)
     }
 
     static func presentRootViewController(_ window: UIWindow) -> Disposable {

@@ -170,7 +170,13 @@ export const NewOffer: React.SFC = () => (
                             ) !== 0
                           ) {
                             if (Platform.OS === 'ios') {
-                              // TODO: Sam, implement here ;)
+                              NativeModules.NativeRouting.showRemoveCodeAlert(
+                                true,
+                              ).then((didRemoveCode: boolean) => {
+                                if (didRemoveCode) {
+                                  refetch();
+                                }
+                              });
                             }
                             if (Platform.OS === 'android') {
                               NativeModules.ActivityStarter.showRemoveCodeAlert().then(
@@ -183,7 +189,13 @@ export const NewOffer: React.SFC = () => (
                             }
                           } else {
                             if (Platform.OS === 'ios') {
-                              // TODO: Sam, implement here ;)
+                              NativeModules.NativeRouting.showRedeemCodeOverlay(
+                                true,
+                              ).then((didInputValidCode: boolean) => {
+                                if (didInputValidCode) {
+                                  refetch();
+                                }
+                              });
                             }
                             if (Platform.OS === 'android') {
                               NativeModules.ActivityStarter.showRedeemCodeOverlay().then(
