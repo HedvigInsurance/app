@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/base_margin"
+    android:clipToPadding="false"
     android:orientation="vertical">
 
     <com.hedvig.app.feature.profile.ui.referral.ProgressTankView
