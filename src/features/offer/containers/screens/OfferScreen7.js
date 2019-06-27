@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import * as R from 'ramda';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { TranslationsConsumer } from 'src/components/translations/consumer';
 
 import {
   horizontalSizeClass,
@@ -122,10 +123,18 @@ const insuranceNames = [
     displayName: <Text>från&nbsp;Vardia</Text>,
   },
   {
+    currentInsurerName: 'TRE_KRONOR',
+    displayName: <Text>från&nbsp;Tre Kronor</Text>,
+  },
+  {
     currentInsurerName: 'OTHER',
     displayName: <Text>från din nuvarande försäkring</Text>,
   },
 ];
+
+const switchableInsurers = [
+  'IF', 'FOLKSAM', 'TRYGG_HANSA', 'TRE_KRONOR'
+]
 
 const QUERY = gql`
   query SwitcherScreen {
@@ -138,6 +147,16 @@ const QUERY = gql`
 const getDisplayName = (currentInsurerName) =>
   R.find(R.propEq('currentInsurerName', currentInsurerName))(insuranceNames)
     .displayName;
+
+const getSwitcherTitle = (currentInsurerName) =>
+  switchableInsurers.includes(currentInsurerName)
+    ? 'OFFER_SWITCH_TITLE'
+    : 'OFFER_SWITCH_TITLE_NON_SWITCHABLE'
+
+const getSwitcherMessage = (currentInsurerName) =>
+  switchableInsurers.includes(currentInsurerName)
+    ? 'OFFER_SWITCH_COL_ONE_PARAGRAPH'
+    : 'OFFER_NON_SWITCHABLE_COL_ONE_PARAGRAPH'
 
 class OfferScreen extends React.Component {
   render() {
@@ -162,8 +181,12 @@ class OfferScreen extends React.Component {
                 <View style={styles.scrollContent}>
                   <View style={styles.content}>
                     <Text style={styles.heading}>
-                      Hedvig sköter bytet{' '}
-                      {getDisplayName(data.insurance.currentInsurerName)}
+                      <TranslationsConsumer
+                        textKey={getSwitcherTitle(data.insurance.currentInsurerName)}
+                        replacements={{ insurer: getDisplayName(data.insurance.currentInsurerName) }}
+                      >
+                        {(t) => t}
+                      </TranslationsConsumer>
                     </Text>
 
                     <View style={styles.stepsContainer}>
@@ -180,8 +203,11 @@ class OfferScreen extends React.Component {
                           <Text style={styles.stepNumberText}>2</Text>
                         </View>
                         <Text style={styles.stepLabel}>
-                          Hedvig kontaktar ditt försäkringsbolag och säger upp
-                          din gamla försäkring
+                          <TranslationsConsumer
+                            textKey={getSwitcherMessage(data.insurance.currentInsurerName)}
+                          >
+                            {(t) => t}
+                          </TranslationsConsumer>
                         </Text>
                       </View>
                       <View style={styles.step}>
@@ -189,8 +215,11 @@ class OfferScreen extends React.Component {
                           <Text style={styles.stepNumberText}>3</Text>
                         </View>
                         <Text style={styles.stepLabel}>
-                          Din Hedvigförsäkring aktiveras samma dag som din gamla
-                          försäkring går ut
+                          <TranslationsConsumer
+                            textKey={'OFFER_SWITCH_COL_THREE_PARAGRAPH'}
+                          >
+                            {(t) => t}
+                          </TranslationsConsumer>
                         </Text>
                       </View>
                     </View>
