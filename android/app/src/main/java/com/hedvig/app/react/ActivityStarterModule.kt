@@ -20,6 +20,7 @@ import com.facebook.react.bridge.ReadableType
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
+import com.hedvig.android.owldroid.graphql.RemoveDiscountCodeMutation
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
@@ -29,6 +30,7 @@ import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
 import com.hedvig.app.feature.referrals.RedeemCodeBottomSheet
+import com.hedvig.app.util.extensions.makeToast
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import com.hedvig.app.util.extensions.showAlert
 import com.hedvig.app.util.extensions.triggerRestartActivity
@@ -140,8 +142,18 @@ class ActivityStarterModule(
         R.string.OFFER_REMOVE_DISCOUNT_ALERT_REMOVE,
         R.string.OFFER_REMOVE_DISCOUNT_ALERT_CANCEL,
         {
-            // TODO: Remove the code here!
-            onCompleted.resolve(true)
+            disposables += Rx2Apollo
+                .from(apolloClient.mutate(RemoveDiscountCodeMutation()))
+                .subscribe({
+                    if (it.hasErrors()) {
+                        currentActivity?.makeToast(R.string.OFFER_REMOVE_FAILED_ALERT_DESCRIPTION)
+                    } else {
+                        onCompleted.resolve(true)
+                    }
+                }, {
+                    currentActivity?.makeToast(R.string.OFFER_REMOVE_FAILED_ALERT_DESCRIPTION)
+                    Timber.e(it)
+                })
         },
         {
             onCompleted.resolve(false)

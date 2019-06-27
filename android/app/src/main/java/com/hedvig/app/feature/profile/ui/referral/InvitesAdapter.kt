@@ -31,21 +31,30 @@ class InvitesAdapter(
                 LayoutInflater.from(parent.context).inflate(R.layout.referral_header, parent, false)
             )
         }
-        else -> ItemViewHolder(
+        REFERRED_BY_HEADER,
+        INVITE_HEADER -> SmallHeaderViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.referral_small_header_row, parent, false)
+        )
+        REFERRED_BY_ITEM,
+        INVITE_ITEM -> ItemViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.referral_invite_row, parent, false)
         )
+        else -> EmptyViewHolder(View(parent.context))
     }
 
-    override fun getItemViewType(position: Int) = if (position == 0) {
-        HEADER
-    } else {
-        ITEM
+    override fun getItemViewType(position: Int) = when {
+        position == 0 -> HEADER
+        data.referredBy != null && position == itemCount - 2 -> REFERRED_BY_HEADER
+        data.referredBy != null && position == itemCount - 1 -> REFERRED_BY_ITEM
+        !data.invitations.isNullOrEmpty() && position == 1 -> INVITE_HEADER
+        !data.invitations.isNullOrEmpty() -> INVITE_ITEM
+        else -> UNKNOWN_ITEM // Should never happen
     }
 
     override fun getItemCount(): Int {
         var count = 1 //start of with header
-        count += data.invitations?.size ?: 0
-        data.referredBy?.let { count += 1 }
+        data.invitations?.let { count += it.size + 1 } //add title
+        data.referredBy?.let { count += 2 } //add title and item
 
         return count
     }
@@ -92,35 +101,52 @@ class InvitesAdapter(
                     "REFERRAL_VALUE" to incentive.toString()
                 )
             }
-            ITEM -> (viewHolder as? ItemViewHolder)?.apply {
-                when (val referral = getReferralFromPosition(position)) {
+            INVITE_HEADER -> (viewHolder as? SmallHeaderViewHolder)?.apply {
+                headerTextView.text = headerTextView.resources.getString(R.string.REFERRAL_INVITE_TITLE)
+            }
+            INVITE_ITEM -> (viewHolder as? ItemViewHolder)?.apply {
+                data.invitations?.getOrNull(position - 2)?.let { invite ->
+                    when (invite) {
+                        is ProfileQuery.AsActiveReferral1 -> bindActiveRow(
+                            this,
+                            invite.name,
+                            invite.discount.amount.toBigDecimal().toInt().toString(),
+                            false
+                        )
+                        is ProfileQuery.AsInProgressReferral1 -> bindInProgress(this, invite.name)
+                        is ProfileQuery.AsNotInitiatedReferral1 -> bindNotInitiated(this)
+                        is ProfileQuery.AsTerminatedReferral1 -> bindTerminated(this, invite.name)
+                        else -> { /* Should never happen */ }
+                    }
+                }
+
+            }
+            REFERRED_BY_HEADER -> (viewHolder as? SmallHeaderViewHolder)?.apply {
+                headerTextView.text = headerTextView.resources.getString(R.string.REFERRAL_REFERRED_BY_TITLE)
+            }
+            REFERRED_BY_ITEM -> (viewHolder as? ItemViewHolder)?.apply {
+                when (val referredBy = data.referredBy) {
                     is ProfileQuery.AsActiveReferral -> bindActiveRow(
                         this,
-                        referral.name,
-                        referral.discount.amount
+                        referredBy.name,
+                        referredBy.discount.amount.toBigDecimal().toInt().toString(),
+                        true
                     )
-                    is ProfileQuery.AsActiveReferral1 -> bindActiveRow(
-                        this,
-                        referral.name,
-                        referral.discount.amount
-                    )
-                    is ProfileQuery.AsInProgressReferral -> bindInProgress(this, referral.name)
-                    is ProfileQuery.AsInProgressReferral1 -> bindInProgress(this, referral.name)
+                    is ProfileQuery.AsInProgressReferral -> bindInProgress(this, referredBy.name)
                     is ProfileQuery.AsNotInitiatedReferral,
-                    is ProfileQuery.AsNotInitiatedReferral1 -> bindNotInitiated(this)
-                    is ProfileQuery.AsTerminatedReferral -> bindTerminated(this, referral.name)
-                    is ProfileQuery.AsTerminatedReferral1 -> bindTerminated(this, referral.name)
+                    is ProfileQuery.AsTerminatedReferral -> bindTerminated(this, referredBy.__typename) // TODO: Fix
+                    else -> { /* Should never happen */ }
                 }
             }
         }
     }
 
-    private fun bindActiveRow(viewHolder: ItemViewHolder, nameString: String?, discountString: String?) =
+    private fun bindActiveRow(viewHolder: ItemViewHolder, nameString: String?, discountString: String?, referredBy: Boolean) =
         viewHolder.apply {
             setupAvatarWithLetter(this, nameString)
 
             name.text = nameString
-            statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_NEWSTATE)
+            statusText.text = if (referredBy) statusText.resources.getString(R.string.REFERRAL_INVITE_INVITEDYOUSTATE) else statusText.resources.getString(R.string.REFERRAL_INVITE_NEWSTATE)
 
             statusIconContainer.setBackgroundResource(R.drawable.background_rounded_corners)
             statusIconContainer.background.setTint(
@@ -178,10 +204,6 @@ class InvitesAdapter(
         }
     }
 
-    private fun getReferralFromPosition(position: Int): Any? =
-        data.invitations?.getOrNull(position - 1)
-            ?: data.referredBy
-
     //TODO: Let's get the data from backend
     private fun calculateDiscount(): Int {
         var totalDiscount = 0
@@ -204,7 +226,11 @@ class InvitesAdapter(
 
     companion object {
         private const val HEADER = 0
-        private const val ITEM = 1
+        private const val INVITE_HEADER = 1
+        private const val INVITE_ITEM = 2
+        private const val REFERRED_BY_HEADER = 3
+        private const val REFERRED_BY_ITEM = 4
+        private const val UNKNOWN_ITEM = 5
 
         private const val PROGRESS_TANK_MAX_SEGMENTS = 20
     }
@@ -219,6 +245,10 @@ class InvitesAdapter(
         val code: TextView = view.code
     }
 
+    inner class SmallHeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val headerTextView: TextView = view as TextView
+    }
+
     inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val avatar: ImageView = view.avatar
         val avatarLetter: TextView = view.avatarLetter
@@ -228,4 +258,6 @@ class InvitesAdapter(
         val discount: TextView = view.discount
         val statusIcon: ImageView = view.statusIcon
     }
+
+    inner class EmptyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 }
