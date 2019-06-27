@@ -4,6 +4,7 @@ import * as R from 'ramda';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { TranslationsConsumer } from 'src/components/translations/consumer';
+import { TranslationsPlaceholderConsumer } from 'src/components/translations/placeholder-consumer';
 
 import {
   horizontalSizeClass,
@@ -174,7 +175,6 @@ const getSwitcherMessage = (currentInsurerName) =>
     ? 'OFFER_SWITCH_COL_PARAGRAPH_ONE_APP'
     : 'OFFER_NON_SWITCHABLE_PARAGRAPH_ONE_APP';
 
-
 class OfferScreen extends React.Component {
   render() {
     const regular = require('../../../../../assets/offer/hero/switch.png');
@@ -218,9 +218,7 @@ class OfferScreen extends React.Component {
                           <Text style={styles.stepNumberText}>1</Text>
                         </View>
                         <Text style={styles.stepLabel}>
-                          <TranslationsConsumer
-                            textKey={'SIGN_MOBILE_BANK_ID'}
-                          >
+                          <TranslationsConsumer textKey={'SIGN_MOBILE_BANK_ID'}>
                             {(t) => t}
                           </TranslationsConsumer>
                         </Text>
