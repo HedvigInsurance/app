@@ -52,13 +52,17 @@ class RedeemCodeDialog : DialogFragment() {
             }
         }
         referralViewModel.redeemCodeStatus.observe(this) {
-            localBroadcastManager.sendBroadcast(Intent(ActivityStarterModule.REDEEMED_CODE_BROADCAST).apply {
-                putExtra(
-                    ActivityStarterModule.BROADCAST_MESSAGE_NAME,
-                    ActivityStarterModule.MESSAGE_PROMOTION_CODE_REDEEMED
-                )
-            })
-            dismiss()
+            if (it == true) {
+                localBroadcastManager.sendBroadcast(Intent(ActivityStarterModule.REDEEMED_CODE_BROADCAST).apply {
+                    putExtra(
+                        ActivityStarterModule.BROADCAST_MESSAGE_NAME,
+                        ActivityStarterModule.MESSAGE_PROMOTION_CODE_REDEEMED
+                    )
+                })
+                dismiss()
+            } else {
+                wrongPromotionCode()
+            }
         }
         return dialog
     }
