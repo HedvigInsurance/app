@@ -81,12 +81,4 @@
         android:layout_gravity="center_horizontal"
         tools:text="HDVG87" />
 
-    <TextView
-        style="@style/Headline.Medium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin_double"
-        android:layout_marginTop="@dimen/base_margin_triple"
-        android:text="@string/REFERRAL_INVITE_TITLE" />
-
 </LinearLayout>
