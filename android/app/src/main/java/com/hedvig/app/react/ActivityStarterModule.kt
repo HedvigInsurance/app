@@ -20,6 +20,7 @@ import com.facebook.react.bridge.ReadableType
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
+import com.hedvig.android.owldroid.graphql.RemoveDiscountCodeMutation
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
@@ -140,8 +141,11 @@ class ActivityStarterModule(
         R.string.OFFER_REMOVE_DISCOUNT_ALERT_REMOVE,
         R.string.OFFER_REMOVE_DISCOUNT_ALERT_CANCEL,
         {
-            // TODO: Remove the code here!
-            onCompleted.resolve(true)
+            disposables += Rx2Apollo
+                .from(apolloClient.mutate(RemoveDiscountCodeMutation()))
+                .subscribe({
+                    onCompleted.resolve(true)
+                }, { Timber.e(it) })
         },
         {
             onCompleted.resolve(false)
