@@ -107,13 +107,20 @@ class ProfileFragment : BaseTabFragment() {
 
     private fun setupCoinsured(profileData: ProfileQuery.Data) {
         val personsInHousehold = profileData.insurance.personsInHousehold ?: 1
+
+        if (personsInHousehold <= 1) {
+            return
+        }
+
+
         coinsuredRow.description = interpolateTextKey(
-            resources.getString(R.string.PROFILE_ROW_COINSURED_DESCRIPTION),
-            "NUMBER" to "$personsInHousehold"
+            resources.getString(R.string.PROFILE_MY_COINSURED_ROW_SUBTITLE),
+            "amountCoinsured" to "${personsInHousehold - 1}"
         )
         coinsuredRow.setOnClickListener {
             navController.proxyNavigate(R.id.action_loggedInFragment_to_coinsuredFragment)
         }
+        coinsuredRow.show()
     }
 
     private fun setupCharity(profileData: ProfileQuery.Data) {
@@ -126,7 +133,7 @@ class ProfileFragment : BaseTabFragment() {
     private fun setupPayment(profileData: ProfileQuery.Data) {
         paymentRow.description = interpolateTextKey(
             resources.getString(R.string.PROFILE_ROW_PAYMENT_DESCRIPTION),
-            "COST" to profileData.insurance.cost?.monthlyNet?.amount
+            "COST" to profileData.insurance.cost?.monthlyNet?.amount?.toBigDecimal()?.toInt()
         )
         paymentRow.setOnClickListener {
             navController.proxyNavigate(R.id.action_loggedInFragment_to_paymentFragment)

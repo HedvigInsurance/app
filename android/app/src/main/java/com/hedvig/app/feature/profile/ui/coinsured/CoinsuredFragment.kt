@@ -55,7 +55,7 @@ class CoinsuredFragment : Fragment() {
 
             profileData?.insurance?.personsInHousehold?.let { personsInHousehold ->
                 val label = resources.getString(R.string.PROFILE_COINSURED_QUANTITY_LABEL)
-                val partOne = SpannableString("$personsInHousehold\n")
+                val partOne = SpannableString("${personsInHousehold - 1}\n")
                 val partTwo = SpannableString(label)
                 partOne.setSpan(
                     CustomTypefaceSpan(requireContext().compatFont(R.font.soray_extrabold)),
