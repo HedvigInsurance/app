@@ -317,7 +317,14 @@ class NativeRouting: RCTEventEmitter {
             let bag = DisposeBag()
 
             bag += topController.present(alert).onValue { result in
-                bag.dispose()
+                if result == true {
+                    bag += ApolloContainer.shared.client.perform(mutation: RemoveDiscountCodeMutation()).onValue { _ in
+                        bag.dispose()
+                        resolve(result)
+                    }
+                    return
+                }
+                
                 resolve(result)
             }
         }
