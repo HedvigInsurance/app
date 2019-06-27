@@ -44,8 +44,7 @@ struct RCTApolloClient {
                             .valueSignal
                             .toInt()
 
-                        bag += statusFuture.valueSignal
-                            .withLatestFrom(priceSignal)
+                        bag += combineLatest(statusFuture.valueSignal, priceSignal)
                             .debug()
                             .onValue { status, price in
                                 guard let status = status else {
