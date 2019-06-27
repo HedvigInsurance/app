@@ -30,6 +30,7 @@ import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
 import com.hedvig.app.feature.referrals.RedeemCodeBottomSheet
+import com.hedvig.app.util.extensions.makeToast
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import com.hedvig.app.util.extensions.showAlert
 import com.hedvig.app.util.extensions.triggerRestartActivity
@@ -144,8 +145,15 @@ class ActivityStarterModule(
             disposables += Rx2Apollo
                 .from(apolloClient.mutate(RemoveDiscountCodeMutation()))
                 .subscribe({
-                    onCompleted.resolve(true)
-                }, { Timber.e(it) })
+                    if (it.hasErrors()) {
+                        currentActivity?.makeToast(R.string.OFFER_REMOVE_FAILED_ALERT_DESCRIPTION)
+                    } else {
+                        onCompleted.resolve(true)
+                    }
+                }, {
+                    currentActivity?.makeToast(R.string.OFFER_REMOVE_FAILED_ALERT_DESCRIPTION)
+                    Timber.e(it)
+                })
         },
         {
             onCompleted.resolve(false)
