@@ -151,7 +151,7 @@ const insuranceNames = [
   },
 ];
 
-const switchableInsurers = ['IF', 'FOLKSAM', 'TRYGG_HANSA', 'TRE_KRONOR'];
+const switchableInsurers = ['ICA', 'FOLKSAM', 'TRYGG_HANSA', 'TRE_KRONOR'];
 
 const QUERY = gql`
   query SwitcherScreen {
