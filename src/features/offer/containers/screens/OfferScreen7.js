@@ -132,9 +132,7 @@ const insuranceNames = [
   },
 ];
 
-const switchableInsurers = [
-  'IF', 'FOLKSAM', 'TRYGG_HANSA', 'TRE_KRONOR'
-]
+const switchableInsurers = ['IF', 'FOLKSAM', 'TRYGG_HANSA', 'TRE_KRONOR'];
 
 const QUERY = gql`
   query SwitcherScreen {
@@ -151,12 +149,12 @@ const getDisplayName = (currentInsurerName) =>
 const getSwitcherTitle = (currentInsurerName) =>
   switchableInsurers.includes(currentInsurerName)
     ? 'OFFER_SWITCH_TITLE'
-    : 'OFFER_SWITCH_TITLE_NON_SWITCHABLE'
+    : 'OFFER_SWITCH_TITLE_NON_SWITCHABLE';
 
 const getSwitcherMessage = (currentInsurerName) =>
   switchableInsurers.includes(currentInsurerName)
     ? 'OFFER_SWITCH_COL_ONE_PARAGRAPH'
-    : 'OFFER_NON_SWITCHABLE_COL_ONE_PARAGRAPH'
+    : 'OFFER_NON_SWITCHABLE_COL_ONE_PARAGRAPH';
 
 class OfferScreen extends React.Component {
   render() {
@@ -182,8 +180,14 @@ class OfferScreen extends React.Component {
                   <View style={styles.content}>
                     <Text style={styles.heading}>
                       <TranslationsConsumer
-                        textKey={getSwitcherTitle(data.insurance.currentInsurerName)}
-                        replacements={{ insurer: getDisplayName(data.insurance.currentInsurerName) }}
+                        textKey={getSwitcherTitle(
+                          data.insurance.currentInsurerName,
+                        )}
+                        replacements={{
+                          insurer: getDisplayName(
+                            data.insurance.currentInsurerName,
+                          ),
+                        }}
                       >
                         {(t) => t}
                       </TranslationsConsumer>
@@ -204,7 +208,9 @@ class OfferScreen extends React.Component {
                         </View>
                         <Text style={styles.stepLabel}>
                           <TranslationsConsumer
-                            textKey={getSwitcherMessage(data.insurance.currentInsurerName)}
+                            textKey={getSwitcherMessage(
+                              data.insurance.currentInsurerName,
+                            )}
                           >
                             {(t) => t}
                           </TranslationsConsumer>
