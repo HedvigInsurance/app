@@ -42,11 +42,18 @@ class ReferralsFragment : BaseTabFragment() {
                 bindData(monthlyCost, referralCampaign)
             } ?: Timber.e("No data")
         }
-        tabViewModel.removeReferralNotification()
     }
 
     private fun bindData(monthlyCost: Int, data: ProfileQuery.ReferralInformation) {
         invites.adapter = InvitesAdapter(monthlyCost, data)
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+
+        if (isVisibleToUser) {
+            tabViewModel.removeReferralNotification()
+        }
     }
 }
 
