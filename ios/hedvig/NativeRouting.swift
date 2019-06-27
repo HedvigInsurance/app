@@ -324,7 +324,7 @@ class NativeRouting: RCTEventEmitter {
                     }
                     return
                 }
-                
+
                 resolve(result)
             }
         }
