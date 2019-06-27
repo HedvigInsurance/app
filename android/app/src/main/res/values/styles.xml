@@ -192,6 +192,7 @@
     <style name="NavigationBar" parent="@style/Widget.MaterialComponents.BottomNavigationView">
         <item name="android:background">@color/blur_white</item>
         <item name="enforceTextAppearance">true</item>
+        <item name="labelVisibilityMode">labeled</item>
         <item name="itemIconTint">@color/bottom_navigation</item>
         <item name="itemTextColor">@color/bottom_navigation</item>
         <item name="itemTextAppearanceInactive">@style/TabBar</item>

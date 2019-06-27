@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.design.internal.BottomNavigationItemView
 import android.support.design.internal.BottomNavigationMenuView
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -39,6 +40,8 @@ class LoggedInFragment : Fragment() {
     private val tabViewModel: BaseTabViewModel by sharedViewModel()
     private val whatsNewViewModel: WhatsNewViewModel by viewModel()
     private val profileViewModel: ProfileViewModel by sharedViewModel()
+
+    private var lastLoggedInTab = LoggedInTabs.DASHBOARD
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -138,7 +141,9 @@ class LoggedInFragment : Fragment() {
 
     fun setupAppBar(id: LoggedInTabs) {
         activity?.invalidateOptionsMenu()
-        appBarLayout.setExpanded(true, false)
+        if (lastLoggedInTab != id) {
+            appBarLayout.setExpanded(true, false)
+        }
         when (id) {
             LoggedInTabs.DASHBOARD -> {
                 setupLargeTitle(R.string.DASHBOARD_SCREEN_TITLE, R.font.soray_extrabold)
@@ -153,6 +158,7 @@ class LoggedInFragment : Fragment() {
                 setupLargeTitle(R.string.PROFILE_TITLE, R.font.soray_extrabold)
             }
         }
+        lastLoggedInTab = id
     }
 }
 
