@@ -114,9 +114,11 @@ class InvitesAdapter(
                             false
                         )
                         is ProfileQuery.AsInProgressReferral1 -> bindInProgress(this, invite.name)
-                        is ProfileQuery.AsNotInitiatedReferral1 -> bindNotInitiated(this)
+                        is ProfileQuery.AsAcceptedReferral1 -> bindNotInitiated(this, invite.quantity
+                            ?: 0)
                         is ProfileQuery.AsTerminatedReferral1 -> bindTerminated(this, invite.name)
-                        else -> { /* Should never happen */ }
+                        else -> { /* Should never happen */
+                        }
                     }
                 }
 
@@ -133,9 +135,11 @@ class InvitesAdapter(
                         true
                     )
                     is ProfileQuery.AsInProgressReferral -> bindInProgress(this, referredBy.name)
-                    is ProfileQuery.AsNotInitiatedReferral,
-                    is ProfileQuery.AsTerminatedReferral -> bindTerminated(this, referredBy.__typename) // TODO: Fix
-                    else -> { /* Should never happen */ }
+                    is ProfileQuery.AsTerminatedReferral -> bindTerminated(this, referredBy.name)
+                    is ProfileQuery.AsAcceptedReferral -> bindNotInitiated(this, referredBy.quantity
+                        ?: 0)
+                    else -> { /* Should never happen */
+                    }
                 }
             }
         }
@@ -170,11 +174,18 @@ class InvitesAdapter(
         statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
     }
 
-    private fun bindNotInitiated(viewHolder: ItemViewHolder) = viewHolder.apply {
+    private fun bindNotInitiated(viewHolder: ItemViewHolder, quantity: Int) = viewHolder.apply {
         avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.ic_ghost))
         avatar.scaleType = ImageView.ScaleType.CENTER
         name.text = name.resources.getString(R.string.REFERRAL_INVITE_ANON)
-        statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_OPENEDSTATE)
+        statusText.text = if (quantity <= 1) {
+            statusText.resources.getString(R.string.REFERRAL_INVITE_OPENEDSTATE)
+        } else {
+            interpolateTextKey(
+                statusText.resources.getString(R.string.REFERRAL_INVITE_OPENEDSTATE_MULTIPLE),
+                "NUMBER_OF_INVITES" to quantity
+            )
+        }
         statusIcon.setImageDrawable(statusIcon.context.compatDrawable(R.drawable.ic_clock))
     }
 
