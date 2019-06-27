@@ -18,7 +18,6 @@ class ReferralViewModel(
         disposables += referralRepository
             .redeemReferralCode(code)
             .subscribe({
-
                 redeemCodeStatus.postValue(!it.hasErrors())
             }, { error ->
                 redeemCodeStatus.postValue(false)
