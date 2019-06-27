@@ -92,43 +92,61 @@ const styles = StyleSheet.create({
 const insuranceNames = [
   {
     currentInsurerName: 'LANSFORSAKRINGAR',
-    displayName: <Text>från&nbsp;Länsförsäkringar</Text>,
+    displayName: <Text>Länsförsäkringar</Text>,
   },
   {
     currentInsurerName: 'IF',
-    displayName: <Text>från&nbsp;If</Text>,
+    displayName: <Text>If</Text>,
   },
   {
     currentInsurerName: 'FOLKSAM',
-    displayName: <Text>från&nbsp;Folksam</Text>,
+    displayName: <Text>Folksam</Text>,
   },
   {
     currentInsurerName: 'TRYGG_HANSA',
-    displayName: <Text>från&nbsp;Trygg-Hansa</Text>,
+    displayName: <Text>Trygg-Hansa</Text>,
   },
   {
     currentInsurerName: 'MODERNA',
-    displayName: <Text>från Moderna&nbsp;Försäkringar</Text>,
+    displayName: (
+      <Text>
+        <TranslationsConsumer textKey={'MODERNA_FORSAKRING_APP'}>
+          {(t) => t}
+        </TranslationsConsumer>
+      </Text>
+    ),
   },
   {
     currentInsurerName: 'ICA',
-    displayName: <Text>från ICA&nbsp;Försäkring</Text>,
+    displayName: (
+      <Text>
+        <TranslationsConsumer textKey={'ICA_FORSAKRING_APP'}>
+          {(t) => t}
+        </TranslationsConsumer>
+      </Text>
+    ),
   },
   {
     currentInsurerName: 'GJENSIDIGE',
-    displayName: <Text>från&nbsp;Gjensidige</Text>,
+    displayName: <Text>Gjensidige</Text>,
   },
   {
     currentInsurerName: 'VARDIA',
-    displayName: <Text>från&nbsp;Vardia</Text>,
+    displayName: <Text>Vardia</Text>,
   },
   {
     currentInsurerName: 'TRE_KRONOR',
-    displayName: <Text>från&nbsp;Tre Kronor</Text>,
+    displayName: <Text>Tre Kronor</Text>,
   },
   {
     currentInsurerName: 'OTHER',
-    displayName: <Text>från din nuvarande försäkring</Text>,
+    displayName: (
+      <Text>
+        <TranslationsConsumer textKey={'OTHER_INSURER_OPTION_APP'}>
+          {(t) => t}
+        </TranslationsConsumer>
+      </Text>
+    ),
   },
 ];
 
@@ -148,13 +166,13 @@ const getDisplayName = (currentInsurerName) =>
 
 const getSwitcherTitle = (currentInsurerName) =>
   switchableInsurers.includes(currentInsurerName)
-    ? 'OFFER_SWITCH_TITLE'
-    : 'OFFER_SWITCH_TITLE_NON_SWITCHABLE';
+    ? 'OFFER_SWITCH_TITLE_APP'
+    : 'OFFER_SWITCH_TITLE_NON_SWITCHABLE_APP';
 
 const getSwitcherMessage = (currentInsurerName) =>
   switchableInsurers.includes(currentInsurerName)
-    ? 'OFFER_SWITCH_COL_ONE_PARAGRAPH'
-    : 'OFFER_NON_SWITCHABLE_COL_ONE_PARAGRAPH';
+    ? 'OFFER_SWITCH_COL_ONE_PARAGRAPH_APP'
+    : 'OFFER_NON_SWITCHABLE_COL_ONE_PARAGRAPH_APP';
 
 class OfferScreen extends React.Component {
   render() {
@@ -199,7 +217,11 @@ class OfferScreen extends React.Component {
                           <Text style={styles.stepNumberText}>1</Text>
                         </View>
                         <Text style={styles.stepLabel}>
-                          Signera med ditt mobila&nbsp;BankID
+                          <TranslationsConsumer
+                            textKey={'SIGN_MOBILE_BANK_ID'}
+                          >
+                            {(t) => t}
+                          </TranslationsConsumer>
                         </Text>
                       </View>
                       <View style={styles.step}>
@@ -222,7 +244,7 @@ class OfferScreen extends React.Component {
                         </View>
                         <Text style={styles.stepLabel}>
                           <TranslationsConsumer
-                            textKey={'OFFER_SWITCH_COL_THREE_PARAGRAPH'}
+                            textKey={'OFFER_SWITCH_COL_THREE_PARAGRAPH_APP'}
                           >
                             {(t) => t}
                           </TranslationsConsumer>
