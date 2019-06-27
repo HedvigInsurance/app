@@ -37,7 +37,7 @@ extension Offer {
         chatButton.tintColor = .white
 
         bag += chatButton.onValue { _ in
-            let chatOverlay = DraggableOverlay(presentable: OfferChat())
+            let chatOverlay = DraggableOverlay(presentable: OfferChat(), adjustsToKeyboard: false)
             bag += viewController.present(chatOverlay).onValue { _ in }
         }
 
