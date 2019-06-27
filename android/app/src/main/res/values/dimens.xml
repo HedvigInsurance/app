@@ -95,6 +95,5 @@
     <dimen name="pager_indicator_height">32dp</dimen>
     <dimen name="news_close_button_size">28dp</dimen>
 
-    <dimen name="redeem_bottom_sheet_extra_padding_below_edit_text">0dp</dimen>
     <dimen name="referrals_button_bottom_margin">80dp</dimen>
 </resources>
