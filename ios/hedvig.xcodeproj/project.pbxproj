@@ -1600,6 +1600,7 @@
 				EBC15BE5212850D700D0E296 /* Bundle React Native code and images */,
 				B563863F1DB9693800A0598C /* Resources */,
 				4058138912982553DF297D6D /* [CP] Copy Pods Resources */,
+				EB8E2AA522C4B884009F6180 /* Upload DSYM */,
 			);
 			buildRules = (
 			);
@@ -1762,6 +1763,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftFormat/CommandLineTool/swiftformat\" \"${SRCROOT}\" --disable trailingCommas --exclude Pods\n";
+		};
+		EB8E2AA522C4B884009F6180 /* Upload DSYM */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Upload DSYM";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/upload-symbols\" -gsp \"${PROJECT_DIR}/hedvig/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
 		};
 		EBC15BE5212850D700D0E296 /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
