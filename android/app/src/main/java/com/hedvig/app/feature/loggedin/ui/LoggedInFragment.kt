@@ -1,10 +1,10 @@
 package com.hedvig.app.feature.loggedin.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.internal.BottomNavigationItemView
 import android.support.design.internal.BottomNavigationMenuView
 import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -14,23 +14,32 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.google.firebase.iid.FirebaseInstanceId
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.app.BuildConfig
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.claims.ui.ClaimsViewModel
+import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.feature.referrals.ReferralBottomSheet
 import com.hedvig.app.feature.whatsnew.WhatsNewDialog
 import com.hedvig.app.feature.whatsnew.WhatsNewViewModel
+import com.hedvig.app.util.extensions.monthlyCostDeductionIncentive
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setupLargeTitle
+import com.hedvig.app.util.extensions.showShareSheet
 import com.hedvig.app.util.extensions.startClosableChat
 import com.hedvig.app.util.extensions.view.remove
+import com.hedvig.app.util.extensions.view.setHapticClickListener
+import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.extensions.view.updatePadding
+import com.hedvig.app.util.interpolateTextKey
+import com.hedvig.app.util.safeLet
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.logged_in_screen.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -40,6 +49,8 @@ class LoggedInFragment : Fragment() {
     private val tabViewModel: BaseTabViewModel by sharedViewModel()
     private val whatsNewViewModel: WhatsNewViewModel by viewModel()
     private val profileViewModel: ProfileViewModel by sharedViewModel()
+
+    private val profileTracker: ProfileTracker by inject()
 
     private var lastLoggedInTab = LoggedInTabs.DASHBOARD
 
@@ -61,6 +72,7 @@ class LoggedInFragment : Fragment() {
             val id = LoggedInTabs.fromId(menuItem.itemId)
             tabContentContainer.setCurrentItem(id.ordinal, false)
             setupAppBar(id)
+            setupFloatingButton(id)
             true
         }
 
@@ -71,6 +83,11 @@ class LoggedInFragment : Fragment() {
 
         bindData()
         setupAppBar(LoggedInTabs.fromId(bottomTabs.selectedItemId))
+    }
+
+    private fun setupFloatingButton(id: LoggedInTabs) = when (id) {
+        LoggedInTabs.DASHBOARD, LoggedInTabs.CLAIMS, LoggedInTabs.PROFILE -> referralButton.remove()
+        LoggedInTabs.REFERRALS -> referralButton.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -136,10 +153,37 @@ class LoggedInFragment : Fragment() {
                 }
             }
         }
+
+        profileViewModel.data.observe(this) { data ->
+            safeLet(
+                data?.referralInformation?.campaign?.monthlyCostDeductionIncentive()?.amount?.amount?.toBigDecimal()?.toDouble(),
+                data?.referralInformation?.campaign?.code
+            ) { incentive, code -> bindReferralsButton(incentive, code) }
+        }
         whatsNewViewModel.fetchNews()
     }
 
-    fun setupAppBar(id: LoggedInTabs) {
+    private fun bindReferralsButton(incentive: Double, code: String) {
+        referralButton.setHapticClickListener {
+            profileTracker.clickReferral(incentive.toInt())
+            requireContext().showShareSheet(R.string.REFERRALS_SHARE_SHEET_TITLE) { intent ->
+                intent.apply {
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        interpolateTextKey(
+                            resources.getString(R.string.REFERRAL_SMS_MESSAGE),
+                            "REFERRAL_VALUE" to incentive.toBigDecimal().toInt().toString(),
+                            "REFERRAL_CODE" to code,
+                            "REFERRAL_LINK" to BuildConfig.REFERRALS_LANDING_BASE_URL + code
+                        )
+                    )
+                    type = "text/plain"
+                }
+            }
+        }
+    }
+
+    private fun setupAppBar(id: LoggedInTabs) {
         activity?.invalidateOptionsMenu()
         if (lastLoggedInTab != id) {
             appBarLayout.setExpanded(true, false)
