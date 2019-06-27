@@ -13,11 +13,10 @@ import com.hedvig.android.owldroid.type.InsuranceType
 import com.hedvig.app.R
 import com.hedvig.app.feature.dashboard.service.DashboardTracker
 import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
-import com.hedvig.app.feature.referrals.RedeemCodeBottomSheet
+import com.hedvig.app.feature.referrals.RedeemCodeDialog
 import com.hedvig.app.util.extensions.addViews
 import com.hedvig.app.util.extensions.compatDrawable
 import com.hedvig.app.util.extensions.displayMetrics
-import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.view.animateCollapse
 import com.hedvig.app.util.extensions.view.animateExpand
@@ -118,8 +117,8 @@ class DashboardFragment : BaseTabFragment() {
 
         setupDirectDebitStatus(directDebitData.directDebitStatus)
         insuranceActive.setOnClickListener {
-            RedeemCodeBottomSheet.newInstance()
-                .show(fragmentManager, RedeemCodeBottomSheet.TAG)
+            RedeemCodeDialog.newInstance()
+                .show(fragmentManager, RedeemCodeDialog.TAG)
         }
     }
 
