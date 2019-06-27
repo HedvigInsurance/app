@@ -39,7 +39,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.hedvig.app.feature.whatsnew.PagerIndicatorView
+    <com.hedvig.app.feature.dismissablepager.PagerIndicatorView
         android:id="@+id/pagerIndicator"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pager_indicator_height" />

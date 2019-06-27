@@ -1,4 +1,4 @@
-package com.hedvig.app.feature.whatsnew
+package com.hedvig.app.feature.dismissablepager
 
 import android.graphics.drawable.PictureDrawable
 import android.net.Uri
@@ -8,12 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.RequestBuilder
-import com.hedvig.app.BuildConfig
 import com.hedvig.app.R
 import com.hedvig.app.util.svg.buildRequestBuilder
 import kotlinx.android.synthetic.main.fragment_news.*
 
-class NewsFragment : Fragment() {
+class DismissablePageFragment : Fragment() {
     private val requestBuilder: RequestBuilder<PictureDrawable> by lazy { buildRequestBuilder() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -22,31 +21,31 @@ class NewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getString(NEWS_ILLUSTRATION)?.let { il ->
+        arguments?.getString(ILLUSTRATION)?.let { il ->
             requestBuilder
-                .load(Uri.parse(BuildConfig.BASE_URL + il))
+                .load(Uri.parse(il))
                 .into(illustration)
         }
-        title.text = arguments?.getString(NEWS_TITLE)
-        paragraph.text = arguments?.getString(NEWS_PARAGRAPH)
+        title.text = arguments?.getString(TITLE)
+        paragraph.text = arguments?.getString(PARAGRAPH)
     }
 
     companion object {
-        fun newInstance(illustration: String, title: String, paragraph: String): NewsFragment {
-            val fragment = NewsFragment()
+        fun newInstance(illustration: String, title: String, paragraph: String): DismissablePageFragment {
+            val fragment = DismissablePageFragment()
 
             val arguments = Bundle().apply {
-                putString(NEWS_ILLUSTRATION, illustration)
-                putString(NEWS_TITLE, title)
-                putString(NEWS_PARAGRAPH, paragraph)
+                putString(ILLUSTRATION, illustration)
+                putString(TITLE, title)
+                putString(PARAGRAPH, paragraph)
             }
             fragment.arguments = arguments
 
             return fragment
         }
 
-        private const val NEWS_ILLUSTRATION = "NEWS_ILLUSTRATION"
-        private const val NEWS_TITLE = "NEWS_TITLE"
-        private const val NEWS_PARAGRAPH = "NEWS_PARAGRAPH"
+        private const val ILLUSTRATION = "ILLUSTRATION"
+        private const val TITLE = "TITLE"
+        private const val PARAGRAPH = "PARAGRAPH"
     }
 }

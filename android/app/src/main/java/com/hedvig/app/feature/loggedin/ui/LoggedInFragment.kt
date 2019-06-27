@@ -21,6 +21,8 @@ import com.hedvig.app.feature.claims.ui.ClaimsViewModel
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.feature.referrals.ReferralBottomSheet
+import com.hedvig.app.feature.welcome.WelcomeDialog
+import com.hedvig.app.feature.welcome.WelcomeViewModel
 import com.hedvig.app.feature.whatsnew.WhatsNewDialog
 import com.hedvig.app.feature.whatsnew.WhatsNewViewModel
 import com.hedvig.app.util.extensions.monthlyCostDeductionIncentive
@@ -49,6 +51,7 @@ class LoggedInFragment : Fragment() {
     private val tabViewModel: BaseTabViewModel by sharedViewModel()
     private val whatsNewViewModel: WhatsNewViewModel by viewModel()
     private val profileViewModel: ProfileViewModel by sharedViewModel()
+    private val welcomeViewModel: WelcomeViewModel by viewModel()
 
     private val profileTracker: ProfileTracker by inject()
 
@@ -79,6 +82,13 @@ class LoggedInFragment : Fragment() {
         if (requireActivity().intent.getBooleanExtra(LoggedInActivity.EXTRA_IS_FROM_REFERRALS_NOTIFICATION, false)) {
             bottomTabs.selectedItemId = R.id.referrals
             requireActivity().intent.removeExtra(LoggedInActivity.EXTRA_IS_FROM_REFERRALS_NOTIFICATION)
+        }
+
+        if (requireActivity().intent.getBooleanExtra(LoggedInActivity.EXTRA_IS_FROM_ONBOARDING, false)) {
+            welcomeViewModel.fetch()
+            welcomeViewModel.data.observe(this) { data ->
+                data?.let { WelcomeDialog.newInstance(it).show(childFragmentManager, WelcomeDialog.TAG) }
+            }
         }
 
         bindData()
@@ -149,7 +159,7 @@ class LoggedInFragment : Fragment() {
                     GlobalScope.launch(Dispatchers.IO) {
                         FirebaseInstanceId.getInstance().deleteInstanceId()
                     }
-                    WhatsNewDialog.newInstance().show(childFragmentManager, WhatsNewDialog.TAG)
+                    WhatsNewDialog.newInstance(listOf()).show(childFragmentManager, WhatsNewDialog.TAG)
                 }
             }
         }

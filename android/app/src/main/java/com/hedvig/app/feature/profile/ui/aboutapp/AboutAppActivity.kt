@@ -30,7 +30,7 @@ class AboutAppActivity : BaseActivity() {
         }
 
         whatsNew.setOnClickListener {
-            WhatsNewDialog.newInstance(NEWS_BASE_VERSION).show(supportFragmentManager, WhatsNewDialog.TAG)
+            WhatsNewDialog.newInstance(listOf()).show(supportFragmentManager, WhatsNewDialog.TAG)
         }
 
         versionNumber.text = interpolateTextKey(
