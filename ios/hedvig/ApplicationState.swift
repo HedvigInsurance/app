@@ -27,6 +27,10 @@ struct ApplicationState {
         return UserDefaults.standard.value(forKey: key) as? String != nil
     }
 
+    static func hasLastNewsSeen() -> Bool {
+        return UserDefaults.standard.value(forKey: lastNewsSeenKey) as? String != nil
+    }
+
     static func getLastNewsSeen() -> String {
         return UserDefaults.standard.string(forKey: ApplicationState.lastNewsSeenKey) ?? "0.0.0"
     }

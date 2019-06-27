@@ -64,6 +64,7 @@
 
     <dimen name="referral_title_spacing">40dp</dimen>
     <dimen name="background_rounded_corner_radius">8dp</dimen>
+    <dimen name="background_very_rounded_corner_radius">16dp</dimen>
     <dimen name="referral_invite_row_status_icon_size">16dp</dimen>
     <dimen name="referral_invite_avatar_max_size">32dp</dimen>
     <dimen name="referral_row_height">72dp</dimen>

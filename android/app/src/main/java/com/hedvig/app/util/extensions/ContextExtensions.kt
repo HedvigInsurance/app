@@ -21,6 +21,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.hedvig.app.SplashActivity
+import kotlin.system.exitProcess
 
 private const val SHARED_PREFERENCE_NAME = "hedvig_shared_preference"
 private const val SHARED_PREFERENCE_IS_LOGGED_IN = "shared_preference_is_logged_in"
@@ -43,7 +44,7 @@ fun Context.triggerRestartActivity(activity: Class<*> = SplashActivity::class.ja
         PendingIntent.getActivity(this, pendingIntentId, startActivity, PendingIntent.FLAG_CANCEL_CURRENT)
     val mgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, pendingIntent)
-    System.exit(0)
+    exitProcess(0)
 }
 
 fun Context.setIsLoggedIn(isLoggedIn: Boolean) =
@@ -53,6 +54,9 @@ fun Context.isLoggedIn(): Boolean =
     getSharedPreferences().getBoolean(SHARED_PREFERENCE_IS_LOGGED_IN, false)
 
 private fun Context.getSharedPreferences() = this.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
+
+fun Context.showShareSheet(@StringRes title: Int, configureClosure: ((Intent) -> Unit)?) =
+    showShareSheet(resources.getString(title), configureClosure)
 
 fun Context.showShareSheet(title: String, configureClosure: ((Intent) -> Unit)?) {
     val intent = Intent().apply {

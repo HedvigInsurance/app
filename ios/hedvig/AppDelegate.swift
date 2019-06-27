@@ -46,17 +46,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
 
         commonClaimEmergencyOpenFreeTextChat = { viewController in
-            let chatOverlay = DraggableOverlay(presentable: FreeTextChat())
+            let chatOverlay = DraggableOverlay(presentable: FreeTextChat(), adjustsToKeyboard: false)
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
         }
 
         dashboardOpenFreeTextChat = { viewController in
-            let chatOverlay = DraggableOverlay(presentable: FreeTextChat())
+            let chatOverlay = DraggableOverlay(presentable: FreeTextChat(), adjustsToKeyboard: false)
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
         }
 
         commonClaimEmergencyOpenCallMeChat = { viewController in
-            let chatOverlay = DraggableOverlay(presentable: CallMeChat())
+            let chatOverlay = DraggableOverlay(presentable: CallMeChat(), adjustsToKeyboard: false)
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
         }
 
@@ -168,6 +168,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         if #available(iOS 10, *) {
             UNUserNotificationCenter.current().delegate = self
+        }
+
+        // Set the last seen news version to current if we dont have a token indicating this is a first launch
+        bag += RCTApolloClient.getToken().valueSignal.filter { $0 == nil }.onValue { _ in
+            ApplicationState.setLastNewsSeen()
         }
 
         bag += RCTApolloClient.restoreState()
