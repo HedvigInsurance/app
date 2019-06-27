@@ -238,6 +238,7 @@
 		EB433C96221D49C1000156D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */; };
 		EB4695BE220051BF0004C75D /* Pods-Hedvig-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */; };
 		EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4695CD220083800004C75D /* RCTApolloClient.swift */; };
+		EB48684122C5009600688463 /* PanDirectionGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48684022C5009600688463 /* PanDirectionGestureRecognizer.swift */; };
 		EB8E2A5C22C0C21B009F6180 /* TerminatedInsurance.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A5B22C0C21B009F6180 /* TerminatedInsurance.swift */; };
 		EB8E2A7C22C229C5009F6180 /* ReferralsInvitationAnonymous.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6422C229C5009F6180 /* ReferralsInvitationAnonymous.swift */; };
 		EB8E2A7D22C229C5009F6180 /* Referrals.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6522C229C5009F6180 /* Referrals.swift */; };
@@ -554,6 +555,7 @@
 		EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Pods-Hedvig-acknowledgements.plist"; sourceTree = "<group>"; };
 		EB4695CD220083800004C75D /* RCTApolloClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCTApolloClient.swift; sourceTree = "<group>"; };
+		EB48684022C5009600688463 /* PanDirectionGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanDirectionGestureRecognizer.swift; sourceTree = "<group>"; };
 		EB8E2A5B22C0C21B009F6180 /* TerminatedInsurance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminatedInsurance.swift; sourceTree = "<group>"; };
 		EB8E2A6422C229C5009F6180 /* ReferralsInvitationAnonymous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitationAnonymous.swift; sourceTree = "<group>"; };
 		EB8E2A6522C229C5009F6180 /* Referrals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Referrals.swift; sourceTree = "<group>"; };
@@ -1135,6 +1137,7 @@
 				EB11EA122277047700D95365 /* Animations */,
 				EB384A6022943E0400D226D1 /* DocumentPicker.swift */,
 				EB384A6222953A2700D226D1 /* ImagePicker.swift */,
+				EB48684022C5009600688463 /* PanDirectionGestureRecognizer.swift */,
 			);
 			path = Generic;
 			sourceTree = "<group>";
@@ -2054,6 +2057,7 @@
 				EB11ED2B227ADBDE00D95365 /* CommonClaimsCollection.swift in Sources */,
 				EB11EAAD2277047700D95365 /* CircleIcon.swift in Sources */,
 				EB11EA982277047700D95365 /* BubbleLoading.swift in Sources */,
+				EB48684122C5009600688463 /* PanDirectionGestureRecognizer.swift in Sources */,
 				EB11EACF2277047700D95365 /* TableViewFormStyle.swift in Sources */,
 				EB11EA702277047700D95365 /* MyInfoState.swift in Sources */,
 				EBCAA8CB22846FE6003C4833 /* UIViewController+PreferredContentSizeSignal.swift in Sources */,
