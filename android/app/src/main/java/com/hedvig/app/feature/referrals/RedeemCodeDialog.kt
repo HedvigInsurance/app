@@ -51,8 +51,8 @@ class RedeemCodeDialog : DialogFragment() {
                 false
             }
         }
-        referralViewModel.redeemCodeStatus.observe(this) {
-            if (it == true) {
+        referralViewModel.redeemCodeStatus.observe(this) { codeWasValid ->
+            if (codeWasValid == true) {
                 localBroadcastManager.sendBroadcast(Intent(ActivityStarterModule.REDEEMED_CODE_BROADCAST).apply {
                     putExtra(
                         ActivityStarterModule.BROADCAST_MESSAGE_NAME,
