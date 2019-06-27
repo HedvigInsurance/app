@@ -16,7 +16,8 @@ import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
-import kotlinx.android.synthetic.main.bottom_sheet_promotion_code.*
+import com.hedvig.app.util.extensions.observe
+import kotlinx.android.synthetic.main.promotion_code_dialog.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -28,7 +29,7 @@ class RedeemCodeDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_promotion_code, null)
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.promotion_code_dialog, null)
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 

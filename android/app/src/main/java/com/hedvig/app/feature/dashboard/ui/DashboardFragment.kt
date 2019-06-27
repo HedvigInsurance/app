@@ -18,6 +18,7 @@ import com.hedvig.app.util.extensions.addViews
 import com.hedvig.app.util.extensions.compatDrawable
 import com.hedvig.app.util.extensions.displayMetrics
 import com.hedvig.app.util.extensions.proxyNavigate
+import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.animateCollapse
 import com.hedvig.app.util.extensions.view.animateExpand
 import com.hedvig.app.util.extensions.view.remove
