@@ -48,7 +48,7 @@ const DiscountCircle = styled(Circle)({
 const DiscountText = styled(Text)({
   color: colors.WHITE,
   fontFamily: fonts.CIRCULAR,
-  fontSize: 16,
+  fontSize: getCircleSize() === LARGE_CIRCLE_SIZE ? 14 : 12,
   fontWeight: 'bold',
 });
 
@@ -87,45 +87,45 @@ export const PriceBubble: React.SFC<PriceBubbleProps> = ({
   price,
   discountedPrice,
 }) => (
-  <Sequence>
-    <Delay config={{ delay: 650 }} />
-    <Spring
-      config={{
-        bounciness: 12,
-      }}
-      toValue={1}
-      initialValue={0.5}
-    >
-      {(animatedValue) => (
-        <AnimatedView
-          style={{
-            opacity: animatedValue.interpolate({
-              inputRange: [0.5, 1],
-              outputRange: [0, 1],
-            }),
-            transform: [{ scale: animatedValue }],
-          }}
-        >
-          <Circle>
-            {discountedPrice.amount !== price.amount ? (
-              <>
-                <GrossPrice>{formatMonetaryAmount(price)} kr/mån</GrossPrice>
-                <NetPrice>{formatMonetaryAmount(discountedPrice)}</NetPrice>
-              </>
-            ) : (
-              <Price>{formatMonetaryAmount(price)}</Price>
+    <Sequence>
+      <Delay config={{ delay: 650 }} />
+      <Spring
+        config={{
+          bounciness: 12,
+        }}
+        toValue={1}
+        initialValue={0.5}
+      >
+        {(animatedValue) => (
+          <AnimatedView
+            style={{
+              opacity: animatedValue.interpolate({
+                inputRange: [0.5, 1],
+                outputRange: [0, 1],
+              }),
+              transform: [{ scale: animatedValue }],
+            }}
+          >
+            <Circle>
+              {discountedPrice.amount !== price.amount ? (
+                <>
+                  <GrossPrice>{formatMonetaryAmount(price)} kr/mån</GrossPrice>
+                  <NetPrice>{formatMonetaryAmount(discountedPrice)}</NetPrice>
+                </>
+              ) : (
+                  <Price>{formatMonetaryAmount(price)}</Price>
+                )}
+              <MonthlyLabel>kr/mån</MonthlyLabel>
+            </Circle>
+            {discountedPrice.amount !== price.amount && (
+              <DiscountCircle>
+                <TranslationsConsumer textKey="OFFER_SCREEN_INVITED_BUBBLE">
+                  {(text) => <DiscountText>{text}</DiscountText>}
+                </TranslationsConsumer>
+              </DiscountCircle>
             )}
-            <MonthlyLabel>kr/mån</MonthlyLabel>
-          </Circle>
-          {discountedPrice.amount !== price.amount && (
-            <DiscountCircle>
-              <TranslationsConsumer textKey="OFFER_SCREEN_INVITED_BUBBLE">
-                {(text) => <DiscountText>{text}</DiscountText>}
-              </TranslationsConsumer>
-            </DiscountCircle>
-          )}
-        </AnimatedView>
-      )}
-    </Spring>
-  </Sequence>
-);
+          </AnimatedView>
+        )}
+      </Spring>
+    </Sequence>
+  );
