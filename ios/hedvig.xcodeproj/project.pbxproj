@@ -239,6 +239,7 @@
 		EB4695BE220051BF0004C75D /* Pods-Hedvig-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */; };
 		EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4695CD220083800004C75D /* RCTApolloClient.swift */; };
 		EB48684122C5009600688463 /* PanDirectionGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48684022C5009600688463 /* PanDirectionGestureRecognizer.swift */; };
+		EB48684322C531F600688463 /* ReferralsProgressHighPremium.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48684222C531F600688463 /* ReferralsProgressHighPremium.swift */; };
 		EB8E2A5C22C0C21B009F6180 /* TerminatedInsurance.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A5B22C0C21B009F6180 /* TerminatedInsurance.swift */; };
 		EB8E2A7C22C229C5009F6180 /* ReferralsInvitationAnonymous.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6422C229C5009F6180 /* ReferralsInvitationAnonymous.swift */; };
 		EB8E2A7D22C229C5009F6180 /* Referrals.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6522C229C5009F6180 /* Referrals.swift */; };
@@ -556,6 +557,7 @@
 		EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Pods-Hedvig-acknowledgements.plist"; sourceTree = "<group>"; };
 		EB4695CD220083800004C75D /* RCTApolloClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCTApolloClient.swift; sourceTree = "<group>"; };
 		EB48684022C5009600688463 /* PanDirectionGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanDirectionGestureRecognizer.swift; sourceTree = "<group>"; };
+		EB48684222C531F600688463 /* ReferralsProgressHighPremium.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsProgressHighPremium.swift; sourceTree = "<group>"; };
 		EB8E2A5B22C0C21B009F6180 /* TerminatedInsurance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminatedInsurance.swift; sourceTree = "<group>"; };
 		EB8E2A6422C229C5009F6180 /* ReferralsInvitationAnonymous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitationAnonymous.swift; sourceTree = "<group>"; };
 		EB8E2A6522C229C5009F6180 /* Referrals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Referrals.swift; sourceTree = "<group>"; };
@@ -1479,6 +1481,7 @@
 				EB8E2A6E22C229C5009F6180 /* ReferralsInvitationOnboardingIcon.swift */,
 				EB8E2A6F22C229C5009F6180 /* ReferralsInvitationMemberIcon.swift */,
 				EB8E2A7022C229C5009F6180 /* ReferralsInvitationLeftIcon.swift */,
+				EB48684222C531F600688463 /* ReferralsProgressHighPremium.swift */,
 			);
 			path = Viewables;
 			sourceTree = "<group>";
@@ -1893,6 +1896,7 @@
 				EB11EAD02277047700D95365 /* DefaultStyling.swift in Sources */,
 				EB8E2A8522C229C5009F6180 /* ReferralsInvitationMemberIcon.swift in Sources */,
 				EB11EAA12277047700D95365 /* ButtonSection.swift in Sources */,
+				EB48684322C531F600688463 /* ReferralsProgressHighPremium.swift in Sources */,
 				EB11EADB2277047800D95365 /* CoreSignal+Animation.swift in Sources */,
 				EB11EA8E2277047700D95365 /* CharityOption.swift in Sources */,
 				EB384A42228C6E1200D226D1 /* FreeTextChat.swift in Sources */,
