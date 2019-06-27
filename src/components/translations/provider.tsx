@@ -35,32 +35,31 @@ const TRANSLATIONS_QUERY = gql`
   }
 `;
 
-export const normalizeTranslations = (translations: Translation[]) => {
-  translations
-    .filter(t => t.key)
-    .reduce((acc: TextKeys, curr: Translation) => {
-      acc[curr.key.value] = curr.text;
-      return acc;
-    }, {});
+export const normalizeTranslations = (translations: Translation[]) => translations
+  .filter(t => t.key)
+  .reduce((acc: TextKeys, curr: Translation) => {
+    acc[curr.key.value] = curr.text;
+    return acc;
+  }, {});
 
-  const getTextKeys = (data?: Data) => {
-    if (!data || !data.languages || !data.languages[0]) {
-      return {};
-    }
+const getTextKeys = (data?: Data) => {
+  if (!data || !data.languages || !data.languages[0]) {
+    return {};
+  }
 
-    return normalizeTranslations(data!.languages[0].translations);
-  };
+  return normalizeTranslations(data!.languages[0].translations);
+};
 
-  export const TranslationsProvider: React.SFC = ({ children }) => (
-    <Query<Data> query={TRANSLATIONS_QUERY}>
-      {({ data, loading }) => (
-        <TranslationsContext.Provider
-          value={{
-            textKeys: getTextKeys(data),
-          }}
-        >
-          {loading ? null : children}
-        </TranslationsContext.Provider>
-      )}
-    </Query>
-  );
+export const TranslationsProvider: React.SFC = ({ children }) => (
+  <Query<Data> query={TRANSLATIONS_QUERY}>
+    {({ data, loading }) => (
+      <TranslationsContext.Provider
+        value={{
+          textKeys: getTextKeys(data),
+        }}
+      >
+        {loading ? null : children}
+      </TranslationsContext.Provider>
+    )}
+  </Query>
+);
