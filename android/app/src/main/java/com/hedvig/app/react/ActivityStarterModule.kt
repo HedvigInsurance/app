@@ -29,7 +29,7 @@ import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
-import com.hedvig.app.feature.referrals.RedeemCodeBottomSheet
+import com.hedvig.app.feature.referrals.RedeemCodeDialog
 import com.hedvig.app.util.extensions.makeToast
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import com.hedvig.app.util.extensions.showAlert
@@ -131,8 +131,8 @@ class ActivityStarterModule(
     @ReactMethod
     fun showRedeemCodeOverlay(onRedeem: Promise) {
         redeemCodeCallback = onRedeem
-        RedeemCodeBottomSheet.newInstance()
-            .show(fragmentManager, RedeemCodeBottomSheet.TAG)
+        RedeemCodeDialog.newInstance()
+            .show(fragmentManager, RedeemCodeDialog.TAG)
     }
 
     @ReactMethod

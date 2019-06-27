@@ -53,8 +53,10 @@
                 android:id="@id/coinsuredRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:iconImage="@drawable/icon_coinsured"
-                app:name="@string/PROFILE_ROW_COINSURED_TITLE" />
+                app:name="@string/PROFILE_ROW_COINSURED_TITLE"
+                tools:visibility="visible" />
 
             <com.hedvig.app.feature.profile.ui.ProfileMenuRow
                 android:id="@id/charityRow"
