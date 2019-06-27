@@ -262,7 +262,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     )
                 }
             } else if notificationType == "REFERRAL_SUCCESS" {
-                let referralsNotification = ReferralsNotification()
+                guard let incentiveString = userInfo["DATA_MESSAGE_REFERRED_SUCCESS_INCENTIVE_AMOUNT"] as? String else { return }
+                guard let name = userInfo["DATA_MESSAGE_REFERRED_SUCCESS_NAME"] as? String else { return }
+
+                let incentive = Int(Double(incentiveString) ?? 0)
+
+                let referralsNotification = ReferralsNotification(incentive: incentive, name: name)
                 let referralsNotificationIdentifier = PresentableIdentifier("\(type(of: referralsNotification))")
 
                 guard !screenStack.contains(referralsNotificationIdentifier) else {
