@@ -179,7 +179,7 @@ class OfferScreen extends React.Component {
                 <View style={styles.scrollContent}>
                   <View style={styles.content}>
                     <Text style={styles.heading}>
-                      <TranslationsConsumer
+                      <TranslationsPlaceholderConsumer
                         textKey={getSwitcherTitle(
                           data.insurance.currentInsurerName,
                         )}
@@ -190,7 +190,7 @@ class OfferScreen extends React.Component {
                         }}
                       >
                         {(t) => t}
-                      </TranslationsConsumer>
+                      </TranslationsPlaceholderConsumer>
                     </Text>
 
                     <View style={styles.stepsContainer}>
