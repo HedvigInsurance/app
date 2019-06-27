@@ -171,8 +171,9 @@ const getSwitcherTitle = (currentInsurerName) =>
 
 const getSwitcherMessage = (currentInsurerName) =>
   switchableInsurers.includes(currentInsurerName)
-    ? 'OFFER_SWITCH_COL_ONE_PARAGRAPH_APP'
-    : 'OFFER_NON_SWITCHABLE_COL_ONE_PARAGRAPH_APP';
+    ? 'OFFER_SWITCH_COL_PARAGRAPH_ONE_APP'
+    : 'OFFER_NON_SWITCHABLE_PARAGRAPH_ONE_APP';
+
 
 class OfferScreen extends React.Component {
   render() {
@@ -202,7 +203,7 @@ class OfferScreen extends React.Component {
                           data.insurance.currentInsurerName,
                         )}
                         replacements={{
-                          insurer: getDisplayName(
+                          INSURER: getDisplayName(
                             data.insurance.currentInsurerName,
                           ),
                         }}
