@@ -119,7 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         alertActionWasPressed = { _, title in
             if let localizationKey = title.localizationKey?.toString() {
-                Analytics.logEvent("alert_action_tap_\(localizationKey)", parameters: nil)
+                Analytics.logEvent("tap_\(localizationKey)", parameters: nil)
             }
         }
 
@@ -277,7 +277,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
                     self.getTopMostViewController()?.present(
                         referralsNotification,
-                        style: .default,
+                        style: .modally(presentationStyle: .formSheetOrOverFullscreen, transitionStyle: nil, capturesStatusBarAppearance: nil),
                         options: [.prefersNavigationBarHidden(false)]
                     )
                 }
@@ -296,7 +296,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
                 self.getTopMostViewController()?.present(
                     ReferralsReceiverConsent(referralCode: referralCode),
-                    style: .modal,
+                    style: .modally(presentationStyle: .formSheetOrOverFullscreen, transitionStyle: nil, capturesStatusBarAppearance: nil),
                     options: [.prefersNavigationBarHidden(true)]
                 ).onValue { result in
                     if result == .accept, !self.screenStack.hasChatScreen {
