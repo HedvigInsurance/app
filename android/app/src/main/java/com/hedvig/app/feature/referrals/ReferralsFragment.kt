@@ -7,6 +7,7 @@ import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.BuildConfig
 import com.hedvig.app.R
 import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
+import com.hedvig.app.feature.loggedin.ui.BaseTabViewModel
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.feature.profile.ui.referral.InvitesAdapter
@@ -24,6 +25,8 @@ import timber.log.Timber
 class ReferralsFragment : BaseTabFragment() {
     private val tracker: ProfileTracker by inject()
     private val profileViewModel: ProfileViewModel by sharedViewModel()
+
+    private val tabViewModel: BaseTabViewModel by sharedViewModel()
 
     override val layout = R.layout.fragment_new_referral
 
@@ -56,6 +59,7 @@ class ReferralsFragment : BaseTabFragment() {
                 }
             }
         }
+        tabViewModel.removeReferralNotification()
     }
 
     private fun bindData(monthlyCost: Int, data: ProfileQuery.ReferralInformation) {
@@ -71,7 +75,7 @@ class ReferralsFragment : BaseTabFragment() {
                         Intent.EXTRA_TEXT,
                         interpolateTextKey(
                             resources.getString(R.string.REFERRAL_SMS_MESSAGE),
-                            "REFERRAL_VALUE" to incentive.toString(),
+                            "REFERRAL_VALUE" to incentive.toBigDecimal().toInt().toString(),
                             "REFERRAL_CODE" to code,
                             "REFERRAL_LINK" to BuildConfig.REFERRALS_LANDING_BASE_URL + code
                         )

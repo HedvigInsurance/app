@@ -20,7 +20,7 @@ const handleCheckout = function*() {
   if (Platform.OS === 'ios') {
     NativeModules.NativeRouting.presentLoggedIn();
   } else {
-    NativeModules.ActivityStarter.navigateToChatFromOffer();
+    NativeModules.ActivityStarter.navigateToLoggedInFromOffer();
   }
 
   userDidSign();

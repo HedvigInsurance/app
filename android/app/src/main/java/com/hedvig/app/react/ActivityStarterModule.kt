@@ -94,14 +94,16 @@ class ActivityStarterModule(
     }
 
     @ReactMethod
-    fun navigateToChatFromOffer() {
-        currentActivity?.let {
-            it.startActivity(Intent(it, LoggedInActivity::class.java))
-        }
+    fun navigateToLoggedInFromOffer() {
+        navigateToLoggedIn()
     }
 
     @ReactMethod
     fun navigateToLoggedInFromChat() {
+        navigateToLoggedIn()
+    }
+
+    private fun navigateToLoggedIn() {
         currentActivity?.let { activity ->
             reactApplicationContext.setIsLoggedIn(true)
             FirebaseInstanceId.getInstance().deleteInstanceId()

@@ -13,6 +13,7 @@
         android:background="@color/off_white"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginBottom="@dimen/bottom_navigation_height"
         tools:itemCount="3"
         tools:listitem="@layout/referral_invite_row" />
 
@@ -25,8 +26,6 @@
         android:layout_marginBottom="@dimen/referrals_button_bottom_margin"
         android:background="@drawable/button_primary"
         android:backgroundTint="@color/purple"
-        android:drawableEnd="@drawable/icon_share_white"
-        android:drawablePadding="@dimen/base_margin"
         android:text="@string/REFERRAL_SHAREINVITE"
         android:theme="@style/HedvigButton"
         android:visibility="visible" />

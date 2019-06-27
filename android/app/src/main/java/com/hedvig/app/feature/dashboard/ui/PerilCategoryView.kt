@@ -74,7 +74,7 @@ class PerilCategoryView : HedvigCardView {
 
             @DrawableRes val icon = when (value) { // FIXME Oh god this is extremely wack
                 "https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/du_och_din_familj%402x.png" -> R.drawable.ic_family
-                "https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/lagenhet%402x.png" -> R.drawable.ic_home
+                "https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/lagenhet%402x.png" -> R.drawable.ic_two_homes
                 "https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/prylar%402x.png" -> R.drawable.ic_things
                 else -> R.drawable.ic_family
             }
