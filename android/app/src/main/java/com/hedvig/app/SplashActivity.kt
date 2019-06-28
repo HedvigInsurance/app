@@ -87,10 +87,7 @@ class SplashActivity : BaseActivity() {
     private fun navigateToActivity(loginStatus: LoginStatus) = when (loginStatus) {
         LoginStatus.ONBOARDING -> {
             safeLet(referralCode, referralIncentive) { referralCode, incentive ->
-                val intent = Intent(this, ReferralsReceiverActivity::class.java)
-                intent.putExtra(ReferralsReceiverActivity.EXTRA_REFERRAL_CODE, referralCode)
-                intent.putExtra(ReferralsReceiverActivity.EXTRA_REFERRAL_INCENTIVE, incentive)
-                startActivity(intent)
+                startActivity(ReferralsReceiverActivity.newInstance(this, referralCode, incentive))
             } ?: startActivity(Intent(this, MarketingActivity::class.java))
         }
         LoginStatus.IN_OFFER -> {

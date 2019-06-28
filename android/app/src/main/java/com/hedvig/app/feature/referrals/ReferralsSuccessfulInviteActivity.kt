@@ -40,7 +40,7 @@ class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
         referralSuccessTitle.show()
         referralSuccessBody.text = interpolateTextKey(
             getString(R.string.REFERRAL_SUCCESS_BODY),
-            "REFERRAL_VALUE" to intent.getStringExtra(EXTRA_REFERRAL_INCENTIVE)
+            "REFERRAL_VALUE" to intent.getStringExtra(EXTRA_REFERRAL_INCENTIVE).toBigDecimal().toInt()
         )
         referralSuccessBody.show()
     }
