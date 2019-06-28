@@ -225,7 +225,7 @@
                 app:cardCornerRadius="@dimen/hedvig_card_view_radius"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintTop_toBottomOf="@id/sphereContainer"
-                tools:visibility="visible">
+                >
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
