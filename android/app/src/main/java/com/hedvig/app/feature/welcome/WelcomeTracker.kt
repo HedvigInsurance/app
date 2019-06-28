@@ -1,10 +1,10 @@
-package com.hedvig.app.feature.whatsnew
+package com.hedvig.app.feature.welcome
 
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.app.feature.dismissablepager.DismissablePageTracker
 
-class WhatsNewTracker(
+class WelcomeTracker(
     private val firebaseAnalytics: FirebaseAnalytics
-): DismissablePageTracker {
-    override fun clickProceed() = firebaseAnalytics.logEvent("NEWS_PROCEED", null)
+) : DismissablePageTracker {
+    override fun clickProceed() = firebaseAnalytics.logEvent("TODO", null)
 }

@@ -97,11 +97,35 @@ class MainApplication : Application(), ReactApplication {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
+        setupRestring()
+    }
+
+    private fun setupRestring() {
+        val versionSharedPreferences =
+            getSharedPreferences(LAST_OPENED_VERSION_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        if (versionSharedPreferences.contains(LAST_OPENED_VERSION)) {
+            if (versionSharedPreferences.getInt(LAST_OPENED_VERSION, 0) != BuildConfig.VERSION_CODE) {
+                getSharedPreferences("Restrings", Context.MODE_PRIVATE)
+                    .edit()
+                    .clear()
+                    .apply()
+            }
+        } else {
+            versionSharedPreferences
+                .edit()
+                .putInt(LAST_OPENED_VERSION, BuildConfig.VERSION_CODE)
+                .apply()
+        }
         Restring.init(this)
         try {
             textKeys.refreshTextKeys()
         } catch (exception: Exception) {
             Timber.e(exception)
         }
+    }
+
+    companion object {
+        private const val LAST_OPENED_VERSION_SHARED_PREFERENCES = "last_opened_version_prefs"
+        private const val LAST_OPENED_VERSION = "Last_opened_version"
     }
 }
