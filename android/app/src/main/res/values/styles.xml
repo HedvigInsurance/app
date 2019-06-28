@@ -29,10 +29,14 @@
         <item name="android:windowBackground">@color/transparent</item>
     </style>
 
-    <style name="FullScreenDialogAnimation">
+    <style name="WelcomeDialogAnimation">
         <item name="android:windowExitAnimation">@anim/slide_out_down</item>
     </style>
 
+    <style name="WhatsNewDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_down</item>
+    </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowActionBar">false</item>

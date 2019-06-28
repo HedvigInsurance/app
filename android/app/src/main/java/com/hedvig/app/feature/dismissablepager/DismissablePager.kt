@@ -2,6 +2,7 @@ package com.hedvig.app.feature.dismissablepager
 
 import android.os.Bundle
 import android.support.annotation.StringRes
+import android.support.annotation.StyleRes
 import android.support.v4.app.DialogFragment
 import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
@@ -11,7 +12,8 @@ import android.view.WindowManager
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.screenWidth
 import com.hedvig.app.util.extensions.view.setHapticClickListener
-import kotlinx.android.synthetic.main.fragment_whats_new.*
+import com.hedvig.app.util.extensions.view.show
+import kotlinx.android.synthetic.main.fragment_dismissable_pager.*
 
 abstract class DismissablePager : DialogFragment() {
     abstract val items: List<DismissablePagerPage>
@@ -21,6 +23,10 @@ abstract class DismissablePager : DialogFragment() {
     abstract val proceedLabel: Int
     @get:StringRes
     abstract val dismissLabel: Int
+    @get:StyleRes
+    abstract val animationStyle: Int
+    @get:StringRes
+    abstract val titleLabel: Int?
 
     abstract fun onDismiss()
 
@@ -34,11 +40,11 @@ abstract class DismissablePager : DialogFragment() {
         dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
-        dialog?.window?.setWindowAnimations(R.style.FullScreenDialogAnimation)
+        dialog?.window?.setWindowAnimations(animationStyle)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_whats_new, container, false)
+        inflater.inflate(R.layout.fragment_dismissable_pager, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,6 +52,11 @@ abstract class DismissablePager : DialogFragment() {
         close.setOnClickListener {
             onDismiss()
             dialog?.dismiss()
+        }
+
+        titleLabel?.let { tl ->
+            title.text = resources.getString(tl)
+            title.show()
         }
 
         pager.adapter = DismissablePagerAdapter(childFragmentManager, items)
