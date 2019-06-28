@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Dimensions, Image, StyleSheet, Linking } from 'react-native';
 import { default as SnapCarousel } from 'react-native-snap-carousel';
-import { Navigation } from 'react-native-navigation';
 import {
   StyledCarouselContainer,
   StyledAlignedCarouselItems,
@@ -12,7 +11,6 @@ import {
   StyledParagraphToggleContainer,
 } from './styles/carousel';
 import { TextButton } from './Button';
-import { NavigationEvents } from '../navigation/events';
 
 const deviceWidth = Dimensions.get('window').width;
 const perilContainerSize = 185;
@@ -99,11 +97,6 @@ class Perils extends React.Component {
 
     return (
       <React.Fragment>
-        <NavigationEvents
-          onNavigationButtonPressed={(_, componentId) =>
-            Navigation.dismissModal(componentId)
-          }
-        />
         <StyledCarouselContainer>
           <StyledAlignedCarouselItems>
             <StyledImageCarouselContainer>

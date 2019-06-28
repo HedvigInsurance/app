@@ -2,7 +2,6 @@ import * as React from 'react';
 import { CameraRoll, GetPhotosReturnType, Platform } from 'react-native';
 import { Container, ActionMap } from 'constate';
 import { Mount } from 'react-lifecycle-components';
-import Permissions from 'react-native-permissions';
 
 interface State {
   photos?: Partial<GetPhotosReturnType>;
@@ -40,16 +39,16 @@ interface DataProps {
   shouldLoad: boolean;
 }
 
-import { PermissionsAndroid } from 'react-native';
+import { PermissionsAndroid, NativeModules } from 'react-native';
 
 const requestCameraPermission = async () => {
   if (Platform.OS !== 'android') {
-    return await Permissions.check('photo');
+    return NativeModules.NativeRouting.requestCameraPermissions(true);
   }
 
   try {
     const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
+      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     );
 
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -79,7 +78,7 @@ const loadPhotos = async ({
   CameraRoll.getPhotos({
     first: 10,
     after: photos!.page_info ? photos!.page_info!.end_cursor : undefined,
-    assetType: Platform.OS === 'ios' ? 'All' : 'Photos'
+    assetType: Platform.OS === 'ios' ? 'All' : 'Photos',
   })
     .then((cameraRoll) => {
       setLoading(false);

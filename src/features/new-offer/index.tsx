@@ -6,6 +6,7 @@ import {
   View,
   ViewProps,
   Platform,
+  NativeModules,
 } from 'react-native';
 import styled from '@sampettersson/primitives';
 import { colors } from '@hedviginsurance/brand';
@@ -16,14 +17,12 @@ import { AnimationValueProvider } from 'animated-react-native-components';
 import { Spacing } from 'src/components/Spacing';
 import { ScrollContent } from 'src/features/new-offer/components/scroll-content';
 import { Checkout } from 'src/features/new-offer/components/checkout';
-import { NavigationOptions } from 'src/navigation/options';
-import { TranslationsConsumer } from 'src/components/translations/consumer';
 import { SignButton } from 'src/features/new-offer/components/sign-button';
-import { NEW_OFFER_OPTIONS } from 'src/navigation/screens/new-offer/options';
 import { AndroidHeader } from 'src/features/new-offer/android-header';
-import { Provider } from 'constate'
+import { Provider } from 'constate';
 
 import { NewOfferComponent } from 'src/graphql/components';
+import { DiscountButton } from './components/discount-button';
 
 const AnimatedScrollView = Animated.createAnimatedComponent<ScrollViewProps>(
   ScrollView,
@@ -126,7 +125,7 @@ const bounceScrollView = () => {
 export const NewOffer: React.SFC = () => (
   <Provider>
     <NewOfferComponent>
-      {({ data, loading, error }) =>
+      {({ data, loading, error, refetch, updateQuery }) =>
         loading || error ? null : (
           <>
             <AnimationValueProvider initialValue={0}>
@@ -145,16 +144,113 @@ export const NewOffer: React.SFC = () => (
                   >
                     <FixedContainer animatedValue={animatedValue}>
                       <Spacing height={15} />
-                      <PriceBubble price={data!.insurance.monthlyCost!} />
+                      <PriceBubble
+                        discountedPrice={data!.insurance!.cost!.monthlyNet}
+                        price={data!.insurance!.cost!.monthlyGross}
+                      />
                       <Spacing height={15} />
                       <FeaturesContainer animatedValue={animatedValue}>
                         <FeaturesBubbles
                           onPress={() => bounceScrollView()}
-                          personsInHousehold={data!.insurance.personsInHousehold!}
+                          personsInHousehold={
+                            data!.insurance.personsInHousehold!
+                          }
                           insuredAtOtherCompany={
                             data!.insurance.insuredAtOtherCompany!
                           }
                           type={data!.insurance.type!}
+                        />
+                        <DiscountButton
+                          discount={data!.insurance!.cost!.monthlyDiscount}
+                          onPress={() => {
+                            if (
+                              Number(
+                                data!.insurance!.cost!.monthlyDiscount!.amount,
+                              ) !== 0
+                            ) {
+                              if (Platform.OS === 'ios') {
+                                NativeModules.NativeRouting.showRemoveCodeAlert(
+                                  true,
+                                ).then((didRemoveCode: boolean) => {
+                                  if (didRemoveCode) {
+                                    updateQuery((queryData) => ({
+                                      ...queryData!,
+                                      insurance: {
+                                        ...queryData!.insurance,
+                                        cost: {
+                                          __typename: 'InsuranceCost',
+                                          monthlyDiscount: {
+                                            __typename: 'MonetaryAmountV2',
+                                            amount: '0.00',
+                                          },
+                                          monthlyNet: queryData.insurance.cost!
+                                            .monthlyGross,
+                                          monthlyGross: queryData.insurance
+                                            .cost!.monthlyGross,
+                                        },
+                                      },
+                                    }));
+                                  }
+                                });
+                              }
+                              if (Platform.OS === 'android') {
+                                NativeModules.ActivityStarter.showRemoveCodeAlert().then(
+                                  (didRemoveCode: boolean) => {
+                                    if (didRemoveCode) {
+                                      updateQuery((queryData) => ({
+                                        ...queryData!,
+                                        insurance: {
+                                          ...queryData!.insurance,
+                                          cost: {
+                                            __typename: 'InsuranceCost',
+                                            monthlyDiscount: {
+                                              __typename: 'MonetaryAmountV2',
+                                              amount: '0.00',
+                                            },
+                                            monthlyNet: queryData.insurance
+                                              .cost!.monthlyGross,
+                                            monthlyGross: queryData.insurance
+                                              .cost!.monthlyGross,
+                                          },
+                                        },
+                                      }));
+                                    }
+                                  },
+                                );
+                              }
+                            } else {
+                              if (Platform.OS === 'ios') {
+                                NativeModules.NativeRouting.showRedeemCodeOverlay(
+                                  true,
+                                ).then((redeemResponse: string) => {
+                                  if (redeemResponse != null) {
+                                    updateQuery((queryData) => ({
+                                      ...queryData!,
+                                      insurance: {
+                                        ...queryData!.insurance,
+                                        cost: JSON.parse(redeemResponse),
+                                      },
+                                    }));
+                                  }
+                                });
+                              }
+                              if (Platform.OS === 'android') {
+                                NativeModules.ActivityStarter.showRedeemCodeOverlay().then(
+                                  (redeemResponse: string) => {
+                                    if (redeemResponse != null) {
+                                      updateQuery((queryData) => ({
+                                        ...queryData!,
+                                        insurance: {
+                                          ...queryData!.insurance,
+                                          cost: JSON.parse(redeemResponse),
+                                        },
+                                      }));
+                                    }
+                                  },
+                                );
+                              }
+                            }
+                          }}
                         />
                       </FeaturesContainer>
                     </FixedContainer>
@@ -170,19 +266,6 @@ export const NewOffer: React.SFC = () => (
                 </>
               )}
             </AnimationValueProvider>
-            <TranslationsConsumer textKey="OFFER_TITLE">
-              {(title) => (
-                <NavigationOptions
-                  options={{
-                    ...NEW_OFFER_OPTIONS,
-                    topBar: {
-                      title: { text: title },
-                      subtitle: { text: data!.insurance.address! },
-                    },
-                  }}
-                />
-              )}
-            </TranslationsConsumer>
           </>
         )
       }

@@ -1,5 +1,3 @@
-import { Navigation } from 'react-native-navigation';
-
 import { DEBUG_SCREEN } from './';
 
 export const getDebugLayout = () => ({

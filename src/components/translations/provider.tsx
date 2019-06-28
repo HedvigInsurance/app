@@ -24,7 +24,7 @@ interface Data {
 
 const TRANSLATIONS_QUERY = gql`
   query TranslationsQuery {
-    languages(where: { code: "sv_SE" }) {
+    languages(where: { code: "sv_SE", status: PUBLISHED }) {
       translations(where: { project: App }) {
         key {
           value
@@ -35,8 +35,9 @@ const TRANSLATIONS_QUERY = gql`
   }
 `;
 
-export const normalizeTranslations = (translations: Translation[]) =>
-  translations.reduce((acc: TextKeys, curr: Translation) => {
+export const normalizeTranslations = (translations: Translation[]) => translations
+  .filter(t => t.key)
+  .reduce((acc: TextKeys, curr: Translation) => {
     acc[curr.key.value] = curr.text;
     return acc;
   }, {});

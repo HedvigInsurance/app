@@ -10,13 +10,27 @@ import UIKit
 
 let log = Logger.self
 
+extension Sequence where Element == PresentableIdentifier {
+    var hasChatScreen: Bool {
+        let onboardingChat = OnboardingChat(intent: .onboard)
+        let onboardingChatIdentifier = PresentableIdentifier("\(type(of: onboardingChat))")
+
+        return contains(onboardingChatIdentifier)
+    }
+}
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     let bag = DisposeBag()
-    var window: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
+    var rootWindow = UIWindow(frame: UIScreen.main.bounds)
     var splashWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
+
+    let hasFinishedLoading = ReadWriteSignal<Bool>(false)
     private let applicationWillTerminateCallbacker = Callbacker<Void>()
     let applicationWillTerminateSignal: Signal<Void>
+    let gcmMessageIDKey = "gcm.message_id"
+
+    var screenStack: [PresentableIdentifier] = []
 
     override init() {
         applicationWillTerminateSignal = applicationWillTerminateCallbacker.signal()
@@ -32,18 +46,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         commonClaimEmergencyOpenFreeTextChat = { viewController in
-            let chatOverlay = DraggableOverlay(presentable: Chat())
+            let chatOverlay = DraggableOverlay(presentable: FreeTextChat(), adjustsToKeyboard: false)
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
         }
 
         dashboardOpenFreeTextChat = { viewController in
-            let chatOverlay = DraggableOverlay(presentable: Chat())
+            let chatOverlay = DraggableOverlay(presentable: FreeTextChat(), adjustsToKeyboard: false)
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
         }
 
         commonClaimEmergencyOpenCallMeChat = { viewController in
-            let chatOverlay = DraggableOverlay(presentable: CallMeChat())
+            let chatOverlay = DraggableOverlay(presentable: CallMeChat(), adjustsToKeyboard: false)
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
+        }
+
+        presentablePresentationEventHandler = { (event: () -> PresentationEvent, file, function, line) in
+            let presentationEvent = event()
+            let message: String
+            var data: String?
+
+            switch presentationEvent {
+            case let .willEnqueue(presentableId, context):
+                message = "\(context) will enqueue modal presentation of \(presentableId)"
+            case let .willDequeue(presentableId, context):
+                message = "\(context) will dequeue modal presentation of \(presentableId)"
+            case let .willPresent(presentableId, context, styleName):
+                message = "\(context) will '\(styleName)' present: \(presentableId)"
+            case let .didCancel(presentableId, context):
+                message = "\(context) did cancel presentation of: \(presentableId)"
+            case let .didDismiss(presentableId, context, result):
+                switch result {
+                case let .success(result):
+                    message = "\(context) did end presentation of: \(presentableId)"
+                    data = "\(result)"
+                case let .failure(error):
+                    message = "\(context) did end presentation of: \(presentableId)"
+                    data = "\(error)"
+                }
+            #if DEBUG
+                case let .didDeallocate(presentableId, context):
+                    message = "\(presentableId) was deallocated after presentation from \(context)"
+                case let .didLeak(presentableId, context):
+                    message = "WARNING \(presentableId) was NOT deallocated after presentation from \(context)"
+            #endif
+            }
+
+            switch presentationEvent {
+            case let .willPresent(presentableId, _, _):
+                self.screenStack.append(presentableId)
+            case let .didDismiss(presentableId, _, _):
+                if let index = self.screenStack.lastIndex(of: presentableId) {
+                    self.screenStack.remove(at: index)
+                }
+            default:
+                break
+            }
+
+            presentableLogPresentation(message, data, file, function, line)
         }
 
         viewControllerWasPresented = { viewController in
@@ -60,21 +119,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         alertActionWasPressed = { _, title in
             if let localizationKey = title.localizationKey?.toString() {
-                Analytics.logEvent("alert_action_tap_\(localizationKey)", parameters: nil)
+                Analytics.logEvent("tap_\(localizationKey)", parameters: nil)
             }
         }
 
         let rootNavigationController = UINavigationController()
         rootNavigationController.setNavigationBarHidden(true, animated: false)
-        rootNavigationController.view = { () -> UIView in
-            let view = UIView()
-            view.backgroundColor = UIColor.white
-            return view
-        }()
-        window?.rootViewController = rootNavigationController
-        window?.windowLevel = .normal
-        window?.backgroundColor = UIColor.white
-        window?.makeKeyAndVisible()
+        rootWindow.rootViewController = rootNavigationController
+        rootWindow.windowLevel = .normal
+        rootWindow.backgroundColor = UIColor.white
+        rootWindow.makeKeyAndVisible()
 
         let splashNavigationController = UINavigationController()
         splashWindow?.rootViewController = splashNavigationController
@@ -89,15 +143,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         splashWindow?.windowLevel = .alert
         splashWindow?.makeKeyAndVisible()
 
-        FirebaseApp.configure()
-        RNFirebaseNotifications.configure()
-
-        RNBranch.initSession(launchOptions: launchOptions, isReferrable: true)
-
-        let hasLoadedCallbacker = Callbacker<Void>()
-
         let launch = Launch(
-            hasLoadedSignal: hasLoadedCallbacker.signal()
+            hasLoadedSignal: hasFinishedLoading.filter { $0 }.toVoid()
         )
 
         let launchPresentation = Presentation(
@@ -110,60 +157,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             options: [.unanimated, .prefersNavigationBarHidden(true)]
         )
 
+        DefaultStyling.installCustom()
+
         bag += splashNavigationController.present(launchPresentation).onValue { _ in
             self.splashWindow = nil
         }
 
-        DefaultStyling.installCustom()
+        FirebaseApp.configure()
+        Messaging.messaging().delegate = self
 
-        loadApolloAndReactNative(
-            hasLoadedCallbacker: hasLoadedCallbacker,
-            launchOptions: launchOptions
-        )
+        if #available(iOS 10, *) {
+            UNUserNotificationCenter.current().delegate = self
+        }
 
-        return true
-    }
+        // Set the last seen news version to current if we dont have a token indicating this is a first launch
+        bag += RCTApolloClient.getToken().valueSignal.filter { $0 == nil }.onValue { _ in
+            ApplicationState.setLastNewsSeen()
+        }
 
-    func loadApolloAndReactNative(
-        hasLoadedCallbacker: Callbacker<Void>? = nil,
-        launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
-    ) {
-        var jsCodeLocation: URL
-
-        #if DEBUG
-            jsCodeLocation = RCTBundleURLProvider.sharedSettings()!.jsBundleURL(
-                forBundleRoot: "index",
-                fallbackResource: nil
-            )
-            hasLoadedCallbacker?.callAll()
-        #else
-            jsCodeLocation = CodePush.bundleURL()
-        #endif
-
-        RCTApolloClient.getClient().delay(by: 0.05).onValue { _ in
-            ReactNativeNavigation.bootstrapBrownField(
-                jsCodeLocation,
-                launchOptions: launchOptions,
-                bridgeManagerDelegate: nil,
-                window: self.window
-            )
-
-            let bridge = ReactNativeNavigation.getBridge()
-
-            self.window?.makeKeyAndVisible()
-
-            let nativeRouting = bridge?.module(forName: "NativeRouting") as! NativeRouting
-
-            self.bag += combineLatest(
-                nativeRouting.appHasLoadedSignal,
-                RemoteConfigContainer.shared.fetched.plain()
-            ).onValue { _ in
-                hasLoadedCallbacker?.callAll()
+        bag += RCTApolloClient.restoreState()
+            .delay(by: 0.1)
+            .onValue { _ in
+                self.bag += ApplicationState.presentRootViewController(self.rootWindow)
+                self.hasFinishedLoading.value = true
             }
 
-            MarketingScreenComponent.register()
-            LoggedInScreenComponent.register()
-        }
+        RNBranch.initSession(launchOptions: launchOptions, isReferrable: true)
+
+        return true
     }
 
     func applicationWillTerminate(_: UIApplication) {
@@ -171,29 +192,132 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func logout() {
-        window?.makeKeyAndVisible()
-        ReactNativeNavigation.getBridge()?.invalidate()
-        bag.dispose()
+        ApolloContainer.shared.deleteToken()
         RCTAsyncLocalStorage().clearAllData()
-        loadApolloAndReactNative()
+
+        bag += RCTApolloClient.getClient().onValue { _ in
+            ReactNativeContainer.shared.bridge.reload()
+            self.bag.dispose()
+            ApplicationState.preserveState(.marketing)
+            self.bag += ApplicationState.presentRootViewController(self.rootWindow)
+        }
     }
 
-    func application(_: UIApplication, didReceive notification: UILocalNotification) {
-        RNFirebaseNotifications.instance().didReceive(notification)
+    func getTopMostViewController() -> UIViewController? {
+        guard let rootViewController = rootWindow.rootViewController else {
+            return nil
+        }
+
+        var topController = rootViewController
+
+        while let newTopController = topController.presentedViewController {
+            topController = newTopController
+        }
+
+        return topController
     }
 
-    func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        RNFirebaseNotifications.instance().didReceiveRemoteNotification(userInfo, fetchCompletionHandler: completionHandler)
+    func messaging(_: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        ApolloContainer.shared.client.perform(mutation: RegisterPushTokenMutation(pushToken: fcmToken)).onValue { result in
+            if result.data?.registerPushToken != nil {
+                log.info("Did register push token for user")
+            } else {
+                log.info("Failed to register push token for user")
+            }
+        }
     }
 
-    func application(_: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-        RNFirebaseMessaging.instance().didRegister(notificationSettings)
+    func registerForPushNotifications() {
+        if #available(iOS 10.0, *) {
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: { _, _ in }
+            )
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+        }
+
+        UIApplication.shared.registerForRemoteNotifications()
+    }
+
+    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        guard let notificationType = userInfo["TYPE"] as? String else { return }
+
+        if response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+            if notificationType == "NEW_MESSAGE" {
+                let chatOverlay = DraggableOverlay(presentable: FreeTextChat())
+                let chatOverlayIdentifier = PresentableIdentifier("\(type(of: chatOverlay))")
+                let onboardingChat = OnboardingChat(intent: .onboard)
+                let onboardingChatIdentifier = PresentableIdentifier("\(type(of: onboardingChat))")
+
+                guard !screenStack.contains(chatOverlayIdentifier), !screenStack.contains(onboardingChatIdentifier) else {
+                    return
+                }
+
+                bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
+                    self.getTopMostViewController()?.present(
+                        chatOverlay,
+                        style: .default,
+                        options: [.prefersNavigationBarHidden(false)]
+                    )
+                }
+            } else if notificationType == "REFERRAL_SUCCESS" {
+                guard let incentiveString = userInfo["DATA_MESSAGE_REFERRED_SUCCESS_INCENTIVE_AMOUNT"] as? String else { return }
+                guard let name = userInfo["DATA_MESSAGE_REFERRED_SUCCESS_NAME"] as? String else { return }
+
+                let incentive = Int(Double(incentiveString) ?? 0)
+
+                let referralsNotification = ReferralsNotification(incentive: incentive, name: name)
+                let referralsNotificationIdentifier = PresentableIdentifier("\(type(of: referralsNotification))")
+
+                guard !screenStack.contains(referralsNotificationIdentifier) else {
+                    return
+                }
+
+                bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
+                    self.getTopMostViewController()?.present(
+                        referralsNotification,
+                        style: .modally(presentationStyle: .formSheetOrOverFullscreen, transitionStyle: nil, capturesStatusBarAppearance: nil),
+                        options: [.prefersNavigationBarHidden(false)]
+                    )
+                }
+            }
+        }
+
+        completionHandler()
     }
 
     func handleDynamicLink(_ dynamicLink: DynamicLink?) -> Bool {
         guard let dynamicLink = dynamicLink else { return false }
         guard let deepLink = dynamicLink.url else { return false }
         let queryItems = URLComponents(url: deepLink, resolvingAgainstBaseURL: true)?.queryItems
+
+        if let referralCode = queryItems?.filter({ item in item.name == "code" }).first?.value {
+            bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
+                self.getTopMostViewController()?.present(
+                    ReferralsReceiverConsent(referralCode: referralCode),
+                    style: .modally(presentationStyle: .formSheetOrOverFullscreen, transitionStyle: nil, capturesStatusBarAppearance: nil),
+                    options: [.prefersNavigationBarHidden(true)]
+                ).onValue { result in
+                    if result == .accept, !self.screenStack.hasChatScreen {
+                        self.bag += self.rootWindow.rootViewController?.present(
+                            OnboardingChat(intent: .onboard),
+                            options: [.prefersNavigationBarHidden(false)]
+                        ).disposable
+                    }
+                }
+            }
+
+            Analytics.logEvent("referrals_open", parameters: [
+                "code": referralCode
+            ])
+
+            return true
+        }
 
         guard let invitedByMemberId = queryItems?.filter({ item in item.name == "invitedBy" }).first?.value else {
             return false

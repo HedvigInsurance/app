@@ -3,7 +3,6 @@ import { Alert, Linking } from 'react-native';
 import { createUploadLink } from 'apollo-upload-client';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
-import { Navigation } from 'react-native-navigation';
 
 import { getToken } from './context';
 
@@ -27,14 +26,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     );
 
     if (shouldShowAlert) {
-      Navigation.setRoot({
-        root: {
-          stack: {
-            children: [],
-          },
-        },
-      });
-
       Alert.alert(
         'Kunde inte ladda hedvig 😢',
         'Försök igen senare.',
@@ -58,14 +49,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     try {
       showNetworkAlert();
     } catch (err) {
-      Navigation.setRoot({
-        root: {
-          stack: {
-            children: [],
-          },
-        },
-      });
-
       showNetworkAlert();
     }
   }

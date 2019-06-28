@@ -30,15 +30,15 @@ class CharityAdapter(
 
     override fun onBindViewHolder(holder: CashbackOptionViewHolder, position: Int) {
         val item = items[position]
-        holder.title.text = item.name()
-        holder.paragraph.text = item.paragraph()
+        holder.title.text = item.name
+        holder.paragraph.text = item.paragraph
 
         holder.button.text = interpolateTextKey(
             holder.itemView.resources.getString(R.string.PROFILE_CHARITY_SELECT_BUTTON),
-            "CHARITY" to item.name()
+            "CHARITY" to item.name
         )
         holder.button.setOnClickListener {
-            item.id()?.let { id ->
+            item.id?.let { id ->
                 clickListener(id)
             }
         }

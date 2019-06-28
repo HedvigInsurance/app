@@ -13,8 +13,9 @@ import kotlinx.android.synthetic.main.peril_bottom_sheet.*
 class PerilBottomSheet : RoundedBottomSheetDialogFragment() {
 
     override fun getTheme() = R.style.PerilBottomSheetDialogTheme
-    @SuppressLint("InflateParams")
-    override fun setupDialog(dialog: Dialog, style: Int) {
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.peril_bottom_sheet, null)
         dialog.setContentView(view)
         arguments?.let { args ->
@@ -27,6 +28,7 @@ class PerilBottomSheet : RoundedBottomSheetDialogFragment() {
 
             dialog.perilDescription.text = args.getString(PERIL_DESCRIPTION)
         }
+        return dialog
     }
 
     companion object {

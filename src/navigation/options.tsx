@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navigation } from 'react-native-navigation';
 
 import { NavigationContext } from './context';
 import { Mount, Update } from 'react-lifecycle-components';
@@ -12,23 +11,24 @@ interface NavigationOptionsProps {
 export const NavigationOptions: React.SFC<NavigationOptionsProps> = ({
   children = null,
   options,
-}) => (
-    Platform.OS === "android" ? <>{children}</> : (
-      <NavigationContext.Consumer>
-        {({ componentId = '' }) => {
-          return (
-            <Mount on={() => Navigation.mergeOptions(componentId, options)}>
-              {Platform.OS === 'ios' && (
-                <Update
-                  was={() => Navigation.mergeOptions(componentId, options)}
-                  watched={options}
-                >
-                  {children}
-                </Update>
-              )}
-            </Mount>
-          );
-        }}
-      </NavigationContext.Consumer>
-    )
+}) =>
+  Platform.OS === 'android' ? (
+    <>{children}</>
+  ) : (
+    <NavigationContext.Consumer>
+      {({ componentId = '' }) => {
+        return (
+          <Mount on={() => Navigation.mergeOptions(componentId, options)}>
+            {Platform.OS === 'ios' && (
+              <Update
+                was={() => Navigation.mergeOptions(componentId, options)}
+                watched={options}
+              >
+                {children}
+              </Update>
+            )}
+          </Mount>
+        );
+      }}
+    </NavigationContext.Consumer>
   );

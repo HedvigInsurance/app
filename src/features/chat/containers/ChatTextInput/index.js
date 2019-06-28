@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, TextInput, Platform, View } from 'react-native';
+import {
+  StyleSheet,
+  TextInput,
+  Platform,
+  View,
+  NativeModules,
+} from 'react-native';
 import styled from '@sampettersson/primitives';
 import color from 'color';
 import KeyboardSpacer from '@hedviginsurance/react-native-keyboard-spacer';
@@ -21,8 +27,6 @@ import { Buttons } from '../../components/pickers/buttons';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { BlurSwitchContainer } from '../../components/BlurSwitchContainer';
 import { InputHeightContainer } from '../InputHeight';
-
-import { hasNotificationsPermission } from './firebase';
 
 const styles = StyleSheet.create({
   textInput: {
@@ -258,28 +262,7 @@ const mapDispatchToProps = (dispatch) => {
         });
       }
 
-      const enabled = await hasNotificationsPermission();
-
-      if (!enabled) {
-        dispatch(
-          dialogActions.showDialog({
-            title: 'Notifikationer',
-            paragraph:
-              'Slå på notiser så att du inte missar när Hedvig svarar!',
-            confirmButtonTitle: 'Slå på',
-            dismissButtonTitle: 'Inte nu',
-            onConfirm: () =>
-              dispatch({
-                type: 'PUSH_NOTIFICATIONS/REQUEST_PUSH',
-              }),
-            onDismiss: () => {},
-          }),
-        );
-      } else {
-        dispatch({
-          type: 'PUSH_NOTIFICATIONS/REQUEST_PUSH',
-        });
-      }
+      NativeModules.NativeRouting.registerForPushNotifications();
     },
   };
 };

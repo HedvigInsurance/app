@@ -5,19 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hedvig.app.R
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
-import com.hedvig.app.feature.chat.ChatFragment
-import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.makeACall
-import com.hedvig.app.util.extensions.proxyNavigate
-import com.hedvig.app.util.extensions.setupLargeTitle
+import com.hedvig.app.R
+import com.hedvig.app.feature.chat.ChatActivity
+import com.hedvig.app.util.extensions.*
 import com.hedvig.app.util.extensions.view.disable
 import com.hedvig.app.util.extensions.view.enable
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
-import com.hedvig.app.util.mapppedColor
+import com.hedvig.app.util.mappedColor
 import kotlinx.android.synthetic.main.common_claim_first_message.*
 import kotlinx.android.synthetic.main.fragment_emergency.*
 
@@ -28,9 +25,9 @@ class EmergencyFragment : BaseCommonClaimFragment() {
 
     override fun bindData(insuranceStatus: InsuranceStatus, data: CommonClaimQuery.CommonClaim) {
         super.bindData(insuranceStatus, data)
-        val layout = data.layout() as? CommonClaimQuery.AsEmergency ?: return
-        val backgroundColor = requireContext().compatColor(layout.color().mapppedColor())
-        setupLargeTitle(data.title(), R.font.circular_bold, R.drawable.ic_back, backgroundColor) {
+        val layout = data.layout as? CommonClaimQuery.AsEmergency ?: return
+        val backgroundColor = requireContext().compatColor(layout.color.mappedColor())
+        setupLargeTitle(data.title, R.font.circular_bold, R.drawable.ic_back, backgroundColor) {
             navController.popBackStack()
         }
         commonClaimFirstMessageContainer.setBackgroundColor(backgroundColor)
@@ -46,7 +43,7 @@ class EmergencyFragment : BaseCommonClaimFragment() {
         thirdEmergencyButton.setHapticClickListener {
             tracker.emergencyChat()
             claimsViewModel.triggerFreeTextChat {
-                navigateToChat()
+                requireActivity().startClosableChat()
             }
         }
     }
@@ -58,7 +55,7 @@ class EmergencyFragment : BaseCommonClaimFragment() {
         firstEmergencyButton.setHapticClickListener {
             tracker.emergencyClick()
             claimsViewModel.triggerCallMeChat {
-                navigateToChat()
+                requireActivity().startClosableChat()
             }
         }
         secondEmergencyButton.setHapticClickListener {
@@ -71,12 +68,6 @@ class EmergencyFragment : BaseCommonClaimFragment() {
         firstEmergencyButton.disable()
         secondEmergencyButton.disable()
     }
-
-    private fun navigateToChat() =
-        navController.proxyNavigate(
-            R.id.action_claimsEmergencyFragment_to_chatFragment,
-            Bundle().apply { putBoolean(ChatFragment.ARGS_SHOW_CLOSE, true) }
-        )
 
     companion object {
         private val GLOBAL_ASSISTANCE_URI = Uri.parse("tel:+4538489461")

@@ -5,9 +5,7 @@ import android.graphics.drawable.PictureDrawable
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.bumptech.glide.RequestBuilder
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
@@ -16,7 +14,7 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.claims.service.ClaimsTracker
 import com.hedvig.app.feature.claims.ui.commonclaim.CommonClaimsAdapter
 import com.hedvig.app.feature.claims.ui.pledge.HonestyPledgeBottomSheet
-import com.hedvig.app.feature.loggedin.BaseTabFragment
+import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.proxyNavigate
@@ -27,7 +25,6 @@ import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.svg.buildRequestBuilder
-import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_claims.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
@@ -36,18 +33,16 @@ import timber.log.Timber
 
 class ClaimsFragment : BaseTabFragment() {
 
-    val tracker: ClaimsTracker by inject()
-    val claimsViewModel: ClaimsViewModel by sharedViewModel()
+    private val tracker: ClaimsTracker by inject()
+    private val claimsViewModel: ClaimsViewModel by sharedViewModel()
 
     private val requestBuilder: RequestBuilder<PictureDrawable> by lazy { buildRequestBuilder() }
     private val baseMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_claims, container, false)
+    override val layout = R.layout.fragment_claims
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         claimsViewModel.apply {
             loadingSpinner.show()
@@ -77,13 +72,7 @@ class ClaimsFragment : BaseTabFragment() {
         loadingSpinner.remove()
         claimsViewContent.show()
 
-        setupLargeTitle(
-            R.string.CLAIMS_TITLE,
-            R.font.circular_bold,
-            backgroundColor = requireContext().compatColor(R.color.off_white)
-        )
-
-        when (commonClaimsData.insurance().status()) {
+        when (commonClaimsData.insurance.status) {
             InsuranceStatus.ACTIVE -> {
                 claimsIllustration.show()
                 insuranceInactiveMessage.remove()
@@ -91,7 +80,7 @@ class ClaimsFragment : BaseTabFragment() {
                 commonClaimCreateClaimButton.setHapticClickListener {
                     tracker.createClaimClick("main_screen")
                     HonestyPledgeBottomSheet
-                        .newInstance("main_screen", R.id.action_loggedInFragment_to_chatFragment)
+                        .newInstance("main_screen")
                         .show(childFragmentManager, "honestyPledge")
                 }
             }
@@ -106,7 +95,7 @@ class ClaimsFragment : BaseTabFragment() {
         commonClaimsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         commonClaimsRecyclerView.adapter =
             CommonClaimsAdapter(
-                commonClaims = commonClaimsData.commonClaims(),
+                commonClaims = commonClaimsData.commonClaims,
                 baseUrl = BuildConfig.BASE_URL,
                 requestBuilder = requestBuilder,
                 navigateToCommonClaimFragment = { commonClaim ->

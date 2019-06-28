@@ -10,13 +10,13 @@ import {
   Platform,
 } from 'react-native';
 import { BankID } from 'src/components/icons/BankID';
-import { NavigationEvents } from 'src/navigation/events';
 import { Parallel, Spring } from 'animated-react-native-components';
 import { fonts, colors } from '@hedviginsurance/brand';
 import { AnimationValueListener } from 'src/components/animation-value-listener';
 import { TranslationsConsumer } from 'src/components/translations/consumer';
 import { Update } from 'react-lifecycle-components';
 import { AndroidOfferState } from './android-offer-state';
+import { EventEmitter } from 'events';
 
 const AnimatedView = Animated.createAnimatedComponent<ViewProps>(View);
 
@@ -67,62 +67,59 @@ interface SignButtonProps {
 }
 
 const ButtonView: React.SFC<{ onClick: () => void }> = ({ onClick }) => (
-  <ButtonContainer
-    onPress={onClick}                        >
+  <ButtonContainer onPress={onClick}>
     <TranslationsConsumer textKey="OFFER_SIGN_BUTTON">
       {(text) => <GetText>{text}</GetText>}
     </TranslationsConsumer>
     <BankID width={20} height={20} />
   </ButtonContainer>
-)
+);
+
+export const signButtonEvents = new EventEmitter();
 
 export const SignButton: React.SFC<SignButtonProps> = ({
   scrollAnimatedValue,
 }) => (
     <AnimationValueListener
       testValue={(value) => {
-        return value >= Dimensions.get('window').height * 0.5
-
+        return value >= Dimensions.get('window').height * 0.5;
       }}
       animatedValue={scrollAnimatedValue}
     >
       {(isActive) => (
         <>
-          {Platform.OS === 'ios' ? (
-            <NavigationEvents>
-              {(triggerEvent: (event: { id: string }) => void) => (
-                <Update<boolean>
-                  was={() => {
-                    if (isActive) {
-                      triggerEvent({ id: 'HideSignButton' });
-                    } else {
-                      triggerEvent({ id: 'ShowSignButton' });
-                    }
-                  }}
-                  watched={isActive}
-                >
-                  {null}
-                </Update>
-              )}
-            </NavigationEvents>
-          ) : (
-              <AndroidOfferState>
-                {({ setTopSignButtonVisibility }) => (
-                  <Update<boolean>
-                    was={() => {
-                      if (isActive) {
-                        setTopSignButtonVisibility(false)
-                      } else {
-                        setTopSignButtonVisibility(true)
-                      }
-                    }}
-                    watched={isActive}
-                  >
-                    {null}
-                  </Update>
-                )}
-              </AndroidOfferState>
+          <AndroidOfferState>
+            {({ setTopSignButtonVisibility }) => (
+              <Update<boolean>
+                was={() => {
+                  if (isActive) {
+                    setTopSignButtonVisibility(false);
+                  } else {
+                    setTopSignButtonVisibility(true);
+                  }
+                }}
+                watched={isActive}
+              >
+                {null}
+              </Update>
             )}
+          </AndroidOfferState>
+          {Platform.OS === 'ios' && (
+            <>
+              <Update<boolean>
+                was={() => {
+                  if (isActive) {
+                    signButtonEvents.emit('hideTopSignButton');
+                  } else {
+                    signButtonEvents.emit('showTopSignButton');
+                  }
+                }}
+                watched={isActive}
+              >
+                {null}
+              </Update>
+            </>
+          )}
           <Parallel>
             <Spring
               toValue={isActive ? 0 : 100}
@@ -131,24 +128,11 @@ export const SignButton: React.SFC<SignButtonProps> = ({
             >
               {(animatedValue) => (
                 <BounceUpView animatedValue={animatedValue}>
-                  {Platform.OS === 'ios' ? (
-                    <NavigationEvents>
-                      {(triggerEvent: (event: { id: string }) => void) => (
-                        <ButtonView onClick={() => {
-                          triggerEvent({
-                            id: 'SignButtonPressed',
-                          })
-                        }}
-                        />
-                      )}
-                    </NavigationEvents>
-                  ) : (
-                      <AndroidOfferState>
-                        {({ setIsCheckingOut }) => (
-                          <ButtonView onClick={() => setIsCheckingOut(true)} />
-                        )}
-                      </AndroidOfferState>
+                  <AndroidOfferState>
+                    {({ setIsCheckingOut }) => (
+                      <ButtonView onClick={() => setIsCheckingOut(true)} />
                     )}
+                  </AndroidOfferState>
                 </BounceUpView>
               )}
             </Spring>

@@ -61,7 +61,7 @@ const Body = styled(AnimatedText)(
 
 const Block = styled(View)({
   padding: 20,
-  paddingBottom: isIphoneX() ? 75 : 110,
+  paddingBottom: isIphoneX() ? 110 : 145,
   alignItems: 'center',
   backgroundColor: colors.BLACK_PURPLE,
 });

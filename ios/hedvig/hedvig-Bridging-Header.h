@@ -5,13 +5,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTAsyncLocalStorage.h>
-#import <Firebase.h>
-#import "RNFirebaseNotifications.h"
-#import "RNFirebaseMessaging.h"
-#import <CodePush/CodePush.h>
 #import <react-native-branch/RNBranch.h>
-#import <ReactNativeNavigation/ReactNativeNavigation.h>
-#import <ReactNativeNavigation/RNNReactView.h>
 #import <React/RCTEventEmitter.h>
 #import <React/RCTBridgeModule.h>
 #import <Lottie/Lottie.h>

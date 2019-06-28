@@ -45,7 +45,7 @@ class MarketingStoriesRepository(
                 }
 
                 override fun onResponse(response: Response<MarketingStoriesQuery.Data>) {
-                    val data = response.data()?.marketingStories()
+                    val data = response.data()?.marketingStories
                     data?.let { cacheAssets(it, completion) } ?: handleNoMarketingStories()
                 }
             })
@@ -56,10 +56,10 @@ class MarketingStoriesRepository(
         completion: (result: List<MarketingStoriesQuery.MarketingStory>) -> Unit
     ) {
         data.tail.forEach { story ->
-            story.asset()?.let { GlobalScope.launch { cacheAsset(it) } }
+            story.asset?.let { GlobalScope.launch { cacheAsset(it) } }
         }
 
-        data.head.asset()?.let { GlobalScope.launch { cacheAsset(it) { completion(data) } } }
+        data.head.asset?.let { GlobalScope.launch { cacheAsset(it) { completion(data) } } }
     }
 
     private fun handleNoMarketingStories() = Timber.e("No Marketing Stories")
@@ -67,8 +67,8 @@ class MarketingStoriesRepository(
     private suspend fun cacheAsset(asset: MarketingStoriesQuery.Asset, onEnd: (() -> Unit)? = null) =
         withContext(Dispatchers.IO) {
             try {
-                val mimeType = asset.mimeType()
-                val url = asset.url()
+                val mimeType = asset.mimeType
+                val url = asset.url
                 when (mimeType) {
                     // TODO Figure out how to make this block the completion of the AsyncTask
                     "image/jpeg" -> Glide.with(context).load(Uri.parse(url)).preload()

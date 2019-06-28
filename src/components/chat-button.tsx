@@ -10,7 +10,6 @@ import {
 import { ActionMap } from 'constate';
 import styled from '@sampettersson/primitives';
 import { Sequence, Delay, Timing } from 'animated-react-native-components';
-import { Navigation } from 'react-native-navigation';
 
 import { SpeechBubbles } from 'src/components/icons/SpeechBubbles';
 import { Mutation } from 'react-apollo';
@@ -64,20 +63,11 @@ export const ChatButton: React.SFC = () => (
                     onPress={() => {
                       mutate().then(() => {
                         if (Platform.OS === 'ios') {
-                          Navigation.showOverlay({
-                            component: {
-                              name: OFFER_CHAT_COMPONENT.name,
-                              options: {
-                                layout: {
-                                  backgroundColor: 'transparent',
-                                },
-                              }
-                            }
-                          })
-                          return
+                          // TODO
+                          return;
                         }
 
-                        NativeModules.ActivityStarter.showOfferChatOverlay()
+                        NativeModules.ActivityStarter.showOfferChatOverlay();
                       });
                     }}
                   >

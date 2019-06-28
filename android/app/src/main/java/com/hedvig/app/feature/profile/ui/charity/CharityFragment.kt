@@ -16,7 +16,6 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.util.extensions.setupLargeTitle
-import com.hedvig.app.util.extensions.showBottomSheetDialog
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
@@ -37,7 +36,7 @@ class CharityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupLargeTitle(R.string.PROFILE_CHARITY_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            requireActivity().findNavController(R.id.rootNavigationHost).popBackStack()
+            requireActivity().findNavController(R.id.loggedInFragment).popBackStack()
         }
 
         loadData()
@@ -48,7 +47,7 @@ class CharityFragment : Fragment() {
             loadingSpinner.remove()
 
             profileData?.let { data ->
-                data.cashback()?.let { showSelectedCharity(it) } ?: showCharityPicker(data.cashbackOptions())
+                data.cashback?.let { showSelectedCharity(it) } ?: showCharityPicker(data.cashbackOptions)
             }
         })
     }
@@ -59,7 +58,7 @@ class CharityFragment : Fragment() {
 
         Glide
             .with(requireContext())
-            .load(cashback.imageUrl())
+            .load(cashback.imageUrl)
             .apply(
                 RequestOptions().override(
                     Target.SIZE_ORIGINAL,
@@ -68,11 +67,11 @@ class CharityFragment : Fragment() {
             )
             .into(selectedCharityBanner)
 
-        selectedCharityCardTitle.text = cashback.name()
-        selectedCharityCardParagraph.text = cashback.paragraph()
+        selectedCharityCardTitle.text = cashback.name
+        selectedCharityCardParagraph.text = cashback.paragraph
         charitySelectedHowDoesItWorkButton.setHapticClickListener {
             tracker.howDoesItWorkClick()
-            requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
+            CharityExplanationBottomSheet.newInstance().show(requireFragmentManager(), "charitySheet")
         }
     }
 
@@ -85,7 +84,7 @@ class CharityFragment : Fragment() {
             }
         selectCharityHowDoesItWorkButton.setHapticClickListener {
             tracker.howDoesItWorkClick()
-            requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
+            CharityExplanationBottomSheet.newInstance().show(requireFragmentManager(), "charitySheet")
         }
     }
 

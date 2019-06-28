@@ -1,15 +1,16 @@
-import React from 'react'
+import React from 'react';
 import { ActionMap, Container } from 'constate';
-import { Platform } from "react-native";
+import { Platform } from 'react-primitives';
+import { Mount } from 'react-lifecycle-components';
 
 interface AndroidOfferState {
-  topSignButtonVisible: boolean
-  isCheckingOut: boolean
+  topSignButtonVisible: boolean;
+  isCheckingOut: boolean;
 }
 
 interface AndroidOfferStateActions {
-  setTopSignButtonVisibility: (visibility: boolean) => void
-  setIsCheckingOut: (isCheckingOut: boolean) => void
+  setTopSignButtonVisibility: (visibility: boolean) => void;
+  setIsCheckingOut: (isCheckingOut: boolean) => void;
 }
 
 const actions: ActionMap<AndroidOfferState, AndroidOfferStateActions> = {
@@ -18,13 +19,15 @@ const actions: ActionMap<AndroidOfferState, AndroidOfferStateActions> = {
   }),
   setIsCheckingOut: (isCheckingOut) => () => ({
     isCheckingOut,
-  })
-}
+  }),
+};
 
 export const AndroidOfferState: React.SFC<{
-  children: (props: AndroidOfferState & AndroidOfferStateActions) => React.ReactNode
-}> = ({ children }) => Platform.OS === 'android' ? (
+  children: (
+    props: AndroidOfferState & AndroidOfferStateActions,
+  ) => React.ReactNode;
+}> = ({ children }) => (
   <Container actions={actions} context="android-offer">
     {children}
   </Container>
-) : <>{children}</>
+);

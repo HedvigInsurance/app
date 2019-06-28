@@ -10,16 +10,16 @@ import {
 import { connect } from 'react-redux';
 import KeyboardSpacer from '@hedviginsurance/react-native-keyboard-spacer';
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import { Navigation } from 'react-native-navigation';
 
 import { StyledAvatarContainer } from '../styles/chat';
 import Avatar from '../containers/Avatar';
 import LoadingIndicator from '../containers/LoadingIndicator';
 import { RichMessage } from '../components/rich-message';
 import { OptionInputComponent } from '../components/InputComponent';
-import { NEW_OFFER_SCREEN } from 'src/navigation/screens/new-offer';
 
 import { InputHeightContainer } from './InputHeight';
+import { client } from 'src/graphql/client';
+import gql from 'graphql-tag';
 
 const styles = StyleSheet.create({
   scrollContent: {
@@ -106,6 +106,21 @@ const renderMessage = (message, idx) => {
   let fromMe = message.header.fromId !== 1;
   const lastIndex = idx === 0;
 
+  if (!message.header.markedAsRead) {
+    client.mutate({
+      mutation: gql`
+        mutation MarkMessageAsRead($id: ID!) {
+          markMessageAsRead(globalId: $id) {
+            globalId
+          }
+        }
+      `,
+      variables: {
+        id: message.globalId,
+      },
+    });
+  }
+
   let MessageRenderComponent;
   if (!fromMe) {
     MessageRenderComponent = DefaultHedvigMessage;
@@ -151,7 +166,8 @@ const showOffer = async (componentId) => {
     NativeModules.ActivityStarter.navigateToOfferFromChat();
     return;
   }
-  Navigation.push(componentId, NEW_OFFER_SCREEN);
+
+  NativeModules.NativeRouting.showOffer();
 };
 
 class MessageList extends React.Component {

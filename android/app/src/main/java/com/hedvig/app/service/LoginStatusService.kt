@@ -30,7 +30,7 @@ class LoginStatusService(
 
         return Rx2Apollo.from(apolloClient.query(InsuranceStatusQuery()))
             .map { response ->
-                response.data()?.insurance()?.status()?.let { status ->
+                response.data()?.insurance?.status?.let { status ->
                     when (status) {
                         InsuranceStatus.ACTIVE,
                         InsuranceStatus.INACTIVE,
@@ -38,12 +38,14 @@ class LoginStatusService(
                             context.setIsLoggedIn(true)
                             LoginStatus.LOGGED_IN
                         }
+                        InsuranceStatus.TERMINATED -> {
+                            LoginStatus.LOGGED_IN_TERMINATED
+                        }
                         InsuranceStatus.PENDING,
                         InsuranceStatus.`$UNKNOWN` -> {
                             context.setIsLoggedIn(false)
                             LoginStatus.ONBOARDING
                         }
-                        else -> LoginStatus.ONBOARDING
                     }
                 } ?: LoginStatus.ONBOARDING
             }

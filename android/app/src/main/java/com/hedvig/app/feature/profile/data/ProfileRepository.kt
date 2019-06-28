@@ -4,13 +4,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.hedvig.android.owldroid.graphql.BankAccountQuery
-import com.hedvig.android.owldroid.graphql.LogoutMutation
-import com.hedvig.android.owldroid.graphql.ProfileQuery
-import com.hedvig.android.owldroid.graphql.SelectCashbackMutation
-import com.hedvig.android.owldroid.graphql.StartDirectDebitRegistrationMutation
-import com.hedvig.android.owldroid.graphql.UpdateEmailMutation
-import com.hedvig.android.owldroid.graphql.UpdatePhoneNumberMutation
+import com.hedvig.android.owldroid.graphql.*
 import io.reactivex.Observable
 import javax.inject.Singleton
 
@@ -25,6 +19,11 @@ class ProfileRepository(private val apolloClient: ApolloClient) {
         return Rx2Apollo
             .from(apolloClient.query(profileQuery).watcher())
             .map { it.data() }
+    }
+
+    fun refreshProfile() {
+        apolloClient.clearNormalizedCache()
+        fetchProfile()
     }
 
     fun updateEmail(input: String): Observable<Response<UpdateEmailMutation.Data>> {
@@ -53,7 +52,7 @@ class ProfileRepository(private val apolloClient: ApolloClient) {
             .read(profileQuery)
             .execute()
         val newMemberBuilder = cachedData
-            .member()
+            .member
             .toBuilder()
 
         email?.let { newMemberBuilder.email(it) }
@@ -88,15 +87,62 @@ class ProfileRepository(private val apolloClient: ApolloClient) {
 
         val newCashback = ProfileQuery.Cashback
             .builder()
-            .__typename(cashback.__typename())
-            .name(cashback.name())
-            .imageUrl(cashback.imageUrl())
-            .paragraph(cashback.paragraph())
+            .__typename(cashback.__typename)
+            .name(cashback.name)
+            .imageUrl(cashback.imageUrl)
+            .paragraph(cashback.paragraph)
             .build()
 
         val newData = cachedData
             .toBuilder()
             .cashback(newCashback)
+            .build()
+
+        apolloClient
+            .apolloStore()
+            .writeAndPublish(profileQuery, newData)
+            .execute()
+    }
+
+    fun writeRedeemedCostToCache(data: RedeemReferralCodeMutation.Data) {
+        val cachedData = apolloClient
+            .apolloStore()
+            .read(profileQuery)
+            .execute()
+
+        val cost = data.redeemCode.cost
+
+        val monthlyDiscount = ProfileQuery.MonthlyDiscount
+            .builder()
+            .__typename(cost.monthlyDiscount.__typename)
+            .amount(cost.monthlyDiscount.amount)
+            .build()
+
+        val monthlyNet = ProfileQuery.MonthlyNet
+            .builder()
+            .__typename(cost.monthlyNet.__typename)
+            .amount(cost.monthlyNet.amount)
+            .build()
+
+        val monthlyGross = ProfileQuery.MonthlyGross
+            .builder()
+            .__typename(cost.monthlyGross.__typename)
+            .amount(cost.monthlyGross.amount)
+            .build()
+
+        val newCostData = ProfileQuery.Cost
+            .builder()
+            .__typename(cost.__typename)
+            .monthlyDiscount(monthlyDiscount)
+            .monthlyNet(monthlyNet)
+            .monthlyGross(monthlyGross)
+            .build()
+
+        val newData = cachedData
+            .toBuilder()
+            .insurance(
+                cachedData.insurance.toBuilder().cost(newCostData).build()
+            )
             .build()
 
         apolloClient
@@ -136,9 +182,9 @@ class ProfileRepository(private val apolloClient: ApolloClient) {
 
         val newBankAccount = ProfileQuery.BankAccount
             .builder()
-            .__typename(bankAccount.__typename())
-            .bankName(bankAccount.bankName())
-            .descriptor(bankAccount.descriptor())
+            .__typename(bankAccount.__typename)
+            .bankName(bankAccount.bankName)
+            .descriptor(bankAccount.descriptor)
             .build()
 
         val newData = cachedData

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navigation } from 'react-native-navigation';
 
 import { NavigationContext } from './context';
 import { Platform } from 'react-native';

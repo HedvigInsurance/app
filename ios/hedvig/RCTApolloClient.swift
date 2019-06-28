@@ -7,22 +7,88 @@
 //
 
 import Apollo
+import Firebase
 import Flow
 import Foundation
 
 struct RCTApolloClient {
-    static func getClient() -> Future<Void> {
-        let environment = ApolloEnvironmentConfig(
-            endpointURL: URL(string: ReactNativeConfig.env(for: "GRAPHQL_URL"))!,
-            wsEndpointURL: URL(string: ReactNativeConfig.env(for: "WS_GRAPHQL_URL"))!,
-            assetsEndpointURL: URL(string: ReactNativeConfig.env(for: "ASSETS_GRAPHQL_URL"))!
-        )
+    static func restoreState() -> CoreSignal<Finite, Void> {
+        return getClient()
+            .valueSignal
+            .withLatestFrom(RCTApolloClient.getToken().valueSignal)
+            .mapLatestToFuture { _, token -> Future<Void> in
+                if token != nil, !ApplicationState.hasPreviousState() {
+                    log.info("Backfilling previous state")
 
-        ApolloContainer.shared.environment = environment
+                    return Future { completion in
+                        let bag = DisposeBag()
 
-        let token = Future<String?> { completion in
+                        let statusFuture = ApolloContainer
+                            .shared
+                            .client
+                            .fetch(query: InsuranceStatusQuery())
+                            .map { $0.data?.insurance.status }
+
+                        let priceSignal =
+                            ApolloContainer
+                            .shared
+                            .client
+                            .fetch(query: InsurancePriceQuery())
+                            .map { result in
+                                if let price = result.data?.insurance.cost?.monthlyGross.amount {
+                                    return price
+                                }
+
+                                return "0.00"
+                            }
+                            .valueSignal
+                            .toInt()
+
+                        bag += combineLatest(statusFuture.valueSignal, priceSignal)
+                            .debug()
+                            .onValue { status, price in
+                                guard let status = status else {
+                                    ApplicationState.preserveState(.marketing)
+                                    completion(.success)
+                                    return
+                                }
+
+                                switch status {
+                                case .active, .inactiveWithStartDate, .inactive, .terminated:
+                                    ApplicationState.preserveState(.loggedIn)
+                                case .pending:
+                                    if price != nil, price != 0 {
+                                        ApplicationState.preserveState(.offer)
+                                    } else {
+                                        ApplicationState.preserveState(.onboardingChat)
+                                    }
+                                case .__unknown:
+                                    ApplicationState.preserveState(.marketing)
+                                }
+
+                                completion(.success)
+                            }
+
+                        return bag
+                    }
+                }
+
+                return Future(result: .success)
+            }
+    }
+
+    static func getToken() -> Future<String?> {
+        return Future<String?> { completion in
             let rctSenderBlock = { response in
-                guard let response = response else { return }
+                if let nativeToken = ApolloContainer.shared.retreiveToken() {
+                    completion(.success(nativeToken.token))
+                    return
+                }
+
+                guard let response = response else {
+                    completion(.success(nil))
+                    return
+                }
                 var value = ""
 
                 if response.count > 1 {
@@ -38,16 +104,41 @@ struct RCTApolloClient {
                     }
                 }
 
-                completion(.success(value))
+                if value.count == 0 {
+                    completion(.success(nil))
+                } else {
+                    ApolloContainer.shared.saveToken(token: value)
+                    completion(.success(value))
+                }
             } as RCTResponseSenderBlock
 
             RCTAsyncLocalStorage().multiGet(["@hedvig:token"], callback: rctSenderBlock)
 
             return NilDisposer()
         }
+    }
+
+    static func getClient() -> Future<Void> {
+        let environment = ApolloEnvironmentConfig(
+            endpointURL: URL(string: ReactNativeConfig.env(for: "GRAPHQL_URL"))!,
+            wsEndpointURL: URL(string: ReactNativeConfig.env(for: "WS_GRAPHQL_URL"))!,
+            assetsEndpointURL: URL(string: ReactNativeConfig.env(for: "ASSETS_GRAPHQL_URL"))!
+        )
+
+        ApolloContainer.shared.environment = environment
+
+        let tokenFuture = RCTApolloClient.getToken()
+
+        if let nativeToken = ApolloContainer.shared.retreiveToken() {
+            let rctSenderBlock = { _ in } as RCTResponseSenderBlock
+            RCTAsyncLocalStorage().multiSet(
+                [["@hedvig:token", nativeToken.token]],
+                callback: rctSenderBlock
+            )
+        }
 
         // we get a black screen flicker without the delay
-        let clientFuture = token.flatMap { token -> Future<Void> in
+        let clientFuture = tokenFuture.flatMap { token -> Future<Void> in
             guard let token = token else {
                 let initClient = ApolloContainer.shared.initClient()
 

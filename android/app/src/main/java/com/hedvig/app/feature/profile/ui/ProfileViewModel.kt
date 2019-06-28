@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.net.Uri
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.graphql.RedeemReferralCodeMutation
 import com.hedvig.app.data.chat.ChatRepository
 import com.hedvig.app.feature.profile.data.ProfileRepository
 import com.hedvig.app.service.Referrals
@@ -38,6 +39,9 @@ class ProfileViewModel(
         loadRemoteConfig()
     }
 
+    fun refreshProfile() =
+        profileRepository.refreshProfile()
+
     private fun loadRemoteConfig() {
         disposables += remoteConfig
             .fetch()
@@ -52,7 +56,7 @@ class ProfileViewModel(
         disposables += profileRepository
             .startTrustlySession()
             .subscribe({ url ->
-                trustlyUrl.postValue(url.startDirectDebitRegistration())
+                trustlyUrl.postValue(url.startDirectDebitRegistration)
             }, { error ->
                 Timber.e(error)
             })
@@ -64,19 +68,19 @@ class ProfileViewModel(
     }
 
     fun saveInputs(emailInput: String, phoneNumberInput: String) {
-        val email = data.value?.member()?.email()
-        val phoneNumber = data.value?.member()?.phoneNumber()
+        val email = data.value?.member?.email
+        val phoneNumber = data.value?.member?.phoneNumber
 
         val emailObservable = if (email != emailInput) {
             profileRepository
                 .updateEmail(emailInput)
-                .map { Optional.Some(it.data()?.updateEmail()?.email()) }
+                .map { Optional.Some(it.data()?.updateEmail?.email) }
         } else Observable.just(Optional.None)
 
         val phoneNumberObservable = if (phoneNumber != phoneNumberInput) {
             profileRepository
                 .updatePhoneNumber(phoneNumberInput)
-                .map { Optional.Some(it.data()?.updatePhoneNumber()?.phoneNumber()) }
+                .map { Optional.Some(it.data()?.updatePhoneNumber?.phoneNumber) }
         } else Observable.just(Optional.None)
 
         disposables += emailObservable
@@ -99,14 +103,14 @@ class ProfileViewModel(
     }
 
     fun emailChanged(newEmail: String) {
-        val currentEmail = data.value?.member()?.email() ?: ""
+        val currentEmail = data.value?.member?.email ?: ""
         if (currentEmail != newEmail && dirty.value != true) {
             dirty.value = true
         }
     }
 
     fun phoneNumberChanged(newPhoneNumber: String) {
-        val currentPhoneNumber = data.value?.member()?.phoneNumber() ?: ""
+        val currentPhoneNumber = data.value?.member?.phoneNumber ?: ""
         if (currentPhoneNumber != newPhoneNumber && dirty.value != true) {
             dirty.value = true
         }
@@ -115,7 +119,7 @@ class ProfileViewModel(
     fun selectCashback(id: String) {
         disposables += profileRepository.selectCashback(id)
             .subscribe({ response ->
-                response.data()?.selectCashbackOption()?.let { cashback ->
+                response.data()?.selectCashbackOption?.let { cashback ->
                     profileRepository.writeCashbackToCache(cashback)
                 }
             }, { error ->
@@ -127,7 +131,7 @@ class ProfileViewModel(
         disposables += profileRepository.refreshBankAccountInfo()
             .subscribe({ response ->
                 response.data()?.let { data ->
-                    data.bankAccount()?.let { bankAccount ->
+                    data.bankAccount?.let { bankAccount ->
                         profileRepository.writeBankAccountInfoToCache(bankAccount)
                     } ?: Timber.e("Failed to refresh bank account info")
                 } ?: Timber.e("Failed to refresh bank account info")
@@ -161,5 +165,9 @@ class ProfileViewModel(
         disposables += chatRepository
             .triggerFreeTextChat()
             .subscribe({ done() }, { Timber.e(it) })
+    }
+
+    fun updateReferralsInformation(data: RedeemReferralCodeMutation.Data) {
+        profileRepository.writeRedeemedCostToCache(data)
     }
 }

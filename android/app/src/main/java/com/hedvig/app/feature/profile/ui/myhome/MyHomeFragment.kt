@@ -31,7 +31,7 @@ class MyHomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupLargeTitle(R.string.PROFILE_MY_HOME_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            requireActivity().findNavController(R.id.rootNavigationHost).popBackStack()
+            requireActivity().findNavController(R.id.loggedNavigationHost).popBackStack()
         }
         sphere.drawable.compatSetTint(requireContext().compatColor(R.color.maroon))
 
@@ -55,11 +55,11 @@ class MyHomeFragment : Fragment() {
             loadingSpinner.remove()
             sphereContainer.show()
 
-            profileData?.insurance()?.let { insuranceData ->
-                sphereText.text = insuranceData.address()
-                postalNumber.text = insuranceData.postalNumber()
+            profileData?.insurance?.let { insuranceData ->
+                sphereText.text = insuranceData.address
+                postalNumber.text = insuranceData.postalNumber
                 insuranceType.text =
-                    when (insuranceData.type()) {
+                    when (insuranceData.type) {
                         InsuranceType.BRF -> resources.getString(R.string.PROFILE_MY_HOME_INSURANCE_TYPE_BRF)
                         InsuranceType.STUDENT_BRF -> resources.getString(R.string.PROFILE_MY_HOME_INSURANCE_TYPE_BRF)
                         InsuranceType.RENT -> resources.getString(R.string.PROFILE_MY_HOME_INSURANCE_TYPE_RENT)
@@ -68,7 +68,7 @@ class MyHomeFragment : Fragment() {
                     }
                 livingSpace.text = interpolateTextKey(
                     resources.getString(R.string.PROFILE_MY_HOME_SQUARE_METER_POSTFIX),
-                    "SQUARE_METER" to insuranceData.livingSpace().toString()
+                    "SQUARE_METER" to insuranceData.livingSpace.toString()
                 )
                 infoContainer.show()
             }

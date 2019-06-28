@@ -11,7 +11,12 @@
         android:title="@string/TAB_TITLE_CLAIM" />
 
     <item
+        android:id="@+id/referrals"
+        android:icon="@drawable/ic_referrals"
+        android:title="@string/TAB_REFERRALS_TITLE" />
+
+    <item
         android:id="@+id/profile"
-        android:icon="@drawable/ic_family"
+        android:icon="@drawable/ic_profile"
         android:title="@string/TAB_TITLE_PROFILE" />
 </menu>

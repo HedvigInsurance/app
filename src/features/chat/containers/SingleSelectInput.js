@@ -3,7 +3,6 @@ import { Platform, NativeModules } from 'react-native';
 import PropTypes from 'prop-types';
 import { Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { Navigation } from 'react-native-navigation';
 
 import { chatActions } from '../../../../hedvig-redux';
 import { AnimatedSingleSelectOptionButton } from '../components/Button';
@@ -12,30 +11,9 @@ import {
   StyledMarginContainer,
 } from '../styles/chat';
 
-import { PAYMENT_SCREEN } from '../../../navigation/screens/payment';
-import { getMainLayout } from 'src/navigation/layouts/mainLayout';
-import { setLayout } from 'src/navigation/layouts/setLayout';
-
-const showTrustly = (id) =>
-  Navigation.showModal({
-    stack: {
-      children: [
-        {
-          component: {
-            ...PAYMENT_SCREEN.component,
-            passProps: {
-              id,
-              startedFromChat: true,
-            },
-          },
-        },
-      ],
-    },
-  });
-
 const goToDashboard = () => {
   if (Platform.OS === 'ios') {
-    setLayout(getMainLayout());
+    NativeModules.NativeRouting.presentLoggedIn();
   } else {
     NativeModules.ActivityStarter.navigateToLoggedInFromChat();
   }
@@ -78,7 +56,7 @@ class SingleSelectInput extends React.Component {
                 done(message);
                 Linking.openURL(choice.webUrl);
               } else if (choice.type === 'trustly') {
-                showTrustly(choice.id);
+                goToDashboard();
                 selectChoice(message, choice);
                 done(message);
               }

@@ -4,64 +4,57 @@ import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import com.google.firebase.iid.FirebaseInstanceId
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.R
-import com.hedvig.app.feature.loggedin.BaseTabFragment
-import com.hedvig.app.util.extensions.localBroadcastManager
+import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
+import com.hedvig.app.feature.profile.ui.aboutapp.AboutAppActivity
+import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
-import com.hedvig.app.util.extensions.setupLargeTitle
-import com.hedvig.app.util.extensions.triggerRestartCurrentActivity
+import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.react.AsyncStorageNative
-import com.hedvig.app.viewmodel.DirectDebitViewModel
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class ProfileFragment : BaseTabFragment() {
-    val asyncStorageNative: AsyncStorageNative by inject()
+    private val asyncStorageNative: AsyncStorageNative by inject()
 
-    val profileViewModel: ProfileViewModel by sharedViewModel()
-    val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
+    private val profileViewModel: ProfileViewModel by sharedViewModel()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_profile, container, false)
+    override val layout = R.layout.fragment_profile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         populateData()
         loadReferralFeature()
     }
 
     private fun loadReferralFeature() {
-        profileViewModel.remoteConfigData.observe(this, Observer { remoteConfigData ->
+        profileViewModel.remoteConfigData.observe(this) { remoteConfigData ->
             remoteConfigData?.let { rcd ->
-                if (!rcd.referralsEnabled) {
-                    return@Observer
+                if (!rcd.referralsEnabled || rcd.newReferralsEnabled) {
+                    return@let
                 }
+
                 profileReferralRow.setHighlighted()
                 profileReferralRow.name = interpolateTextKey(
                     resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
-                    "INCENTIVE" to "${rcd.referralsIncentiveAmount}"
+                    "INCENTIVE" to rcd.referralsIncentiveAmount.toString()
                 )
                 profileReferralRow.setOnClickListener {
                     navController.proxyNavigate(R.id.action_loggedInFragment_to_referralFragment)
                 }
                 profileReferralRow.show()
             }
-        })
+        }
     }
 
     private fun populateData() {
@@ -69,8 +62,6 @@ class ProfileFragment : BaseTabFragment() {
             loadingSpinner.remove()
             rowContainer.show()
             logout.show()
-
-            setupLargeTitle(R.string.PROFILE_TITLE, R.font.circular_bold)
 
             profileData?.let { data ->
                 setupMyInfoRow(data)
@@ -85,24 +76,22 @@ class ProfileFragment : BaseTabFragment() {
                 navController.proxyNavigate(R.id.action_loggedInFragment_to_feedbackFragment)
             }
             aboutAppRow.setOnClickListener {
-                navController.proxyNavigate(R.id.action_loggedInFragment_to_aboutAppFragment)
+                startActivity(Intent(requireActivity(), AboutAppActivity::class.java))
             }
             logout.setOnClickListener {
                 profileViewModel.logout {
-                    requireContext().applicationContext.setIsLoggedIn(false)
-                    localBroadcastManager.sendBroadcast(Intent(PROFILE_NAVIGATION_BROADCAST).apply {
-                        putExtra("action", "logout")
-                    })
+                    requireContext().setIsLoggedIn(false)
                     asyncStorageNative.deleteKey("@hedvig:token")
-                    requireActivity().triggerRestartCurrentActivity()
+                    FirebaseInstanceId.getInstance().deleteInstanceId()
+                    requireActivity().triggerRestartActivity()
                 }
             }
         })
     }
 
     private fun setupMyInfoRow(profileData: ProfileQuery.Data) {
-        val firstName = profileData.member().firstName() ?: ""
-        val lastName = profileData.member().lastName() ?: ""
+        val firstName = profileData.member.firstName ?: ""
+        val lastName = profileData.member.lastName ?: ""
         myInfoRow.description = "$firstName $lastName"
         myInfoRow.setOnClickListener {
             navController.proxyNavigate(R.id.action_loggedInFragment_to_myInfoFragment)
@@ -110,25 +99,32 @@ class ProfileFragment : BaseTabFragment() {
     }
 
     private fun setupMyHomeRow(profileData: ProfileQuery.Data) {
-        myHomeRow.description = profileData.insurance().address()
+        myHomeRow.description = profileData.insurance.address
         myHomeRow.setOnClickListener {
             navController.proxyNavigate(R.id.action_loggedInFragment_to_myHomeFragment)
         }
     }
 
     private fun setupCoinsured(profileData: ProfileQuery.Data) {
-        val personsInHousehold = profileData.insurance().personsInHousehold() ?: 1
+        val personsInHousehold = profileData.insurance.personsInHousehold ?: 1
+
+        if (personsInHousehold <= 1) {
+            return
+        }
+
+
         coinsuredRow.description = interpolateTextKey(
-            resources.getString(R.string.PROFILE_ROW_COINSURED_DESCRIPTION),
-            "NUMBER" to "$personsInHousehold"
+            resources.getString(R.string.PROFILE_MY_COINSURED_ROW_SUBTITLE),
+            "amountCoinsured" to "${personsInHousehold - 1}"
         )
         coinsuredRow.setOnClickListener {
             navController.proxyNavigate(R.id.action_loggedInFragment_to_coinsuredFragment)
         }
+        coinsuredRow.show()
     }
 
     private fun setupCharity(profileData: ProfileQuery.Data) {
-        charityRow.description = profileData.cashback()?.name()
+        charityRow.description = profileData.cashback?.name
         charityRow.setOnClickListener {
             navController.proxyNavigate(R.id.action_loggedInFragment_to_charityFragment)
         }
@@ -137,7 +133,7 @@ class ProfileFragment : BaseTabFragment() {
     private fun setupPayment(profileData: ProfileQuery.Data) {
         paymentRow.description = interpolateTextKey(
             resources.getString(R.string.PROFILE_ROW_PAYMENT_DESCRIPTION),
-            "COST" to profileData.insurance().monthlyCost()?.toString()
+            "COST" to profileData.insurance.cost?.monthlyNet?.amount?.toBigDecimal()?.toInt()
         )
         paymentRow.setOnClickListener {
             navController.proxyNavigate(R.id.action_loggedInFragment_to_paymentFragment)
@@ -145,16 +141,12 @@ class ProfileFragment : BaseTabFragment() {
     }
 
     private fun setupCertificateUrl(profileData: ProfileQuery.Data) {
-        profileData.insurance().certificateUrl()?.let { policyUrl ->
+        profileData.insurance.certificateUrl?.let { policyUrl ->
             insuranceCertificateRow.show()
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(policyUrl))
             insuranceCertificateRow.setOnClickListener {
                 startActivity(intent)
             }
         }
-    }
-
-    companion object {
-        const val PROFILE_NAVIGATION_BROADCAST = "profileNavigation"
     }
 }

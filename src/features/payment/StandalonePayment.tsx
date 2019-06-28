@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { WebView, View } from 'react-native';
-import { Navigation } from 'react-native-navigation';
 import { Container, ActionMap } from 'constate';
 import styled from '@sampettersson/primitives';
 

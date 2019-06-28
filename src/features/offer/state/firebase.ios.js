@@ -1,7 +1,5 @@
-import firebase from 'react-native-firebase';
+import { NativeModules } from 'react-native';
 
-const analytics = firebase.analytics();
-
-export const logEcommercePurchase = (event) => {
-  analytics.logEvent('ecommerce_purchase', event);
+export const logEcommercePurchase = () => {
+  NativeModules.NativeRouting.logEcommercePurchase();
 };

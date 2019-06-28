@@ -78,8 +78,8 @@ class NativeRoutingModule constructor(
                     Timber.e("Data was null when trying to accredit referral")
                     return@subscribe
                 }
-                val member = data.member()
-                val memberId = member.id()
+                val member = data.member
+                val memberId = member.id
                 if (memberId == null) {
                     Timber.e("memberId was null when trying to accredit referral")
                     return@subscribe

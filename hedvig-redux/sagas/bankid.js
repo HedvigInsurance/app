@@ -48,30 +48,7 @@ const collectHandler = function*() {
       if (Platform.OS === 'android') {
         NativeModules.ActivityStarter.doIsLoggedInProcedure();
       } else {
-        const { client } = require('src/graphql/client');
-        client
-          .query({
-            query: gql`
-              query insurance {
-                insurance {
-                  status
-                }
-              }
-            `,
-          })
-          .then(({ data }) => {
-            const {
-              shouldShowDashboard,
-            } = require('src/navigation/layouts/utils');
-            const { setLayout } = require('src/navigation/layouts/setLayout');
-            const {
-              getMainLayout,
-            } = require('src/navigation/layouts/mainLayout');
-
-            if (shouldShowDashboard(data.insurance.status)) {
-              setLayout(getMainLayout());
-            }
-          });
+        NativeModules.NativeRouting.restoreState();
       }
       yield put(getMessages());
     } else {
