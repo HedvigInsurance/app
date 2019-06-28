@@ -40,38 +40,40 @@ export const DiscountButton: React.SFC<DiscountButtonProps> = ({
   discount,
   onPress,
 }) => (
-  <Sequence>
-    <Delay config={{ delay: 650 }} />
-    <Spring
-      config={{
-        bounciness: 12,
-      }}
-      toValue={1}
-      initialValue={0.5}
-    >
-      {(animatedValue) => (
-        <AnimatedView
-          style={{
-            opacity: animatedValue.interpolate({
-              inputRange: [0.5, 1],
-              outputRange: [0, 1],
-            }),
-            transform: [{ scale: animatedValue }],
-          }}
-        >
-          <ButtonStyle onPress={onPress}>
-            <TranslationsConsumer
-              textKey={
-                Number(discount.amount) !== 0
-                  ? 'OFFER_REMOVE_DISCOUNT_BUTTON'
-                  : 'OFFER_ADD_DISCOUNT_BUTTON'
-              }
-            >
-              {(text) => <TextStyle>{text}</TextStyle>}
-            </TranslationsConsumer>
-          </ButtonStyle>
-        </AnimatedView>
-      )}
-    </Spring>
-  </Sequence>
+  <View style={{ alignSelf: 'center' }}>
+    <Sequence>
+      <Delay config={{ delay: 650 }} />
+      <Spring
+        config={{
+          bounciness: 12,
+        }}
+        toValue={1}
+        initialValue={0.5}
+      >
+        {(animatedValue) => (
+          <AnimatedView
+            style={{
+              opacity: animatedValue.interpolate({
+                inputRange: [0.5, 1],
+                outputRange: [0, 1],
+              }),
+              transform: [{ scale: animatedValue }],
+            }}
+          >
+            <ButtonStyle onPress={onPress}>
+              <TranslationsConsumer
+                textKey={
+                  Number(discount.amount) !== 0
+                    ? 'OFFER_REMOVE_DISCOUNT_BUTTON'
+                    : 'OFFER_ADD_DISCOUNT_BUTTON'
+                }
+              >
+                {(text) => <TextStyle>{text}</TextStyle>}
+              </TranslationsConsumer>
+            </ButtonStyle>
+          </AnimatedView>
+        )}
+      </Spring>
+    </Sequence>
+  </View>
 );

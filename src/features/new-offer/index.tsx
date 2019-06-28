@@ -160,55 +160,55 @@ export const NewOffer: React.SFC = () => (
                           }
                           type={data!.insurance.type!}
                         />
-                      </FeaturesContainer>
-                      <DiscountButton
-                        discount={data!.insurance!.cost!.monthlyDiscount}
-                        onPress={() => {
-                          if (
-                            Number(
-                              data!.insurance!.cost!.monthlyDiscount!.amount,
-                            ) !== 0
-                          ) {
-                            if (Platform.OS === 'ios') {
-                              NativeModules.NativeRouting.showRemoveCodeAlert(
-                                true,
-                              ).then((didRemoveCode: boolean) => {
-                                if (didRemoveCode) {
-                                  refetch();
-                                }
-                              });
-                            }
-                            if (Platform.OS === 'android') {
-                              NativeModules.ActivityStarter.showRemoveCodeAlert().then(
-                                (didRemoveCode: boolean) => {
+                        <DiscountButton
+                          discount={data!.insurance!.cost!.monthlyDiscount}
+                          onPress={() => {
+                            if (
+                              Number(
+                                data!.insurance!.cost!.monthlyDiscount!.amount,
+                              ) !== 0
+                            ) {
+                              if (Platform.OS === 'ios') {
+                                NativeModules.NativeRouting.showRemoveCodeAlert(
+                                  true,
+                                ).then((didRemoveCode: boolean) => {
                                   if (didRemoveCode) {
                                     refetch();
                                   }
-                                },
-                              );
-                            }
-                          } else {
-                            if (Platform.OS === 'ios') {
-                              NativeModules.NativeRouting.showRedeemCodeOverlay(
-                                true,
-                              ).then((didInputValidCode: boolean) => {
-                                if (didInputValidCode) {
-                                  refetch();
-                                }
-                              });
-                            }
-                            if (Platform.OS === 'android') {
-                              NativeModules.ActivityStarter.showRedeemCodeOverlay().then(
-                                (didInputValidCode: boolean) => {
+                                });
+                              }
+                              if (Platform.OS === 'android') {
+                                NativeModules.ActivityStarter.showRemoveCodeAlert().then(
+                                  (didRemoveCode: boolean) => {
+                                    if (didRemoveCode) {
+                                      refetch();
+                                    }
+                                  },
+                                );
+                              }
+                            } else {
+                              if (Platform.OS === 'ios') {
+                                NativeModules.NativeRouting.showRedeemCodeOverlay(
+                                  true,
+                                ).then((didInputValidCode: boolean) => {
                                   if (didInputValidCode) {
                                     refetch();
                                   }
-                                },
-                              );
+                                });
+                              }
+                              if (Platform.OS === 'android') {
+                                NativeModules.ActivityStarter.showRedeemCodeOverlay().then(
+                                  (didInputValidCode: boolean) => {
+                                    if (didInputValidCode) {
+                                      refetch();
+                                    }
+                                  },
+                                );
+                              }
                             }
-                          }
-                        }}
-                      />
+                          }}
+                        />
+                      </FeaturesContainer>
                     </FixedContainer>
                     <ScrollContent
                       insuredAtOtherCompany={
