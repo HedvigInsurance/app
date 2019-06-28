@@ -96,6 +96,7 @@ class LoggedInFragment : Fragment() {
                     view.show()
                 }
             }
+            requireActivity().intent.removeExtra(LoggedInActivity.EXTRA_IS_FROM_ONBOARDING)
         } else {
             view.show()
         }
