@@ -4,12 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
-<<<<<<< HEAD
 import com.hedvig.android.owldroid.graphql.WhatsNewQuery
-=======
 import com.hedvig.app.feature.referrals.ReferralsReceiverActivity
 import com.hedvig.app.feature.referrals.ReferralsSuccessfulInviteActivity
->>>>>>> develop
 import com.hedvig.app.feature.whatsnew.WhatsNewDialog
 import com.hedvig.app.util.extensions.makeToast
 import com.hedvig.app.util.extensions.showAlert
