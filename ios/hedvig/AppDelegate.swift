@@ -307,6 +307,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     }
                 }
             }
+            
+            Analytics.logEvent("referrals_open", parameters: [
+                "code": referralCode
+            ])
 
             return true
         }
