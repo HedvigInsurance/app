@@ -151,7 +151,9 @@ class PaymentFragment : Fragment() {
                 separator.show()
                 accountNumber.text = profileData.bankAccount?.descriptor ?: ""
                 changeBankAccount.show()
-                redeemCode.show()
+                if (profileData.insurance.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0) {
+                    redeemCode.show()
+                }
             }
             DirectDebitStatus.PENDING -> {
                 paymentDetailsContainer.show()

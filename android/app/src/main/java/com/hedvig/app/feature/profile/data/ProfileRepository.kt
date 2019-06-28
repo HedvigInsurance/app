@@ -109,16 +109,19 @@ class ProfileRepository(private val apolloClient: ApolloClient) {
 
         val monthlyDiscount = ProfileQuery.MonthlyDiscount
             .builder()
+            .__typename(cost.monthlyDiscount.__typename)
             .amount(cost.monthlyDiscount.amount)
             .build()
 
-        val montlyNet = ProfileQuery.MonthlyNet
+        val monthlyNet = ProfileQuery.MonthlyNet
             .builder()
+            .__typename(cost.monthlyNet.__typename)
             .amount(cost.monthlyNet.amount)
             .build()
 
-        val montlyGross = ProfileQuery.MonthlyGross
+        val monthlyGross = ProfileQuery.MonthlyGross
             .builder()
+            .__typename(cost.monthlyGross.__typename)
             .amount(cost.monthlyGross.amount)
             .build()
 
@@ -126,8 +129,8 @@ class ProfileRepository(private val apolloClient: ApolloClient) {
             .builder()
             .__typename(cost.__typename)
             .monthlyDiscount(monthlyDiscount)
-            .monthlyNet(montlyNet)
-            .monthlyGross(montlyGross)
+            .monthlyNet(monthlyNet)
+            .monthlyGross(monthlyGross)
             .build()
 
         val newData = cachedData
