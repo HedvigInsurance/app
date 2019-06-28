@@ -87,8 +87,17 @@ class LoggedInFragment : Fragment() {
         if (requireActivity().intent.getBooleanExtra(LoggedInActivity.EXTRA_IS_FROM_ONBOARDING, false)) {
             welcomeViewModel.fetch()
             welcomeViewModel.data.observe(this) { data ->
-                data?.let { WelcomeDialog.newInstance(it).show(childFragmentManager, WelcomeDialog.TAG) }
+                if (data != null) {
+                    WelcomeDialog.newInstance(data).show(requireFragmentManager(), WelcomeDialog.TAG)
+                    view.postDelayed({
+                        view.show()
+                    }, resources.getInteger(R.integer.slide_in_animation_duration).toLong())
+                } else {
+                    view.show()
+                }
             }
+        } else {
+            view.show()
         }
 
         bindData()

@@ -30,7 +30,6 @@
     </style>
 
     <style name="FullScreenDialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
         <item name="android:windowExitAnimation">@anim/slide_out_down</item>
     </style>
 
