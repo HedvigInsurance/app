@@ -173,7 +173,23 @@ export const NewOffer: React.SFC = () => (
                                   true,
                                 ).then((didRemoveCode: boolean) => {
                                   if (didRemoveCode) {
-                                    refetch();
+                                    updateQuery((queryData) => ({
+                                      ...queryData!,
+                                      insurance: {
+                                        ...queryData!.insurance,
+                                        cost: {
+                                          __typename: 'InsuranceCost',
+                                          monthlyDiscount: {
+                                            __typename: 'MonetaryAmountV2',
+                                            amount: '0.00',
+                                          },
+                                          monthlyNet: queryData.insurance.cost!
+                                            .monthlyGross,
+                                          monthlyGross: queryData.insurance
+                                            .cost!.monthlyGross,
+                                        },
+                                      },
+                                    }));
                                   }
                                 });
                               }
@@ -181,7 +197,23 @@ export const NewOffer: React.SFC = () => (
                                 NativeModules.ActivityStarter.showRemoveCodeAlert().then(
                                   (didRemoveCode: boolean) => {
                                     if (didRemoveCode) {
-                                      refetch();
+                                      updateQuery((queryData) => ({
+                                        ...queryData!,
+                                        insurance: {
+                                          ...queryData!.insurance,
+                                          cost: {
+                                            __typename: 'InsuranceCost',
+                                            monthlyDiscount: {
+                                              __typename: 'MonetaryAmountV2',
+                                              amount: '0.00',
+                                            },
+                                            monthlyNet: queryData.insurance
+                                              .cost!.monthlyGross,
+                                            monthlyGross: queryData.insurance
+                                              .cost!.monthlyGross,
+                                          },
+                                        },
+                                      }));
                                     }
                                   },
                                 );
@@ -206,7 +238,6 @@ export const NewOffer: React.SFC = () => (
                                 NativeModules.ActivityStarter.showRedeemCodeOverlay().then(
                                   (redeemResponse: string) => {
                                     if (redeemResponse != null) {
-                                      console.log(redeemResponse);
                                       updateQuery((queryData) => ({
                                         ...queryData!,
                                         insurance: {
