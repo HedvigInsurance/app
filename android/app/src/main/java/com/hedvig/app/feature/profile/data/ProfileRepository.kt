@@ -27,6 +27,11 @@ class ProfileRepository(private val apolloClient: ApolloClient) {
             .map { it.data() }
     }
 
+    fun refreshProfile() {
+        apolloClient.clearNormalizedCache()
+        fetchProfile()
+    }
+
     fun updateEmail(input: String): Observable<Response<UpdateEmailMutation.Data>> {
         val updateEmailMutation = UpdateEmailMutation
             .builder()
