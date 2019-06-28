@@ -25,12 +25,15 @@
             app:srcCompat="@drawable/ic_close" />
 
         <TextView
+            android:id="@+id/title"
             style="@style/Headline.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/base_margin_double"
             android:gravity="center"
-            android:text="@string/NEWS_TITLE" />
+            android:visibility="gone"
+            tools:text="@string/NEWS_TITLE"
+            tools:visibility="visible" />
     </FrameLayout>
 
     <android.support.v4.view.ViewPager

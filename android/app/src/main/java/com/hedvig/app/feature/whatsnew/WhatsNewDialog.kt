@@ -15,7 +15,7 @@ import com.hedvig.app.feature.dismissablepager.DismissablePagerPage
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.screenWidth
 import com.hedvig.app.util.extensions.view.setHapticClickListener
-import kotlinx.android.synthetic.main.fragment_whats_new.*
+import kotlinx.android.synthetic.main.fragment_dismissable_pager.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -24,6 +24,8 @@ class WhatsNewDialog : DismissablePager() {
 
     override val proceedLabel = R.string.NEWS_PROCEED
     override val dismissLabel = R.string.NEWS_DISMISS
+    override val animationStyle = R.style.WhatsNewDialogAnimation
+    override val titleLabel = R.string.NEWS_TITLE
 
     override val tracker: WhatsNewTracker by inject()
     override val items: List<DismissablePagerPage> by lazy {

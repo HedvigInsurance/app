@@ -1,6 +1,7 @@
 package com.hedvig.app.feature.welcome
 
 import android.os.Bundle
+import com.hedvig.app.R
 import com.hedvig.app.feature.dismissablepager.DismissablePager
 import com.hedvig.app.feature.dismissablepager.DismissablePagerPage
 import org.koin.android.ext.android.inject
@@ -13,6 +14,8 @@ class WelcomeDialog : DismissablePager() {
     override val tracker: WelcomeTracker by inject()
     override val proceedLabel = android.R.string.ok
     override val dismissLabel = android.R.string.cancel
+    override val animationStyle = R.style.WelcomeDialogAnimation
+    override val titleLabel: Nothing? = null
 
     override fun onDismiss() {
         Timber.i("Dismissed!")
