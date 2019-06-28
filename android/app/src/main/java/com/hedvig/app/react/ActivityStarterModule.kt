@@ -19,6 +19,8 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReadableType
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
 import com.hedvig.android.owldroid.graphql.RemoveDiscountCodeMutation
 import com.hedvig.android.owldroid.type.InsuranceStatus
@@ -241,7 +243,7 @@ class ActivityStarterModule(
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.getStringExtra(BROADCAST_MESSAGE_NAME)) {
                 MESSAGE_PROMOTION_CODE_REDEEMED -> {
-                    redeemCodeCallback?.resolve(true)
+                    redeemCodeCallback?.resolve(intent.getStringExtra(MESSAGE_PROMOTION_CODE_REDEEMED_DATA))
                     redeemCodeCallback = null
                 }
             }
@@ -255,6 +257,7 @@ class ActivityStarterModule(
         const val BROADCAST_MESSAGE_NAME = "message"
 
         const val MESSAGE_PROMOTION_CODE_REDEEMED = "promotionCodeRedeemed"
+        const val MESSAGE_PROMOTION_CODE_REDEEMED_DATA = "promotionCodeRedeemedData"
 
         const val FILE_UPLOAD_INTENT = "file_upload"
         const val FILE_UPLOAD_RESULT = "file_upload_result"

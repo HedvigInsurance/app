@@ -2,6 +2,7 @@ package com.hedvig.app.feature.referrals
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.hedvig.android.owldroid.graphql.RedeemReferralCodeMutation
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import timber.log.Timber
@@ -11,16 +12,20 @@ class ReferralViewModel(
 ) :
     ViewModel() {
 
-    val redeemCodeStatus: MutableLiveData<Boolean> = MutableLiveData()
+    val redeemCodeStatus: MutableLiveData<RedeemReferralCodeMutation.Data> = MutableLiveData()
     private val disposables = CompositeDisposable()
 
     fun redeemReferralCode(code: String) {
         disposables += referralRepository
             .redeemReferralCode(code)
             .subscribe({
-                redeemCodeStatus.postValue(!it.hasErrors())
+                if(it.hasErrors()) {
+                    redeemCodeStatus.postValue(null)
+                } else {
+                    redeemCodeStatus.postValue(it.data())
+                }
             }, { error ->
-                redeemCodeStatus.postValue(false)
+                redeemCodeStatus.postValue(null)
                 Timber.e(error, "Failed to redeem code")
             })
     }

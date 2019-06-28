@@ -4,6 +4,12 @@ mutation RedeemReferralCodeMutation($code: String!) {
       monthlyDiscount {
         amount
       }
+      monthlyNet {
+        amount
+      }
+      monthlyGross {
+        amount
+      }
     }
   }
 }

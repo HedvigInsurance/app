@@ -110,7 +110,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sphereContainer"
-                tools:visibility="visible">
+                >
 
                 <TextView
                     style="@style/Headline.Medium"
@@ -224,7 +224,8 @@
                 android:visibility="gone"
                 app:cardCornerRadius="@dimen/hedvig_card_view_radius"
                 app:cardUseCompatPadding="true"
-                app:layout_constraintTop_toBottomOf="@id/sphereContainer">
+                app:layout_constraintTop_toBottomOf="@id/sphereContainer"
+                >
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -309,12 +310,11 @@
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
                 android:theme="@style/Body.Small.Link.Emphasized"
-                android:visibility="visible"
+                android:text="@string/REFERRAL_ADDCOUPON_HEADLINE"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/changeBankAccount"
-                tools:text="Lös in rabattkod"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toBottomOf="@id/changeBankAccount" />
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v4.widget.NestedScrollView>
