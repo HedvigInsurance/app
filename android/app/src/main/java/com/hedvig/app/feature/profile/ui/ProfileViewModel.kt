@@ -39,6 +39,9 @@ class ProfileViewModel(
         loadRemoteConfig()
     }
 
+    fun refreshProfile() =
+        profileRepository.refreshProfile()
+
     private fun loadRemoteConfig() {
         disposables += remoteConfig
             .fetch()

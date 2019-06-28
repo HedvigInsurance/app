@@ -1,30 +1,32 @@
 package com.hedvig.app.feature.referrals
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
+import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.hideStatusBar
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
-import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.referrals_successful_invite_actvity.*
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
 
+    private val profileViewModel: ProfileViewModel by viewModel()
     private val tracker: ReferralsTracker by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.referrals_successful_invite_actvity)
+
+        //to get fresh data coming back to the app
+        profileViewModel.refreshProfile()
 
         hideStatusBar()
         showSuccess()
