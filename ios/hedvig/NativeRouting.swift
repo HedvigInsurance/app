@@ -155,10 +155,30 @@ class NativeRouting: RCTEventEmitter {
         }
     }
 
+    @objc func presentAfterSign() {
+        presentLoggedIn()
+        presentWelcome()
+    }
+
     @objc func presentLoggedIn() {
         DispatchQueue.main.async {
             guard let keyWindow = UIApplication.shared.keyWindow else { return }
             self.bag += keyWindow.present(LoggedIn(), options: [.prefersNavigationBarHidden(true)], animated: true)
+        }
+    }
+
+    @objc func presentWelcome() {
+        DispatchQueue.main.async {
+            RCTApolloClient.getClient().onValue { _ in
+                self.bag += ApolloContainer.shared.client
+                    .fetch(query: WelcomeQuery(locale: Localization.Locale.currentLocale.asGraphQLLocale())).valueSignal
+                    .compactMap { $0.data }
+                    .filter { $0.welcome.count > 0 }
+                    .onValue { data in
+                        guard let keyWindow = UIApplication.shared.keyWindow else { return }
+                        self.bag += keyWindow.rootViewController?.present(Welcome(data: data), options: [.prefersNavigationBarHidden(true)]).disposable
+                    }
+            }
         }
     }
 

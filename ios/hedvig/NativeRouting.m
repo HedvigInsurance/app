@@ -19,6 +19,7 @@
     RCT_EXTERN_METHOD(logEcommercePurchase)
     RCT_EXTERN_METHOD(registerForPushNotifications)
     RCT_EXTERN_METHOD(restoreState)
+    RCT_EXTERN_METHOD(presentAfterSign)
     RCT_EXTERN_METHOD(requestCameraPermissions:
                   (BOOL) value
                   resolver:(RCTPromiseResolveBlock)resolve
