@@ -7,6 +7,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.NewSessionMutation
 import com.hedvig.android.owldroid.graphql.RegisterPushTokenMutation
+import com.hedvig.app.feature.whatsnew.WhatsNewRepository
 import com.hedvig.app.util.react.AsyncStorageNative
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -21,12 +22,14 @@ class PushNotificationWorker(
 
     private val apolloClient: ApolloClient by inject()
     private val asyncStorageNative: AsyncStorageNative by inject()
+    private val whatsNewRepository: WhatsNewRepository by inject()
 
     private val disposables = CompositeDisposable()
 
     override fun doWork(): Result {
         val pushToken = inputData.getString(PUSH_TOKEN) ?: throw Exception("No token provided")
         if (!hasHedvigToken()) {
+            whatsNewRepository.removeNewsForNewUser()
             acquireHedvigToken {
                 registerPushToken(pushToken)
             }

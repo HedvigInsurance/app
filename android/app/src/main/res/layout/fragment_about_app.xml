@@ -30,6 +30,7 @@
                 android:id="@+id/whatsNew"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:name="@string/PROFILE_ABOUT_APP_OPEN_WHATS_NEW" />
 
             <TextView

@@ -97,19 +97,20 @@ class ActivityStarterModule(
 
     @ReactMethod
     fun navigateToLoggedInFromOffer() {
-        navigateToLoggedIn()
+        navigateToLoggedIn(true)
     }
 
     @ReactMethod
     fun navigateToLoggedInFromChat() {
-        navigateToLoggedIn()
+        navigateToLoggedIn(false)
     }
 
-    private fun navigateToLoggedIn() {
+    private fun navigateToLoggedIn(isFromOnBoarding: Boolean) {
         currentActivity?.let { activity ->
             reactApplicationContext.setIsLoggedIn(true)
             FirebaseInstanceId.getInstance().deleteInstanceId()
             val intent = Intent(activity, LoggedInActivity::class.java)
+            intent.putExtra(LoggedInActivity.EXTRA_IS_FROM_ONBOARDING, isFromOnBoarding)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             activity.startActivity(intent)

@@ -22,6 +22,9 @@ import com.hedvig.app.feature.dashboard.service.DashboardTracker
 import com.hedvig.app.feature.dashboard.ui.DashboardViewModel
 import com.hedvig.app.feature.loggedin.service.TabNotificationService
 import com.hedvig.app.feature.loggedin.ui.BaseTabViewModel
+import com.hedvig.app.feature.welcome.WelcomeRepository
+import com.hedvig.app.feature.welcome.WelcomeTracker
+import com.hedvig.app.feature.welcome.WelcomeViewModel
 import com.hedvig.app.feature.marketing.data.MarketingStoriesRepository
 import com.hedvig.app.feature.marketing.service.MarketingTracker
 import com.hedvig.app.feature.marketing.ui.MarketingStoriesViewModel
@@ -119,6 +122,7 @@ val viewModelModule = module {
     viewModel { WhatsNewViewModel(get()) }
     viewModel { BaseTabViewModel(get(), get()) }
     viewModel { ReferralViewModel(get()) }
+    viewModel { WelcomeViewModel(get()) }
 }
 
 val serviceModule = module {
@@ -141,6 +145,7 @@ val repositoriesModule = module {
     single { ReferralRepository(get()) }
     single { UserRepository(get()) }
     single { WhatsNewRepository(get(), get()) }
+    single { WelcomeRepository(get()) }
 }
 
 val trackerModule = module {
@@ -151,4 +156,5 @@ val trackerModule = module {
     single { WhatsNewTracker(get()) }
     single { ReferralsTracker(get()) }
     single { TerminatedTracker(get()) }
+    single { WelcomeTracker(get()) }
 }

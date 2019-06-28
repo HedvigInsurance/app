@@ -32,5 +32,6 @@ class LoggedInActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_IS_FROM_REFERRALS_NOTIFICATION = "extra_is_from_referrals_notification"
+        const val EXTRA_IS_FROM_ONBOARDING = "extra_is_from_onboarding"
     }
 }
