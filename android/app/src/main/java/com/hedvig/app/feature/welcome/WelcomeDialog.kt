@@ -12,8 +12,8 @@ class WelcomeDialog : DismissablePager() {
         arguments!!.getParcelableArrayList<DismissablePagerPage>(ITEMS)
     }
     override val tracker: WelcomeTracker by inject()
-    override val proceedLabel = android.R.string.ok
-    override val dismissLabel = android.R.string.cancel
+    override val proceedLabel = R.string.NEWS_PROCEED
+    override val dismissLabel = R.string.NEWS_DISMISS
     override val animationStyle = R.style.WelcomeDialogAnimation
     override val titleLabel: Nothing? = null
 
