@@ -34,12 +34,13 @@
             tools:text="@string/REFERRAL_STARTSCREEN_HEADLINE" />
 
         <TextView
+            android:id="@+id/referralsReceiverBody"
             style="@style/Body.Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/base_margin"
             android:gravity="center"
-            android:text="@string/REFERRAL_STARTSCREEN_BODY" />
+            tools:text="@string/REFERRAL_STARTSCREEN_BODY" />
 
         <Button
             android:id="@+id/referralReceiverContinueButton"
