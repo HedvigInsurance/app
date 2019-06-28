@@ -171,13 +171,13 @@ class NativeRouting: RCTEventEmitter {
         DispatchQueue.main.async {
             RCTApolloClient.getClient().onValue { _ in
                 self.bag += ApolloContainer.shared.client
-                .fetch(query: WelcomeQuery(locale: Localization.Locale.currentLocale.asGraphQLLocale())).valueSignal
-                .compactMap { $0.data }
-                .filter { $0.welcome.count > 0 }
-                .onValue { data in
-                    guard let keyWindow = UIApplication.shared.keyWindow else { return }
-                    self.bag += keyWindow.present(Welcome(data: data), options: [.prefersNavigationBarHidden(true)])
-                }
+                    .fetch(query: WelcomeQuery(locale: Localization.Locale.currentLocale.asGraphQLLocale())).valueSignal
+                    .compactMap { $0.data }
+                    .filter { $0.welcome.count > 0 }
+                    .onValue { data in
+                        guard let keyWindow = UIApplication.shared.keyWindow else { return }
+                        self.bag += keyWindow.rootViewController?.present(Welcome(data: data), options: [.prefersNavigationBarHidden(true)]).disposable
+                    }
             }
         }
     }

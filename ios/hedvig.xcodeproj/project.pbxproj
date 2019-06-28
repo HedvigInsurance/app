@@ -240,6 +240,12 @@
 		EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4695CD220083800004C75D /* RCTApolloClient.swift */; };
 		EB48684122C5009600688463 /* PanDirectionGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48684022C5009600688463 /* PanDirectionGestureRecognizer.swift */; };
 		EB48684322C531F600688463 /* ReferralsProgressHighPremium.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48684222C531F600688463 /* ReferralsProgressHighPremium.swift */; };
+		EB48684B22C627DE00688463 /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48684522C627DC00688463 /* Welcome.swift */; };
+		EB48684C22C627DE00688463 /* WelcomePagerDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48684722C627DC00688463 /* WelcomePagerDots.swift */; };
+		EB48684D22C627DE00688463 /* WelcomePagerProceedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48684822C627DC00688463 /* WelcomePagerProceedButton.swift */; };
+		EB48684E22C627DE00688463 /* WelcomePagerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48684922C627DC00688463 /* WelcomePagerScreen.swift */; };
+		EB48684F22C627DE00688463 /* WelcomePager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48684A22C627DC00688463 /* WelcomePager.swift */; };
+		EB48685122C6283100688463 /* DummyPagerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48685022C6283100688463 /* DummyPagerScreen.swift */; };
 		EB8E2A5C22C0C21B009F6180 /* TerminatedInsurance.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A5B22C0C21B009F6180 /* TerminatedInsurance.swift */; };
 		EB8E2A7C22C229C5009F6180 /* ReferralsInvitationAnonymous.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6422C229C5009F6180 /* ReferralsInvitationAnonymous.swift */; };
 		EB8E2A7D22C229C5009F6180 /* Referrals.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6522C229C5009F6180 /* Referrals.swift */; };
@@ -558,6 +564,12 @@
 		EB4695CD220083800004C75D /* RCTApolloClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCTApolloClient.swift; sourceTree = "<group>"; };
 		EB48684022C5009600688463 /* PanDirectionGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanDirectionGestureRecognizer.swift; sourceTree = "<group>"; };
 		EB48684222C531F600688463 /* ReferralsProgressHighPremium.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsProgressHighPremium.swift; sourceTree = "<group>"; };
+		EB48684522C627DC00688463 /* Welcome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Welcome.swift; sourceTree = "<group>"; };
+		EB48684722C627DC00688463 /* WelcomePagerDots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePagerDots.swift; sourceTree = "<group>"; };
+		EB48684822C627DC00688463 /* WelcomePagerProceedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePagerProceedButton.swift; sourceTree = "<group>"; };
+		EB48684922C627DC00688463 /* WelcomePagerScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePagerScreen.swift; sourceTree = "<group>"; };
+		EB48684A22C627DC00688463 /* WelcomePager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePager.swift; sourceTree = "<group>"; };
+		EB48685022C6283100688463 /* DummyPagerScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyPagerScreen.swift; sourceTree = "<group>"; };
 		EB8E2A5B22C0C21B009F6180 /* TerminatedInsurance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminatedInsurance.swift; sourceTree = "<group>"; };
 		EB8E2A6422C229C5009F6180 /* ReferralsInvitationAnonymous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitationAnonymous.swift; sourceTree = "<group>"; };
 		EB8E2A6522C229C5009F6180 /* Referrals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Referrals.swift; sourceTree = "<group>"; };
@@ -751,6 +763,7 @@
 		EB11E94F2277047700D95365 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				EB48684422C627DC00688463 /* WelcomeScreen */,
 				EB8E2A9322C3BD9D009F6180 /* WhatsNewScreen */,
 				EB8E2A6322C229C5009F6180 /* ReferralsScreen */,
 				EBE8B8CC22B9202300E32499 /* OfferScreen */,
@@ -1124,6 +1137,7 @@
 		EB11E9CC2277047700D95365 /* Generic */ = {
 			isa = PBXGroup;
 			children = (
+				EB48685022C6283100688463 /* DummyPagerScreen.swift */,
 				EB11E9CD2277047700D95365 /* DelayedDisposer.swift */,
 				EB384A3D228C407100D226D1 /* Logger.swift */,
 				EB11E9CF2277047700D95365 /* Viewables */,
@@ -1456,6 +1470,26 @@
 			name = Chat;
 			path = hedvig/Chat;
 			sourceTree = SOURCE_ROOT;
+		};
+		EB48684422C627DC00688463 /* WelcomeScreen */ = {
+			isa = PBXGroup;
+			children = (
+				EB48684522C627DC00688463 /* Welcome.swift */,
+				EB48684622C627DC00688463 /* Viewables */,
+			);
+			path = WelcomeScreen;
+			sourceTree = "<group>";
+		};
+		EB48684622C627DC00688463 /* Viewables */ = {
+			isa = PBXGroup;
+			children = (
+				EB48684722C627DC00688463 /* WelcomePagerDots.swift */,
+				EB48684822C627DC00688463 /* WelcomePagerProceedButton.swift */,
+				EB48684922C627DC00688463 /* WelcomePagerScreen.swift */,
+				EB48684A22C627DC00688463 /* WelcomePager.swift */,
+			);
+			path = Viewables;
+			sourceTree = "<group>";
 		};
 		EB8E2A6322C229C5009F6180 /* ReferralsScreen */ = {
 			isa = PBXGroup;
@@ -1864,6 +1898,7 @@
 				EBFA05E922B0E82B009D3FAE /* PushNotificationsState.swift in Sources */,
 				EBCAA8A52281C28E003C4833 /* LargeIconTitleSubtitle.swift in Sources */,
 				EB11EACE2277047700D95365 /* TextStyle.swift in Sources */,
+				EB48684D22C627DE00688463 /* WelcomePagerProceedButton.swift in Sources */,
 				EB11EA512277047700D95365 /* End.swift in Sources */,
 				EB11ED3B227B3CC200D95365 /* ClaimChat.swift in Sources */,
 				EB11EAD22277047700D95365 /* FieldStyle.swift in Sources */,
@@ -1909,6 +1944,7 @@
 				EB11ED31227ADBDE00D95365 /* HonestyPledge.swift in Sources */,
 				EB11ED37227ADBDE00D95365 /* DismissCardAnimationController.swift in Sources */,
 				EB384A44228D4D0C00D226D1 /* Offer.swift in Sources */,
+				EB48684B22C627DE00688463 /* Welcome.swift in Sources */,
 				EB11EAA92277047700D95365 /* MarkdownText.swift in Sources */,
 				EB384A3C228C403E00D226D1 /* UIViewController+TabBarBadge.swift in Sources */,
 				EB11EABD2277047700D95365 /* CollectionKit+UpdateRows.swift in Sources */,
@@ -1921,6 +1957,7 @@
 				EB11EAA32277047700D95365 /* PDFViewer.swift in Sources */,
 				EB11ED35227ADBDE00D95365 /* CardControllerTransitioningDelegate.swift in Sources */,
 				EB11EAA22277047700D95365 /* CircleLabelWithSubLabel.swift in Sources */,
+				EB48684C22C627DE00688463 /* WelcomePagerDots.swift in Sources */,
 				EB11EA4A2277047700D95365 /* Logo.swift in Sources */,
 				EBE8B8D022B9202300E32499 /* ApplyDiscount.swift in Sources */,
 				EB8E2A8222C229C5009F6180 /* ReferralsCodeContainer.swift in Sources */,
@@ -1993,11 +2030,13 @@
 				EB11EAD12277047700D95365 /* SectionStyle.swift in Sources */,
 				EB11EAC02277047700D95365 /* UIViewController+Viewable.swift in Sources */,
 				EB11EAAA2277047700D95365 /* ButtonRow.swift in Sources */,
+				EB48684E22C627DE00688463 /* WelcomePagerScreen.swift in Sources */,
 				EB11EA8D2277047700D95365 /* Charity.swift in Sources */,
 				EB8E2AA422C3BFDA009F6180 /* PagerDots.swift in Sources */,
 				EB11EAF72277047800D95365 /* Assets.swift in Sources */,
 				EB11EAE22277047800D95365 /* AuthorizationToken.swift in Sources */,
 				EB11EA952277047700D95365 /* InsuranceCertificate.swift in Sources */,
+				EB48685122C6283100688463 /* DummyPagerScreen.swift in Sources */,
 				EB11EA7F2277047700D95365 /* MyPayment.swift in Sources */,
 				EB11EB322277388C00D95365 /* DateFormatter+ISO8601.swift in Sources */,
 				EB11ED2E227ADBDE00D95365 /* SlideToClaim.swift in Sources */,
@@ -2045,6 +2084,7 @@
 				EB11EA682277047700D95365 /* HomeRow.swift in Sources */,
 				EB11EADC2277047800D95365 /* AnimationStyle.swift in Sources */,
 				EB8E2A8022C229C5009F6180 /* ReferralsProgressBar.swift in Sources */,
+				EB48684F22C627DE00688463 /* WelcomePager.swift in Sources */,
 				EB11EABA2277047700D95365 /* UIView+RelativeFrame.swift in Sources */,
 				EB11EB022277047800D95365 /* Localization.swift in Sources */,
 				EB11ED0D227ADBA600D95365 /* UIView+FrameWithoutTransform.swift in Sources */,
