@@ -17,7 +17,7 @@
         android:layout_marginTop="@dimen/base_margin"
         android:visibility="gone"
         tools:visibility="visible"
-        app:srcCompat="@drawable/ic_invite_success_dark" />
+        app:srcCompat="@drawable/ic_invite_success" />
 
     <TextView
         android:id="@+id/referralSuccessTitle"
