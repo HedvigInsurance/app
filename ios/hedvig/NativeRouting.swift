@@ -368,7 +368,16 @@ class NativeRouting: RCTEventEmitter {
 
             bag += applyDiscount.didRedeemValidCodeSignal.onValue { redeemCode in
                 bag.dispose()
-                resolve(redeemCode.cost.jsonObject.description)
+
+                guard let serialized = try? JSONSerialization.data(withJSONObject: redeemCode.cost.jsonObject, options: []) else {
+                    return
+                }
+
+                guard let serializedString = String(data: serialized, encoding: .utf8) else {
+                    return
+                }
+
+                resolve(serializedString)
             }
 
             let overlay = DraggableOverlay(presentable: applyDiscount, presentationOptions: [.defaults, .prefersNavigationBarHidden(true)])
