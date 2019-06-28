@@ -4,13 +4,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.hedvig.android.owldroid.graphql.BankAccountQuery
-import com.hedvig.android.owldroid.graphql.LogoutMutation
-import com.hedvig.android.owldroid.graphql.ProfileQuery
-import com.hedvig.android.owldroid.graphql.SelectCashbackMutation
-import com.hedvig.android.owldroid.graphql.StartDirectDebitRegistrationMutation
-import com.hedvig.android.owldroid.graphql.UpdateEmailMutation
-import com.hedvig.android.owldroid.graphql.UpdatePhoneNumberMutation
+import com.hedvig.android.owldroid.graphql.*
 import io.reactivex.Observable
 import javax.inject.Singleton
 
@@ -97,6 +91,50 @@ class ProfileRepository(private val apolloClient: ApolloClient) {
         val newData = cachedData
             .toBuilder()
             .cashback(newCashback)
+            .build()
+
+        apolloClient
+            .apolloStore()
+            .writeAndPublish(profileQuery, newData)
+            .execute()
+    }
+
+    fun writeRedeemedCostToCache(data: RedeemReferralCodeMutation.Data) {
+        val cachedData = apolloClient
+            .apolloStore()
+            .read(profileQuery)
+            .execute()
+
+        val cost = data.redeemCode.cost
+
+        val monthlyDiscount = ProfileQuery.MonthlyDiscount
+            .builder()
+            .amount(cost.monthlyDiscount.amount)
+            .build()
+
+        val montlyNet = ProfileQuery.MonthlyNet
+            .builder()
+            .amount(cost.monthlyNet.amount)
+            .build()
+
+        val montlyGross = ProfileQuery.MonthlyGross
+            .builder()
+            .amount(cost.monthlyGross.amount)
+            .build()
+
+        val newCostData = ProfileQuery.Cost
+            .builder()
+            .__typename(cost.__typename)
+            .monthlyDiscount(monthlyDiscount)
+            .monthlyNet(montlyNet)
+            .monthlyGross(montlyGross)
+            .build()
+
+        val newData = cachedData
+            .toBuilder()
+            .insurance(
+                cachedData.insurance.toBuilder().cost(newCostData).build()
+            )
             .build()
 
         apolloClient

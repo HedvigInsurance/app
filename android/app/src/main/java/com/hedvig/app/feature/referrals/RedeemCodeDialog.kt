@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
+import com.hedvig.android.owldroid.graphql.RedeemReferralCodeMutation
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.hideKeyboard
 import com.hedvig.app.util.extensions.view.remove
@@ -25,7 +26,7 @@ abstract class RedeemCodeDialog : DialogFragment() {
 
     private val tracker: ReferralsTracker by inject()
 
-    abstract fun onRedeemSuccess()
+    abstract fun onRedeemSuccess(data: RedeemReferralCodeMutation.Data)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -51,12 +52,10 @@ abstract class RedeemCodeDialog : DialogFragment() {
                 false
             }
         }
-        referralViewModel.redeemCodeStatus.observe(this) { codeWasValid ->
-            if (codeWasValid == true) {
-                onRedeemSuccess()
-            } else {
-                wrongPromotionCode()
-            }
+        referralViewModel.redeemCodeStatus.observe(this) { data ->
+            data?.let {
+                onRedeemSuccess(it)
+            } ?: wrongPromotionCode()
         }
         return dialog
     }

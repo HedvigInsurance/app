@@ -125,7 +125,7 @@ const bounceScrollView = () => {
 export const NewOffer: React.SFC = () => (
   <Provider>
     <NewOfferComponent>
-      {({ data, loading, error, refetch }) =>
+      {({ data, loading, error, refetch, updateQuery }) =>
         loading || error ? null : (
           <>
             <AnimationValueProvider initialValue={0}>
@@ -190,17 +190,30 @@ export const NewOffer: React.SFC = () => (
                               if (Platform.OS === 'ios') {
                                 NativeModules.NativeRouting.showRedeemCodeOverlay(
                                   true,
-                                ).then((didInputValidCode: boolean) => {
-                                  if (didInputValidCode) {
-                                    refetch();
+                                ).then((redeemResponse: string) => {
+                                  if (redeemResponse != null) {
+                                    updateQuery((queryData) => ({
+                                      ...queryData!,
+                                      insurance: {
+                                        ...queryData!.insurance,
+                                        cost: JSON.parse(redeemResponse),
+                                      },
+                                    }));
                                   }
                                 });
                               }
                               if (Platform.OS === 'android') {
                                 NativeModules.ActivityStarter.showRedeemCodeOverlay().then(
-                                  (didInputValidCode: boolean) => {
-                                    if (didInputValidCode) {
-                                      refetch();
+                                  (redeemResponse: string) => {
+                                    if (redeemResponse != null) {
+                                      console.log(redeemResponse);
+                                      updateQuery((queryData) => ({
+                                        ...queryData!,
+                                        insurance: {
+                                          ...queryData!.insurance,
+                                          cost: JSON.parse(redeemResponse),
+                                        },
+                                      }));
                                     }
                                   },
                                 );

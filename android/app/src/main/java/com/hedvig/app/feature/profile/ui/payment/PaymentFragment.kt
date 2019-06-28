@@ -15,6 +15,7 @@ import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.feature.referrals.RedeemCodeDialog
+import com.hedvig.app.feature.referrals.RefetchingRedeemCodeDialog
 import com.hedvig.app.util.CustomTypefaceSpan
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.extensions.concat
@@ -78,9 +79,9 @@ class PaymentFragment : Fragment() {
         }
 
         redeemCode.setHapticClickListener {
-            RedeemCodeDialog
+            RefetchingRedeemCodeDialog
                 .newInstance()
-                .show(childFragmentManager, RedeemCodeDialog.TAG)
+                .show(childFragmentManager, RefetchingRedeemCodeDialog.TAG)
         }
 
         loadData()
