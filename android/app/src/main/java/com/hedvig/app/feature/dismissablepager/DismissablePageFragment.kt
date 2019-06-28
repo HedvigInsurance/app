@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.RequestBuilder
+import com.hedvig.app.BuildConfig
 import com.hedvig.app.R
 import com.hedvig.app.util.svg.buildRequestBuilder
 import kotlinx.android.synthetic.main.fragment_news.*
@@ -23,7 +24,7 @@ class DismissablePageFragment : Fragment() {
 
         arguments?.getString(ILLUSTRATION)?.let { il ->
             requestBuilder
-                .load(Uri.parse(il))
+                .load(Uri.parse(BuildConfig.BASE_URL + il))
                 .into(illustration)
         }
         title.text = arguments?.getString(TITLE)
