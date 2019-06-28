@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.net.Uri
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.graphql.RedeemReferralCodeMutation
 import com.hedvig.app.data.chat.ChatRepository
 import com.hedvig.app.feature.profile.data.ProfileRepository
 import com.hedvig.app.service.Referrals
@@ -164,5 +165,9 @@ class ProfileViewModel(
         disposables += chatRepository
             .triggerFreeTextChat()
             .subscribe({ done() }, { Timber.e(it) })
+    }
+
+    fun updateReferralsInformation(data: RedeemReferralCodeMutation.Data) {
+        profileRepository.writeRedeemedCostToCache(data)
     }
 }

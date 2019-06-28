@@ -13,7 +13,10 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.app.R
+import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
+import com.hedvig.app.feature.referrals.RedeemCodeDialog
+import com.hedvig.app.feature.referrals.RefetchingRedeemCodeDialog
 import com.hedvig.app.util.CustomTypefaceSpan
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.extensions.concat
@@ -21,11 +24,13 @@ import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.view.remove
+import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.viewmodel.DirectDebitViewModel
 import kotlinx.android.synthetic.main.fragment_payment.*
 import kotlinx.android.synthetic.main.loading_spinner.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 import java.util.Calendar
@@ -34,6 +39,8 @@ class PaymentFragment : Fragment() {
 
     private val profileViewModel: ProfileViewModel by sharedViewModel()
     private val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
+
+    private val tracker: ProfileTracker by inject()
 
     private val navController: NavController by lazy {
         requireActivity().findNavController(R.id.loggedNavigationHost)
@@ -67,12 +74,19 @@ class PaymentFragment : Fragment() {
             "DAY" to BILLING_DAY.toString()
         )
 
-        changeBankAccount.setOnClickListener {
+        changeBankAccount.setHapticClickListener {
             navController.proxyNavigate(R.id.action_paymentFragment_to_trustlyFragment)
         }
 
-        connectBankAccount.setOnClickListener {
+        connectBankAccount.setHapticClickListener {
             navController.proxyNavigate(R.id.action_paymentFragment_to_trustlyFragment)
+        }
+
+        redeemCode.setHapticClickListener {
+            tracker.clickRedeemCode()
+            RefetchingRedeemCodeDialog
+                .newInstance()
+                .show(childFragmentManager, RefetchingRedeemCodeDialog.TAG)
         }
 
         loadData()
@@ -104,17 +118,17 @@ class PaymentFragment : Fragment() {
 
             grossPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_PRICE),
-                "PRICE" to profileData?.insurance?.cost?.monthlyGross?.amount
+                "PRICE" to profileData?.insurance?.cost?.monthlyGross?.amount?.toBigDecimal()?.toInt()
             )
 
             discount.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_DISCOUNT),
-                "DISCOUNT" to (profileData?.insurance?.cost?.monthlyDiscount?.amount?.toBigDecimal()?.unaryMinus()).toString()
+                "DISCOUNT" to (profileData?.insurance?.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt()?.unaryMinus())
             )
 
             netPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_FINAL_COST),
-                "FINAL_COST" to profileData?.insurance?.cost?.monthlyNet?.amount
+                "FINAL_COST" to profileData?.insurance?.cost?.monthlyNet?.amount?.toBigDecimal()?.toInt()
             )
 
             bindBankAccountInformation()
@@ -142,6 +156,9 @@ class PaymentFragment : Fragment() {
                 separator.show()
                 accountNumber.text = profileData.bankAccount?.descriptor ?: ""
                 changeBankAccount.show()
+                if (profileData.insurance.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0) {
+                    redeemCode.show()
+                }
             }
             DirectDebitStatus.PENDING -> {
                 paymentDetailsContainer.show()

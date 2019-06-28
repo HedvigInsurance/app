@@ -125,7 +125,7 @@ const bounceScrollView = () => {
 export const NewOffer: React.SFC = () => (
   <Provider>
     <NewOfferComponent>
-      {({ data, loading, error, refetch }) =>
+      {({ data, loading, error, refetch, updateQuery }) =>
         loading || error ? null : (
           <>
             <AnimationValueProvider initialValue={0}>
@@ -173,7 +173,23 @@ export const NewOffer: React.SFC = () => (
                                   true,
                                 ).then((didRemoveCode: boolean) => {
                                   if (didRemoveCode) {
-                                    refetch();
+                                    updateQuery((queryData) => ({
+                                      ...queryData!,
+                                      insurance: {
+                                        ...queryData!.insurance,
+                                        cost: {
+                                          __typename: 'InsuranceCost',
+                                          monthlyDiscount: {
+                                            __typename: 'MonetaryAmountV2',
+                                            amount: '0.00',
+                                          },
+                                          monthlyNet: queryData.insurance.cost!
+                                            .monthlyGross,
+                                          monthlyGross: queryData.insurance
+                                            .cost!.monthlyGross,
+                                        },
+                                      },
+                                    }));
                                   }
                                 });
                               }
@@ -181,7 +197,23 @@ export const NewOffer: React.SFC = () => (
                                 NativeModules.ActivityStarter.showRemoveCodeAlert().then(
                                   (didRemoveCode: boolean) => {
                                     if (didRemoveCode) {
-                                      refetch();
+                                      updateQuery((queryData) => ({
+                                        ...queryData!,
+                                        insurance: {
+                                          ...queryData!.insurance,
+                                          cost: {
+                                            __typename: 'InsuranceCost',
+                                            monthlyDiscount: {
+                                              __typename: 'MonetaryAmountV2',
+                                              amount: '0.00',
+                                            },
+                                            monthlyNet: queryData.insurance
+                                              .cost!.monthlyGross,
+                                            monthlyGross: queryData.insurance
+                                              .cost!.monthlyGross,
+                                          },
+                                        },
+                                      }));
                                     }
                                   },
                                 );
@@ -190,17 +222,29 @@ export const NewOffer: React.SFC = () => (
                               if (Platform.OS === 'ios') {
                                 NativeModules.NativeRouting.showRedeemCodeOverlay(
                                   true,
-                                ).then((didInputValidCode: boolean) => {
-                                  if (didInputValidCode) {
-                                    refetch();
+                                ).then((redeemResponse: string) => {
+                                  if (redeemResponse != null) {
+                                    updateQuery((queryData) => ({
+                                      ...queryData!,
+                                      insurance: {
+                                        ...queryData!.insurance,
+                                        cost: JSON.parse(redeemResponse),
+                                      },
+                                    }));
                                   }
                                 });
                               }
                               if (Platform.OS === 'android') {
                                 NativeModules.ActivityStarter.showRedeemCodeOverlay().then(
-                                  (didInputValidCode: boolean) => {
-                                    if (didInputValidCode) {
-                                      refetch();
+                                  (redeemResponse: string) => {
+                                    if (redeemResponse != null) {
+                                      updateQuery((queryData) => ({
+                                        ...queryData!,
+                                        insurance: {
+                                          ...queryData!.insurance,
+                                          cost: JSON.parse(redeemResponse),
+                                        },
+                                      }));
                                     }
                                   },
                                 );

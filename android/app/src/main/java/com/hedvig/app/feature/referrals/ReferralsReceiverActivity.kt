@@ -25,8 +25,8 @@ class ReferralsReceiverActivity : BaseActivity() {
         setContentView(R.layout.referrals_receiver_activity)
 
         referralViewModel.apply {
-            redeemCodeStatus.observe(this@ReferralsReceiverActivity) { redeemed ->
-                if (redeemed == true) {
+            redeemCodeStatus.observe(this@ReferralsReceiverActivity) { data ->
+                if (data != null) {
                     startChat()
                 } else {
                     // TODO let' create string for this

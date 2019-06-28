@@ -366,9 +366,9 @@ class NativeRouting: RCTEventEmitter {
 
             let applyDiscount = ApplyDiscount()
 
-            bag += applyDiscount.didRedeemValidCodeSignal.onValue { _ in
+            bag += applyDiscount.didRedeemValidCodeSignal.onValue { redeemCode in
                 bag.dispose()
-                resolve(true)
+                resolve(redeemCode.cost.jsonObject.description)
             }
 
             let overlay = DraggableOverlay(presentable: applyDiscount, presentationOptions: [.defaults, .prefersNavigationBarHidden(true)])
