@@ -77,12 +77,12 @@ class NativeRouting: RCTEventEmitter {
 
         bag += ApolloContainer.shared.client.fetch(query: InsurancePriceQuery())
             .valueSignal
-            .compactMap { $0.data?.insurance.monthlyCost }
-            .onValue { monthlyCost in
+            .compactMap { $0.data?.insurance.cost?.monthlyGross.amount }
+            .onValue { monthlyGross in
                 bag.dispose()
                 Analytics.logEvent("ecommerce_purchase", parameters: [
                     "transaction_id": UUID().uuidString,
-                    "value": monthlyCost,
+                    "value": monthlyGross,
                     "currency": "SEK"
                 ])
             }
@@ -157,15 +157,17 @@ class NativeRouting: RCTEventEmitter {
 
     @objc func presentLoggedIn() {
         DispatchQueue.main.async {
-            guard let rootViewController = UIApplication.shared.appDelegate.rootWindow.rootViewController else {
-                return
-            }
+            guard let keyWindow = UIApplication.shared.keyWindow else { return }
+            self.bag += keyWindow.present(LoggedIn(), options: [.prefersNavigationBarHidden(true)], animated: true)
+        }
+    }
 
-            self.bag += rootViewController.present(
-                LoggedIn(),
-                style: .default,
-                options: [.prefersNavigationBarHidden(true)]
-            )
+    @objc func restoreState() {
+        DispatchQueue.main.async {
+            guard let keyWindow = UIApplication.shared.keyWindow else { return }
+            self.bag += RCTApolloClient.restoreState().onValue { _ in
+                self.bag += ApplicationState.presentRootViewController(keyWindow)
+            }
         }
     }
 
@@ -288,6 +290,69 @@ class NativeRouting: RCTEventEmitter {
     @objc func requestCameraPermissions(_ _: Bool, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter _: RCTPromiseRejectBlock) {
         PHPhotoLibrary.requestAuthorization { status in
             resolve(status == .authorized)
+        }
+    }
+
+    @objc func showRemoveCodeAlert(_ _: Bool, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter _: RCTPromiseRejectBlock) {
+        DispatchQueue.main.async {
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+                return
+            }
+
+            var topController = rootViewController
+
+            while let newTopController = topController.presentedViewController {
+                topController = newTopController
+            }
+
+            let alert = Alert<Bool>(
+                title: String(key: .OFFER_REMOVE_DISCOUNT_ALERT_TITLE),
+                message: String(key: .OFFER_REMOVE_DISCOUNT_ALERT_DESCRIPTION),
+                actions: [
+                    Alert.Action(title: String(key: .OFFER_REMOVE_DISCOUNT_ALERT_REMOVE), style: .destructive) { true },
+                    Alert.Action(title: String(key: .OFFER_REMOVE_DISCOUNT_ALERT_CANCEL)) { false }
+                ]
+            )
+
+            let bag = DisposeBag()
+
+            bag += topController.present(alert).onValue { result in
+                if result == true {
+                    bag += ApolloContainer.shared.client.perform(mutation: RemoveDiscountCodeMutation()).onValue { _ in
+                        bag.dispose()
+                        resolve(result)
+                    }
+                    return
+                }
+
+                resolve(result)
+            }
+        }
+    }
+
+    @objc func showRedeemCodeOverlay(_ _: Bool, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter _: RCTPromiseRejectBlock) {
+        DispatchQueue.main.async {
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+                return
+            }
+
+            var topController = rootViewController
+
+            while let newTopController = topController.presentedViewController {
+                topController = newTopController
+            }
+
+            let bag = DisposeBag()
+
+            let applyDiscount = ApplyDiscount()
+
+            bag += applyDiscount.didRedeemValidCodeSignal.onValue { _ in
+                bag.dispose()
+                resolve(true)
+            }
+
+            let overlay = DraggableOverlay(presentable: applyDiscount, presentationOptions: [.defaults, .prefersNavigationBarHidden(true)])
+            self.bag += topController.present(overlay).disposable
         }
     }
 }

@@ -4,20 +4,15 @@ import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import com.google.firebase.iid.FirebaseInstanceId
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.R
 import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
-import com.hedvig.app.feature.loggedin.ui.BaseTabViewModel
-import com.hedvig.app.feature.loggedin.ui.TabNotification
 import com.hedvig.app.feature.profile.ui.aboutapp.AboutAppActivity
-import com.hedvig.app.feature.referrals.ReferralsActivity
-import com.hedvig.app.util.extensions.localBroadcastManager
+import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setIsLoggedIn
-import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
@@ -32,10 +27,8 @@ class ProfileFragment : BaseTabFragment() {
     private val asyncStorageNative: AsyncStorageNative by inject()
 
     private val profileViewModel: ProfileViewModel by sharedViewModel()
-    private val tabViewModel: BaseTabViewModel by sharedViewModel()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_profile, container, false)
+    override val layout = R.layout.fragment_profile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,38 +38,23 @@ class ProfileFragment : BaseTabFragment() {
     }
 
     private fun loadReferralFeature() {
-        profileViewModel.remoteConfigData.observe(this, Observer { remoteConfigData ->
+        profileViewModel.remoteConfigData.observe(this) { remoteConfigData ->
             remoteConfigData?.let { rcd ->
-                if (!rcd.referralsEnabled) {
-                    return@Observer
+                if (!rcd.referralsEnabled || rcd.newReferralsEnabled) {
+                    return@let
                 }
-                if (rcd.newReferralsEnabled) {
-                    if (tabViewModel.tabNotification.value == TabNotification.REFERRALS) {
-                        profileReferralRow.hasNotification = true
-                    }
-                    profileReferralRow.name = resources.getString(R.string.PROFILE_ROW_NEW_REFERRAL_TITLE)
-                    profileReferralRow.description = resources.getString(R.string.PROFILE_ROW_NEW_REFERRAL_DESCRIPTION)
-                } else {
-                    profileReferralRow.setHighlighted()
-                    profileReferralRow.name = interpolateTextKey(
-                        resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
-                        "INCENTIVE" to rcd.referralsIncentiveAmount.toString()
-                    )
-                }
+
+                profileReferralRow.setHighlighted()
+                profileReferralRow.name = interpolateTextKey(
+                    resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
+                    "INCENTIVE" to rcd.referralsIncentiveAmount.toString()
+                )
                 profileReferralRow.setOnClickListener {
-                    if (tabViewModel.tabNotification.value == TabNotification.REFERRALS) {
-                        profileReferralRow.hasNotification = false
-                        tabViewModel.removeReferralNotification()
-                    }
-                    if (rcd.newReferralsEnabled) {
-                        startActivity(Intent(requireContext(), ReferralsActivity::class.java))
-                    } else {
-                        navController.proxyNavigate(R.id.action_loggedInFragment_to_referralFragment)
-                    }
+                    navController.proxyNavigate(R.id.action_loggedInFragment_to_referralFragment)
                 }
                 profileReferralRow.show()
             }
-        })
+        }
     }
 
     private fun populateData() {
@@ -84,8 +62,6 @@ class ProfileFragment : BaseTabFragment() {
             loadingSpinner.remove()
             rowContainer.show()
             logout.show()
-
-            setupLargeTitle(R.string.PROFILE_TITLE, R.font.circular_bold)
 
             profileData?.let { data ->
                 setupMyInfoRow(data)
@@ -105,10 +81,8 @@ class ProfileFragment : BaseTabFragment() {
             logout.setOnClickListener {
                 profileViewModel.logout {
                     requireContext().setIsLoggedIn(false)
-                    localBroadcastManager.sendBroadcast(Intent(PROFILE_NAVIGATION_BROADCAST).apply {
-                        putExtra("action", "logout")
-                    })
                     asyncStorageNative.deleteKey("@hedvig:token")
+                    FirebaseInstanceId.getInstance().deleteInstanceId()
                     requireActivity().triggerRestartActivity()
                 }
             }
@@ -133,13 +107,20 @@ class ProfileFragment : BaseTabFragment() {
 
     private fun setupCoinsured(profileData: ProfileQuery.Data) {
         val personsInHousehold = profileData.insurance.personsInHousehold ?: 1
+
+        if (personsInHousehold <= 1) {
+            return
+        }
+
+
         coinsuredRow.description = interpolateTextKey(
-            resources.getString(R.string.PROFILE_ROW_COINSURED_DESCRIPTION),
-            "NUMBER" to "$personsInHousehold"
+            resources.getString(R.string.PROFILE_MY_COINSURED_ROW_SUBTITLE),
+            "amountCoinsured" to "${personsInHousehold - 1}"
         )
         coinsuredRow.setOnClickListener {
             navController.proxyNavigate(R.id.action_loggedInFragment_to_coinsuredFragment)
         }
+        coinsuredRow.show()
     }
 
     private fun setupCharity(profileData: ProfileQuery.Data) {
@@ -152,7 +133,7 @@ class ProfileFragment : BaseTabFragment() {
     private fun setupPayment(profileData: ProfileQuery.Data) {
         paymentRow.description = interpolateTextKey(
             resources.getString(R.string.PROFILE_ROW_PAYMENT_DESCRIPTION),
-            "COST" to profileData.paymentWithDiscount?.netPremium?.number?.intValueExact().toString()
+            "COST" to profileData.insurance.cost?.monthlyNet?.amount?.toBigDecimal()?.toInt()
         )
         paymentRow.setOnClickListener {
             navController.proxyNavigate(R.id.action_loggedInFragment_to_paymentFragment)
@@ -167,9 +148,5 @@ class ProfileFragment : BaseTabFragment() {
                 startActivity(intent)
             }
         }
-    }
-
-    companion object {
-        const val PROFILE_NAVIGATION_BROADCAST = "profileNavigation"
     }
 }

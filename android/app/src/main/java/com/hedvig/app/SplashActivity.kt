@@ -2,6 +2,7 @@ package com.hedvig.app
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -22,7 +23,7 @@ import timber.log.Timber
 
 class SplashActivity : BaseActivity() {
 
-    val loggedInService: LoginStatusService by inject()
+    private val loggedInService: LoginStatusService by inject()
 
     private var referralCode: String? = null
     private var referralIncentive: String? = null
@@ -32,6 +33,8 @@ class SplashActivity : BaseActivity() {
         whenApiVersion(Build.VERSION_CODES.M) {
             window.statusBarColor = compatColor(R.color.off_white)
         }
+
+        handleIntent(intent)
     }
 
     override fun onStart() {
@@ -53,8 +56,7 @@ class SplashActivity : BaseActivity() {
                     FirebaseAnalytics.getInstance(this).logEvent("referrals_open", b)
                 }
 
-                referralCode = link.getQueryParameter("code")
-                referralIncentive = "10" //FIXME: this must be changed when we hav an other incentive then 10
+                handleNewReferralLink(link)
             }
         }
 
@@ -65,13 +67,27 @@ class SplashActivity : BaseActivity() {
             .subscribe({ navigateToActivity(it) }, { Timber.e(it) })
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent) {
+        val appLinkAction = intent.action
+        if (Intent.ACTION_VIEW == appLinkAction) {
+            Uri.parse(intent.data?.getQueryParameter("link"))?.let { handleNewReferralLink(it) }
+        }
+    }
+
+    private fun handleNewReferralLink(link: Uri) {
+        referralCode = link.getQueryParameter("code")
+        referralIncentive = "10" //FIXME: this must be changed when we hav an other incentive then 10
+    }
+
     private fun navigateToActivity(loginStatus: LoginStatus) = when (loginStatus) {
         LoginStatus.ONBOARDING -> {
             safeLet(referralCode, referralIncentive) { referralCode, incentive ->
-                val intent = Intent(this, ReferralsReceiverActivity::class.java)
-                intent.putExtra(ReferralsReceiverActivity.EXTRA_REFERRAL_CODE, referralCode)
-                intent.putExtra(ReferralsReceiverActivity.EXTRA_REFERRAL_INCENTIVE, incentive)
-                startActivity(intent)
+                startActivity(ReferralsReceiverActivity.newInstance(this, referralCode, incentive))
             } ?: startActivity(Intent(this, MarketingActivity::class.java))
         }
         LoginStatus.IN_OFFER -> {
@@ -80,5 +96,6 @@ class SplashActivity : BaseActivity() {
             startActivity(intent)
         }
         LoginStatus.LOGGED_IN -> startActivity(Intent(this, LoggedInActivity::class.java))
+        LoginStatus.LOGGED_IN_TERMINATED -> startActivity(Intent(this, LoggedInTerminatedActivity::class.java))
     }
 }

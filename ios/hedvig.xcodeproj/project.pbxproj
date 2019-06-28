@@ -49,7 +49,6 @@
 		EB11EA612277047700D95365 /* MyCoinsuredRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E9792277047700D95365 /* MyCoinsuredRow.swift */; };
 		EB11EA622277047700D95365 /* MyCharityRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E97A2277047700D95365 /* MyCharityRow.swift */; };
 		EB11EA632277047700D95365 /* AboutRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E97B2277047700D95365 /* AboutRow.swift */; };
-		EB11EA642277047700D95365 /* ReferralRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E97C2277047700D95365 /* ReferralRow.swift */; };
 		EB11EA652277047700D95365 /* MyInfoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E97D2277047700D95365 /* MyInfoRow.swift */; };
 		EB11EA662277047700D95365 /* OtherSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E97E2277047700D95365 /* OtherSection.swift */; };
 		EB11EA672277047700D95365 /* InsuranceCertificateRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E97F2277047700D95365 /* InsuranceCertificateRow.swift */; };
@@ -66,7 +65,6 @@
 		EB11EA722277047700D95365 /* FeedbackHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E9902277047700D95365 /* FeedbackHeader.swift */; };
 		EB11EA732277047700D95365 /* ReportBugRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E9912277047700D95365 /* ReportBugRow.swift */; };
 		EB11EA742277047700D95365 /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E9922277047700D95365 /* Feedback.swift */; };
-		EB11EA752277047700D95365 /* Referrals.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E9942277047700D95365 /* Referrals.swift */; };
 		EB11EA7A2277047700D95365 /* DeductibleCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E99C2277047700D95365 /* DeductibleCircle.swift */; };
 		EB11EA7B2277047700D95365 /* MonthlyPaymentCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E99D2277047700D95365 /* MonthlyPaymentCircle.swift */; };
 		EB11EA7C2277047700D95365 /* UpdatingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E99E2277047700D95365 /* UpdatingMessage.swift */; };
@@ -203,7 +201,6 @@
 		EB11ED11227ADBC800D95365 /* RemoteVectorIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11ED10227ADBC800D95365 /* RemoteVectorIcon.swift */; };
 		EB11ED28227ADBDE00D95365 /* Claims.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11ED13227ADBDE00D95365 /* Claims.swift */; };
 		EB11ED29227ADBDE00D95365 /* CommonClaimCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11ED16227ADBDE00D95365 /* CommonClaimCard.swift */; };
-		EB11ED2A227ADBDE00D95365 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11ED17227ADBDE00D95365 /* CloseButton.swift */; };
 		EB11ED2B227ADBDE00D95365 /* CommonClaimsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11ED18227ADBDE00D95365 /* CommonClaimsCollection.swift */; };
 		EB11ED2C227ADBDE00D95365 /* ClaimsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11ED19227ADBDE00D95365 /* ClaimsHeader.swift */; };
 		EB11ED2D227ADBDE00D95365 /* EmergencyActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11ED1C227ADBDE00D95365 /* EmergencyActions.swift */; };
@@ -241,6 +238,37 @@
 		EB433C96221D49C1000156D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */; };
 		EB4695BE220051BF0004C75D /* Pods-Hedvig-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */; };
 		EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4695CD220083800004C75D /* RCTApolloClient.swift */; };
+		EB48684122C5009600688463 /* PanDirectionGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48684022C5009600688463 /* PanDirectionGestureRecognizer.swift */; };
+		EB48684322C531F600688463 /* ReferralsProgressHighPremium.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB48684222C531F600688463 /* ReferralsProgressHighPremium.swift */; };
+		EB8E2A5C22C0C21B009F6180 /* TerminatedInsurance.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A5B22C0C21B009F6180 /* TerminatedInsurance.swift */; };
+		EB8E2A7C22C229C5009F6180 /* ReferralsInvitationAnonymous.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6422C229C5009F6180 /* ReferralsInvitationAnonymous.swift */; };
+		EB8E2A7D22C229C5009F6180 /* Referrals.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6522C229C5009F6180 /* Referrals.swift */; };
+		EB8E2A7E22C229C5009F6180 /* ReferralsInvitationsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6722C229C5009F6180 /* ReferralsInvitationsTable.swift */; };
+		EB8E2A7F22C229C5009F6180 /* ReferralsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6822C229C5009F6180 /* ReferralsContent.swift */; };
+		EB8E2A8022C229C5009F6180 /* ReferralsProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6922C229C5009F6180 /* ReferralsProgressBar.swift */; };
+		EB8E2A8122C229C5009F6180 /* ReferralsTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6A22C229C5009F6180 /* ReferralsTitle.swift */; };
+		EB8E2A8222C229C5009F6180 /* ReferralsCodeContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6C22C229C5009F6180 /* ReferralsCodeContainer.swift */; };
+		EB8E2A8322C229C5009F6180 /* ReferralsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6D22C229C5009F6180 /* ReferralsCode.swift */; };
+		EB8E2A8422C229C5009F6180 /* ReferralsInvitationOnboardingIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6E22C229C5009F6180 /* ReferralsInvitationOnboardingIcon.swift */; };
+		EB8E2A8522C229C5009F6180 /* ReferralsInvitationMemberIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A6F22C229C5009F6180 /* ReferralsInvitationMemberIcon.swift */; };
+		EB8E2A8622C229C5009F6180 /* ReferralsInvitationLeftIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A7022C229C5009F6180 /* ReferralsInvitationLeftIcon.swift */; };
+		EB8E2A8722C229C5009F6180 /* ReferralsInvitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A7122C229C5009F6180 /* ReferralsInvitation.swift */; };
+		EB8E2A8822C229C5009F6180 /* ReferralsReceiverConsent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A7422C229C5009F6180 /* ReferralsReceiverConsent.swift */; };
+		EB8E2A8922C229C5009F6180 /* ReferralsReceiverConsentContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A7622C229C5009F6180 /* ReferralsReceiverConsentContent.swift */; };
+		EB8E2A8A22C229C5009F6180 /* ReferralsNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A7822C229C5009F6180 /* ReferralsNotification.swift */; };
+		EB8E2A8B22C229C5009F6180 /* ReferralsNotificationProgressed.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A7A22C229C5009F6180 /* ReferralsNotificationProgressed.swift */; };
+		EB8E2A8C22C229C5009F6180 /* ReferralsMoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A7B22C229C5009F6180 /* ReferralsMoreInfo.swift */; };
+		EB8E2A8E22C22AAA009F6180 /* CoreSignal+StringToNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A8D22C22AAA009F6180 /* CoreSignal+StringToNumber.swift */; };
+		EB8E2A9022C3BC05009F6180 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A8F22C3BC05009F6180 /* CloseButton.swift */; };
+		EB8E2A9222C3BC78009F6180 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A9122C3BC77009F6180 /* Bundle+Version.swift */; };
+		EB8E2A9A22C3BD9E009F6180 /* WhatsNewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A9522C3BD9D009F6180 /* WhatsNewPager.swift */; };
+		EB8E2A9B22C3BD9E009F6180 /* WhatsNewPagerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A9622C3BD9D009F6180 /* WhatsNewPagerScreen.swift */; };
+		EB8E2A9C22C3BD9E009F6180 /* ProceedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A9722C3BD9D009F6180 /* ProceedButton.swift */; };
+		EB8E2A9D22C3BD9E009F6180 /* WhatsNewPagerDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A9822C3BD9D009F6180 /* WhatsNewPagerDots.swift */; };
+		EB8E2A9E22C3BD9E009F6180 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A9922C3BD9D009F6180 /* WhatsNew.swift */; };
+		EB8E2AA022C3BF51009F6180 /* UIModalPresentationStyle+FormSheetOrModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2A9F22C3BF50009F6180 /* UIModalPresentationStyle+FormSheetOrModal.swift */; };
+		EB8E2AA322C3BFDA009F6180 /* Pager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2AA122C3BFDA009F6180 /* Pager.swift */; };
+		EB8E2AA422C3BFDA009F6180 /* PagerDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E2AA222C3BFDA009F6180 /* PagerDots.swift */; };
 		EBCAA816228086BC003C4833 /* DashboardRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAA815228086BC003C4833 /* DashboardRouting.swift */; };
 		EBCAA89D2281C28E003C4833 /* MyProtectionSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAA88C2281C28D003C4833 /* MyProtectionSection.swift */; };
 		EBCAA8A02281C28E003C4833 /* Peril.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAA88F2281C28D003C4833 /* Peril.swift */; };
@@ -273,26 +301,11 @@
 		EBE8B8D022B9202300E32499 /* ApplyDiscount.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8CD22B9202300E32499 /* ApplyDiscount.swift */; };
 		EBE8B8D122B9202300E32499 /* DiscountTerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8CF22B9202300E32499 /* DiscountTerms.swift */; };
 		EBE8B8D322B9203F00E32499 /* ApplyDiscountSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8D222B9203F00E32499 /* ApplyDiscountSection.swift */; };
-		EBE8B8D522B9205000E32499 /* ReferralsMoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8D422B9205000E32499 /* ReferralsMoreInfo.swift */; };
 		EBECC26621B9230000716BEA /* NativeRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBECC26521B9230000716BEA /* NativeRouting.swift */; };
 		EBECC26821B92E4800716BEA /* NativeRouting.m in Sources */ = {isa = PBXBuildFile; fileRef = EBECC26721B92E4800716BEA /* NativeRouting.m */; };
 		EBFA05E722B0DF86009D3FAE /* RegisterPushToken.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EBFA05E622B0DF86009D3FAE /* RegisterPushToken.graphql */; };
 		EBFA05E922B0E82B009D3FAE /* PushNotificationsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05E822B0E82B009D3FAE /* PushNotificationsState.swift */; };
 		EBFA05EB22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05EA22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift */; };
-		EBFA05F922B134C0009D3FAE /* ReferralsInvitationsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05F022B134C0009D3FAE /* ReferralsInvitationsTable.swift */; };
-		EBFA05FA22B134C0009D3FAE /* ReferralsProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05F122B134C0009D3FAE /* ReferralsProgressBar.swift */; };
-		EBFA05FB22B134C0009D3FAE /* ReferralsTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05F222B134C0009D3FAE /* ReferralsTitle.swift */; };
-		EBFA05FC22B134C0009D3FAE /* ReferralsCodeContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05F422B134C0009D3FAE /* ReferralsCodeContainer.swift */; };
-		EBFA05FD22B134C0009D3FAE /* ReferralsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05F522B134C0009D3FAE /* ReferralsCode.swift */; };
-		EBFA05FE22B134C0009D3FAE /* ReferralsInvitationOnboardingIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05F622B134C0009D3FAE /* ReferralsInvitationOnboardingIcon.swift */; };
-		EBFA05FF22B134C0009D3FAE /* ReferralsInvitationMemberIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05F722B134C0009D3FAE /* ReferralsInvitationMemberIcon.swift */; };
-		EBFA060022B134C0009D3FAE /* ReferralsInvitationLeftIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05F822B134C0009D3FAE /* ReferralsInvitationLeftIcon.swift */; };
-		EBFA060322B134C7009D3FAE /* ReferralsInvitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA060122B134C6009D3FAE /* ReferralsInvitation.swift */; };
-		EBFA060422B134C7009D3FAE /* ReferralsInvitationAnonymous.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA060222B134C7009D3FAE /* ReferralsInvitationAnonymous.swift */; };
-		EBFA060D22B134EE009D3FAE /* ReferralsReceiverConsent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA060622B134EE009D3FAE /* ReferralsReceiverConsent.swift */; };
-		EBFA060E22B134EE009D3FAE /* ReferralsReceiverConsentContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA060822B134EE009D3FAE /* ReferralsReceiverConsentContent.swift */; };
-		EBFA060F22B134EE009D3FAE /* ReferralsNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA060A22B134EE009D3FAE /* ReferralsNotification.swift */; };
-		EBFA061022B134EE009D3FAE /* ReferralsNotificationProgressed.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA060C22B134EE009D3FAE /* ReferralsNotificationProgressed.swift */; };
 		EBFA061222B13515009D3FAE /* ActivityBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA061122B13515009D3FAE /* ActivityBarButton.swift */; };
 		EBFA061422B13542009D3FAE /* String+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA061322B13542009D3FAE /* String+Color.swift */; };
 		EBFA061622B1354B009D3FAE /* TextStyle+LineHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA061522B1354A009D3FAE /* TextStyle+LineHeight.swift */; };
@@ -352,7 +365,6 @@
 		EB11E9792277047700D95365 /* MyCoinsuredRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCoinsuredRow.swift; sourceTree = "<group>"; };
 		EB11E97A2277047700D95365 /* MyCharityRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCharityRow.swift; sourceTree = "<group>"; };
 		EB11E97B2277047700D95365 /* AboutRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutRow.swift; sourceTree = "<group>"; };
-		EB11E97C2277047700D95365 /* ReferralRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralRow.swift; sourceTree = "<group>"; };
 		EB11E97D2277047700D95365 /* MyInfoRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyInfoRow.swift; sourceTree = "<group>"; };
 		EB11E97E2277047700D95365 /* OtherSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherSection.swift; sourceTree = "<group>"; };
 		EB11E97F2277047700D95365 /* InsuranceCertificateRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsuranceCertificateRow.swift; sourceTree = "<group>"; };
@@ -369,7 +381,6 @@
 		EB11E9902277047700D95365 /* FeedbackHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackHeader.swift; sourceTree = "<group>"; };
 		EB11E9912277047700D95365 /* ReportBugRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportBugRow.swift; sourceTree = "<group>"; };
 		EB11E9922277047700D95365 /* Feedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
-		EB11E9942277047700D95365 /* Referrals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Referrals.swift; sourceTree = "<group>"; };
 		EB11E99C2277047700D95365 /* DeductibleCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeductibleCircle.swift; sourceTree = "<group>"; };
 		EB11E99D2277047700D95365 /* MonthlyPaymentCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthlyPaymentCircle.swift; sourceTree = "<group>"; };
 		EB11E99E2277047700D95365 /* UpdatingMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatingMessage.swift; sourceTree = "<group>"; };
@@ -507,7 +518,6 @@
 		EB11ED10227ADBC800D95365 /* RemoteVectorIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteVectorIcon.swift; sourceTree = "<group>"; };
 		EB11ED13227ADBDE00D95365 /* Claims.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Claims.swift; sourceTree = "<group>"; };
 		EB11ED16227ADBDE00D95365 /* CommonClaimCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonClaimCard.swift; sourceTree = "<group>"; };
-		EB11ED17227ADBDE00D95365 /* CloseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		EB11ED18227ADBDE00D95365 /* CommonClaimsCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonClaimsCollection.swift; sourceTree = "<group>"; };
 		EB11ED19227ADBDE00D95365 /* ClaimsHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClaimsHeader.swift; sourceTree = "<group>"; };
 		EB11ED1C227ADBDE00D95365 /* EmergencyActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyActions.swift; sourceTree = "<group>"; };
@@ -546,6 +556,37 @@
 		EB433C95221D49C1000156D4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB4695BD220051940004C75D /* Pods-Hedvig-acknowledgements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Pods-Hedvig-acknowledgements.plist"; sourceTree = "<group>"; };
 		EB4695CD220083800004C75D /* RCTApolloClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCTApolloClient.swift; sourceTree = "<group>"; };
+		EB48684022C5009600688463 /* PanDirectionGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanDirectionGestureRecognizer.swift; sourceTree = "<group>"; };
+		EB48684222C531F600688463 /* ReferralsProgressHighPremium.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsProgressHighPremium.swift; sourceTree = "<group>"; };
+		EB8E2A5B22C0C21B009F6180 /* TerminatedInsurance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminatedInsurance.swift; sourceTree = "<group>"; };
+		EB8E2A6422C229C5009F6180 /* ReferralsInvitationAnonymous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitationAnonymous.swift; sourceTree = "<group>"; };
+		EB8E2A6522C229C5009F6180 /* Referrals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Referrals.swift; sourceTree = "<group>"; };
+		EB8E2A6722C229C5009F6180 /* ReferralsInvitationsTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitationsTable.swift; sourceTree = "<group>"; };
+		EB8E2A6822C229C5009F6180 /* ReferralsContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsContent.swift; sourceTree = "<group>"; };
+		EB8E2A6922C229C5009F6180 /* ReferralsProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsProgressBar.swift; sourceTree = "<group>"; };
+		EB8E2A6A22C229C5009F6180 /* ReferralsTitle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsTitle.swift; sourceTree = "<group>"; };
+		EB8E2A6C22C229C5009F6180 /* ReferralsCodeContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsCodeContainer.swift; sourceTree = "<group>"; };
+		EB8E2A6D22C229C5009F6180 /* ReferralsCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsCode.swift; sourceTree = "<group>"; };
+		EB8E2A6E22C229C5009F6180 /* ReferralsInvitationOnboardingIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitationOnboardingIcon.swift; sourceTree = "<group>"; };
+		EB8E2A6F22C229C5009F6180 /* ReferralsInvitationMemberIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitationMemberIcon.swift; sourceTree = "<group>"; };
+		EB8E2A7022C229C5009F6180 /* ReferralsInvitationLeftIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitationLeftIcon.swift; sourceTree = "<group>"; };
+		EB8E2A7122C229C5009F6180 /* ReferralsInvitation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitation.swift; sourceTree = "<group>"; };
+		EB8E2A7422C229C5009F6180 /* ReferralsReceiverConsent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsReceiverConsent.swift; sourceTree = "<group>"; };
+		EB8E2A7622C229C5009F6180 /* ReferralsReceiverConsentContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsReceiverConsentContent.swift; sourceTree = "<group>"; };
+		EB8E2A7822C229C5009F6180 /* ReferralsNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsNotification.swift; sourceTree = "<group>"; };
+		EB8E2A7A22C229C5009F6180 /* ReferralsNotificationProgressed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsNotificationProgressed.swift; sourceTree = "<group>"; };
+		EB8E2A7B22C229C5009F6180 /* ReferralsMoreInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsMoreInfo.swift; sourceTree = "<group>"; };
+		EB8E2A8D22C22AAA009F6180 /* CoreSignal+StringToNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreSignal+StringToNumber.swift"; sourceTree = "<group>"; };
+		EB8E2A8F22C3BC05009F6180 /* CloseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
+		EB8E2A9122C3BC77009F6180 /* Bundle+Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
+		EB8E2A9522C3BD9D009F6180 /* WhatsNewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewPager.swift; sourceTree = "<group>"; };
+		EB8E2A9622C3BD9D009F6180 /* WhatsNewPagerScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewPagerScreen.swift; sourceTree = "<group>"; };
+		EB8E2A9722C3BD9D009F6180 /* ProceedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProceedButton.swift; sourceTree = "<group>"; };
+		EB8E2A9822C3BD9D009F6180 /* WhatsNewPagerDots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewPagerDots.swift; sourceTree = "<group>"; };
+		EB8E2A9922C3BD9D009F6180 /* WhatsNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
+		EB8E2A9F22C3BF50009F6180 /* UIModalPresentationStyle+FormSheetOrModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIModalPresentationStyle+FormSheetOrModal.swift"; sourceTree = "<group>"; };
+		EB8E2AA122C3BFDA009F6180 /* Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pager.swift; sourceTree = "<group>"; };
+		EB8E2AA222C3BFDA009F6180 /* PagerDots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagerDots.swift; sourceTree = "<group>"; };
 		EBC15BDB2126C0D700D0E296 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNFirebase.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBCAA815228086BC003C4833 /* DashboardRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardRouting.swift; sourceTree = "<group>"; };
 		EBCAA88C2281C28D003C4833 /* MyProtectionSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProtectionSection.swift; sourceTree = "<group>"; };
@@ -579,26 +620,11 @@
 		EBE8B8CD22B9202300E32499 /* ApplyDiscount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyDiscount.swift; sourceTree = "<group>"; };
 		EBE8B8CF22B9202300E32499 /* DiscountTerms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscountTerms.swift; sourceTree = "<group>"; };
 		EBE8B8D222B9203F00E32499 /* ApplyDiscountSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyDiscountSection.swift; sourceTree = "<group>"; };
-		EBE8B8D422B9205000E32499 /* ReferralsMoreInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsMoreInfo.swift; sourceTree = "<group>"; };
 		EBECC26521B9230000716BEA /* NativeRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeRouting.swift; sourceTree = "<group>"; };
 		EBECC26721B92E4800716BEA /* NativeRouting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NativeRouting.m; sourceTree = "<group>"; };
 		EBFA05E622B0DF86009D3FAE /* RegisterPushToken.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RegisterPushToken.graphql; sourceTree = "<group>"; };
 		EBFA05E822B0E82B009D3FAE /* PushNotificationsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsState.swift; sourceTree = "<group>"; };
 		EBFA05EA22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+DelayedTouchCancel.swift"; sourceTree = "<group>"; };
-		EBFA05F022B134C0009D3FAE /* ReferralsInvitationsTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitationsTable.swift; sourceTree = "<group>"; };
-		EBFA05F122B134C0009D3FAE /* ReferralsProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsProgressBar.swift; sourceTree = "<group>"; };
-		EBFA05F222B134C0009D3FAE /* ReferralsTitle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsTitle.swift; sourceTree = "<group>"; };
-		EBFA05F422B134C0009D3FAE /* ReferralsCodeContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsCodeContainer.swift; sourceTree = "<group>"; };
-		EBFA05F522B134C0009D3FAE /* ReferralsCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsCode.swift; sourceTree = "<group>"; };
-		EBFA05F622B134C0009D3FAE /* ReferralsInvitationOnboardingIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitationOnboardingIcon.swift; sourceTree = "<group>"; };
-		EBFA05F722B134C0009D3FAE /* ReferralsInvitationMemberIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitationMemberIcon.swift; sourceTree = "<group>"; };
-		EBFA05F822B134C0009D3FAE /* ReferralsInvitationLeftIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsInvitationLeftIcon.swift; sourceTree = "<group>"; };
-		EBFA060122B134C6009D3FAE /* ReferralsInvitation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferralsInvitation.swift; path = hedvig/ugglan/Src/Screens/ProfileScreen/Screens/Referrals/ReferralsInvitation.swift; sourceTree = SOURCE_ROOT; };
-		EBFA060222B134C7009D3FAE /* ReferralsInvitationAnonymous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferralsInvitationAnonymous.swift; path = hedvig/ugglan/Src/Screens/ProfileScreen/Screens/Referrals/ReferralsInvitationAnonymous.swift; sourceTree = SOURCE_ROOT; };
-		EBFA060622B134EE009D3FAE /* ReferralsReceiverConsent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsReceiverConsent.swift; sourceTree = "<group>"; };
-		EBFA060822B134EE009D3FAE /* ReferralsReceiverConsentContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsReceiverConsentContent.swift; sourceTree = "<group>"; };
-		EBFA060A22B134EE009D3FAE /* ReferralsNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsNotification.swift; sourceTree = "<group>"; };
-		EBFA060C22B134EE009D3FAE /* ReferralsNotificationProgressed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralsNotificationProgressed.swift; sourceTree = "<group>"; };
 		EBFA061122B13515009D3FAE /* ActivityBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityBarButton.swift; sourceTree = "<group>"; };
 		EBFA061322B13542009D3FAE /* String+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Color.swift"; sourceTree = "<group>"; };
 		EBFA061522B1354A009D3FAE /* TextStyle+LineHeight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TextStyle+LineHeight.swift"; sourceTree = "<group>"; };
@@ -725,9 +751,9 @@
 		EB11E94F2277047700D95365 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				EB8E2A9322C3BD9D009F6180 /* WhatsNewScreen */,
+				EB8E2A6322C229C5009F6180 /* ReferralsScreen */,
 				EBE8B8CC22B9202300E32499 /* OfferScreen */,
-				EBFA060922B134EE009D3FAE /* ReferralsNotificationScreen */,
-				EBFA060522B134EE009D3FAE /* ReferralsReceiverConsentScreen */,
 				EB11ED12227ADBDE00D95365 /* ClaimsScreen */,
 				EB11E9502277047700D95365 /* LoggedInScreen */,
 				EB11E9522277047700D95365 /* LaunchScreen */,
@@ -744,6 +770,7 @@
 		EB11E9502277047700D95365 /* LoggedInScreen */ = {
 			isa = PBXGroup;
 			children = (
+				EB8E2A5B22C0C21B009F6180 /* TerminatedInsurance.swift */,
 				EB11E9512277047700D95365 /* LoggedIn.swift */,
 			);
 			path = LoggedInScreen;
@@ -863,7 +890,6 @@
 				EB11E9792277047700D95365 /* MyCoinsuredRow.swift */,
 				EB11E97A2277047700D95365 /* MyCharityRow.swift */,
 				EB11E97B2277047700D95365 /* AboutRow.swift */,
-				EB11E97C2277047700D95365 /* ReferralRow.swift */,
 				EB11E97D2277047700D95365 /* MyInfoRow.swift */,
 				EB11E97E2277047700D95365 /* OtherSection.swift */,
 				EB11E97F2277047700D95365 /* InsuranceCertificateRow.swift */,
@@ -877,7 +903,6 @@
 			children = (
 				EB11E9832277047700D95365 /* MyInfo */,
 				EB11E98D2277047700D95365 /* FeedbackScreen */,
-				EB11E9932277047700D95365 /* Referrals */,
 				EB11E99A2277047700D95365 /* MyPayment */,
 				EB11E9A82277047700D95365 /* MyHome */,
 				EB11E9AD2277047700D95365 /* CharityScreen */,
@@ -935,18 +960,6 @@
 				EB11E9912277047700D95365 /* ReportBugRow.swift */,
 			);
 			path = Viewables;
-			sourceTree = "<group>";
-		};
-		EB11E9932277047700D95365 /* Referrals */ = {
-			isa = PBXGroup;
-			children = (
-				EBE8B8D422B9205000E32499 /* ReferralsMoreInfo.swift */,
-				EBFA060122B134C6009D3FAE /* ReferralsInvitation.swift */,
-				EBFA060222B134C7009D3FAE /* ReferralsInvitationAnonymous.swift */,
-				EBFA05EF22B134C0009D3FAE /* Viewables */,
-				EB11E9942277047700D95365 /* Referrals.swift */,
-			);
-			path = Referrals;
 			sourceTree = "<group>";
 		};
 		EB11E99A2277047700D95365 /* MyPayment */ = {
@@ -1126,6 +1139,7 @@
 				EB11EA122277047700D95365 /* Animations */,
 				EB384A6022943E0400D226D1 /* DocumentPicker.swift */,
 				EB384A6222953A2700D226D1 /* ImagePicker.swift */,
+				EB48684022C5009600688463 /* PanDirectionGestureRecognizer.swift */,
 			);
 			path = Generic;
 			sourceTree = "<group>";
@@ -1133,11 +1147,14 @@
 		EB11E9CF2277047700D95365 /* Viewables */ = {
 			isa = PBXGroup;
 			children = (
+				EB8E2AA122C3BFDA009F6180 /* Pager.swift */,
+				EB8E2AA222C3BFDA009F6180 /* PagerDots.swift */,
 				EBE8B8C822B91FF500E32499 /* TextField.swift */,
 				EBE8B8C622B91FEC00E32499 /* LoadableView.swift */,
 				EBFA061122B13515009D3FAE /* ActivityBarButton.swift */,
 				EB11EB2D2277382600D95365 /* Divider.swift */,
 				EB11E9D02277047700D95365 /* BackgroundWithLabel.swift */,
+				EB8E2A8F22C3BC05009F6180 /* CloseButton.swift */,
 				EBCAA8C322843E00003C4833 /* ChatButton.swift */,
 				EB11E9D12277047700D95365 /* MultilineLabel.swift */,
 				EB11EB2B2277360900D95365 /* MultilineLabelIcon.swift */,
@@ -1164,6 +1181,9 @@
 		EB11E9E32277047700D95365 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EB8E2A9F22C3BF50009F6180 /* UIModalPresentationStyle+FormSheetOrModal.swift */,
+				EB8E2A9122C3BC77009F6180 /* Bundle+Version.swift */,
+				EB8E2A8D22C22AAA009F6180 /* CoreSignal+StringToNumber.swift */,
 				EBFA061522B1354A009D3FAE /* TextStyle+LineHeight.swift */,
 				EBE8B8C222B91FBF00E32499 /* Notification+KeyboardInfo.swift */,
 				EBE8B8C422B91FC900E32499 /* String+VariableStyles.swift */,
@@ -1387,7 +1407,6 @@
 			isa = PBXGroup;
 			children = (
 				EB11ED16227ADBDE00D95365 /* CommonClaimCard.swift */,
-				EB11ED17227ADBDE00D95365 /* CloseButton.swift */,
 				EB11ED18227ADBDE00D95365 /* CommonClaimsCollection.swift */,
 			);
 			path = CommonClaimsCollection;
@@ -1438,6 +1457,107 @@
 			path = hedvig/Chat;
 			sourceTree = SOURCE_ROOT;
 		};
+		EB8E2A6322C229C5009F6180 /* ReferralsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				EB8E2A6422C229C5009F6180 /* ReferralsInvitationAnonymous.swift */,
+				EB8E2A6522C229C5009F6180 /* Referrals.swift */,
+				EB8E2A6622C229C5009F6180 /* Viewables */,
+				EB8E2A7122C229C5009F6180 /* ReferralsInvitation.swift */,
+				EB8E2A7222C229C5009F6180 /* Screens */,
+				EB8E2A7B22C229C5009F6180 /* ReferralsMoreInfo.swift */,
+			);
+			path = ReferralsScreen;
+			sourceTree = "<group>";
+		};
+		EB8E2A6622C229C5009F6180 /* Viewables */ = {
+			isa = PBXGroup;
+			children = (
+				EB8E2A6722C229C5009F6180 /* ReferralsInvitationsTable.swift */,
+				EB8E2A6822C229C5009F6180 /* ReferralsContent.swift */,
+				EB8E2A6922C229C5009F6180 /* ReferralsProgressBar.swift */,
+				EB8E2A6A22C229C5009F6180 /* ReferralsTitle.swift */,
+				EB8E2A6B22C229C5009F6180 /* ReferralsCode */,
+				EB8E2A6E22C229C5009F6180 /* ReferralsInvitationOnboardingIcon.swift */,
+				EB8E2A6F22C229C5009F6180 /* ReferralsInvitationMemberIcon.swift */,
+				EB8E2A7022C229C5009F6180 /* ReferralsInvitationLeftIcon.swift */,
+				EB48684222C531F600688463 /* ReferralsProgressHighPremium.swift */,
+			);
+			path = Viewables;
+			sourceTree = "<group>";
+		};
+		EB8E2A6B22C229C5009F6180 /* ReferralsCode */ = {
+			isa = PBXGroup;
+			children = (
+				EB8E2A6C22C229C5009F6180 /* ReferralsCodeContainer.swift */,
+				EB8E2A6D22C229C5009F6180 /* ReferralsCode.swift */,
+			);
+			path = ReferralsCode;
+			sourceTree = "<group>";
+		};
+		EB8E2A7222C229C5009F6180 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				EB8E2A7322C229C5009F6180 /* ReceiverConsentScreen */,
+				EB8E2A7722C229C5009F6180 /* NotificationScreen */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		EB8E2A7322C229C5009F6180 /* ReceiverConsentScreen */ = {
+			isa = PBXGroup;
+			children = (
+				EB8E2A7422C229C5009F6180 /* ReferralsReceiverConsent.swift */,
+				EB8E2A7522C229C5009F6180 /* Viewables */,
+			);
+			path = ReceiverConsentScreen;
+			sourceTree = "<group>";
+		};
+		EB8E2A7522C229C5009F6180 /* Viewables */ = {
+			isa = PBXGroup;
+			children = (
+				EB8E2A7622C229C5009F6180 /* ReferralsReceiverConsentContent.swift */,
+			);
+			path = Viewables;
+			sourceTree = "<group>";
+		};
+		EB8E2A7722C229C5009F6180 /* NotificationScreen */ = {
+			isa = PBXGroup;
+			children = (
+				EB8E2A7822C229C5009F6180 /* ReferralsNotification.swift */,
+				EB8E2A7922C229C5009F6180 /* Viewables */,
+			);
+			path = NotificationScreen;
+			sourceTree = "<group>";
+		};
+		EB8E2A7922C229C5009F6180 /* Viewables */ = {
+			isa = PBXGroup;
+			children = (
+				EB8E2A7A22C229C5009F6180 /* ReferralsNotificationProgressed.swift */,
+			);
+			path = Viewables;
+			sourceTree = "<group>";
+		};
+		EB8E2A9322C3BD9D009F6180 /* WhatsNewScreen */ = {
+			isa = PBXGroup;
+			children = (
+				EB8E2A9422C3BD9D009F6180 /* Viewables */,
+				EB8E2A9922C3BD9D009F6180 /* WhatsNew.swift */,
+			);
+			path = WhatsNewScreen;
+			sourceTree = "<group>";
+		};
+		EB8E2A9422C3BD9D009F6180 /* Viewables */ = {
+			isa = PBXGroup;
+			children = (
+				EB8E2A9522C3BD9D009F6180 /* WhatsNewPager.swift */,
+				EB8E2A9622C3BD9D009F6180 /* WhatsNewPagerScreen.swift */,
+				EB8E2A9722C3BD9D009F6180 /* ProceedButton.swift */,
+				EB8E2A9822C3BD9D009F6180 /* WhatsNewPagerDots.swift */,
+			);
+			path = Viewables;
+			sourceTree = "<group>";
+		};
 		EBCAA8B32282255B003C4833 /* ChatPreview */ = {
 			isa = PBXGroup;
 			children = (
@@ -1472,63 +1592,6 @@
 			path = ugglan;
 			sourceTree = "<group>";
 		};
-		EBFA05EF22B134C0009D3FAE /* Viewables */ = {
-			isa = PBXGroup;
-			children = (
-				EBFA05F022B134C0009D3FAE /* ReferralsInvitationsTable.swift */,
-				EBFA05F122B134C0009D3FAE /* ReferralsProgressBar.swift */,
-				EBFA05F222B134C0009D3FAE /* ReferralsTitle.swift */,
-				EBFA05F322B134C0009D3FAE /* ReferralsCode */,
-				EBFA05F622B134C0009D3FAE /* ReferralsInvitationOnboardingIcon.swift */,
-				EBFA05F722B134C0009D3FAE /* ReferralsInvitationMemberIcon.swift */,
-				EBFA05F822B134C0009D3FAE /* ReferralsInvitationLeftIcon.swift */,
-			);
-			path = Viewables;
-			sourceTree = "<group>";
-		};
-		EBFA05F322B134C0009D3FAE /* ReferralsCode */ = {
-			isa = PBXGroup;
-			children = (
-				EBFA05F422B134C0009D3FAE /* ReferralsCodeContainer.swift */,
-				EBFA05F522B134C0009D3FAE /* ReferralsCode.swift */,
-			);
-			path = ReferralsCode;
-			sourceTree = "<group>";
-		};
-		EBFA060522B134EE009D3FAE /* ReferralsReceiverConsentScreen */ = {
-			isa = PBXGroup;
-			children = (
-				EBFA060622B134EE009D3FAE /* ReferralsReceiverConsent.swift */,
-				EBFA060722B134EE009D3FAE /* Viewables */,
-			);
-			path = ReferralsReceiverConsentScreen;
-			sourceTree = "<group>";
-		};
-		EBFA060722B134EE009D3FAE /* Viewables */ = {
-			isa = PBXGroup;
-			children = (
-				EBFA060822B134EE009D3FAE /* ReferralsReceiverConsentContent.swift */,
-			);
-			path = Viewables;
-			sourceTree = "<group>";
-		};
-		EBFA060922B134EE009D3FAE /* ReferralsNotificationScreen */ = {
-			isa = PBXGroup;
-			children = (
-				EBFA060A22B134EE009D3FAE /* ReferralsNotification.swift */,
-				EBFA060B22B134EE009D3FAE /* Viewables */,
-			);
-			path = ReferralsNotificationScreen;
-			sourceTree = "<group>";
-		};
-		EBFA060B22B134EE009D3FAE /* Viewables */ = {
-			isa = PBXGroup;
-			children = (
-				EBFA060C22B134EE009D3FAE /* ReferralsNotificationProgressed.swift */,
-			);
-			path = Viewables;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1543,6 +1606,7 @@
 				EBC15BE5212850D700D0E296 /* Bundle React Native code and images */,
 				B563863F1DB9693800A0598C /* Resources */,
 				4058138912982553DF297D6D /* [CP] Copy Pods Resources */,
+				EB8E2AA522C4B884009F6180 /* Upload DSYM */,
 			);
 			buildRules = (
 			);
@@ -1706,6 +1770,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftFormat/CommandLineTool/swiftformat\" \"${SRCROOT}\" --disable trailingCommas --exclude Pods\n";
 		};
+		EB8E2AA522C4B884009F6180 /* Upload DSYM */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Upload DSYM";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" = \"Release\" ]; then\n  \"${PODS_ROOT}/Fabric/upload-symbols\" -gsp \"${PROJECT_DIR}/hedvig/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\nfi\n";
+		};
 		EBC15BE5212850D700D0E296 /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1728,12 +1810,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB11EA572277047700D95365 /* MarketingStoryIndicatorCell.swift in Sources */,
+				EB8E2A7D22C229C5009F6180 /* Referrals.swift in Sources */,
 				EB11ED29227ADBDE00D95365 /* CommonClaimCard.swift in Sources */,
 				EB11EA892277047700D95365 /* CharityLogo.swift in Sources */,
 				EB11EB2C2277360900D95365 /* MultilineLabelIcon.swift in Sources */,
 				EB11EAE12277047800D95365 /* ApolloContainer.swift in Sources */,
 				EB11EAFB2277047800D95365 /* Icon.swift in Sources */,
 				EB11ED2C227ADBDE00D95365 /* ClaimsHeader.swift in Sources */,
+				EB8E2A9E22C3BD9E009F6180 /* WhatsNew.swift in Sources */,
 				EBCAA8AF2281C2F2003C4833 /* UIView+LayoutSuperviews.swift in Sources */,
 				EBCAA8AD2281C28E003C4833 /* MoreInfoExpandableRow.swift in Sources */,
 				EBCAA89D2281C28E003C4833 /* MyProtectionSection.swift in Sources */,
@@ -1743,14 +1827,16 @@
 				EB11EAD52277047700D95365 /* Viewable.swift in Sources */,
 				EB11EB302277386600D95365 /* UIView+Flip.swift in Sources */,
 				EB11EA612277047700D95365 /* MyCoinsuredRow.swift in Sources */,
+				EB8E2A8422C229C5009F6180 /* ReferralsInvitationOnboardingIcon.swift in Sources */,
 				EB11EACD2277047700D95365 /* UIColor+Image.swift in Sources */,
 				EB11EA972277047700D95365 /* CoinsuredComingSoonText.swift in Sources */,
+				EB8E2A9B22C3BD9E009F6180 /* WhatsNewPagerScreen.swift in Sources */,
+				EB8E2A8322C229C5009F6180 /* ReferralsCode.swift in Sources */,
 				EBCAA8A82281C28E003C4833 /* PerilInformation.swift in Sources */,
 				EB384A6322953A2800D226D1 /* ImagePicker.swift in Sources */,
 				EB11EA662277047700D95365 /* OtherSection.swift in Sources */,
 				EB384A6122943E0400D226D1 /* DocumentPicker.swift in Sources */,
 				EB11EA812277047700D95365 /* DirectDebitResult.swift in Sources */,
-				EBFA05FD22B134C0009D3FAE /* ReferralsCode.swift in Sources */,
 				EB11EA5F2277047700D95365 /* LogoutSection.swift in Sources */,
 				EB11EA732277047700D95365 /* ReportBugRow.swift in Sources */,
 				EBCAA8A22281C28E003C4833 /* PerilExpandableRow.swift in Sources */,
@@ -1764,7 +1850,6 @@
 				EB11ED11227ADBC800D95365 /* RemoteVectorIcon.swift in Sources */,
 				EB11EA802277047700D95365 /* DirectDebitSetup.swift in Sources */,
 				EB11ED09227ADB8200D95365 /* UIScrollView+ContentOffsetSignal.swift in Sources */,
-				EBFA05FB22B134C0009D3FAE /* ReferralsTitle.swift in Sources */,
 				EB11EAA42277047700D95365 /* IconRow.swift in Sources */,
 				EB11EA442277047700D95365 /* LoggedIn.swift in Sources */,
 				EBD5C968223933D20049A78A /* ClearDirectDebitStatus.swift in Sources */,
@@ -1772,6 +1857,7 @@
 				EB11EACB2277047700D95365 /* UIApplication+AppDelegate.swift in Sources */,
 				EB11EAB62277047700D95365 /* MFMailComposeViewController+Signal.swift in Sources */,
 				EB11EA882277047700D95365 /* CharityHeader.swift in Sources */,
+				EB8E2A8822C229C5009F6180 /* ReferralsReceiverConsent.swift in Sources */,
 				EB11EA5D2277047700D95365 /* FeedbackRow.swift in Sources */,
 				EB11EAD82277047800D95365 /* CellForRow.swift in Sources */,
 				EB11EB2E2277382700D95365 /* Divider.swift in Sources */,
@@ -1781,7 +1867,6 @@
 				EB11EA512277047700D95365 /* End.swift in Sources */,
 				EB11ED3B227B3CC200D95365 /* ClaimChat.swift in Sources */,
 				EB11EAD22277047700D95365 /* FieldStyle.swift in Sources */,
-				EBFA060322B134C7009D3FAE /* ReferralsInvitation.swift in Sources */,
 				EB11EA932277047700D95365 /* License.swift in Sources */,
 				EB11EADD2277047800D95365 /* SharedElement.swift in Sources */,
 				EB11EA482277047700D95365 /* MarketingStoryVideoCell.swift in Sources */,
@@ -1790,35 +1875,38 @@
 				EB11EAD92277047800D95365 /* Previewable.swift in Sources */,
 				EB11EABB2277047700D95365 /* UIBarButtonItem+UIView.swift in Sources */,
 				EB11EA8F2277047700D95365 /* VersionRow.swift in Sources */,
-				EB11EA642277047700D95365 /* ReferralRow.swift in Sources */,
 				EB11EADE2277047800D95365 /* SpringAnimationStyle.swift in Sources */,
 				EB11EA9D2277047700D95365 /* BackgroundWithLabel.swift in Sources */,
 				EB11EA602277047700D95365 /* MyPaymentRow.swift in Sources */,
+				EB8E2AA022C3BF51009F6180 /* UIModalPresentationStyle+FormSheetOrModal.swift in Sources */,
 				EBCAA8AC2281C28E003C4833 /* ExpandableRow.swift in Sources */,
 				EB11ED0F227ADBAF00D95365 /* Viewable+WrappedIn.swift in Sources */,
 				EB11EA9B2277047700D95365 /* DelayedDisposer.swift in Sources */,
 				EB11EA6C2277047700D95365 /* ContactDetailsSection.swift in Sources */,
 				EB11EAA62277047700D95365 /* KeyValueRow.swift in Sources */,
 				EBCAA8A02281C28E003C4833 /* Peril.swift in Sources */,
+				EB8E2A8922C229C5009F6180 /* ReferralsReceiverConsentContent.swift in Sources */,
 				EB11EAC62277047700D95365 /* UITabBarController+Presentation.swift in Sources */,
 				EB11EA652277047700D95365 /* MyInfoRow.swift in Sources */,
 				EB11EA712277047700D95365 /* ReviewAppRow.swift in Sources */,
 				EB11EA532277047700D95365 /* StoriesCollection.swift in Sources */,
+				EB8E2A9A22C3BD9E009F6180 /* WhatsNewPager.swift in Sources */,
 				EBCAA8A92281C28E003C4833 /* PaymentNeedsSetupSection.swift in Sources */,
 				EBFA061622B1354B009D3FAE /* TextStyle+LineHeight.swift in Sources */,
 				EB11EAD02277047700D95365 /* DefaultStyling.swift in Sources */,
+				EB8E2A8522C229C5009F6180 /* ReferralsInvitationMemberIcon.swift in Sources */,
 				EB11EAA12277047700D95365 /* ButtonSection.swift in Sources */,
+				EB48684322C531F600688463 /* ReferralsProgressHighPremium.swift in Sources */,
 				EB11EADB2277047800D95365 /* CoreSignal+Animation.swift in Sources */,
 				EB11EA8E2277047700D95365 /* CharityOption.swift in Sources */,
 				EB384A42228C6E1200D226D1 /* FreeTextChat.swift in Sources */,
 				EB11ED32227ADBDE00D95365 /* CommonClaimEmergency.swift in Sources */,
 				EB11EA902277047700D95365 /* MemberIdRow.swift in Sources */,
-				EBFA05FA22B134C0009D3FAE /* ReferralsProgressBar.swift in Sources */,
 				EB11EAC82277047700D95365 /* UIViewController+Previewing.swift in Sources */,
 				EBCAA8B72282255B003C4833 /* ChatPreview.swift in Sources */,
+				EB8E2A8B22C229C5009F6180 /* ReferralsNotificationProgressed.swift in Sources */,
 				EB11EAB92277047700D95365 /* UIView+addConstraint.swift in Sources */,
 				EB11ED31227ADBDE00D95365 /* HonestyPledge.swift in Sources */,
-				EBE8B8D522B9205000E32499 /* ReferralsMoreInfo.swift in Sources */,
 				EB11ED37227ADBDE00D95365 /* DismissCardAnimationController.swift in Sources */,
 				EB384A44228D4D0C00D226D1 /* Offer.swift in Sources */,
 				EB11EAA92277047700D95365 /* MarkdownText.swift in Sources */,
@@ -1828,34 +1916,40 @@
 				EB265B1C221ADE14009DA493 /* OnboardingChat.swift in Sources */,
 				EB11EA7D2277047700D95365 /* BankDetailsSection.swift in Sources */,
 				EB11EA6A2277047700D95365 /* EmailRow.swift in Sources */,
+				EB8E2A9022C3BC05009F6180 /* CloseButton.swift in Sources */,
 				EB11EA9F2277047700D95365 /* CircleLabel.swift in Sources */,
 				EB11EAA32277047700D95365 /* PDFViewer.swift in Sources */,
 				EB11ED35227ADBDE00D95365 /* CardControllerTransitioningDelegate.swift in Sources */,
 				EB11EAA22277047700D95365 /* CircleLabelWithSubLabel.swift in Sources */,
 				EB11EA4A2277047700D95365 /* Logo.swift in Sources */,
 				EBE8B8D022B9202300E32499 /* ApplyDiscount.swift in Sources */,
+				EB8E2A8222C229C5009F6180 /* ReferralsCodeContainer.swift in Sources */,
 				EB265B1E221AF1F0009DA493 /* MyHomeRouting.swift in Sources */,
 				EB11EACA2277047700D95365 /* CollectionKit+ScrollTo.swift in Sources */,
 				B56386491DB9693800A0598C /* AppDelegate.swift in Sources */,
 				EB11EAAF2277047700D95365 /* DynamicString.swift in Sources */,
 				EB384A4C228DC6AB00D226D1 /* OfferChat.swift in Sources */,
 				EB11EB072277209000D95365 /* HedvigFonts.swift in Sources */,
-				EBFA061022B134EE009D3FAE /* ReferralsNotificationProgressed.swift in Sources */,
 				EB11EA8C2277047700D95365 /* CharityPicker.swift in Sources */,
 				EB11ED0B227ADB9300D95365 /* LocalizationLocale+CurrentLocale.swift in Sources */,
 				EB11EAB82277047700D95365 /* UIView+Viewable.swift in Sources */,
 				EB11ED34227ADBDE00D95365 /* CardAnimationController.swift in Sources */,
+				EB8E2A8E22C22AAA009F6180 /* CoreSignal+StringToNumber.swift in Sources */,
 				EBCAA8A42281C28E003C4833 /* PendingInsuranceMoreInfo.swift in Sources */,
 				EB11EABE2277047700D95365 /* LocalizationKey+String.swift in Sources */,
 				EBECC26621B9230000716BEA /* NativeRouting.swift in Sources */,
 				EB11ED2D227ADBDE00D95365 /* EmergencyActions.swift in Sources */,
 				EBCAA8A62281C28E003C4833 /* PendingInsurance.swift in Sources */,
+				EB8E2A7C22C229C5009F6180 /* ReferralsInvitationAnonymous.swift in Sources */,
 				EB11EAB12277047700D95365 /* Callbacker+Signal.swift in Sources */,
+				EB8E2A8C22C229C5009F6180 /* ReferralsMoreInfo.swift in Sources */,
+				EB8E2A5C22C0C21B009F6180 /* TerminatedInsurance.swift in Sources */,
 				EB11EB29227735E600D95365 /* Dashboard.swift in Sources */,
 				EB11EAA02277047700D95365 /* DraggableOverlayHeader.swift in Sources */,
 				EB11EAC72277047700D95365 /* FormView+Viewable.swift in Sources */,
 				EB11EA5B2277047700D95365 /* DraggableOverlay.swift in Sources */,
 				EB4695CE220083800004C75D /* RCTApolloClient.swift in Sources */,
+				EB8E2A7E22C229C5009F6180 /* ReferralsInvitationsTable.swift in Sources */,
 				EB11EA842277047700D95365 /* AddressCircle.swift in Sources */,
 				EB384A40228C407600D226D1 /* WhenEnabled.swift in Sources */,
 				EBE8B8D122B9202300E32499 /* DiscountTerms.swift in Sources */,
@@ -1863,11 +1957,10 @@
 				EBCAA8C422843E00003C4833 /* ChatButton.swift in Sources */,
 				EB11EA852277047700D95365 /* MyHome.swift in Sources */,
 				EB384A14228593CD00D226D1 /* ApolloClient+InsuranceIsActiveSignal.swift in Sources */,
+				EB8E2A8122C229C5009F6180 /* ReferralsTitle.swift in Sources */,
 				EB11EAFA2277047800D95365 /* HedvigColors.swift in Sources */,
 				EB11EA8B2277047700D95365 /* CharityInformation.swift in Sources */,
 				EB11EA7C2277047700D95365 /* UpdatingMessage.swift in Sources */,
-				EBFA05F922B134C0009D3FAE /* ReferralsInvitationsTable.swift in Sources */,
-				EBFA05FC22B134C0009D3FAE /* ReferralsCodeContainer.swift in Sources */,
 				EB11EAC12277047700D95365 /* Disposable+Array.swift in Sources */,
 				EB11EA692277047700D95365 /* Profile.swift in Sources */,
 				EB11EA862277047700D95365 /* CharityInformationButton.swift in Sources */,
@@ -1877,7 +1970,6 @@
 				EB11EA922277047700D95365 /* About.swift in Sources */,
 				EBCAA8C622843E24003C4833 /* UIBarButtonItem+Viewable.swift in Sources */,
 				EB384A1822859F1D00D226D1 /* CallMeChat.swift in Sources */,
-				EB11ED2A227ADBDE00D95365 /* CloseButton.swift in Sources */,
 				EB11EA912277047700D95365 /* LicensesRow.swift in Sources */,
 				EB11EAB02277047700D95365 /* UIWebView+Signal.swift in Sources */,
 				EBCAA8A32281C28E003C4833 /* PerilCollection.swift in Sources */,
@@ -1887,13 +1979,12 @@
 				EBE8B8D322B9203F00E32499 /* ApplyDiscountSection.swift in Sources */,
 				EB11ED28227ADBDE00D95365 /* Claims.swift in Sources */,
 				EB11EAE02277047800D95365 /* RemoteConfigContainer.swift in Sources */,
-				EBFA060022B134C0009D3FAE /* ReferralsInvitationLeftIcon.swift in Sources */,
 				EBFA061222B13515009D3FAE /* ActivityBarButton.swift in Sources */,
 				EB384A16228593D700D226D1 /* SignalProvider+Loader.swift in Sources */,
+				EB8E2A9222C3BC78009F6180 /* Bundle+Version.swift in Sources */,
 				EB11EAD62277047800D95365 /* CenterAllStackView.swift in Sources */,
-				EBFA05FF22B134C0009D3FAE /* ReferralsInvitationMemberIcon.swift in Sources */,
-				EBFA060F22B134EE009D3FAE /* ReferralsNotification.swift in Sources */,
 				EB11EAA72277047700D95365 /* CircleLabelSmall.swift in Sources */,
+				EB8E2A9C22C3BD9E009F6180 /* ProceedButton.swift in Sources */,
 				EB11EAAC2277047700D95365 /* Button.swift in Sources */,
 				EB11EA6E2277047700D95365 /* MyInfoSaveError.swift in Sources */,
 				EB11EAD32277047700D95365 /* ButtonStyle.swift in Sources */,
@@ -1903,6 +1994,7 @@
 				EB11EAC02277047700D95365 /* UIViewController+Viewable.swift in Sources */,
 				EB11EAAA2277047700D95365 /* ButtonRow.swift in Sources */,
 				EB11EA8D2277047700D95365 /* Charity.swift in Sources */,
+				EB8E2AA422C3BFDA009F6180 /* PagerDots.swift in Sources */,
 				EB11EAF72277047800D95365 /* Assets.swift in Sources */,
 				EB11EAE22277047800D95365 /* AuthorizationToken.swift in Sources */,
 				EB11EA952277047700D95365 /* InsuranceCertificate.swift in Sources */,
@@ -1919,27 +2011,30 @@
 				EB11EA492277047700D95365 /* MarketingEndScreen.swift in Sources */,
 				EB11EA9A2277047700D95365 /* ChatPresentationStyle.swift in Sources */,
 				EB11EAAB2277047700D95365 /* LoadableButton.swift in Sources */,
-				EBFA060D22B134EE009D3FAE /* ReferralsReceiverConsent.swift in Sources */,
 				EB11EA522277047700D95365 /* Stories.swift in Sources */,
+				EB8E2AA322C3BFDA009F6180 /* Pager.swift in Sources */,
 				EB11EA592277047700D95365 /* MarketingStoryIndicator.swift in Sources */,
 				EBFA05EB22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift in Sources */,
 				EB11EA6D2277047700D95365 /* NameCircle.swift in Sources */,
 				EB11EA722277047700D95365 /* FeedbackHeader.swift in Sources */,
 				EB11EA452277047700D95365 /* Launch.swift in Sources */,
+				EB8E2A8722C229C5009F6180 /* ReferralsInvitation.swift in Sources */,
 				EB11EAF62277047800D95365 /* API.swift in Sources */,
 				EB11EAD72277047800D95365 /* TranslationsRepo.swift in Sources */,
 				EB11EA9E2277047700D95365 /* MultilineLabel.swift in Sources */,
+				EB8E2A9D22C3BD9E009F6180 /* WhatsNewPagerDots.swift in Sources */,
+				EB8E2A8622C229C5009F6180 /* ReferralsInvitationLeftIcon.swift in Sources */,
 				EB384A3E228C407100D226D1 /* Logger.swift in Sources */,
 				EB11EA562277047700D95365 /* SkipToPreviousButton.swift in Sources */,
 				EB11EA622277047700D95365 /* MyCharityRow.swift in Sources */,
 				EBCAA8B12281DF35003C4833 /* TriggerFreeTextChat.graphql in Sources */,
 				EB11EAC52277047700D95365 /* ApolloStore+Update.swift in Sources */,
-				EBFA060E22B134EE009D3FAE /* ReferralsReceiverConsentContent.swift in Sources */,
 				EB11EAC92277047700D95365 /* WKWebView+Signal.swift in Sources */,
 				EB11EA6B2277047700D95365 /* PhoneNumberRow.swift in Sources */,
 				EB11EAB42277047700D95365 /* ApolloClient+Flow.swift in Sources */,
 				EBCAA8A72281C28E003C4833 /* MoreInfo.swift in Sources */,
 				EB11EAB22277047700D95365 /* Result+Success.swift in Sources */,
+				EB8E2A8A22C229C5009F6180 /* ReferralsNotification.swift in Sources */,
 				EB11EA4F2277047700D95365 /* HappyAvatar.swift in Sources */,
 				EBFA061422B13542009D3FAE /* String+Color.swift in Sources */,
 				EB11EA672277047700D95365 /* InsuranceCertificateRow.swift in Sources */,
@@ -1948,10 +2043,8 @@
 				EBE8B8C922B91FF500E32499 /* TextField.swift in Sources */,
 				EB11ED33227ADBDE00D95365 /* CommonClaimTitleAndBulletPoints.swift in Sources */,
 				EB11EA682277047700D95365 /* HomeRow.swift in Sources */,
-				EBFA05FE22B134C0009D3FAE /* ReferralsInvitationOnboardingIcon.swift in Sources */,
-				EBFA060422B134C7009D3FAE /* ReferralsInvitationAnonymous.swift in Sources */,
 				EB11EADC2277047800D95365 /* AnimationStyle.swift in Sources */,
-				EB11EA752277047700D95365 /* Referrals.swift in Sources */,
+				EB8E2A8022C229C5009F6180 /* ReferralsProgressBar.swift in Sources */,
 				EB11EABA2277047700D95365 /* UIView+RelativeFrame.swift in Sources */,
 				EB11EB022277047800D95365 /* Localization.swift in Sources */,
 				EB11ED0D227ADBA600D95365 /* UIView+FrameWithoutTransform.swift in Sources */,
@@ -1964,9 +2057,11 @@
 				EBCAA8B62282255B003C4833 /* MessageBubble.swift in Sources */,
 				EB11EA8A2277047700D95365 /* SelectedCharity.swift in Sources */,
 				EB11EAC32277047700D95365 /* ApolloClient+NetworkErrorMessage.swift in Sources */,
+				EB8E2A7F22C229C5009F6180 /* ReferralsContent.swift in Sources */,
 				EB11ED2B227ADBDE00D95365 /* CommonClaimsCollection.swift in Sources */,
 				EB11EAAD2277047700D95365 /* CircleIcon.swift in Sources */,
 				EB11EA982277047700D95365 /* BubbleLoading.swift in Sources */,
+				EB48684122C5009600688463 /* PanDirectionGestureRecognizer.swift in Sources */,
 				EB11EACF2277047700D95365 /* TableViewFormStyle.swift in Sources */,
 				EB11EA702277047700D95365 /* MyInfoState.swift in Sources */,
 				EBCAA8CB22846FE6003C4833 /* UIViewController+PreferredContentSizeSignal.swift in Sources */,

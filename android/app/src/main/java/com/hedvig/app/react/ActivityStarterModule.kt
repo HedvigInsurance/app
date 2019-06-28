@@ -18,7 +18,9 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReadableType
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.iid.FirebaseInstanceId
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
+import com.hedvig.android.owldroid.graphql.RemoveDiscountCodeMutation
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
@@ -27,7 +29,8 @@ import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
-import com.hedvig.app.feature.referrals.RedeemCodeBottomSheet
+import com.hedvig.app.feature.referrals.RedeemCodeDialog
+import com.hedvig.app.util.extensions.makeToast
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import com.hedvig.app.util.extensions.showAlert
 import com.hedvig.app.util.extensions.triggerRestartActivity
@@ -84,22 +87,28 @@ class ActivityStarterModule(
         if (activity != null) {
             asyncStorageNative.setKey("@hedvig:isViewingOffer", "true")
             currentActivity?.let {
-                it.startActivity(Intent(it, OfferActivity::class.java))
+                it.startActivity(Intent(it, OfferActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                })
             }
         }
     }
 
     @ReactMethod
-    fun navigateToChatFromOffer() {
-        currentActivity?.let {
-            it.startActivity(Intent(it, OfferActivity::class.java))
-        }
+    fun navigateToLoggedInFromOffer() {
+        navigateToLoggedIn()
     }
 
     @ReactMethod
     fun navigateToLoggedInFromChat() {
+        navigateToLoggedIn()
+    }
+
+    private fun navigateToLoggedIn() {
         currentActivity?.let { activity ->
             reactApplicationContext.setIsLoggedIn(true)
+            FirebaseInstanceId.getInstance().deleteInstanceId()
             val intent = Intent(activity, LoggedInActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -122,8 +131,8 @@ class ActivityStarterModule(
     @ReactMethod
     fun showRedeemCodeOverlay(onRedeem: Promise) {
         redeemCodeCallback = onRedeem
-        RedeemCodeBottomSheet.newInstance()
-            .show(fragmentManager, RedeemCodeBottomSheet.TAG)
+        RedeemCodeDialog.newInstance()
+            .show(fragmentManager, RedeemCodeDialog.TAG)
     }
 
     @ReactMethod
@@ -133,8 +142,18 @@ class ActivityStarterModule(
         R.string.OFFER_REMOVE_DISCOUNT_ALERT_REMOVE,
         R.string.OFFER_REMOVE_DISCOUNT_ALERT_CANCEL,
         {
-            // TODO: Remove the code here!
-            onCompleted.resolve(true)
+            disposables += Rx2Apollo
+                .from(apolloClient.mutate(RemoveDiscountCodeMutation()))
+                .subscribe({
+                    if (it.hasErrors()) {
+                        currentActivity?.makeToast(R.string.OFFER_REMOVE_FAILED_ALERT_DESCRIPTION)
+                    } else {
+                        onCompleted.resolve(true)
+                    }
+                }, {
+                    currentActivity?.makeToast(R.string.OFFER_REMOVE_FAILED_ALERT_DESCRIPTION)
+                    Timber.e(it)
+                })
         },
         {
             onCompleted.resolve(false)

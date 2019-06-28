@@ -75,11 +75,11 @@ class PushNotificationWorker(
             .from(apolloClient.mutate(registerPushTokenMutation))
             .subscribe({ response ->
                 if (response.hasErrors()) {
-                    Timber.e("Failed to register push token: %s", response.errors().toString())
+                    Timber.e("Failed to handleExpandWithKeyboard push token: %s", response.errors().toString())
                     return@subscribe
                 }
                 Timber.i("Successfully registered push token")
-            }, { Timber.e(it, "Failed to register push token") })
+            }, { Timber.e(it, "Failed to handleExpandWithKeyboard push token") })
     }
 
     companion object {

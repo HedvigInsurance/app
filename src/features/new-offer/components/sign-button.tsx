@@ -14,7 +14,7 @@ import { Parallel, Spring } from 'animated-react-native-components';
 import { fonts, colors } from '@hedviginsurance/brand';
 import { AnimationValueListener } from 'src/components/animation-value-listener';
 import { TranslationsConsumer } from 'src/components/translations/consumer';
-import { Update, Mount } from 'react-lifecycle-components';
+import { Update } from 'react-lifecycle-components';
 import { AndroidOfferState } from './android-offer-state';
 import { EventEmitter } from 'events';
 
@@ -80,64 +80,64 @@ export const signButtonEvents = new EventEmitter();
 export const SignButton: React.SFC<SignButtonProps> = ({
   scrollAnimatedValue,
 }) => (
-  <AnimationValueListener
-    testValue={(value) => {
-      return value >= Dimensions.get('window').height * 0.5;
-    }}
-    animatedValue={scrollAnimatedValue}
-  >
-    {(isActive) => (
-      <>
-        <AndroidOfferState>
-          {({ setTopSignButtonVisibility }) => (
-            <Update<boolean>
-              was={() => {
-                if (isActive) {
-                  setTopSignButtonVisibility(false);
-                } else {
-                  setTopSignButtonVisibility(true);
-                }
-              }}
-              watched={isActive}
-            >
-              {null}
-            </Update>
-          )}
-        </AndroidOfferState>
-        {Platform.OS === 'ios' && (
-          <>
-            <Update<boolean>
-              was={() => {
-                if (isActive) {
-                  signButtonEvents.emit('hideTopSignButton');
-                } else {
-                  signButtonEvents.emit('showTopSignButton');
-                }
-              }}
-              watched={isActive}
-            >
-              {null}
-            </Update>
-          </>
-        )}
-        <Parallel>
-          <Spring
-            toValue={isActive ? 0 : 100}
-            initialValue={100}
-            config={{ bounciness: 10, velocity: 2 }}
-          >
-            {(animatedValue) => (
-              <BounceUpView animatedValue={animatedValue}>
-                <AndroidOfferState>
-                  {({ setIsCheckingOut }) => (
-                    <ButtonView onClick={() => setIsCheckingOut(true)} />
-                  )}
-                </AndroidOfferState>
-              </BounceUpView>
+    <AnimationValueListener
+      testValue={(value) => {
+        return value >= Dimensions.get('window').height * 0.5;
+      }}
+      animatedValue={scrollAnimatedValue}
+    >
+      {(isActive) => (
+        <>
+          <AndroidOfferState>
+            {({ setTopSignButtonVisibility }) => (
+              <Update<boolean>
+                was={() => {
+                  if (isActive) {
+                    setTopSignButtonVisibility(false);
+                  } else {
+                    setTopSignButtonVisibility(true);
+                  }
+                }}
+                watched={isActive}
+              >
+                {null}
+              </Update>
             )}
-          </Spring>
-        </Parallel>
-      </>
-    )}
-  </AnimationValueListener>
-);
+          </AndroidOfferState>
+          {Platform.OS === 'ios' && (
+            <>
+              <Update<boolean>
+                was={() => {
+                  if (isActive) {
+                    signButtonEvents.emit('hideTopSignButton');
+                  } else {
+                    signButtonEvents.emit('showTopSignButton');
+                  }
+                }}
+                watched={isActive}
+              >
+                {null}
+              </Update>
+            </>
+          )}
+          <Parallel>
+            <Spring
+              toValue={isActive ? 0 : 100}
+              initialValue={100}
+              config={{ bounciness: 10, velocity: 2 }}
+            >
+              {(animatedValue) => (
+                <BounceUpView animatedValue={animatedValue}>
+                  <AndroidOfferState>
+                    {({ setIsCheckingOut }) => (
+                      <ButtonView onClick={() => setIsCheckingOut(true)} />
+                    )}
+                  </AndroidOfferState>
+                </BounceUpView>
+              )}
+            </Spring>
+          </Parallel>
+        </>
+      )}
+    </AnimationValueListener>
+  );

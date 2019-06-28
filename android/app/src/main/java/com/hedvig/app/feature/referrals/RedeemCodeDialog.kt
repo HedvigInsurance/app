@@ -2,35 +2,37 @@ package com.hedvig.app.feature.referrals
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
-import com.hedvig.android.owldroid.type.RedeemCodeStatus
 import com.hedvig.app.R
 import com.hedvig.app.react.ActivityStarterModule
-import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
 import com.hedvig.app.util.extensions.hideKeyboard
 import com.hedvig.app.util.extensions.localBroadcastManager
-import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
-import kotlinx.android.synthetic.main.bottom_sheet_promotion_code.*
+import com.hedvig.app.util.extensions.observe
+import kotlinx.android.synthetic.main.promotion_code_dialog.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
+class RedeemCodeDialog : DialogFragment() {
 
-    val referralViewModel: ReferralViewModel by sharedViewModel()
+    private val referralViewModel: ReferralViewModel by sharedViewModel()
 
     private val tracker: ReferralsTracker by inject()
 
-    override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_promotion_code, null)
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.promotion_code_dialog, null)
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         dialog.setContentView(view)
 
         dialog.bottomSheetAddPromotionCodeButton.setHapticClickListener {
@@ -40,29 +42,26 @@ class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.hedvig.com/invite/terms"))
             startActivity(intent)
         }
-        dialog.bottomSheetAddPromotionCodeEditText.setOnEditorActionListener { view, actionId, _ ->
+        dialog.bottomSheetAddPromotionCodeEditText.setOnEditorActionListener { v, actionId, _ ->
             return@setOnEditorActionListener if (actionId == EditorInfo.IME_ACTION_DONE) {
                 redeemPromotionCode(dialog.bottomSheetAddPromotionCodeEditText.text.toString())
-                view.context.hideKeyboard(view)
+                view.context.hideKeyboard(v)
                 true
             } else {
                 false
             }
         }
-        referralViewModel.redeemCodeStatus.observe(this) {
-            when (it) {
-                RedeemCodeStatus.ACCEPTED -> {
-                    localBroadcastManager.sendBroadcast(Intent(ActivityStarterModule.REDEEMED_CODE_BROADCAST).apply {
-                        putExtra(
-                            ActivityStarterModule.BROADCAST_MESSAGE_NAME,
-                            ActivityStarterModule.MESSAGE_PROMOTION_CODE_REDEEMED
-                        )
-                    })
-                    dismiss()
-                }
-                else -> {
-                    wrongPromotionCode()
-                }
+        referralViewModel.redeemCodeStatus.observe(this) { codeWasValid ->
+            if (codeWasValid == true) {
+                localBroadcastManager.sendBroadcast(Intent(ActivityStarterModule.REDEEMED_CODE_BROADCAST).apply {
+                    putExtra(
+                        ActivityStarterModule.BROADCAST_MESSAGE_NAME,
+                        ActivityStarterModule.MESSAGE_PROMOTION_CODE_REDEEMED
+                    )
+                })
+                dismiss()
+            } else {
+                wrongPromotionCode()
             }
         }
         return dialog
@@ -95,6 +94,6 @@ class RedeemCodeBottomSheet : RoundedBottomSheetDialogFragment() {
         const val TAG = "redeemCodeBottomSheet"
 
         fun newInstance() =
-            RedeemCodeBottomSheet()
+            RedeemCodeDialog()
     }
 }

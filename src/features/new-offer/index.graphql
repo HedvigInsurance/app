@@ -5,10 +5,16 @@ query NewOffer {
         personsInHousehold
         insuredAtOtherCompany
         type
-    }
-    paymentWithDiscount {
-        netPremium
-        grossPremium
-        discount
+        cost {
+            monthlyDiscount {
+                amount
+        	}
+            monthlyGross {
+                amount
+        	}
+            monthlyNet {
+                amount
+        	}
+        }
     }
 }

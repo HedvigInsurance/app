@@ -10,6 +10,15 @@ import UIKit
 
 let log = Logger.self
 
+extension Sequence where Element == PresentableIdentifier {
+    var hasChatScreen: Bool {
+        let onboardingChat = OnboardingChat(intent: .onboard)
+        let onboardingChatIdentifier = PresentableIdentifier("\(type(of: onboardingChat))")
+
+        return contains(onboardingChatIdentifier)
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     let bag = DisposeBag()
@@ -37,17 +46,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
 
         commonClaimEmergencyOpenFreeTextChat = { viewController in
-            let chatOverlay = DraggableOverlay(presentable: FreeTextChat())
+            let chatOverlay = DraggableOverlay(presentable: FreeTextChat(), adjustsToKeyboard: false)
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
         }
 
         dashboardOpenFreeTextChat = { viewController in
-            let chatOverlay = DraggableOverlay(presentable: FreeTextChat())
+            let chatOverlay = DraggableOverlay(presentable: FreeTextChat(), adjustsToKeyboard: false)
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
         }
 
         commonClaimEmergencyOpenCallMeChat = { viewController in
-            let chatOverlay = DraggableOverlay(presentable: CallMeChat())
+            let chatOverlay = DraggableOverlay(presentable: CallMeChat(), adjustsToKeyboard: false)
             viewController.present(chatOverlay, style: .default, options: [.prefersNavigationBarHidden(false)])
         }
 
@@ -75,10 +84,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     data = "\(error)"
                 }
             #if DEBUG
-            case let .didDeallocate(presentableId, context):
-                message = "\(presentableId) was deallocated after presentation from \(context)"
-            case let .didLeak(presentableId, context):
-                message = "WARNING \(presentableId) was NOT deallocated after presentation from \(context)"
+                case let .didDeallocate(presentableId, context):
+                    message = "\(presentableId) was deallocated after presentation from \(context)"
+                case let .didLeak(presentableId, context):
+                    message = "WARNING \(presentableId) was NOT deallocated after presentation from \(context)"
             #endif
             }
 
@@ -110,7 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         alertActionWasPressed = { _, title in
             if let localizationKey = title.localizationKey?.toString() {
-                Analytics.logEvent("alert_action_tap_\(localizationKey)", parameters: nil)
+                Analytics.logEvent("tap_\(localizationKey)", parameters: nil)
             }
         }
 
@@ -161,71 +170,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UNUserNotificationCenter.current().delegate = self
         }
 
-        bag += RCTApolloClient
-            .getClient()
-            .valueSignal
-            .withLatestFrom(RCTApolloClient.getToken().valueSignal)
-            .mapLatestToFuture { _, token -> Future<Void> in
-                if token != nil, !ApplicationState.hasPreviousState() {
-                    log.info("Backfilling previous state")
+        // Set the last seen news version to current if we dont have a token indicating this is a first launch
+        bag += RCTApolloClient.getToken().valueSignal.filter { $0 == nil }.onValue { _ in
+            ApplicationState.setLastNewsSeen()
+        }
 
-                    return Future { completion in
-                        let innerBag = self.bag.innerBag()
-
-                        let statusFuture = ApolloContainer
-                            .shared
-                            .client
-                            .fetch(query: InsuranceStatusQuery())
-                            .map { $0.data?.insurance.status }
-
-                        let priceFuture =
-                            ApolloContainer
-                            .shared
-                            .client
-                            .fetch(query: InsurancePriceQuery())
-                            .map { $0.data?.insurance.monthlyCost }
-
-                        innerBag += join(statusFuture, priceFuture)
-                            .valueThenEndSignal
-                            .debug()
-                            .onValue { status, price in
-                                guard let status = status else {
-                                    ApplicationState.preserveState(.marketing)
-                                    completion(.success)
-                                    return
-                                }
-
-                                switch status {
-                                case .active, .inactiveWithStartDate, .inactive, .terminated:
-                                    ApplicationState.preserveState(.loggedIn)
-                                case .pending:
-                                    if price != 0 {
-                                        ApplicationState.preserveState(.offer)
-                                    } else {
-                                        ApplicationState.preserveState(.onboardingChat)
-                                    }
-                                case .__unknown:
-                                    ApplicationState.preserveState(.marketing)
-                                }
-
-                                completion(.success)
-                            }
-
-                        return innerBag
-                    }
-                }
-
-                return Future(result: .success)
-            }
+        bag += RCTApolloClient.restoreState()
             .delay(by: 0.1)
             .onValue { _ in
-                if let disposable = ApplicationState.presentRootViewController(self.rootWindow) {
-                    self.bag += disposable
-                    self.hasFinishedLoading.value = true
-                    return
-                }
-
-                self.bag += rootNavigationController.present(Marketing()).disposable
+                self.bag += ApplicationState.presentRootViewController(self.rootWindow)
                 self.hasFinishedLoading.value = true
             }
 
@@ -309,7 +262,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     )
                 }
             } else if notificationType == "REFERRAL_SUCCESS" {
-                let referralsNotification = ReferralsNotification()
+                guard let incentiveString = userInfo["DATA_MESSAGE_REFERRED_SUCCESS_INCENTIVE_AMOUNT"] as? String else { return }
+                guard let name = userInfo["DATA_MESSAGE_REFERRED_SUCCESS_NAME"] as? String else { return }
+
+                let incentive = Int(Double(incentiveString) ?? 0)
+
+                let referralsNotification = ReferralsNotification(incentive: incentive, name: name)
                 let referralsNotificationIdentifier = PresentableIdentifier("\(type(of: referralsNotification))")
 
                 guard !screenStack.contains(referralsNotificationIdentifier) else {
@@ -319,7 +277,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
                     self.getTopMostViewController()?.present(
                         referralsNotification,
-                        style: .default,
+                        style: .modally(presentationStyle: .formSheetOrOverFullscreen, transitionStyle: nil, capturesStatusBarAppearance: nil),
                         options: [.prefersNavigationBarHidden(false)]
                     )
                 }
@@ -333,6 +291,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         guard let dynamicLink = dynamicLink else { return false }
         guard let deepLink = dynamicLink.url else { return false }
         let queryItems = URLComponents(url: deepLink, resolvingAgainstBaseURL: true)?.queryItems
+
+        if let referralCode = queryItems?.filter({ item in item.name == "code" }).first?.value {
+            bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
+                self.getTopMostViewController()?.present(
+                    ReferralsReceiverConsent(referralCode: referralCode),
+                    style: .modally(presentationStyle: .formSheetOrOverFullscreen, transitionStyle: nil, capturesStatusBarAppearance: nil),
+                    options: [.prefersNavigationBarHidden(true)]
+                ).onValue { result in
+                    if result == .accept, !self.screenStack.hasChatScreen {
+                        self.bag += self.rootWindow.rootViewController?.present(
+                            OnboardingChat(intent: .onboard),
+                            options: [.prefersNavigationBarHidden(false)]
+                        ).disposable
+                    }
+                }
+            }
+            
+            Analytics.logEvent("referrals_open", parameters: [
+                "code": referralCode
+            ])
+
+            return true
+        }
 
         guard let invitedByMemberId = queryItems?.filter({ item in item.name == "invitedBy" }).first?.value else {
             return false
@@ -348,21 +329,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         UserDefaults.standard.set(invitedByMemberId, forKey: "referral_invitedByMemberId")
         UserDefaults.standard.set(incentive, forKey: "referral_incentive")
-
-        bag += hasFinishedLoading.atOnce().filter { $0 }.delay(by: 0.5).onValue { _ in
-            self.getTopMostViewController()?.present(
-                ReferralsReceiverConsent(),
-                style: .modal,
-                options: [.prefersNavigationBarHidden(true)]
-            ).onValue { result in
-                if result == .accept {
-                    self.bag += self.rootWindow.rootViewController?.present(
-                        OnboardingChat(intent: .onboard),
-                        options: [.prefersNavigationBarHidden(false)]
-                    ).disposable
-                }
-            }
-        }
 
         return true
     }

@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import * as R from 'ramda';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { TranslationsConsumer } from 'src/components/translations/consumer';
+import { TranslationsPlaceholderConsumer } from 'src/components/translations/placeholder-consumer';
 
 import {
   horizontalSizeClass,
@@ -91,41 +93,65 @@ const styles = StyleSheet.create({
 const insuranceNames = [
   {
     currentInsurerName: 'LANSFORSAKRINGAR',
-    displayName: <Text>från&nbsp;Länsförsäkringar</Text>,
+    displayName: <Text>Länsförsäkringar</Text>,
   },
   {
     currentInsurerName: 'IF',
-    displayName: <Text>från&nbsp;If</Text>,
+    displayName: <Text>If</Text>,
   },
   {
     currentInsurerName: 'FOLKSAM',
-    displayName: <Text>från&nbsp;Folksam</Text>,
+    displayName: <Text>Folksam</Text>,
   },
   {
     currentInsurerName: 'TRYGG_HANSA',
-    displayName: <Text>från&nbsp;Trygg-Hansa</Text>,
+    displayName: <Text>Trygg-Hansa</Text>,
   },
   {
     currentInsurerName: 'MODERNA',
-    displayName: <Text>från Moderna&nbsp;Försäkringar</Text>,
+    displayName: (
+      <Text>
+        <TranslationsConsumer textKey={'MODERNA_FORSAKRING_APP'}>
+          {(t) => t}
+        </TranslationsConsumer>
+      </Text>
+    ),
   },
   {
     currentInsurerName: 'ICA',
-    displayName: <Text>från ICA&nbsp;Försäkring</Text>,
+    displayName: (
+      <Text>
+        <TranslationsConsumer textKey={'ICA_FORSAKRING_APP'}>
+          {(t) => t}
+        </TranslationsConsumer>
+      </Text>
+    ),
   },
   {
     currentInsurerName: 'GJENSIDIGE',
-    displayName: <Text>från&nbsp;Gjensidige</Text>,
+    displayName: <Text>Gjensidige</Text>,
   },
   {
     currentInsurerName: 'VARDIA',
-    displayName: <Text>från&nbsp;Vardia</Text>,
+    displayName: <Text>Vardia</Text>,
+  },
+  {
+    currentInsurerName: 'TRE_KRONOR',
+    displayName: <Text>Tre Kronor</Text>,
   },
   {
     currentInsurerName: 'OTHER',
-    displayName: <Text>från din nuvarande försäkring</Text>,
+    displayName: (
+      <Text>
+        <TranslationsConsumer textKey={'OTHER_INSURER_OPTION_APP'}>
+          {(t) => t}
+        </TranslationsConsumer>
+      </Text>
+    ),
   },
 ];
+
+const switchableInsurers = ['ICA', 'FOLKSAM', 'TRYGG_HANSA', 'TRE_KRONOR'];
 
 const QUERY = gql`
   query SwitcherScreen {
@@ -138,6 +164,16 @@ const QUERY = gql`
 const getDisplayName = (currentInsurerName) =>
   R.find(R.propEq('currentInsurerName', currentInsurerName))(insuranceNames)
     .displayName;
+
+const getSwitcherTitle = (currentInsurerName) =>
+  switchableInsurers.includes(currentInsurerName)
+    ? 'OFFER_SWITCH_TITLE_APP'
+    : 'OFFER_SWITCH_TITLE_NON_SWITCHABLE_APP';
+
+const getSwitcherMessage = (currentInsurerName) =>
+  switchableInsurers.includes(currentInsurerName)
+    ? 'OFFER_SWITCH_COL_PARAGRAPH_ONE_APP'
+    : 'OFFER_NON_SWITCHABLE_PARAGRAPH_ONE_APP';
 
 class OfferScreen extends React.Component {
   render() {
@@ -162,8 +198,18 @@ class OfferScreen extends React.Component {
                 <View style={styles.scrollContent}>
                   <View style={styles.content}>
                     <Text style={styles.heading}>
-                      Hedvig sköter bytet{' '}
-                      {getDisplayName(data.insurance.currentInsurerName)}
+                      <TranslationsPlaceholderConsumer
+                        textKey={getSwitcherTitle(
+                          data.insurance.currentInsurerName,
+                        )}
+                        replacements={{
+                          INSURER: getDisplayName(
+                            data.insurance.currentInsurerName,
+                          ),
+                        }}
+                      >
+                        {(t) => t}
+                      </TranslationsPlaceholderConsumer>
                     </Text>
 
                     <View style={styles.stepsContainer}>
@@ -172,7 +218,9 @@ class OfferScreen extends React.Component {
                           <Text style={styles.stepNumberText}>1</Text>
                         </View>
                         <Text style={styles.stepLabel}>
-                          Signera med ditt mobila&nbsp;BankID
+                          <TranslationsConsumer textKey={'SIGN_MOBILE_BANK_ID'}>
+                            {(t) => t}
+                          </TranslationsConsumer>
                         </Text>
                       </View>
                       <View style={styles.step}>
@@ -180,8 +228,13 @@ class OfferScreen extends React.Component {
                           <Text style={styles.stepNumberText}>2</Text>
                         </View>
                         <Text style={styles.stepLabel}>
-                          Hedvig kontaktar ditt försäkringsbolag och säger upp
-                          din gamla försäkring
+                          <TranslationsConsumer
+                            textKey={getSwitcherMessage(
+                              data.insurance.currentInsurerName,
+                            )}
+                          >
+                            {(t) => t}
+                          </TranslationsConsumer>
                         </Text>
                       </View>
                       <View style={styles.step}>
@@ -189,8 +242,11 @@ class OfferScreen extends React.Component {
                           <Text style={styles.stepNumberText}>3</Text>
                         </View>
                         <Text style={styles.stepLabel}>
-                          Din Hedvigförsäkring aktiveras samma dag som din gamla
-                          försäkring går ut
+                          <TranslationsConsumer
+                            textKey={'OFFER_SWITCH_COL_THREE_PARAGRAPH_APP'}
+                          >
+                            {(t) => t}
+                          </TranslationsConsumer>
                         </Text>
                       </View>
                     </View>

@@ -18,6 +18,7 @@ import com.hedvig.app.feature.referrals.RedeemCodeBottomSheet
 import com.hedvig.app.util.CustomTypefaceSpan
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.extensions.concat
+import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.view.remove
@@ -91,7 +92,7 @@ class PaymentFragment : Fragment() {
             resetViews()
             sphereContainer.show()
 
-            val monthlyCost = profileData?.paymentWithDiscount?.netPremium?.number?.intValueExact()
+            val monthlyCost = profileData?.insurance?.cost?.monthlyNet?.amount?.toBigDecimal()?.toInt()
             val amountPartOne = SpannableString("$monthlyCost\n")
             val perMonthLabel = resources.getString(R.string.PROFILE_PAYMENT_PER_MONTH_LABEL)
             val amountPartTwo = SpannableString(perMonthLabel)
@@ -111,17 +112,17 @@ class PaymentFragment : Fragment() {
 
             grossPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_PRICE),
-                "PRICE" to profileData?.paymentWithDiscount?.grossPremium?.number?.intValueExact().toString()
+                "PRICE" to profileData?.insurance?.cost?.monthlyGross?.amount
             )
 
             discount.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_DISCOUNT),
-                "DISCOUNT" to (profileData?.paymentWithDiscount?.discount?.number?.intValueExact()?.unaryMinus()).toString()
+                "DISCOUNT" to (profileData?.insurance?.cost?.monthlyDiscount?.amount?.toBigDecimal()?.unaryMinus()).toString()
             )
 
             netPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_FINAL_COST),
-                "FINAL_COST" to profileData?.paymentWithDiscount?.netPremium?.number?.intValueExact().toString()
+                "FINAL_COST" to profileData?.insurance?.cost?.monthlyNet?.amount
             )
 
             bindBankAccountInformation()
