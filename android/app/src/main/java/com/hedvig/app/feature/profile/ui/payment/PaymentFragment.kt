@@ -14,7 +14,7 @@ import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
-import com.hedvig.app.feature.referrals.RedeemCodeBottomSheet
+import com.hedvig.app.feature.referrals.RedeemCodeDialog
 import com.hedvig.app.util.CustomTypefaceSpan
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.extensions.concat
@@ -78,9 +78,9 @@ class PaymentFragment : Fragment() {
         }
 
         redeemCode.setHapticClickListener {
-            RedeemCodeBottomSheet
+            RedeemCodeDialog
                 .newInstance()
-                .show(childFragmentManager, RedeemCodeBottomSheet.TAG)
+                .show(childFragmentManager, RedeemCodeDialog.TAG)
         }
 
         loadData()
@@ -112,17 +112,17 @@ class PaymentFragment : Fragment() {
 
             grossPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_PRICE),
-                "PRICE" to profileData?.insurance?.cost?.monthlyGross?.amount
+                "PRICE" to profileData?.insurance?.cost?.monthlyGross?.amount?.toBigDecimal()?.toInt()
             )
 
             discount.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_DISCOUNT),
-                "DISCOUNT" to (profileData?.insurance?.cost?.monthlyDiscount?.amount?.toBigDecimal()?.unaryMinus()).toString()
+                "DISCOUNT" to (profileData?.insurance?.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt()?.unaryMinus())
             )
 
             netPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_FINAL_COST),
-                "FINAL_COST" to profileData?.insurance?.cost?.monthlyNet?.amount
+                "FINAL_COST" to profileData?.insurance?.cost?.monthlyNet?.amount?.toBigDecimal()?.toInt()
             )
 
             bindBankAccountInformation()

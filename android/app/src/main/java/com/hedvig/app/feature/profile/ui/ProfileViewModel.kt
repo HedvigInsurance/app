@@ -162,4 +162,8 @@ class ProfileViewModel(
             .triggerFreeTextChat()
             .subscribe({ done() }, { Timber.e(it) })
     }
+
+    fun updateReferralsInformation() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

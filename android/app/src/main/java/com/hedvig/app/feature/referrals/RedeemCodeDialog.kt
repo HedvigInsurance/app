@@ -10,9 +10,7 @@ import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import com.hedvig.app.R
-import com.hedvig.app.react.ActivityStarterModule
 import com.hedvig.app.util.extensions.hideKeyboard
-import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
@@ -21,11 +19,13 @@ import kotlinx.android.synthetic.main.promotion_code_dialog.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class RedeemCodeDialog : DialogFragment() {
+abstract class RedeemCodeDialog : DialogFragment() {
 
     private val referralViewModel: ReferralViewModel by sharedViewModel()
 
     private val tracker: ReferralsTracker by inject()
+
+    abstract fun onRedeemSuccess()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -53,13 +53,7 @@ class RedeemCodeDialog : DialogFragment() {
         }
         referralViewModel.redeemCodeStatus.observe(this) { codeWasValid ->
             if (codeWasValid == true) {
-                localBroadcastManager.sendBroadcast(Intent(ActivityStarterModule.REDEEMED_CODE_BROADCAST).apply {
-                    putExtra(
-                        ActivityStarterModule.BROADCAST_MESSAGE_NAME,
-                        ActivityStarterModule.MESSAGE_PROMOTION_CODE_REDEEMED
-                    )
-                })
-                dismiss()
+                onRedeemSuccess()
             } else {
                 wrongPromotionCode()
             }
@@ -88,12 +82,5 @@ class RedeemCodeDialog : DialogFragment() {
         dialog.bottomSheetAddPromotionCodeEditText.background =
             requireContext().getDrawable(R.drawable.background_edit_text_rounded_corners_failed)
         dialog.bottomSheetPromotionCodeMissingCode.show()
-    }
-
-    companion object {
-        const val TAG = "redeemCodeBottomSheet"
-
-        fun newInstance() =
-            RedeemCodeDialog()
     }
 }
