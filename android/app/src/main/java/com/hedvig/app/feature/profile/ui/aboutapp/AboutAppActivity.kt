@@ -8,7 +8,10 @@ import com.hedvig.app.BuildConfig
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.feature.whatsnew.WhatsNewDialog
+import com.hedvig.app.feature.whatsnew.WhatsNewViewModel
+import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setupLargeTitle
+import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.fragment_about_app.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -16,6 +19,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class AboutAppActivity : BaseActivity() {
 
     private val profileViewModel: ProfileViewModel by viewModel()
+    private val whatsNewViewModel: WhatsNewViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +33,14 @@ class AboutAppActivity : BaseActivity() {
             startActivity(Intent(this, LicensesActivity::class.java))
         }
 
-        whatsNew.setOnClickListener {
-            WhatsNewDialog.newInstance(NEWS_BASE_VERSION).show(supportFragmentManager, WhatsNewDialog.TAG)
+        whatsNewViewModel.fetchNews(NEWS_BASE_VERSION)
+        whatsNewViewModel.news.observe(this) { data ->
+            data?.let {
+                whatsNew.show()
+                whatsNew.setOnClickListener {
+                    WhatsNewDialog.newInstance(data.news).show(supportFragmentManager, WhatsNewDialog.TAG)
+                }
+            }
         }
 
         versionNumber.text = interpolateTextKey(

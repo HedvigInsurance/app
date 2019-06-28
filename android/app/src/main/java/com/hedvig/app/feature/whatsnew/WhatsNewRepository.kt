@@ -5,6 +5,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.WhatsNewQuery
 import com.hedvig.android.owldroid.type.Locale
+import com.hedvig.app.BuildConfig
 
 class WhatsNewRepository(
     private val apolloClient: ApolloClient,
@@ -20,6 +21,12 @@ class WhatsNewRepository(
                     .build()
             )
         )
+
+    fun removeNewsForNewUser() {
+        if (latestSeenNews() == VERSION_BEFORE_NEWS_WERE_RELEASED) {
+            hasSeenNews(BuildConfig.VERSION_NAME)
+        }
+    }
 
     fun hasSeenNews(version: String) {
         context
