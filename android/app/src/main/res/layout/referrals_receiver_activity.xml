@@ -15,12 +15,13 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_margin"
             android:src="@drawable/ic_hedvig_wordmark"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/base_margin"
+            android:layout_marginTop="@dimen/base_margin_double"
             app:srcCompat="@drawable/ic_invite_success" />
 
         <TextView
