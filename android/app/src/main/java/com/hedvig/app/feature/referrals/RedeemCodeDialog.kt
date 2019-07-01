@@ -18,11 +18,11 @@ import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.extensions.observe
 import kotlinx.android.synthetic.main.promotion_code_dialog.*
 import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 abstract class RedeemCodeDialog : DialogFragment() {
 
-    private val referralViewModel: ReferralViewModel by sharedViewModel()
+    private val referralViewModel: ReferralViewModel by viewModel()
 
     private val tracker: ReferralsTracker by inject()
 
