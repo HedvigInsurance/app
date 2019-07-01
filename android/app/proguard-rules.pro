@@ -36,5 +36,5 @@
 # Gson
 -keep class com.hedvig.app.feature.chat.dto.** { *; }
 
--keep com.hedvig.app.react.data.** { *; }
--keepnames com.hedvig.app.react.data.** { *; }
+-keep class com.hedvig.app.react.data.** { *; }
+-keepnames class com.hedvig.app.react.data.** { *; }
