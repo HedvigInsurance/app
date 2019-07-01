@@ -47,7 +47,7 @@ class WhatsNewDialog : DismissablePager() {
                     PAGES,
                     ArrayList(pages.map {
                         DismissablePagerPage(
-                            BuildConfig.BASE_URL + it.illustration.svgUrl,
+                            it.illustration.svgUrl,
                             it.title,
                             it.paragraph
                         )

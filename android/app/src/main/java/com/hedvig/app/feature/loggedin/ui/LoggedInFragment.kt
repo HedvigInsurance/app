@@ -210,16 +210,16 @@ class LoggedInFragment : Fragment() {
         }
         when (id) {
             LoggedInTabs.DASHBOARD -> {
-                setupLargeTitle(R.string.DASHBOARD_SCREEN_TITLE, R.font.soray_extrabold)
+                setupLargeTitle(R.string.DASHBOARD_SCREEN_TITLE, R.font.circular_bold)
             }
             LoggedInTabs.CLAIMS -> {
-                setupLargeTitle(R.string.CLAIMS_TITLE, R.font.soray_extrabold)
+                setupLargeTitle(R.string.CLAIMS_TITLE, R.font.circular_bold)
             }
             LoggedInTabs.REFERRALS -> {
-                setupLargeTitle(R.string.PROFILE_REFERRAL_TITLE, R.font.soray_extrabold)
+                setupLargeTitle(R.string.PROFILE_REFERRAL_TITLE, R.font.circular_bold)
             }
             LoggedInTabs.PROFILE -> {
-                setupLargeTitle(R.string.PROFILE_TITLE, R.font.soray_extrabold)
+                setupLargeTitle(R.string.PROFILE_TITLE, R.font.circular_bold)
             }
         }
         lastLoggedInTab = id
