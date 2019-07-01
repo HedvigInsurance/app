@@ -238,11 +238,30 @@ export const NewOffer: React.SFC = () => (
                                 NativeModules.ActivityStarter.showRedeemCodeOverlay().then(
                                   (redeemResponse: string) => {
                                     if (redeemResponse != null) {
+                                      const data = JSON.parse(redeemResponse);
                                       updateQuery((queryData) => ({
                                         ...queryData!,
                                         insurance: {
                                           ...queryData!.insurance,
-                                          cost: JSON.parse(redeemResponse),
+                                          cost: {
+                                            __typename: data.__typename,
+                                            monthlyDiscount: {
+                                              __typename:
+                                                data.monthlyDiscount.__typename,
+                                              amount:
+                                                data.monthlyDiscount.amount,
+                                            },
+                                            monthlyNet: {
+                                              __typename:
+                                                data.monthlyNet.__typename,
+                                              amount: data.monthlyNet.amount,
+                                            },
+                                            monthlyGross: {
+                                              __typename:
+                                                data.monthlyGross.__typename,
+                                              amount: data.monthlyGross.amount,
+                                            },
+                                          },
                                         },
                                       }));
                                     }
