@@ -169,7 +169,7 @@ class LoggedInFragment : Fragment() {
                     GlobalScope.launch(Dispatchers.IO) {
                         FirebaseInstanceId.getInstance().deleteInstanceId()
                     }
-                    WhatsNewDialog.newInstance(listOf()).show(childFragmentManager, WhatsNewDialog.TAG)
+                    WhatsNewDialog.newInstance(data.news).show(childFragmentManager, WhatsNewDialog.TAG)
                 }
             }
         }
