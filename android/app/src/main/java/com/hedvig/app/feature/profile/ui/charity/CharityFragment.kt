@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -29,6 +30,10 @@ class CharityFragment : Fragment() {
 
     val profileViewModel: ProfileViewModel by sharedViewModel()
 
+    private val navController: NavController by lazy {
+        requireActivity().findNavController(R.id.loggedNavigationHost)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_charity, container, false)
 
@@ -36,7 +41,7 @@ class CharityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupLargeTitle(R.string.PROFILE_CHARITY_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            requireActivity().findNavController(R.id.loggedInFragment).popBackStack()
+            navController.popBackStack()
         }
 
         loadData()
