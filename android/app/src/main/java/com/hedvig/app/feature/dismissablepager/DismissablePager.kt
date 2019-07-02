@@ -86,6 +86,7 @@ abstract class DismissablePager : DialogFragment() {
                     pagerIndicator.translationX = translation
                 }
                 if (position == count - 1 && offsetPercentage == 0f) {
+                    onDismiss()
                     dialog?.dismiss()
                 }
             }
