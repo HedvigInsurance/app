@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Platform,
+  PermissionsAndroid,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import Sound from 'react-native-sound';
@@ -92,7 +98,29 @@ class AudioInput extends React.Component {
     console.error('Error!', err); // eslint-disable-line no-console
   };
 
+  // returns a boolean
   requestPermissions = async () => {
+    if (Platform.OS === 'android') {
+      const status = await PermissionsAndroid.check(
+        'android.permission.RECORD_AUDIO',
+      );
+
+      if (status === true) {
+        return true;
+      }
+
+      const requestStatus = await PermissionsAndroid.request(
+        'android.permission.RECORD_AUDIO',
+      );
+
+      if (requestStatus === PermissionsAndroid.RESULTS.GRANTED) {
+        return true;
+      }
+      return false;
+    }
+    if (Platform.OS === 'ios') {
+      // TODO: iOS Implementation
+    }
     // TODO
     const status = await Permissions.check('microphone');
     if (status !== 'authorized') {
