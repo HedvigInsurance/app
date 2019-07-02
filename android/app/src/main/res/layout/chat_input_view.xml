@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/base_margin"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/uploadFile"
@@ -13,10 +15,9 @@
         android:background="@drawable/circle_background"
         android:backgroundTint="@color/purple"
         android:contentDescription="Ladda upp fil"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_plus" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:src="@drawable/ic_plus" />
 
     <TextView
         android:id="@+id/sendGif"
@@ -27,20 +28,18 @@
         android:backgroundTint="@color/purple"
         android:fontFamily="@font/circular_book"
         android:gravity="center"
+        android:layout_gravity="center"
         android:text="GIF"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/uploadFile"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/white" />
 
     <EditText
         android:id="@+id/message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/sendGif"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_weight="1"
+        android:layout_marginStart="@dimen/base_margin"
+        android:background="@drawable/background_edit_text_rounded_corners"
+        android:drawableEnd="@drawable/ic_referrals"
+        android:padding="@dimen/base_margin" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
