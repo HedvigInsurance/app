@@ -183,7 +183,7 @@ class NativeRouting: RCTEventEmitter {
         }
     }
 
-    @objc func requestMicrophonePermission(resolver resolve: @escaping RCTPromiseResolveBlock, rejecter _: RCTPromiseRejectBlock) {
+    @objc func requestMicrophonePermission(_ _: Bool, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter _: RCTPromiseRejectBlock) {
         AVCaptureDevice.requestAccess(for: .audio) { granted in
             resolve(granted)
         }
