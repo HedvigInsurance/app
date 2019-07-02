@@ -11,6 +11,7 @@ import Flow
 import Foundation
 import Photos
 import Presentation
+import AVFoundation
 
 struct MarketingResultEventBody: Encodable {
     var marketingResult: String?
@@ -179,6 +180,12 @@ class NativeRouting: RCTEventEmitter {
                         self.bag += keyWindow.rootViewController?.present(Welcome(data: data), options: [.prefersNavigationBarHidden(true)]).disposable
                     }
             }
+        }
+    }
+
+    @objc func requestMicrophonePermission(_ _: Bool, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter _: RCTPromiseRejectBlock) {
+        AVCaptureDevice.requestAccess(for: .audio) { granted in
+            resolve(granted)
         }
     }
 
