@@ -17,12 +17,12 @@
         android:contentDescription="Ladda upp fil"
         android:layout_gravity="center"
         android:gravity="center"
-        android:src="@drawable/ic_plus" />
+        android:src="@drawable/ic_chat_attach_file" />
 
     <TextView
         android:id="@+id/sendGif"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="@dimen/chat_attatch_icon_size"
+        android:layout_height="40dp"
         android:layout_marginStart="@dimen/base_margin"
         android:background="@drawable/circle_background"
         android:backgroundTint="@color/purple"
@@ -39,7 +39,7 @@
         android:layout_weight="1"
         android:layout_marginStart="@dimen/base_margin"
         android:background="@drawable/background_edit_text_rounded_corners"
-        android:drawableEnd="@drawable/ic_referrals"
+        android:drawableEnd="@drawable/ic_chat_send"
         android:padding="@dimen/base_margin" />
 
 </LinearLayout>
