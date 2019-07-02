@@ -27,7 +27,7 @@ abstract class BaseCommonClaimFragment : Fragment() {
 
     val requestBuilder: RequestBuilder<PictureDrawable> by lazy { buildRequestBuilder() }
 
-    val navController by lazy { requireActivity().findNavController(R.id.loggedInFragment) }
+    val navController by lazy { requireActivity().findNavController(R.id.loggedNavigationHost) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
