@@ -116,25 +116,31 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Exponent.Light"
             android:windowSoftInputMode="adjustResize" />
-
-
+        <activity
+            android:name=".feature.referrals.ReferralsReceiverActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Light"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".feature.referrals.ReferralsSuccessfulInviteActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:noHistory="true"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Exponent.Splash"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
-            android:name=".feature.referrals.ReferralsActivity"
+            android:name=".LoggedInTerminatedActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity"
+            android:noHistory="true"
+            android:parentActivityName=".SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Exponent.Splash"
+            android:theme="@style/Theme.Exponent.Light"
             android:windowSoftInputMode="adjustResize" />
 
         <service

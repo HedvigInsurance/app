@@ -122,6 +122,3 @@ fun Activity.startClosableChat() {
 
     ActivityCompat.startActivity(this, intent, options.toBundle())
 }
-
-inline fun <reified T : AppCompatActivity> Activity.start(activity: KClass<T>) =
-    startActivity(Intent(this, activity::class.java))

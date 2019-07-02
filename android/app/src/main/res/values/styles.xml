@@ -6,6 +6,7 @@
         <item name="colorAccent">@color/colorAccentLight</item>
         <item name="android:windowBackground">@color/off_white</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:alertDialogTheme">@style/AlertDialog</item>
     </style>
 
     <style name="Theme.Exponent.Light" parent="Theme.Exponent.Light.V21" />
@@ -26,10 +27,16 @@
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
+    </style>
+
+    <style name="WelcomeDialogAnimation">
         <item name="android:windowExitAnimation">@anim/slide_out_down</item>
     </style>
 
+    <style name="WhatsNewDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_down</item>
+    </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowActionBar">false</item>
@@ -191,9 +198,16 @@
     <style name="NavigationBar" parent="@style/Widget.MaterialComponents.BottomNavigationView">
         <item name="android:background">@color/blur_white</item>
         <item name="enforceTextAppearance">true</item>
+        <item name="labelVisibilityMode">labeled</item>
         <item name="itemIconTint">@color/bottom_navigation</item>
         <item name="itemTextColor">@color/bottom_navigation</item>
         <item name="itemTextAppearanceInactive">@style/TabBar</item>
         <item name="itemTextAppearanceActive">@style/TabBar</item>
+    </style>
+
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/purple</item>
+        <item name="android:background">@drawable/background_rounded_corners</item>
+        <item name="android:fontFamily">@font/circular_book</item>
     </style>
 </resources>

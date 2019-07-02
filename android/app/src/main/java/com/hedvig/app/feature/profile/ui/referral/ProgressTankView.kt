@@ -10,10 +10,10 @@ import com.hedvig.app.util.extensions.compatColor
 import android.graphics.drawable.BitmapDrawable
 import android.support.animation.FloatValueHolder
 import android.support.animation.SpringAnimation
-import android.support.v4.content.res.ResourcesCompat
 import android.support.animation.SpringForce
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.interpolateTextKey
+import kotlin.math.ceil
 
 class ProgressTankView : View {
 
@@ -24,7 +24,7 @@ class ProgressTankView : View {
     private var premium: Int = 100
     private var discountedPremium: Int = 80
     private var step = 10
-    private val segments = premium / step
+    private var segments = premium / step
 
     //colors
     private val purple = context.compatColor(R.color.purple)
@@ -67,13 +67,18 @@ class ProgressTankView : View {
 
     //strings
     private val callToAction = context.getString(R.string.REFERRAL_PROGRESS_BAR_CTA)
-    private val currentPremiumPrice = interpolateTextKey(
-        context.getString(R.string.REFERRAL_PROGRESS_CURRENT_PREMIUM_PRICE),
-        "CURRENT_PREMIUM_PRICE" to premium.toString())
     private val bottomLabelText = context.getString(R.string.REFERRAL_PROGRESS_FREE)
-    private val currentInvitedActiveValue = interpolateTextKey(
-        context.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
-        "REFERRAL_VALUE" to (premium - discountedPremium).toString())
+    // use by lazy to get premium on first draw instead of on init
+    private val currentPremiumPrice by lazy {
+        interpolateTextKey(
+            context.getString(R.string.REFERRAL_PROGRESS_CURRENT_PREMIUM_PRICE),
+            "CURRENT_PREMIUM_PRICE" to premium.toString())
+    }
+    private val currentInvitedActiveValue by lazy {
+        interpolateTextKey(
+            context.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
+            "REFERRAL_VALUE" to (premium - discountedPremium).toString())
+    }
 
 
     //font
@@ -101,6 +106,7 @@ class ProgressTankView : View {
         this.premium = premium
         this.discountedPremium = premium - discount
         this.step = step
+        segments = ceil(premium.toFloat() / step).toInt()
         isInitialized = true
         startAnimation()
     }
@@ -446,7 +452,7 @@ class ProgressTankView : View {
 
     private fun isLastDiscountedSegment(index: Int) = isSegmentDiscounted(index) && (premium - (index * step)) - step <= discountedPremium
     private val discountedSegments: Int
-        get() = (premium - discountedPremium) / step
+        get() = ceil((premium - discountedPremium).toFloat() / step).toInt()
 
     private fun setUpPaintForLine() {
         paint.style = Paint.Style.STROKE

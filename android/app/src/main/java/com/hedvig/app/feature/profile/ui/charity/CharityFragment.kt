@@ -16,7 +16,6 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
 import com.hedvig.app.util.extensions.setupLargeTitle
-import com.hedvig.app.util.extensions.showBottomSheetDialog
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
@@ -72,7 +71,7 @@ class CharityFragment : Fragment() {
         selectedCharityCardParagraph.text = cashback.paragraph
         charitySelectedHowDoesItWorkButton.setHapticClickListener {
             tracker.howDoesItWorkClick()
-            requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
+            CharityExplanationBottomSheet.newInstance().show(requireFragmentManager(), "charitySheet")
         }
     }
 
@@ -85,7 +84,7 @@ class CharityFragment : Fragment() {
             }
         selectCharityHowDoesItWorkButton.setHapticClickListener {
             tracker.howDoesItWorkClick()
-            requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
+            CharityExplanationBottomSheet.newInstance().show(requireFragmentManager(), "charitySheet")
         }
     }
 

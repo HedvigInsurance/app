@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.LocalBroadcastManager
-import androidx.navigation.Navigation
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.facebook.react.bridge.LifecycleEventListener
@@ -19,7 +18,11 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReadableType
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
+import com.hedvig.android.owldroid.graphql.RemoveDiscountCodeMutation
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
@@ -28,8 +31,10 @@ import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
-import com.hedvig.app.util.extensions.proxyNavigate
+import com.hedvig.app.feature.referrals.BroadcastingRedeemCodeDialog
+import com.hedvig.app.util.extensions.makeToast
 import com.hedvig.app.util.extensions.setIsLoggedIn
+import com.hedvig.app.util.extensions.showAlert
 import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.react.AsyncStorageNative
 import io.reactivex.disposables.CompositeDisposable
@@ -53,10 +58,15 @@ class ActivityStarterModule(
 
     private val fileUploadBroadcastReceiver = FileUploadBroadcastReceiver()
 
+    private val referralCodeBroadcastReceiver = ReferralCodeBroadcastReceiver()
+
     private var fileUploadCallback: Promise? = null
+
+    private var redeemCodeCallback: Promise? = null
 
     init {
         localBroadcastManager.registerReceiver(fileUploadBroadcastReceiver, IntentFilter(FILE_UPLOAD_INTENT))
+        localBroadcastManager.registerReceiver(referralCodeBroadcastReceiver, IntentFilter(REDEEMED_CODE_BROADCAST))
     }
 
     override fun getName() = "ActivityStarter"
@@ -69,6 +79,7 @@ class ActivityStarterModule(
 
     override fun onHostDestroy() {
         localBroadcastManager.unregisterReceiver(fileUploadBroadcastReceiver)
+        localBroadcastManager.unregisterReceiver(referralCodeBroadcastReceiver)
         disposables.clear()
     }
 
@@ -78,23 +89,30 @@ class ActivityStarterModule(
         if (activity != null) {
             asyncStorageNative.setKey("@hedvig:isViewingOffer", "true")
             currentActivity?.let {
-                it.startActivity(Intent(it, OfferActivity::class.java))
+                it.startActivity(Intent(it, OfferActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                })
             }
         }
     }
 
     @ReactMethod
-    fun navigateToChatFromOffer() {
-        currentActivity?.let {
-            it.startActivity(Intent(it, OfferActivity::class.java))
-        }
+    fun navigateToLoggedInFromOffer() {
+        navigateToLoggedIn(true)
     }
 
     @ReactMethod
     fun navigateToLoggedInFromChat() {
+        navigateToLoggedIn(false)
+    }
+
+    private fun navigateToLoggedIn(isFromOnBoarding: Boolean) {
         currentActivity?.let { activity ->
             reactApplicationContext.setIsLoggedIn(true)
+            FirebaseInstanceId.getInstance().deleteInstanceId()
             val intent = Intent(activity, LoggedInActivity::class.java)
+            intent.putExtra(LoggedInActivity.EXTRA_IS_FROM_ONBOARDING, isFromOnBoarding)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             activity.startActivity(intent)
@@ -112,6 +130,38 @@ class ActivityStarterModule(
         PerilBottomSheet.newInstance(subject, PerilIcon.from(iconId), title, description)
             .show(fragmentManager, "perilSheet")
     }
+
+    @ReactMethod
+    fun showRedeemCodeOverlay(onRedeem: Promise) {
+        redeemCodeCallback = onRedeem
+        BroadcastingRedeemCodeDialog.newInstance()
+            .show(fragmentManager, BroadcastingRedeemCodeDialog.TAG)
+    }
+
+    @ReactMethod
+    fun showRemoveCodeAlert(onCompleted: Promise) = currentActivity?.showAlert(
+        R.string.OFFER_REMOVE_DISCOUNT_ALERT_TITLE,
+        R.string.OFFER_REMOVE_DISCOUNT_ALERT_DESCRIPTION,
+        R.string.OFFER_REMOVE_DISCOUNT_ALERT_REMOVE,
+        R.string.OFFER_REMOVE_DISCOUNT_ALERT_CANCEL,
+        {
+            disposables += Rx2Apollo
+                .from(apolloClient.mutate(RemoveDiscountCodeMutation()))
+                .subscribe({
+                    if (it.hasErrors()) {
+                        currentActivity?.makeToast(R.string.OFFER_REMOVE_FAILED_ALERT_DESCRIPTION)
+                    } else {
+                        onCompleted.resolve(true)
+                    }
+                }, {
+                    currentActivity?.makeToast(R.string.OFFER_REMOVE_FAILED_ALERT_DESCRIPTION)
+                    Timber.e(it)
+                })
+        },
+        {
+            onCompleted.resolve(false)
+        }
+    )
 
     @ReactMethod
     fun showFileUploadOverlay(onUpload: Promise) {
@@ -189,8 +239,25 @@ class ActivityStarterModule(
         }
     }
 
+    private inner class ReferralCodeBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            when (intent.getStringExtra(BROADCAST_MESSAGE_NAME)) {
+                MESSAGE_PROMOTION_CODE_REDEEMED -> {
+                    redeemCodeCallback?.resolve(intent.getStringExtra(MESSAGE_PROMOTION_CODE_REDEEMED_DATA))
+                    redeemCodeCallback = null
+                }
+            }
+        }
+    }
+
     companion object {
         const val BROADCAST_RELOAD_CHAT = "reloadChat"
+        const val REDEEMED_CODE_BROADCAST = "redeemedCode"
+
+        const val BROADCAST_MESSAGE_NAME = "message"
+
+        const val MESSAGE_PROMOTION_CODE_REDEEMED = "promotionCodeRedeemed"
+        const val MESSAGE_PROMOTION_CODE_REDEEMED_DATA = "promotionCodeRedeemedData"
 
         const val FILE_UPLOAD_INTENT = "file_upload"
         const val FILE_UPLOAD_RESULT = "file_upload_result"

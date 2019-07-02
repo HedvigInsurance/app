@@ -1,4 +1,4 @@
-package com.hedvig.app.feature.whatsnew
+package com.hedvig.app.feature.dismissablepager
 
 import android.content.Context
 import android.support.v4.view.ViewPager

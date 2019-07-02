@@ -176,14 +176,7 @@ const Chat: React.SFC<ChatProps> = ({
                   `,
                 })
                 .then(() => {
-                  const {
-                    setLayout,
-                  } = require('src/navigation/layouts/setLayout');
-                  const {
-                    getMainLayout,
-                  } = require('src/navigation/layouts/mainLayout');
-
-                  setLayout(getMainLayout());
+                  NativeModules.NativeRouting.presentLoggedIn();
                 });
             }
 

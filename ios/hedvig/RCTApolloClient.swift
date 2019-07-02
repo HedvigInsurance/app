@@ -12,6 +12,71 @@ import Flow
 import Foundation
 
 struct RCTApolloClient {
+    static func restoreState() -> CoreSignal<Finite, Void> {
+        return getClient()
+            .valueSignal
+            .withLatestFrom(RCTApolloClient.getToken().valueSignal)
+            .mapLatestToFuture { _, token -> Future<Void> in
+                if token != nil, !ApplicationState.hasPreviousState() {
+                    log.info("Backfilling previous state")
+
+                    return Future { completion in
+                        let bag = DisposeBag()
+
+                        let statusFuture = ApolloContainer
+                            .shared
+                            .client
+                            .fetch(query: InsuranceStatusQuery())
+                            .map { $0.data?.insurance.status }
+
+                        let priceSignal =
+                            ApolloContainer
+                            .shared
+                            .client
+                            .fetch(query: InsurancePriceQuery())
+                            .map { result in
+                                if let price = result.data?.insurance.cost?.monthlyGross.amount {
+                                    return price
+                                }
+
+                                return "0.00"
+                            }
+                            .valueSignal
+                            .toInt()
+
+                        bag += combineLatest(statusFuture.valueSignal, priceSignal)
+                            .debug()
+                            .onValue { status, price in
+                                guard let status = status else {
+                                    ApplicationState.preserveState(.marketing)
+                                    completion(.success)
+                                    return
+                                }
+
+                                switch status {
+                                case .active, .inactiveWithStartDate, .inactive, .terminated:
+                                    ApplicationState.preserveState(.loggedIn)
+                                case .pending:
+                                    if price != nil, price != 0 {
+                                        ApplicationState.preserveState(.offer)
+                                    } else {
+                                        ApplicationState.preserveState(.onboardingChat)
+                                    }
+                                case .__unknown:
+                                    ApplicationState.preserveState(.marketing)
+                                }
+
+                                completion(.success)
+                            }
+
+                        return bag
+                    }
+                }
+
+                return Future(result: .success)
+            }
+    }
+
     static func getToken() -> Future<String?> {
         return Future<String?> { completion in
             let rctSenderBlock = { response in
@@ -63,6 +128,14 @@ struct RCTApolloClient {
         ApolloContainer.shared.environment = environment
 
         let tokenFuture = RCTApolloClient.getToken()
+
+        if let nativeToken = ApolloContainer.shared.retreiveToken() {
+            let rctSenderBlock = { _ in } as RCTResponseSenderBlock
+            RCTAsyncLocalStorage().multiSet(
+                [["@hedvig:token", nativeToken.token]],
+                callback: rctSenderBlock
+            )
+        }
 
         // we get a black screen flicker without the delay
         let clientFuture = tokenFuture.flatMap { token -> Future<Void> in

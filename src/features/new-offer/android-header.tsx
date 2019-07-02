@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Appbar } from 'react-native-paper';
 import { SignButton } from 'src/components/sign-button';
 import { ChatButton } from 'src/components/chat-button';
-import { colors } from '@hedviginsurance/brand';
+import { colors, fonts } from '@hedviginsurance/brand';
 import { TranslationsConsumer } from 'src/components/translations/consumer';
 
 interface AndroidHeaderProps {
@@ -18,6 +18,12 @@ export const AndroidHeader: React.SFC<AndroidHeaderProps> = ({ subtitle }) => (
           colors: {
             primary: colors.BLACK_PURPLE,
           },
+          fonts: {
+            regular: fonts.CIRCULAR,
+            medium: fonts.CIRCULAR,
+            light: fonts.CIRCULAR,
+            thin: fonts.CIRCULAR
+          }
         }}
       >
         <Appbar.Content title={title} subtitle={subtitle} />

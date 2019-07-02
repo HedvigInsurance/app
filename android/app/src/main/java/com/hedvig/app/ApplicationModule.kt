@@ -22,19 +22,27 @@ import com.hedvig.app.feature.dashboard.service.DashboardTracker
 import com.hedvig.app.feature.dashboard.ui.DashboardViewModel
 import com.hedvig.app.feature.loggedin.service.TabNotificationService
 import com.hedvig.app.feature.loggedin.ui.BaseTabViewModel
+import com.hedvig.app.feature.welcome.WelcomeRepository
+import com.hedvig.app.feature.welcome.WelcomeTracker
+import com.hedvig.app.feature.welcome.WelcomeViewModel
 import com.hedvig.app.feature.marketing.data.MarketingStoriesRepository
 import com.hedvig.app.feature.marketing.service.MarketingTracker
 import com.hedvig.app.feature.marketing.ui.MarketingStoriesViewModel
 import com.hedvig.app.feature.profile.data.ProfileRepository
 import com.hedvig.app.feature.profile.service.ProfileTracker
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
+import com.hedvig.app.feature.referrals.ReferralRepository
+import com.hedvig.app.feature.referrals.ReferralViewModel
+import com.hedvig.app.feature.referrals.ReferralsTracker
 import com.hedvig.app.feature.whatsnew.WhatsNewRepository
+import com.hedvig.app.feature.whatsnew.WhatsNewTracker
 import com.hedvig.app.feature.whatsnew.WhatsNewViewModel
 import com.hedvig.app.service.FileService
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.service.Referrals
 import com.hedvig.app.service.RemoteConfig
 import com.hedvig.app.service.TextKeys
+import com.hedvig.app.terminated.TerminatedTracker
 import com.hedvig.app.util.apollo.ApolloTimberLogger
 import com.hedvig.app.util.apollo.PromiscuousLocalDateAdapter
 import com.hedvig.app.util.react.AsyncStorageNative
@@ -114,6 +122,8 @@ val viewModelModule = module {
     viewModel { WhatsNewViewModel(get()) }
     viewModel { BaseTabViewModel(get(), get()) }
     viewModel { com.hedvig.app.feature.chat.native.ChatViewModel(get()) }
+    viewModel { ReferralViewModel(get()) }
+    viewModel { WelcomeViewModel(get()) }
 }
 
 val serviceModule = module {
@@ -133,9 +143,11 @@ val repositoriesModule = module {
     single { DashboardRepository(get()) }
     single { MarketingStoriesRepository(get(), get(), get()) }
     single { ProfileRepository(get()) }
+    single { ReferralRepository(get()) }
     single { UserRepository(get()) }
     single { WhatsNewRepository(get(), get()) }
     single { com.hedvig.app.feature.chat.native.ChatRepository(get()) }
+    single { WelcomeRepository(get()) }
 }
 
 val trackerModule = module {
@@ -143,4 +155,8 @@ val trackerModule = module {
     single { DashboardTracker(get()) }
     single { MarketingTracker(get()) }
     single { ProfileTracker(get()) }
+    single { WhatsNewTracker(get()) }
+    single { ReferralsTracker(get()) }
+    single { TerminatedTracker(get()) }
+    single { WelcomeTracker(get()) }
 }

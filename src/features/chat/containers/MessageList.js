@@ -16,9 +16,10 @@ import Avatar from '../containers/Avatar';
 import LoadingIndicator from '../containers/LoadingIndicator';
 import { RichMessage } from '../components/rich-message';
 import { OptionInputComponent } from '../components/InputComponent';
-import { NEW_OFFER_SCREEN } from 'src/navigation/screens/new-offer';
 
 import { InputHeightContainer } from './InputHeight';
+import { client } from 'src/graphql/client';
+import gql from 'graphql-tag';
 
 const styles = StyleSheet.create({
   scrollContent: {
@@ -104,6 +105,21 @@ const HedvigMessageMapping = {
 const renderMessage = (message, idx) => {
   let fromMe = message.header.fromId !== 1;
   const lastIndex = idx === 0;
+
+  if (!message.header.markedAsRead) {
+    client.mutate({
+      mutation: gql`
+        mutation MarkMessageAsRead($id: ID!) {
+          markMessageAsRead(globalId: $id) {
+            globalId
+          }
+        }
+      `,
+      variables: {
+        id: message.globalId,
+      },
+    });
+  }
 
   let MessageRenderComponent;
   if (!fromMe) {

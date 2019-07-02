@@ -18,9 +18,9 @@ const handleCheckout = function*() {
   yield put(chatActions.getMessages({ intent }));
 
   if (Platform.OS === 'ios') {
-    NativeModules.NativeRouting.presentLoggedIn();
+    NativeModules.NativeRouting.presentAfterSign();
   } else {
-    NativeModules.ActivityStarter.navigateToChatFromOffer();
+    NativeModules.ActivityStarter.navigateToLoggedInFromOffer();
   }
 
   userDidSign();

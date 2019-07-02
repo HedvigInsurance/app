@@ -15,18 +15,19 @@ export type LocalDate = any;
 
 export type Object = any;
 
+export type Url = any;
+
 export type Uuid = any;
 
 /** The `Upload` scalar type represents a file upload. */
 export type Upload = any;
 
-export type Url = any;
+export type TimeStamp = any;
+
+export type JsonObject = any;
 
 /** The `Long` scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1. */
 export type Long = any;
-
-/** Custom scalar representing a Slate rich text AST */
-export type RichTextAst = any;
 
 // ====================================================
 // Interfaces
@@ -87,6 +88,8 @@ export interface Query {
 
   avatars?: Avatar[] | null;
 
+  chatActions?: ChatAction[] | null;
+
   dontPanicPing: string;
 
   dontPanicSession?: DontPanicSession | null;
@@ -100,6 +103,16 @@ export interface Query {
   registerAccountProcessingStatus: RegisterAccountProcessingStatus;
 
   directDebitStatus: DirectDebitStatus;
+
+  campaign: Campaign;
+
+  redeemedCampaigns: Campaign[];
+
+  referralInformation: Referrals;
+
+  commonClaims: CommonClaim[];
+
+  news: News[];
 }
 
 export interface Language extends Node {
@@ -229,9 +242,7 @@ export interface Insurance {
 
   postalNumber?: string | null;
 
-  monthlyCost?: number | null;
-
-  safetyIncreasers?: string[] | null;
+  cost?: InsuranceCost | null;
 
   personsInHousehold?: number | null;
 
@@ -251,7 +262,27 @@ export interface Insurance {
 
   currentInsurerName?: string | null;
 
+  livingSpace?: number | null;
+
   perilCategories?: PerilCategory[] | null;
+
+  monthlyCost?: number | null;
+
+  safetyIncreasers?: string[] | null;
+}
+
+export interface InsuranceCost {
+  monthlyDiscount: MonetaryAmountV2;
+
+  monthlyGross: MonetaryAmountV2;
+
+  monthlyNet: MonetaryAmountV2;
+}
+
+export interface MonetaryAmountV2 {
+  amount: string;
+
+  currency: string;
 }
 
 export interface Cashback {
@@ -453,6 +484,8 @@ export interface MessageHeader {
   pollingInterval: number;
 
   loadingIndicator?: string | null;
+
+  markedAsRead: boolean;
 }
 
 export interface ChatResponse {
@@ -460,9 +493,9 @@ export interface ChatResponse {
 
   id: string;
 
-  body?: MessageBody | null;
+  body: MessageBody;
 
-  header?: MessageHeader | null;
+  header: MessageHeader;
 }
 
 export interface ChatState {
@@ -485,6 +518,14 @@ export interface Avatar {
   duration: number;
 
   data?: Object | null;
+}
+
+export interface ChatAction {
+  text?: string | null;
+
+  triggerUrl?: Url | null;
+
+  enabled?: boolean | null;
 }
 
 export interface DontPanicSession {
@@ -523,6 +564,101 @@ export interface BankAccount {
   directDebitStatus?: DirectDebitStatus | null;
 }
 
+export interface Campaign {
+  code: string;
+
+  incentive?: Incentive | null;
+}
+
+export interface FreeMonths {
+  quantity?: number | null;
+}
+
+export interface MonthlyCostDeduction {
+  amount?: MonetaryAmountV2 | null;
+}
+
+export interface Referrals {
+  campaign: Campaign;
+
+  invitations: Referral[];
+
+  referredBy?: Referral | null;
+}
+
+export interface ActiveReferral {
+  discount: MonetaryAmountV2;
+
+  name?: string | null;
+}
+
+export interface InProgressReferral {
+  name?: string | null;
+}
+
+export interface NotInitiatedReferral {
+  name?: string | null;
+}
+
+export interface TerminatedReferral {
+  name?: string | null;
+}
+/** A list of claim types that are common to show for the user */
+export interface CommonClaim {
+  /** An icon to show on the card of the common claim */
+  icon: Icon;
+  /** The layout to use for the subpage regarding the common claim */
+  layout: CommonClaimLayouts;
+  /** A title to show on the card of the common claim */
+  title: string;
+}
+/** A vectorized image to show to the user */
+export interface Icon {
+  /** For iOS use */
+  pdfUrl: string;
+  /** For Web use */
+  svgUrl: string;
+  /** For Android use */
+  vectorDrawableUrl: string;
+}
+/** A layout with a title and some bullet points */
+export interface TitleAndBulletPoints {
+  bulletPoints: BulletPoint[];
+
+  buttonTitle: string;
+
+  claimFirstMessage: string;
+  /** The color to show as the background */
+  color: HedvigColor;
+
+  icon: Icon;
+
+  title: string;
+}
+
+export interface BulletPoint {
+  description: string;
+
+  icon: Icon;
+
+  title: string;
+}
+/** The emergency layout shows a few actions for the user to rely on in the case of an emergency */
+export interface Emergency {
+  color: HedvigColor;
+
+  title: string;
+}
+/** A page in the `What's new`-screen in the app */
+export interface News {
+  /** Illustration shown for the page */
+  illustration: Icon;
+  /** Text key for the paragraph shown below the title */
+  paragraph: string;
+  /** Text key for the title of the page */
+  title: string;
+}
+
 export interface Mutation {
   logout: boolean;
 
@@ -558,6 +694,20 @@ export interface Mutation {
 
   updatePhoneNumber: Member;
 
+  registerPushToken?: boolean | null;
+
+  triggerFreeTextChat?: boolean | null;
+
+  triggerClaimChat?: boolean | null;
+
+  triggerCallMeChat?: boolean | null;
+
+  emailSign?: boolean | null;
+
+  markMessageAsRead: Message;
+
+  log?: boolean | null;
+
   createDontPanicSession: DontPanicSession;
 
   addDontPanicChatMessage: DontPanicChatMessage;
@@ -565,6 +715,10 @@ export interface Mutation {
   registerDirectDebit: DirectDebitResponse;
 
   cancelDirectDebitRequest: CancelDirectDebitStatus;
+
+  redeemCode: RedemedCodeResult;
+
+  removeDiscountCode: RedemedCodeResult;
 }
 
 export interface SessionInformation {
@@ -579,12 +733,18 @@ export interface DirectDebitResponse {
   orderId: string;
 }
 
+export interface RedemedCodeResult {
+  campaigns: Campaign[];
+
+  cost: InsuranceCost;
+}
+
 export interface Subscription {
   offer?: OfferEvent | null;
 
   signStatus?: SignEvent | null;
 
-  messages?: Message[] | null;
+  message: Message;
 
   currentChatResponse?: ChatResponse | null;
 
@@ -599,22 +759,6 @@ export interface OfferEvent {
 
 export interface SignEvent {
   status?: SignStatus | null;
-}
-
-export interface Color extends Node {
-  updatedAt: DateTime;
-
-  createdAt: DateTime;
-
-  id: string;
-}
-
-export interface Location extends Node {
-  updatedAt: DateTime;
-
-  createdAt: DateTime;
-
-  id: string;
 }
 /** A connection to a list of items. */
 export interface AssetConnection {
@@ -645,46 +789,6 @@ export interface AssetEdge {
 }
 
 export interface AggregateAsset {
-  count: number;
-}
-/** A connection to a list of items. */
-export interface ColorConnection {
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** A list of edges. */
-  edges: ColorEdge[];
-
-  aggregate: AggregateColor;
-}
-/** An edge in a connection. */
-export interface ColorEdge {
-  /** The item at the end of the edge. */
-  node: Color;
-  /** A cursor for use in pagination. */
-  cursor: string;
-}
-
-export interface AggregateColor {
-  count: number;
-}
-/** A connection to a list of items. */
-export interface LocationConnection {
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** A list of edges. */
-  edges: LocationEdge[];
-
-  aggregate: AggregateLocation;
-}
-/** An edge in a connection. */
-export interface LocationEdge {
-  /** The item at the end of the edge. */
-  node: Location;
-  /** A cursor for use in pagination. */
-  cursor: string;
-}
-
-export interface AggregateLocation {
   count: number;
 }
 /** A connection to a list of items. */
@@ -845,24 +949,6 @@ export interface AssetSubscriptionPayload {
   previousValues?: AssetPreviousValues | null;
 }
 
-export interface ColorPreviousValues {
-  updatedAt: DateTime;
-
-  createdAt: DateTime;
-
-  id: string;
-}
-
-export interface ColorSubscriptionPayload {
-  mutation: MutationType;
-
-  node?: Color | null;
-
-  updatedFields?: string[] | null;
-
-  previousValues?: ColorPreviousValues | null;
-}
-
 export interface KeyPreviousValues {
   status: Status;
 
@@ -909,24 +995,6 @@ export interface LanguageSubscriptionPayload {
   updatedFields?: string[] | null;
 
   previousValues?: LanguagePreviousValues | null;
-}
-
-export interface LocationPreviousValues {
-  updatedAt: DateTime;
-
-  createdAt: DateTime;
-
-  id: string;
-}
-
-export interface LocationSubscriptionPayload {
-  mutation: MutationType;
-
-  node?: Location | null;
-
-  updatedFields?: string[] | null;
-
-  previousValues?: LocationPreviousValues | null;
 }
 
 export interface MarketingStoryPreviousValues {
@@ -995,14 +1063,6 @@ export interface PerilSubscriptionPayload {
   updatedFields?: string[] | null;
 
   previousValues?: PerilPreviousValues | null;
-}
-
-export interface RichText {
-  raw?: RichTextAst | null;
-
-  html?: string | null;
-
-  markdown?: string | null;
 }
 
 export interface TranslationPreviousValues {
@@ -2082,156 +2142,24 @@ export interface ChatResponseBodyAudioInput {
   url: string;
 }
 
-export interface ColorWhereInput {
-  /** Logical AND on all given filters. */
-  AND?: ColorWhereInput[] | null;
-  /** Logical OR on all given filters. */
-  OR?: ColorWhereInput[] | null;
-  /** Logical NOT on all given filters combined by AND. */
-  NOT?: ColorWhereInput[] | null;
-
-  updatedAt?: DateTime | null;
-  /** All values that are not equal to given value. */
-  updatedAt_not?: DateTime | null;
-  /** All values that are contained in given list. */
-  updatedAt_in?: DateTime[] | null;
-  /** All values that are not contained in given list. */
-  updatedAt_not_in?: DateTime[] | null;
-  /** All values less than the given value. */
-  updatedAt_lt?: DateTime | null;
-  /** All values less than or equal the given value. */
-  updatedAt_lte?: DateTime | null;
-  /** All values greater than the given value. */
-  updatedAt_gt?: DateTime | null;
-  /** All values greater than or equal the given value. */
-  updatedAt_gte?: DateTime | null;
-
-  createdAt?: DateTime | null;
-  /** All values that are not equal to given value. */
-  createdAt_not?: DateTime | null;
-  /** All values that are contained in given list. */
-  createdAt_in?: DateTime[] | null;
-  /** All values that are not contained in given list. */
-  createdAt_not_in?: DateTime[] | null;
-  /** All values less than the given value. */
-  createdAt_lt?: DateTime | null;
-  /** All values less than or equal the given value. */
-  createdAt_lte?: DateTime | null;
-  /** All values greater than the given value. */
-  createdAt_gt?: DateTime | null;
-  /** All values greater than or equal the given value. */
-  createdAt_gte?: DateTime | null;
-
-  id?: string | null;
-  /** All values that are not equal to given value. */
-  id_not?: string | null;
-  /** All values that are contained in given list. */
-  id_in?: string[] | null;
-  /** All values that are not contained in given list. */
-  id_not_in?: string[] | null;
-  /** All values less than the given value. */
-  id_lt?: string | null;
-  /** All values less than or equal the given value. */
-  id_lte?: string | null;
-  /** All values greater than the given value. */
-  id_gt?: string | null;
-  /** All values greater than or equal the given value. */
-  id_gte?: string | null;
-  /** All values containing the given string. */
-  id_contains?: string | null;
-  /** All values not containing the given string. */
-  id_not_contains?: string | null;
-  /** All values starting with the given string. */
-  id_starts_with?: string | null;
-  /** All values not starting with the given string. */
-  id_not_starts_with?: string | null;
-  /** All values ending with the given string. */
-  id_ends_with?: string | null;
-  /** All values not ending with the given string. */
-  id_not_ends_with?: string | null;
+export interface TriggerClaimChatInput {
+  claimTypeId?: string | null;
 }
 
-export interface LocationWhereInput {
-  /** Logical AND on all given filters. */
-  AND?: LocationWhereInput[] | null;
-  /** Logical OR on all given filters. */
-  OR?: LocationWhereInput[] | null;
-  /** Logical NOT on all given filters combined by AND. */
-  NOT?: LocationWhereInput[] | null;
+export interface LoggingInput {
+  timestamp: TimeStamp;
 
-  updatedAt?: DateTime | null;
-  /** All values that are not equal to given value. */
-  updatedAt_not?: DateTime | null;
-  /** All values that are contained in given list. */
-  updatedAt_in?: DateTime[] | null;
-  /** All values that are not contained in given list. */
-  updatedAt_not_in?: DateTime[] | null;
-  /** All values less than the given value. */
-  updatedAt_lt?: DateTime | null;
-  /** All values less than or equal the given value. */
-  updatedAt_lte?: DateTime | null;
-  /** All values greater than the given value. */
-  updatedAt_gt?: DateTime | null;
-  /** All values greater than or equal the given value. */
-  updatedAt_gte?: DateTime | null;
+  source: LoggingSource;
 
-  createdAt?: DateTime | null;
-  /** All values that are not equal to given value. */
-  createdAt_not?: DateTime | null;
-  /** All values that are contained in given list. */
-  createdAt_in?: DateTime[] | null;
-  /** All values that are not contained in given list. */
-  createdAt_not_in?: DateTime[] | null;
-  /** All values less than the given value. */
-  createdAt_lt?: DateTime | null;
-  /** All values less than or equal the given value. */
-  createdAt_lte?: DateTime | null;
-  /** All values greater than the given value. */
-  createdAt_gt?: DateTime | null;
-  /** All values greater than or equal the given value. */
-  createdAt_gte?: DateTime | null;
+  payload: JsonObject;
 
-  id?: string | null;
-  /** All values that are not equal to given value. */
-  id_not?: string | null;
-  /** All values that are contained in given list. */
-  id_in?: string[] | null;
-  /** All values that are not contained in given list. */
-  id_not_in?: string[] | null;
-  /** All values less than the given value. */
-  id_lt?: string | null;
-  /** All values less than or equal the given value. */
-  id_lte?: string | null;
-  /** All values greater than the given value. */
-  id_gt?: string | null;
-  /** All values greater than or equal the given value. */
-  id_gte?: string | null;
-  /** All values containing the given string. */
-  id_contains?: string | null;
-  /** All values not containing the given string. */
-  id_not_contains?: string | null;
-  /** All values starting with the given string. */
-  id_starts_with?: string | null;
-  /** All values not starting with the given string. */
-  id_not_starts_with?: string | null;
-  /** All values ending with the given string. */
-  id_ends_with?: string | null;
-  /** All values not ending with the given string. */
-  id_not_ends_with?: string | null;
+  severity: LoggingSeverity;
 }
 
 export interface AssetWhereUniqueInput {
   id?: string | null;
 
   handle?: string | null;
-}
-
-export interface ColorWhereUniqueInput {
-  id?: string | null;
-}
-
-export interface LocationWhereUniqueInput {
-  id?: string | null;
 }
 
 export interface LanguageWhereUniqueInput {
@@ -3724,25 +3652,6 @@ export interface AssetSubscriptionWhereInput {
   node?: AssetWhereInput | null;
 }
 
-export interface ColorSubscriptionWhereInput {
-  /** Logical AND on all given filters. */
-  AND?: ColorSubscriptionWhereInput[] | null;
-  /** Logical OR on all given filters. */
-  OR?: ColorSubscriptionWhereInput[] | null;
-  /** Logical NOT on all given filters combined by AND. */
-  NOT?: ColorSubscriptionWhereInput[] | null;
-  /** The subscription event gets dispatched when it's listed in mutation_in */
-  mutation_in?: MutationType[] | null;
-  /** The subscription event gets only dispatched when one of the updated fields names is included in this list */
-  updatedFields_contains?: string | null;
-  /** The subscription event gets only dispatched when all of the field names included in this list have been updated */
-  updatedFields_contains_every?: string[] | null;
-  /** The subscription event gets only dispatched when some of the field names included in this list have been updated */
-  updatedFields_contains_some?: string[] | null;
-
-  node?: ColorWhereInput | null;
-}
-
 export interface KeySubscriptionWhereInput {
   /** Logical AND on all given filters. */
   AND?: KeySubscriptionWhereInput[] | null;
@@ -3779,25 +3688,6 @@ export interface LanguageSubscriptionWhereInput {
   updatedFields_contains_some?: string[] | null;
 
   node?: LanguageWhereInput | null;
-}
-
-export interface LocationSubscriptionWhereInput {
-  /** Logical AND on all given filters. */
-  AND?: LocationSubscriptionWhereInput[] | null;
-  /** Logical OR on all given filters. */
-  OR?: LocationSubscriptionWhereInput[] | null;
-  /** Logical NOT on all given filters combined by AND. */
-  NOT?: LocationSubscriptionWhereInput[] | null;
-  /** The subscription event gets dispatched when it's listed in mutation_in */
-  mutation_in?: MutationType[] | null;
-  /** The subscription event gets only dispatched when one of the updated fields names is included in this list */
-  updatedFields_contains?: string | null;
-  /** The subscription event gets only dispatched when all of the field names included in this list have been updated */
-  updatedFields_contains_every?: string[] | null;
-  /** The subscription event gets only dispatched when some of the field names included in this list have been updated */
-  updatedFields_contains_some?: string[] | null;
-
-  node?: LocationWhereInput | null;
 }
 
 export interface MarketingStorySubscriptionWhereInput {
@@ -3919,6 +3809,19 @@ export interface FileQueryArgs {
 export interface DontPanicSessionQueryArgs {
   id: string;
 }
+export interface CampaignQueryArgs {
+  code: string;
+}
+export interface CommonClaimsQueryArgs {
+  locale: Locale;
+}
+export interface NewsQueryArgs {
+  sinceVersion: string;
+
+  locale: Locale;
+
+  platform: Platform;
+}
 export interface TranslationsLanguageArgs {
   where?: TranslationWhereInput | null;
 
@@ -4002,6 +3905,18 @@ export interface UpdateEmailMutationArgs {
 export interface UpdatePhoneNumberMutationArgs {
   input: string;
 }
+export interface RegisterPushTokenMutationArgs {
+  pushToken: string;
+}
+export interface TriggerClaimChatMutationArgs {
+  input: TriggerClaimChatInput;
+}
+export interface MarkMessageAsReadMutationArgs {
+  globalId: string;
+}
+export interface LogMutationArgs {
+  input: LoggingInput;
+}
 export interface CreateDontPanicSessionMutationArgs {
   name: string;
 
@@ -4024,8 +3939,8 @@ export interface AddDontPanicChatMessageMutationArgs {
 
   type?: string | null;
 }
-export interface MessagesSubscriptionArgs {
-  mostRecentTimestamp: string;
+export interface RedeemCodeMutationArgs {
+  code: string;
 }
 export interface CurrentChatResponseSubscriptionArgs {
   mostRecentTimestamp: string;
@@ -4051,6 +3966,7 @@ export enum Project {
   All = 'All',
   Android = 'Android',
   IOS = 'IOS',
+  AppContentService = 'AppContentService',
 }
 
 export enum LanguageOrderByInput {
@@ -4084,17 +4000,18 @@ export enum TranslationOrderByInput {
 }
 
 export enum HedvigColor {
-  Pink = 'Pink',
-  Turquoise = 'Turquoise',
+  DarkGray = 'DarkGray',
+  White = 'White',
   Purple = 'Purple',
   DarkPurple = 'DarkPurple',
   BlackPurple = 'BlackPurple',
-  DarkGray = 'DarkGray',
   LightGray = 'LightGray',
-  White = 'White',
   Black = 'Black',
-  OffBlack = 'OffBlack',
   OffWhite = 'OffWhite',
+  Yellow = 'Yellow',
+  Pink = 'Pink',
+  Turquoise = 'Turquoise',
+  OffBlack = 'OffBlack',
 }
 
 export enum MarketingStoryOrderByInput {
@@ -4188,6 +4105,33 @@ export enum RegisterAccountProcessingStatus {
   CANCELLED = 'CANCELLED',
 }
 
+export enum Locale {
+  en_SE = 'en_SE',
+  sv_SE = 'sv_SE',
+}
+
+export enum Platform {
+  Android = 'Android',
+  iOS = 'iOS',
+}
+
+export enum LoggingSource {
+  IOS = 'IOS',
+  ANDROID = 'ANDROID',
+}
+
+export enum LoggingSeverity {
+  DEFAULT = 'DEFAULT',
+  DEBUG = 'DEBUG',
+  INFO = 'INFO',
+  NOTICE = 'NOTICE',
+  WARNING = 'WARNING',
+  ERROR = 'ERROR',
+  CRITICAL = 'CRITICAL',
+  ALERT = 'ALERT',
+  EMERGENCY = 'EMERGENCY',
+}
+
 export enum CancelDirectDebitStatus {
   ACCEPTED = 'ACCEPTED',
   DECLINED_MISSING_TOKEN = 'DECLINED_MISSING_TOKEN',
@@ -4233,24 +4177,6 @@ export enum AssetOrderByInput {
   mimeType_DESC = 'mimeType_DESC',
 }
 
-export enum ColorOrderByInput {
-  updatedAt_ASC = 'updatedAt_ASC',
-  updatedAt_DESC = 'updatedAt_DESC',
-  createdAt_ASC = 'createdAt_ASC',
-  createdAt_DESC = 'createdAt_DESC',
-  id_ASC = 'id_ASC',
-  id_DESC = 'id_DESC',
-}
-
-export enum LocationOrderByInput {
-  updatedAt_ASC = 'updatedAt_ASC',
-  updatedAt_DESC = 'updatedAt_DESC',
-  createdAt_ASC = 'createdAt_ASC',
-  createdAt_DESC = 'createdAt_DESC',
-  id_ASC = 'id_ASC',
-  id_DESC = 'id_DESC',
-}
-
 export enum KeyOrderByInput {
   status_ASC = 'status_ASC',
   status_DESC = 'status_DESC',
@@ -4285,10 +4211,6 @@ export enum MutationType {
   DELETED = 'DELETED',
 }
 
-export enum Locale {
-  EN = 'EN',
-}
-
 export enum CacheControlScope {
   PUBLIC = 'PUBLIC',
   PRIVATE = 'PRIVATE',
@@ -4314,6 +4236,16 @@ export type MessageBodyChoices =
   | MessageBodyChoicesSelection
   | MessageBodyChoicesLink;
 
+export type Incentive = FreeMonths | MonthlyCostDeduction;
+
+export type Referral =
+  | ActiveReferral
+  | InProgressReferral
+  | NotInitiatedReferral
+  | TerminatedReferral;
+
+export type CommonClaimLayouts = TitleAndBulletPoints | Emergency;
+
 // ====================================================
 // END: Typescript template
 // ====================================================
@@ -4330,14 +4262,6 @@ export type SendChatFileResponseMutation = {
   __typename?: 'Mutation';
 
   sendChatFileResponse: boolean;
-};
-
-export type MessagesVariables = {};
-
-export type MessagesQuery = {
-  __typename?: 'Query';
-
-  directDebitStatus: DirectDebitStatus;
 };
 
 export type NewOfferVariables = {};
@@ -4360,6 +4284,36 @@ export type NewOfferInsurance = {
   insuredAtOtherCompany?: boolean | null;
 
   type?: InsuranceType | null;
+
+  cost?: NewOfferCost | null;
+};
+
+export type NewOfferCost = {
+  __typename?: 'InsuranceCost';
+
+  monthlyDiscount: NewOfferMonthlyDiscount;
+
+  monthlyGross: NewOfferMonthlyGross;
+
+  monthlyNet: NewOfferMonthlyNet;
+};
+
+export type NewOfferMonthlyDiscount = {
+  __typename?: 'MonetaryAmountV2';
+
+  amount: string;
+};
+
+export type NewOfferMonthlyGross = {
+  __typename?: 'MonetaryAmountV2';
+
+  amount: string;
+};
+
+export type NewOfferMonthlyNet = {
+  __typename?: 'MonetaryAmountV2';
+
+  amount: string;
 };
 
 export type OfferPerilsVariables = {};
@@ -4412,42 +4366,6 @@ export type DirectDebitRegistrationMutation = {
   startDirectDebitRegistration: Url;
 };
 
-export type CashbackOptionsVariables = {};
-
-export type CashbackOptionsQuery = {
-  __typename?: 'Query';
-
-  cashbackOptions: CashbackOptionsCashbackOptions[];
-};
-
-export type CashbackOptionsCashbackOptions = {
-  __typename?: 'Cashback';
-
-  id?: string | null;
-
-  name?: string | null;
-};
-
-export type SelectCashbackOptionVariables = {
-  id: string;
-};
-
-export type SelectCashbackOptionMutation = {
-  __typename?: 'Mutation';
-
-  selectCashbackOption: SelectCashbackOptionSelectCashbackOption;
-};
-
-export type SelectCashbackOptionSelectCashbackOption = {
-  __typename?: 'Cashback';
-
-  id?: string | null;
-
-  name?: string | null;
-
-  imageUrl?: string | null;
-};
-
 import * as ReactApollo from 'react-apollo';
 import * as React from 'react';
 
@@ -4496,36 +4414,6 @@ export function SendChatFileResponseHOC<
     SendChatFileResponseVariables
   >(SendChatFileResponseDocument, operationOptions);
 }
-export const MessagesDocument = gql`
-  query Messages {
-    directDebitStatus
-  }
-`;
-export class MessagesComponent extends React.Component<
-  Partial<ReactApollo.QueryProps<MessagesQuery, MessagesVariables>>
-> {
-  render() {
-    return (
-      <ReactApollo.Query<MessagesQuery, MessagesVariables>
-        query={MessagesDocument}
-        {...this['props'] as any}
-      />
-    );
-  }
-}
-export function MessagesHOC<
-  TProps = any,
-  OperationOptions = ReactApollo.OperationOption<
-    TProps,
-    MessagesQuery,
-    MessagesVariables
-  >
->(operationOptions: OperationOptions) {
-  return ReactApollo.graphql<TProps, MessagesQuery, MessagesVariables>(
-    MessagesDocument,
-    operationOptions,
-  );
-}
 export const NewOfferDocument = gql`
   query NewOffer {
     insurance {
@@ -4534,6 +4422,17 @@ export const NewOfferDocument = gql`
       personsInHousehold
       insuredAtOtherCompany
       type
+      cost {
+        monthlyDiscount {
+          amount
+        }
+        monthlyGross {
+          amount
+        }
+        monthlyNet {
+          amount
+        }
+      }
     }
   }
 `;
@@ -4644,83 +4543,4 @@ export function DirectDebitRegistrationHOC<
     DirectDebitRegistrationMutation,
     DirectDebitRegistrationVariables
   >(DirectDebitRegistrationDocument, operationOptions);
-}
-export const CashbackOptionsDocument = gql`
-  query CashbackOptions {
-    cashbackOptions {
-      id
-      name
-    }
-  }
-`;
-export class CashbackOptionsComponent extends React.Component<
-  Partial<
-    ReactApollo.QueryProps<CashbackOptionsQuery, CashbackOptionsVariables>
-  >
-> {
-  render() {
-    return (
-      <ReactApollo.Query<CashbackOptionsQuery, CashbackOptionsVariables>
-        query={CashbackOptionsDocument}
-        {...this['props'] as any}
-      />
-    );
-  }
-}
-export function CashbackOptionsHOC<
-  TProps = any,
-  OperationOptions = ReactApollo.OperationOption<
-    TProps,
-    CashbackOptionsQuery,
-    CashbackOptionsVariables
-  >
->(operationOptions: OperationOptions) {
-  return ReactApollo.graphql<
-    TProps,
-    CashbackOptionsQuery,
-    CashbackOptionsVariables
-  >(CashbackOptionsDocument, operationOptions);
-}
-export const SelectCashbackOptionDocument = gql`
-  mutation SelectCashbackOption($id: ID!) {
-    selectCashbackOption(id: $id) {
-      id
-      name
-      imageUrl
-    }
-  }
-`;
-export class SelectCashbackOptionComponent extends React.Component<
-  Partial<
-    ReactApollo.MutationProps<
-      SelectCashbackOptionMutation,
-      SelectCashbackOptionVariables
-    >
-  >
-> {
-  render() {
-    return (
-      <ReactApollo.Mutation<
-        SelectCashbackOptionMutation,
-        SelectCashbackOptionVariables
-      >
-        mutation={SelectCashbackOptionDocument}
-        {...this['props'] as any}
-      />
-    );
-  }
-}
-export function SelectCashbackOptionHOC<
-  TProps = any,
-  OperationOptions = ReactApollo.OperationOption<
-    TProps,
-    SelectCashbackOptionMutation,
-    SelectCashbackOptionVariables
-  >
->(operationOptions: OperationOptions) {
-  return ReactApollo.graphql<
-    TProps,
-    SelectCashbackOptionMutation,
-    SelectCashbackOptionVariables
-  >(SelectCashbackOptionDocument, operationOptions);
 }

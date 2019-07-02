@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/app_bar"/>
+    <include layout="@layout/app_bar" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -16,16 +15,16 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_marginBottom="?attr/actionBarSize"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="?attr/actionBarSize">
 
-            <include layout="@layout/loading_spinner"/>
+            <include layout="@layout/loading_spinner" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@id/sphereContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/base_margin_triple"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,12 +38,12 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/sphere"
+                    android:tint="@color/green"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:tint="@color/green"/>
+                    app:srcCompat="@drawable/sphere" />
 
                 <TextView
                     android:id="@+id/profile_payment_amount"
@@ -59,44 +58,43 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="129"/>
+                    tools:text="129" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="180dp"
+                    android:layout_marginStart="@dimen/sub_sphere_offset"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
                     <ImageView
                         android:id="@id/deductibleSphere"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="@dimen/sub_sphere_size"
+                        android:layout_height="@dimen/sub_sphere_size"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentEnd="true"
                         android:contentDescription="@null"
-                        app:srcCompat="@drawable/sphere"
+                        android:tint="@color/dark_green"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:tint="@color/dark_green"/>
+                        app:srcCompat="@drawable/sphere" />
 
                     <TextView
+                        style="@style/Body.Small.Negative"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:fontFamily="@font/circular_book"
                         android:gravity="center_horizontal"
+                        android:lineSpacingExtra="0sp"
                         android:lines="2"
                         android:text="@string/PROFILE_PAYMENT_DEDUCTIBLE_BUBBLE"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </android.support.constraint.ConstraintLayout>
 
@@ -106,102 +104,128 @@
                 android:id="@id/paymentDetailsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/base_margin_triple"
                 android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sphereContainer"
-                tools:visibility="visible">
+                >
 
                 <TextView
+                    style="@style/Headline.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
-                    android:fontFamily="@font/circular_bold"
-                    android:text="@string/PROFILE_PAYMENT_SECTION_TITLE"
-                    android:textColor="@color/off_black_dark"
-                    android:textSize="16sp"/>
+                    android:text="@string/PROFILE_PAYMENT_SECTION_TITLE" />
 
                 <TextView
+                    style="@style/Body.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="22dp"
-                    android:fontFamily="@font/circular_book"
-                    android:text="@string/PROFILE_PAYMENT_DIRECT_DEBIT_LABEL"
-                    android:textColor="@color/off_black"
-                    android:textSize="14sp"/>
+                    android:layout_marginTop="@dimen/base_margin_double"
+                    android:text="@string/PROFILE_PAYMENT_DIRECT_DEBIT_LABEL" />
 
                 <TextView
                     android:id="@id/autogiroDate"
+                    style="@style/Body.Regular.Emphasized"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/circular_book"
-                    android:textColor="@color/off_black_dark"
-                    android:textSize="16sp"
-                    tools:text="Nästa dras 2019-02-27"/>
+                    android:layout_marginTop="@dimen/base_margin"
+                    tools:text="Nästa dras 2019-02-27" />
 
                 <TextView
+                    style="@style/Body.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
-                    android:fontFamily="@font/circular_bold"
-                    android:text="@string/PROFILE_PAYMENT_BANK_LABEL"
-                    android:textColor="@color/off_black_dark"
-                    android:textSize="16sp"/>
+                    android:layout_marginTop="@dimen/base_margin_triple"
+                    android:text="@string/PROFILE_PAYMENT_PRICE_LABEL" />
+
+                <TextView
+                    android:id="@+id/grossPremium"
+                    style="@style/Body.Regular.Emphasized"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin"
+                    tools:text="179 kr/mån" />
+
+                <TextView
+                    style="@style/Body.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin_triple"
+                    android:text="@string/PROFILE_PAYMENT_DISCOUNT_LABEL" />
+
+                <TextView
+                    android:id="@+id/discount"
+                    style="@style/Body.Regular.Emphasized"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin"
+                    tools:text="-30 kr/mån" />
+
+                <TextView
+                    style="@style/Body.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin_triple"
+                    android:text="@string/PROFILE_PAYMENT_FINAL_COST_LABEL" />
+
+                <TextView
+                    android:id="@+id/netPremium"
+                    style="@style/Body.Regular.Emphasized"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin"
+                    tools:text="149 kr/mån" />
+
+                <TextView
+                    style="@style/Headline.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin_triple"
+                    android:text="@string/PROFILE_PAYMENT_BANK_LABEL" />
 
                 <TextView
                     android:id="@id/bankName"
+                    style="@style/Body.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="22dp"
-                    android:fontFamily="@font/circular_book"
-                    android:textColor="@color/off_black"
-                    android:textSize="14sp"
-                    tools:text="SEB"/>
+                    android:layout_marginTop="@dimen/base_margin_triple"
+                    tools:text="SEB" />
 
                 <TextView
                     android:id="@id/accountNumber"
+                    style="@style/Body.Regular.Emphasized"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/circular_book"
-                    android:textColor="@color/off_black_dark"
-                    android:textSize="16sp"
-                    tools:text="**** 8347"/>
+                    android:layout_marginTop="@dimen/base_margin"
+                    tools:text="**** 8347" />
 
                 <TextView
                     android:id="@id/bankAccountUnderChangeParagraph"
+                    style="@style/Body.XSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="24dp"
-                    android:fontFamily="@font/circular_book"
+                    android:layout_marginTop="@dimen/base_margin_double"
+                    android:layout_marginEnd="@dimen/base_margin_triple"
                     android:text="@string/PROFILE_PAYMENT_BANK_ACCOUNT_CHANGED_DESCRIPTION"
-                    android:textColor="@color/off_black"
-                    android:textSize="12sp"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
             </LinearLayout>
 
             <android.support.design.card.MaterialCardView
                 android:id="@id/connectBankAccountContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin_triple"
+                android:layout_marginEnd="@dimen/base_margin"
                 android:visibility="gone"
-                app:cardCornerRadius="8dp"
+                app:cardCornerRadius="@dimen/hedvig_card_view_radius"
                 app:cardUseCompatPadding="true"
-                app:layout_constraintTop_toBottomOf="@id/sphereContainer">
+                app:layout_constraintTop_toBottomOf="@id/sphereContainer"
+                >
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -212,43 +236,43 @@
                         android:id="@id/cardTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginStart="@dimen/base_margin_triple"
+                        android:layout_marginTop="@dimen/base_margin_triple"
                         android:text="@string/PROFILE_PAYMENT_CONNECT_DIRECT_DEBIT_TITLE"
                         android:theme="@style/Headline.Small"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@id/cardParagraph"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/base_margin"
                         android:layout_marginEnd="20dp"
                         android:text="@string/PROFILE_PAYMENT_CONNECT_DIRECT_DEBIT_DESCRIPTION"
                         android:theme="@style/Body.Small"
-                        app:layout_constraintTop_toBottomOf="@id/cardTitle"/>
+                        app:layout_constraintTop_toBottomOf="@id/cardTitle" />
 
                     <View
                         android:id="@id/cardSeparator"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="@dimen/base_margin_triple"
                         android:background="@color/light_gray"
-                        app:layout_constraintTop_toBottomOf="@id/cardParagraph"/>
+                        app:layout_constraintTop_toBottomOf="@id/cardParagraph" />
 
                     <Button
                         android:id="@id/connectBankAccount"
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="@dimen/base_margin_double"
                         android:text="@string/PROFILE_PAYMENT_CONNECT_DIRECT_DEBIT_BUTTON"
                         android:theme="@style/DialogButton"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cardSeparator"/>
+                        app:layout_constraintTop_toBottomOf="@id/cardSeparator" />
 
                 </android.support.constraint.ConstraintLayout>
 
@@ -258,25 +282,39 @@
                 android:id="@id/separator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/base_margin_triple"
                 android:background="@color/light_gray"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/paymentDetailsContainer"/>
+                app:layout_constraintTop_toBottomOf="@id/paymentDetailsContainer"
+                tools:visibility="visible" />
 
             <Button
                 android:id="@id/changeBankAccount"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/circular_medium"
+                android:layout_marginTop="@dimen/base_margin_triple"
                 android:text="@string/PROFILE_PAYMENT_CHANGE_BANK_ACCOUNT"
                 android:textAllCaps="false"
-                android:textColor="@color/purple"
+                android:theme="@style/Body.Small.Link.Emphasized"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/separator"/>
+                app:layout_constraintTop_toBottomOf="@id/separator"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/redeemCode"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:theme="@style/Body.Small.Link.Emphasized"
+                android:text="@string/REFERRAL_ADDCOUPON_HEADLINE"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/changeBankAccount" />
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v4.widget.NestedScrollView>
