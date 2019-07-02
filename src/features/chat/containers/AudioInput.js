@@ -120,7 +120,9 @@ class AudioInput extends React.Component {
       return false;
     }
     if (Platform.OS === 'ios') {
-      return await NativeModules.NativeRouting.requestMicrophonePermission();
+      return await NativeModules.NativeRouting.requestMicrophonePermission(
+        true,
+      );
     }
     // TODO
     const status = await Permissions.check('microphone');
