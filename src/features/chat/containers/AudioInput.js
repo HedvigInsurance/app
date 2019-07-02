@@ -5,6 +5,7 @@ import {
   Text,
   Platform,
   PermissionsAndroid,
+  NativeModules,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
@@ -119,7 +120,7 @@ class AudioInput extends React.Component {
       return false;
     }
     if (Platform.OS === 'ios') {
-      // TODO: iOS Implementation
+      return await NativeModules.NativeRouting.requestMicrophonePermission();
     }
     // TODO
     const status = await Permissions.check('microphone');
