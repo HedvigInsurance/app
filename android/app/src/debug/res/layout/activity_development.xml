@@ -45,6 +45,15 @@
         android:backgroundTint="@color/purple"
         android:text="Open an alert" />
 
+    <Button
+        android:id="@+id/openLoggedIn"
+        style="@style/HedvigButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:backgroundTint="@color/purple"
+        android:text="Open an logged in with Welcome Screen" />
 
     <Button
         android:id="@+id/openReferralReceiver"

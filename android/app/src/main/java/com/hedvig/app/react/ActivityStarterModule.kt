@@ -19,6 +19,8 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReadableType
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
 import com.hedvig.android.owldroid.graphql.RemoveDiscountCodeMutation
 import com.hedvig.android.owldroid.type.InsuranceStatus
@@ -29,7 +31,7 @@ import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.offer.OfferChatOverlayFragment
-import com.hedvig.app.feature.referrals.RedeemCodeDialog
+import com.hedvig.app.feature.referrals.BroadcastingRedeemCodeDialog
 import com.hedvig.app.util.extensions.makeToast
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import com.hedvig.app.util.extensions.showAlert
@@ -97,19 +99,20 @@ class ActivityStarterModule(
 
     @ReactMethod
     fun navigateToLoggedInFromOffer() {
-        navigateToLoggedIn()
+        navigateToLoggedIn(true)
     }
 
     @ReactMethod
     fun navigateToLoggedInFromChat() {
-        navigateToLoggedIn()
+        navigateToLoggedIn(false)
     }
 
-    private fun navigateToLoggedIn() {
+    private fun navigateToLoggedIn(isFromOnBoarding: Boolean) {
         currentActivity?.let { activity ->
             reactApplicationContext.setIsLoggedIn(true)
             FirebaseInstanceId.getInstance().deleteInstanceId()
             val intent = Intent(activity, LoggedInActivity::class.java)
+            intent.putExtra(LoggedInActivity.EXTRA_IS_FROM_ONBOARDING, isFromOnBoarding)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             activity.startActivity(intent)
@@ -131,8 +134,8 @@ class ActivityStarterModule(
     @ReactMethod
     fun showRedeemCodeOverlay(onRedeem: Promise) {
         redeemCodeCallback = onRedeem
-        RedeemCodeDialog.newInstance()
-            .show(fragmentManager, RedeemCodeDialog.TAG)
+        BroadcastingRedeemCodeDialog.newInstance()
+            .show(fragmentManager, BroadcastingRedeemCodeDialog.TAG)
     }
 
     @ReactMethod
@@ -240,7 +243,8 @@ class ActivityStarterModule(
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.getStringExtra(BROADCAST_MESSAGE_NAME)) {
                 MESSAGE_PROMOTION_CODE_REDEEMED -> {
-                    redeemCodeCallback?.resolve(true)
+                    redeemCodeCallback?.resolve(intent.getStringExtra(MESSAGE_PROMOTION_CODE_REDEEMED_DATA))
+                    redeemCodeCallback = null
                 }
             }
         }
@@ -253,6 +257,7 @@ class ActivityStarterModule(
         const val BROADCAST_MESSAGE_NAME = "message"
 
         const val MESSAGE_PROMOTION_CODE_REDEEMED = "promotionCodeRedeemed"
+        const val MESSAGE_PROMOTION_CODE_REDEEMED_DATA = "promotionCodeRedeemedData"
 
         const val FILE_UPLOAD_INTENT = "file_upload"
         const val FILE_UPLOAD_RESULT = "file_upload_result"

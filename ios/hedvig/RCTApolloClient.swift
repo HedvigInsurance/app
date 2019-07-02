@@ -129,6 +129,14 @@ struct RCTApolloClient {
 
         let tokenFuture = RCTApolloClient.getToken()
 
+        if let nativeToken = ApolloContainer.shared.retreiveToken() {
+            let rctSenderBlock = { _ in } as RCTResponseSenderBlock
+            RCTAsyncLocalStorage().multiSet(
+                [["@hedvig:token", nativeToken.token]],
+                callback: rctSenderBlock
+            )
+        }
+
         // we get a black screen flicker without the delay
         let clientFuture = tokenFuture.flatMap { token -> Future<Void> in
             guard let token = token else {

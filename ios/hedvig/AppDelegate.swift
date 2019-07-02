@@ -192,11 +192,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func logout() {
+        ApolloContainer.shared.deleteToken()
         RCTAsyncLocalStorage().clearAllData()
-        ReactNativeContainer.shared.bridge.reload()
-        bag.dispose()
-        ApplicationState.preserveState(.marketing)
-        bag += ApplicationState.presentRootViewController(rootWindow)
+
+        bag += RCTApolloClient.getClient().onValue { _ in
+            ReactNativeContainer.shared.bridge.reload()
+            self.bag.dispose()
+            ApplicationState.preserveState(.marketing)
+            self.bag += ApplicationState.presentRootViewController(self.rootWindow)
+        }
     }
 
     func getTopMostViewController() -> UIViewController? {
@@ -307,6 +311,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     }
                 }
             }
+
+            Analytics.logEvent("referrals_open", parameters: [
+                "code": referralCode
+            ])
 
             return true
         }

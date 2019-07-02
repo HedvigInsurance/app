@@ -43,17 +43,18 @@ extension OfferChat: Presentable {
 
         func restartChat() {
             RCTAsyncLocalStorage().clearAllData()
-            ApolloContainer.shared.createClientFromNewSession().onValue { _ in
-                RCTApolloClient.getClient().onValue { _ in
-                    ReactNativeContainer.shared.bridge.reload()
-                    let appDelegate = UIApplication.shared.appDelegate
-                    appDelegate.bag.dispose()
-                    appDelegate.bag += UIApplication.shared.appDelegate.rootWindow.present(
-                        OnboardingChat(intent: .onboard),
-                        options: [.defaults],
-                        animated: true
-                    )
-                }
+            ApolloContainer.shared.deleteToken()
+
+            bag += RCTApolloClient.getClient().onValue { _ in
+                ReactNativeContainer.shared.bridge.reload()
+                ApplicationState.preserveState(.onboardingChat)
+                let appDelegate = UIApplication.shared.appDelegate
+                appDelegate.bag.dispose()
+                appDelegate.bag += UIApplication.shared.appDelegate.rootWindow.present(
+                    OnboardingChat(intent: .onboard),
+                    options: [.defaults],
+                    animated: true
+                )
             }
         }
 

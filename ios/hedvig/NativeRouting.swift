@@ -11,6 +11,7 @@ import Flow
 import Foundation
 import Photos
 import Presentation
+import AVFoundation
 
 struct MarketingResultEventBody: Encodable {
     var marketingResult: String?
@@ -155,10 +156,36 @@ class NativeRouting: RCTEventEmitter {
         }
     }
 
+    @objc func presentAfterSign() {
+        presentLoggedIn()
+        presentWelcome()
+    }
+
     @objc func presentLoggedIn() {
         DispatchQueue.main.async {
             guard let keyWindow = UIApplication.shared.keyWindow else { return }
             self.bag += keyWindow.present(LoggedIn(), options: [.prefersNavigationBarHidden(true)], animated: true)
+        }
+    }
+
+    @objc func presentWelcome() {
+        DispatchQueue.main.async {
+            RCTApolloClient.getClient().onValue { _ in
+                self.bag += ApolloContainer.shared.client
+                    .fetch(query: WelcomeQuery(locale: Localization.Locale.currentLocale.asGraphQLLocale())).valueSignal
+                    .compactMap { $0.data }
+                    .filter { $0.welcome.count > 0 }
+                    .onValue { data in
+                        guard let keyWindow = UIApplication.shared.keyWindow else { return }
+                        self.bag += keyWindow.rootViewController?.present(Welcome(data: data), options: [.prefersNavigationBarHidden(true)]).disposable
+                    }
+            }
+        }
+    }
+
+    @objc func requestMicrophonePermission(_ _: Bool, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter _: RCTPromiseRejectBlock) {
+        AVCaptureDevice.requestAccess(for: .audio) { granted in
+            resolve(granted)
         }
     }
 
@@ -346,9 +373,18 @@ class NativeRouting: RCTEventEmitter {
 
             let applyDiscount = ApplyDiscount()
 
-            bag += applyDiscount.didRedeemValidCodeSignal.onValue { _ in
+            bag += applyDiscount.didRedeemValidCodeSignal.onValue { redeemCode in
                 bag.dispose()
-                resolve(true)
+
+                guard let serialized = try? JSONSerialization.data(withJSONObject: redeemCode.cost.jsonObject, options: []) else {
+                    return
+                }
+
+                guard let serializedString = String(data: serialized, encoding: .utf8) else {
+                    return
+                }
+
+                resolve(serializedString)
             }
 
             let overlay = DraggableOverlay(presentable: applyDiscount, presentationOptions: [.defaults, .prefersNavigationBarHidden(true)])
