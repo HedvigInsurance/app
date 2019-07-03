@@ -53,6 +53,7 @@
         android:paddingTop="@dimen/base_margin"
         android:paddingEnd="@dimen/base_margin_double"
         android:paddingBottom="@dimen/base_margin"
+        android:hint="@string/CHAT_TEXT_INPUT_HINT"
         tools:ignore="RtlHardcoded" />
 
 </LinearLayout>
