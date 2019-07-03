@@ -25,8 +25,10 @@ class NativeChatActivity : AppCompatActivity() {
         chatViewModel.messages.observe(this) { data ->
             data?.let { bindData(it) }
         }
-        chatViewModel.re.observe(this) {
-            input.clearInput()
+        chatViewModel.sendMessageResponse.observe(this) {response ->
+            if (response == true) {
+                input.clearInput()
+            }
         }
     }
 

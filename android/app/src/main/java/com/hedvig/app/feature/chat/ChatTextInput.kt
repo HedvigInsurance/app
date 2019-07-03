@@ -84,7 +84,7 @@ class ChatTextInput : EditText {
     }
 
     private fun disableSendIcon() {
-        sendDrawable.alpha = 50
+        sendDrawable.alpha = DISABLED_ALPHA
         sendIsDisabled = true
     }
 
@@ -95,6 +95,7 @@ class ChatTextInput : EditText {
 
     companion object {
         private const val EXTRA_TAP_AREA = 30
+        private const val DISABLED_ALPHA = 50
     }
 }
 

@@ -13,7 +13,7 @@ class ChatViewModel(
 ) : ViewModel() {
 
     val messages = MutableLiveData<ChatMessagesQuery.Data>()
-    val re = MutableLiveData<Boolean>()
+    val sendMessageResponse = MutableLiveData<Boolean>()
 
     private val disposables = CompositeDisposable()
 
@@ -29,7 +29,7 @@ class ChatViewModel(
 
         disposables += chatRepository
             .sendChatMessage(id, message)
-            .subscribe({ re.postValue(it.data()?.isSendChatTextResponse) }, { Timber.e(it) })
+            .subscribe({ sendMessageResponse.postValue(it.data()?.isSendChatTextResponse) }, { Timber.e(it) })
     }
 
     override fun onCleared() {
