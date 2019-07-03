@@ -1,5 +1,6 @@
 query ChatMessages {
   messages {
+    globalId
     id
     header {
       fromMyself
