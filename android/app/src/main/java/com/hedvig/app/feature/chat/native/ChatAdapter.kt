@@ -13,10 +13,12 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.app.R
+import com.hedvig.app.util.convertDpToPixel
 import com.hedvig.app.util.extensions.openUri
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
+import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.chat_message_file_upload.view.*
 import kotlinx.android.synthetic.main.chat_message_hedvig.view.*
 import kotlinx.android.synthetic.main.chat_message_user.view.*
@@ -183,8 +185,8 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 .load(url)
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                 .override(
-                    420, // TODO Maybe replace with some relative size? :thinking:
-                    300
+                    convertDpToPixel(280f),
+                    convertDpToPixel(200f)
                 )
                 .into(image)
         }
@@ -197,7 +199,10 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             val asUri = Uri.parse(url)
             val extension = getExtension(asUri)
 
-            label.text = "$extension-fil uppladdad"
+            label.text = interpolateTextKey(
+                label.resources.getString(R.string.CHAT_FILE_UPLOADED),
+                "EXTENSION" to extension
+            )
             label.setHapticClickListener {
                 label.context.openUri(Uri.parse(url))
             }
