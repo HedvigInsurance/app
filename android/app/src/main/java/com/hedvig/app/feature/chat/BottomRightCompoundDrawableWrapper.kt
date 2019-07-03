@@ -12,13 +12,9 @@ class BottomRightCompoundDrawableWrapper(
     private val paddingBottom: Int) : Drawable() {
 
 
-    override fun getIntrinsicWidth(): Int {
-        return drawable.intrinsicWidth
-    }
+    override fun getIntrinsicWidth(): Int = drawable.intrinsicWidth
 
-    override fun getIntrinsicHeight(): Int {
-        return drawable.intrinsicHeight
-    }
+    override fun getIntrinsicHeight(): Int = drawable.intrinsicHeight
 
     // CanvasSize is correct here
     @SuppressLint("CanvasSize")

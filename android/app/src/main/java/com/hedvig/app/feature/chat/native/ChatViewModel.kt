@@ -25,12 +25,16 @@ class ChatViewModel(
 
     fun respondToLasMessage(message: String) {
         val id = messages.value?.messages?.firstOrNull()?.globalId
-            ?: throw RuntimeException("Messages is not initialized!")
+            ?: run {
+                Timber.e("Messages is not initialized!")
+                return
+            }
 
         disposables += chatRepository
             .sendChatMessage(id, message)
             .subscribe({ sendMessageResponse.postValue(it.data()?.isSendChatTextResponse) }, { Timber.e(it) })
     }
+
 
     override fun onCleared() {
         super.onCleared()
