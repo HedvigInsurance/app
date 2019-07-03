@@ -20,7 +20,13 @@ class ChatViewModel(
     init {
         disposables += chatRepository
             .fetchChatMessages()
-            .subscribe({ messages.postValue(it.data()) }, { Timber.e(it) })
+            .subscribe({ response ->
+                val data = response.data()
+                messages.postValue(data)
+                data?.messages?.filter { m ->
+                    true
+                }
+            }, { Timber.e(it) })
     }
 
     fun respondToLasMessage(message: String) {
