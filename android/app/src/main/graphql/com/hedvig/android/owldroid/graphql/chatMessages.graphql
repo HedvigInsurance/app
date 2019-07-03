@@ -9,6 +9,11 @@ query ChatMessages {
         type
         text
       }
+      ... on MessageBodyFile {
+        file {
+          signedUrl
+        }
+      }
     }
   }
 }
