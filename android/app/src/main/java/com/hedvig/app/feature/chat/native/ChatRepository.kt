@@ -9,7 +9,9 @@ import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.android.owldroid.graphql.SendChatTextResponseMutation
 import com.hedvig.android.owldroid.type.ChatResponseBodyTextInput
 import com.hedvig.android.owldroid.type.ChatResponseTextInput
+import io.reactivex.Flowable
 import io.reactivex.Observable
+import org.jetbrains.annotations.NotNull
 
 class ChatRepository(
     private val apolloClient: ApolloClient
@@ -25,8 +27,8 @@ class ChatRepository(
         )
     }
 
-    fun subscribeToChatMessages(): ApolloSubscriptionCall<ChatMessageSubscription.Data> = apolloClient
-            .subscribe(ChatMessageSubscription.builder().build())
+    fun subscribeToChatMessages() =
+        Rx2Apollo.from(apolloClient.subscribe(ChatMessageSubscription.builder().build()))
 
     fun sendChatMessage(id: String, message: String): Observable<Response<SendChatTextResponseMutation.Data>> {
         val input = ChatResponseTextInput.builder()

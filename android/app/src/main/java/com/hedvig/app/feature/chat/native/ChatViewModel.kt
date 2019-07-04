@@ -28,23 +28,16 @@ class ChatViewModel(
             .fetchChatMessages()
             .subscribe({ messages.postValue(it.data()) }, { Timber.e(it) })
 
-        disposables += Rx2Apollo.from(chatRepository.subscribeToChatMessages())
-            .subscribeWith(
-                object : DisposableSubscriber<Response<ChatMessageSubscription.Data>>() {
-                    override fun onNext(response: Response<ChatMessageSubscription.Data>) {
-                        Timber.e("onNext")
-                        response.data()?.message?.let { chatRepository.writeNewMessage(it.mapToMessage()) }
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Timber.e(e)
-                    }
-
-                    override fun onComplete() {
-                        Timber.i("subscribeToChatMessages was completed")
-                    }
-                }
-            )
+        disposables += chatRepository.subscribeToChatMessages()
+            .subscribe({ response ->
+                Timber.e("onNext")
+                response.data()?.message?.let { chatRepository.writeNewMessage(it.mapToMessage()) }
+            }, {
+                Timber.e(it)
+            }, {
+                //TODO: handle in UI
+                Timber.i("subscribeToChatMessages was completed")
+            })
     }
 
 
