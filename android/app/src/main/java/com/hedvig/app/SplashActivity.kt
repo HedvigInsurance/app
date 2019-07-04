@@ -66,6 +66,8 @@ class SplashActivity : BaseActivity() {
 
                 link.getQueryParameter("code")?.let { referralCode ->
                     startActivity(ReferralsReceiverActivity.newInstance(this, referralCode, "10")) //Fixme "10" should not be hard coded
+                } ?: run {
+                    startActivity(Intent(this, MarketingActivity::class.java))
                 }
             } else {
                 startActivity(Intent(this, MarketingActivity::class.java))
