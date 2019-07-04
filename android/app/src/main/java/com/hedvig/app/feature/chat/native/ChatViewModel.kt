@@ -54,7 +54,6 @@ class ChatViewModel(
             )
     }
 
-
     fun respondToLasMessage(message: String) {
         val id = messages.value?.messages?.firstOrNull()?.globalId
             ?: run {
