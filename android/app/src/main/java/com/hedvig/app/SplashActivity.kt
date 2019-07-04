@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.hedvig.app.feature.marketing.ui.MarketingActivity
@@ -35,6 +36,7 @@ class SplashActivity : BaseActivity() {
             window.statusBarColor = compatColor(R.color.off_white)
         }
 
+        Log.e("SplashActivity", "onCreate")
         handleFirebaseDynamicLink(intent)
     }
 
@@ -50,15 +52,19 @@ class SplashActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        Log.e("SplashActivity", "onNewIntent")
         handleFirebaseDynamicLink(intent)
     }
 
     private fun handleFirebaseDynamicLink(intent: Intent) {
+        Log.e("SplashActivity", "data: ${intent.data}")
         FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnSuccessListener { pendingDynamicLinkData ->
+            Log.e("SplashActivity", "SuccessListener")
             if (pendingDynamicLinkData != null && pendingDynamicLinkData.link != null) {
                 val link = pendingDynamicLinkData.link
                 val referee = link.getQueryParameter("memberId")
                 val incentive = link.getQueryParameter("incentive")
+                Log.e("SplashActivity", "link: $link")
                 if (referee != null && incentive != null) {
                     getSharedPreferences("referrals", Context.MODE_PRIVATE).edit().putString("referee", referee)
                         .putString("incentive", incentive).apply()
@@ -76,6 +82,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun handleNewReferralLink(link: Uri) {
+        Log.e("SplashActivity", "handleNewReferralLink: $link")
         referralCode = link.getQueryParameter("code")
         referralIncentive = "10" //FIXME: this must be changed when we hav an other incentive then 10
     }
