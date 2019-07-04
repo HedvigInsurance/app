@@ -75,8 +75,13 @@ class InvitesAdapter(
                     referralProgressHighPremiumContainer.remove()
                 } else {
                     referralProgressHighPremiumContainer.show()
+                    val highPremiumStringKey = if(calculateDiscount() == 0) {
+                        R.string.REFERRAL_PROGRESS_HIGH_PREMIUM_DISCOUNT_NO_MINUS
+                    } else {
+                        R.string.REFERRAL_PROGRESS_HIGH_PREMIUM_DISCOUNT
+                    }
                     referralProgressHighPremiumDiscount.text = interpolateTextKey(
-                        referralProgressHighPremiumDiscount.resources.getString(R.string.REFERRAL_PROGRESS_HIGH_PREMIUM_DISCOUNT),
+                        referralProgressHighPremiumDiscount.resources.getString(highPremiumStringKey),
                         "DISCOUNT_VALUE" to calculateDiscount().toString()
                     )
                     referralProgressHighPremiumCurrentPrice.text = interpolateTextKey(
