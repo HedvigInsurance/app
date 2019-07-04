@@ -20,6 +20,7 @@ import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
 import timber.log.Timber
+import java.lang.NullPointerException
 
 class SplashActivity : BaseActivity() {
 
@@ -34,12 +35,25 @@ class SplashActivity : BaseActivity() {
             window.statusBarColor = compatColor(R.color.off_white)
         }
 
-        handleIntent(intent)
+        handleFirebaseDynamicLink(intent)
     }
 
     override fun onStart() {
         super.onStart()
 
+        disposables += loggedInService
+            .getLoginStatus()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ navigateToActivity(it) }, { Timber.e(it) })
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleFirebaseDynamicLink(intent)
+    }
+
+    private fun handleFirebaseDynamicLink(intent: Intent) {
         FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnSuccessListener { pendingDynamicLinkData ->
             if (pendingDynamicLinkData != null && pendingDynamicLinkData.link != null) {
                 val link = pendingDynamicLinkData.link
@@ -58,24 +72,6 @@ class SplashActivity : BaseActivity() {
 
                 handleNewReferralLink(link)
             }
-        }
-
-        disposables += loggedInService
-            .getLoginStatus()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ navigateToActivity(it) }, { Timber.e(it) })
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        handleIntent(intent)
-    }
-
-    private fun handleIntent(intent: Intent) {
-        val appLinkAction = intent.action
-        if (Intent.ACTION_VIEW == appLinkAction) {
-            Uri.parse(intent.data?.getQueryParameter("link"))?.let { handleNewReferralLink(it) }
         }
     }
 
