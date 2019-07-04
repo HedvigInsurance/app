@@ -26,7 +26,14 @@ class ChatViewModel(
     init {
         disposables += chatRepository
             .fetchChatMessages()
-            .subscribe({ messages.postValue(it.data()) }, { Timber.e(it) })
+            .subscribe({ response ->
+                val data = response.data()
+                messages.postValue(data)
+                //TODO: look at this
+                data?.messages?.filter { m ->
+                    true
+                }
+            }, { Timber.e(it) })
 
         disposables += Rx2Apollo.from(chatRepository.subscribeToChatMessages())
             .subscribeWith(
