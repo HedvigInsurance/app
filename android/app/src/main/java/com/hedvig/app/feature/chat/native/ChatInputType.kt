@@ -5,18 +5,11 @@ import com.hedvig.android.owldroid.type.KeyboardType
 
 sealed class ChatInputType {
     companion object {
-        fun from(message: ChatMessagesQuery.Message): ChatInputType {
-            val body = message.body
-            if (body is ChatMessagesQuery.AsMessageBodyFile) {
-                return TextInput()
-            }
-            if (body is ChatMessagesQuery.AsMessageBodyText) {
-                return TextInput(body.keyboard, body.placeholder, true)
-            }
-            if (body is ChatMessagesQuery.AsMessageBodyNumber) {
-                return TextInput(body.keyboard, body.placeholder, false)
-            }
-            TODO("Will implement once we have started building other input types.")
+        fun from(message: ChatMessagesQuery.Message) = when (val body = message.body) {
+            is ChatMessagesQuery.AsMessageBodyFile -> TextInput()
+            is ChatMessagesQuery.AsMessageBodyText -> TextInput(body.keyboard, body.placeholder, true)
+            is ChatMessagesQuery.AsMessageBodyNumber -> TextInput(body.keyboard, body.placeholder, false)
+            else -> TODO("Will implement once we have started building other input types.")
         }
     }
 }
