@@ -2,11 +2,17 @@ package com.hedvig.app.feature.chat.native
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import timber.log.Timber
-import java.lang.RuntimeException
+import com.hedvig.app.util.extensions.mapToMessage
+import com.hedvig.app.util.safeLet
+import com.apollographql.apollo.api.Response
+import com.hedvig.android.owldroid.graphql.ChatMessageSubscription
+import io.reactivex.subscribers.DisposableSubscriber
+
 
 class ChatViewModel(
     private val chatRepository: ChatRepository
@@ -23,10 +29,22 @@ class ChatViewModel(
             .subscribe({ response ->
                 val data = response.data()
                 messages.postValue(data)
+                //TODO: look at this
                 data?.messages?.filter { m ->
                     true
                 }
             }, { Timber.e(it) })
+
+        disposables += chatRepository.subscribeToChatMessages()
+            .subscribe({ response ->
+                Timber.e("onNext")
+                response.data()?.message?.let { chatRepository.writeNewMessage(it.mapToMessage()) }
+            }, {
+                Timber.e(it)
+            }, {
+                //TODO: handle in UI
+                Timber.i("subscribeToChatMessages was completed")
+            })
     }
 
     fun respondToLasMessage(message: String) {

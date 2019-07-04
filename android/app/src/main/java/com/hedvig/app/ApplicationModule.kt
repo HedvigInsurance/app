@@ -54,6 +54,7 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import timber.log.Timber
 import java.io.File
+import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport
 
 fun isDebug() = BuildConfig.DEBUG || BuildConfig.APP_ID == "com.hedvig.test.app"
 
@@ -98,11 +99,20 @@ val applicationModule = module {
         builder.build()
     }
     single {
+        val okHttpClient: OkHttpClient = get()
+        val token = try {
+            get<AsyncStorageNative>().getKey("@hedvig:token")
+        } catch (exception: Exception) {
+            Timber.e(exception, "Got an exception while trying to retrieve token")
+            null
+        }
         val builder = ApolloClient
             .builder()
             .serverUrl(BuildConfig.GRAPHQL_URL)
-            .okHttpClient(get())
+            .okHttpClient(okHttpClient)
             .addCustomTypeAdapter(CustomType.LOCALDATE, PromiscuousLocalDateAdapter())
+            .subscriptionConnectionParams(mapOf("Authorization" to token))
+            .subscriptionTransportFactory(WebSocketSubscriptionTransport.Factory(BuildConfig.WS_GRAPHQL_URL, okHttpClient))
             .normalizedCache(get())
 
         if (isDebug()) {
