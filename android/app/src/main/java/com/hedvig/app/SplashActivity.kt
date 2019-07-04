@@ -30,15 +30,10 @@ class SplashActivity : BaseActivity() {
         whenApiVersion(Build.VERSION_CODES.M) {
             window.statusBarColor = compatColor(R.color.off_white)
         }
-
-        Log.e("SplashActivity", "onCreate")
     }
 
     override fun onStart() {
         super.onStart()
-
-        Log.e("SplashActivity", "onStart")
-        handleFirebaseDynamicLink(intent)
 
         disposables += loggedInService
             .getLoginStatus()
@@ -49,19 +44,15 @@ class SplashActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        Log.e("SplashActivity", "onNewIntent")
         handleFirebaseDynamicLink(intent)
     }
 
     private fun handleFirebaseDynamicLink(intent: Intent) {
-        Log.e("SplashActivity", "data: ${intent.data}")
         FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnSuccessListener { pendingDynamicLinkData ->
-            Log.e("SplashActivity", "SuccessListener")
             if (pendingDynamicLinkData != null && pendingDynamicLinkData.link != null) {
                 val link = pendingDynamicLinkData.link
                 val referee = link.getQueryParameter("memberId")
                 val incentive = link.getQueryParameter("incentive")
-                Log.e("SplashActivity", "link: $link")
                 if (referee != null && incentive != null) {
                     getSharedPreferences("referrals", Context.MODE_PRIVATE).edit().putString("referee", referee)
                         .putString("incentive", incentive).apply()
