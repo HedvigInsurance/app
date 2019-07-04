@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.hedvig.app.feature.marketing.ui.MarketingActivity
@@ -21,7 +20,6 @@ import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
 import timber.log.Timber
-import java.lang.NullPointerException
 
 class SplashActivity : BaseActivity() {
 
@@ -35,14 +33,11 @@ class SplashActivity : BaseActivity() {
         whenApiVersion(Build.VERSION_CODES.M) {
             window.statusBarColor = compatColor(R.color.off_white)
         }
-
-        Log.e("SplashActivity", "onCreate")
     }
 
     override fun onStart() {
         super.onStart()
 
-        Log.e("SplashActivity", "onStart")
         handleFirebaseDynamicLink(intent)
 
         disposables += loggedInService
@@ -54,19 +49,15 @@ class SplashActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        Log.e("SplashActivity", "onNewIntent")
         handleFirebaseDynamicLink(intent)
     }
 
     private fun handleFirebaseDynamicLink(intent: Intent) {
-        Log.e("SplashActivity", "data: ${intent.data}")
         FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnSuccessListener { pendingDynamicLinkData ->
-            Log.e("SplashActivity", "SuccessListener")
             if (pendingDynamicLinkData != null && pendingDynamicLinkData.link != null) {
                 val link = pendingDynamicLinkData.link
                 val referee = link.getQueryParameter("memberId")
                 val incentive = link.getQueryParameter("incentive")
-                Log.e("SplashActivity", "link: $link")
                 if (referee != null && incentive != null) {
                     getSharedPreferences("referrals", Context.MODE_PRIVATE).edit().putString("referee", referee)
                         .putString("incentive", incentive).apply()
@@ -84,15 +75,12 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun handleNewReferralLink(link: Uri) {
-        Log.e("SplashActivity", "handleNewReferralLink: $link")
         referralCode = link.getQueryParameter("code")
         referralIncentive = "10" //FIXME: this must be changed when we hav an other incentive then 10
     }
 
     private fun navigateToActivity(loginStatus: LoginStatus) = when (loginStatus) {
         LoginStatus.ONBOARDING -> {
-            Log.e("SplashActivity", "navigateToActivity")
-
             safeLet(referralCode, referralIncentive) { referralCode, incentive ->
                 startActivity(ReferralsReceiverActivity.newInstance(this, referralCode, incentive))
             } ?: startActivity(Intent(this, MarketingActivity::class.java))
