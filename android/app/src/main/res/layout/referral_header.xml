@@ -92,4 +92,13 @@
         android:textColor="@color/purple"
         tools:text="HDVG87" />
 
+    <include
+        android:visibility="gone"
+        layout="@layout/referral_small_header_row"/>
+
+    <include
+        android:id="@+id/emptyStateRow"
+        android:visibility="gone"
+        layout="@layout/referral_invite_row"/>
+
 </LinearLayout>

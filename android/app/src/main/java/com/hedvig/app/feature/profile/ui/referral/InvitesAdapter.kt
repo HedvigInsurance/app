@@ -18,6 +18,7 @@ import com.hedvig.app.util.hashColor
 import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.referral_header.view.*
 import kotlinx.android.synthetic.main.referral_invite_row.view.*
+import kotlinx.android.synthetic.main.referral_small_header_row.view.*
 import kotlin.math.ceil
 import kotlin.math.min
 
@@ -105,6 +106,19 @@ class InvitesAdapter(
                     explainer.resources.getString(R.string.REFERRAL_PROGRESS_BODY),
                     "REFERRAL_VALUE" to incentive.toString()
                 )
+
+                if (shouldShowEmptyState()) {
+                    avatar.setImageDrawable(avatar.context.compatDrawable(R.drawable.ic_ghost))
+                    name.text = name.resources.getString(R.string.REFERRAL_INVITE_EMPTYSTATE_TITLE)
+                    statusText.text = statusText.resources.getString(R.string.REFERRAL_INVITE_EMPTYSTATE_DESCRIPTION)
+                    statusIconContainer.remove()
+                    emptyStateRow.show()
+                    emptyStateTitle.text = emptyStateTitle.resources.getString(R.string.REFERRAL_INVITE_TITLE)
+                    emptyStateTitle.show()
+                } else {
+                    emptyStateRow.remove()
+                    emptyStateTitle.remove()
+                }
             }
             INVITE_HEADER -> (viewHolder as? SmallHeaderViewHolder)?.apply {
                 headerTextView.text = headerTextView.resources.getString(R.string.REFERRAL_INVITE_TITLE)
@@ -220,6 +234,9 @@ class InvitesAdapter(
         }
     }
 
+    private fun shouldShowEmptyState() =
+        data.invitations.isNullOrEmpty() && data.referredBy == null
+
     //TODO: Let's get the data from backend
     private fun calculateDiscount(): Int {
         var totalDiscount = 0
@@ -259,6 +276,14 @@ class InvitesAdapter(
         val subtitle: TextView = view.subtitle
         val explainer: TextView = view.explainer
         val code: TextView = view.code
+        val emptyStateRow: View = view.emptyStateRow
+
+        val avatar: ImageView = view.avatar
+        val name: TextView = view.name
+        val statusText: TextView = view.statusText
+        val statusIconContainer: LinearLayout = view.statusIconContainer
+
+        val emptyStateTitle: TextView = view.referralSmallHeader
     }
 
     inner class SmallHeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
