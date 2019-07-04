@@ -8,7 +8,7 @@ fun ProfileQuery.Campaign.monthlyCostDeductionIncentive() =
     this.incentive as? ProfileQuery.AsMonthlyCostDeduction
 
 fun ChatMessageSubscription.Message.mapToMessage():ChatMessagesQuery.Message {
-    val body = ChatMessagesQuery.Body
+    val body = ChatMessagesQuery.AsMessageBody
         .builder()
         .__typename("")
         .type(this.body.type)
