@@ -37,11 +37,13 @@ class SplashActivity : BaseActivity() {
         }
 
         Log.e("SplashActivity", "onCreate")
-        handleFirebaseDynamicLink(intent)
     }
 
     override fun onStart() {
         super.onStart()
+
+        Log.e("SplashActivity", "onStart")
+        handleFirebaseDynamicLink(intent)
 
         disposables += loggedInService
             .getLoginStatus()
@@ -89,6 +91,8 @@ class SplashActivity : BaseActivity() {
 
     private fun navigateToActivity(loginStatus: LoginStatus) = when (loginStatus) {
         LoginStatus.ONBOARDING -> {
+            Log.e("SplashActivity", "navigateToActivity")
+
             safeLet(referralCode, referralIncentive) { referralCode, incentive ->
                 startActivity(ReferralsReceiverActivity.newInstance(this, referralCode, incentive))
             } ?: startActivity(Intent(this, MarketingActivity::class.java))
