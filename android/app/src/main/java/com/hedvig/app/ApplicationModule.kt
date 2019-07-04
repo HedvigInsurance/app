@@ -56,8 +56,6 @@ import timber.log.Timber
 import java.io.File
 import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport
 
-
-
 fun isDebug() = BuildConfig.DEBUG || BuildConfig.APP_ID == "com.hedvig.test.app"
 
 val applicationModule = module {

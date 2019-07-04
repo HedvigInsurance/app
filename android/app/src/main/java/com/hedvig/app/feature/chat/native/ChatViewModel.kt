@@ -41,7 +41,7 @@ class ChatViewModel(
                     }
 
                     override fun onComplete() {
-                        Timber.e("Subscription exhausted")
+                        Timber.i("subscribeToChatMessages was completed")
                     }
                 }
             )
