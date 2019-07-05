@@ -1,6 +1,7 @@
 package com.hedvig.app.feature.loggedin.ui
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.design.internal.BottomNavigationItemView
 import android.support.design.internal.BottomNavigationMenuView
@@ -25,17 +26,14 @@ import com.hedvig.app.feature.welcome.WelcomeDialog
 import com.hedvig.app.feature.welcome.WelcomeViewModel
 import com.hedvig.app.feature.whatsnew.WhatsNewDialog
 import com.hedvig.app.feature.whatsnew.WhatsNewViewModel
-import com.hedvig.app.util.extensions.monthlyCostDeductionIncentive
-import com.hedvig.app.util.extensions.observe
-import com.hedvig.app.util.extensions.setupLargeTitle
-import com.hedvig.app.util.extensions.showShareSheet
-import com.hedvig.app.util.extensions.startClosableChat
+import com.hedvig.app.util.extensions.*
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.extensions.view.updatePadding
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.safeLet
+import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.logged_in_screen.*
 import kotlinx.coroutines.Dispatchers
@@ -103,6 +101,15 @@ class LoggedInFragment : Fragment() {
 
         bindData()
         setupAppBar(LoggedInTabs.fromId(bottomTabs.selectedItemId))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        whenApiVersion(Build.VERSION_CODES.M) {
+            val flags = requireActivity().window.decorView.systemUiVisibility
+            requireActivity().window.decorView.systemUiVisibility = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            requireActivity().window.statusBarColor = requireContext().compatColor(R.color.off_white)
+        }
     }
 
     private fun setupFloatingButton(id: LoggedInTabs) = when (id) {
