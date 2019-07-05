@@ -13,10 +13,11 @@
         android:background="@color/off_white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="?attr/actionBarSize">
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:orientation="vertical">
 
             <include layout="@layout/loading_spinner" />
 
@@ -26,9 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/base_margin_triple"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_gravity="center"
                 tools:visibility="visible">
 
                 <ImageView
@@ -100,6 +99,67 @@
 
             </android.support.constraint.ConstraintLayout>
 
+            <android.support.design.card.MaterialCardView
+                android:id="@id/connectBankAccountContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin_triple"
+                android:layout_marginEnd="@dimen/base_margin"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@id/cardTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/base_margin_triple"
+                        android:layout_marginTop="@dimen/base_margin_triple"
+                        android:text="@string/PROFILE_PAYMENT_CONNECT_DIRECT_DEBIT_TITLE"
+                        android:theme="@style/Headline.Small"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@id/cardParagraph"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="@dimen/base_margin"
+                        android:layout_marginEnd="20dp"
+                        android:text="@string/PROFILE_PAYMENT_CONNECT_DIRECT_DEBIT_DESCRIPTION"
+                        android:theme="@style/Body.Small"
+                        app:layout_constraintTop_toBottomOf="@id/cardTitle" />
+
+                    <View
+                        android:id="@id/cardSeparator"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/base_margin_triple"
+                        android:background="@color/light_gray"
+                        app:layout_constraintTop_toBottomOf="@id/cardParagraph" />
+
+                    <Button
+                        android:id="@id/connectBankAccount"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/base_margin_double"
+                        android:text="@string/PROFILE_PAYMENT_CONNECT_DIRECT_DEBIT_BUTTON"
+                        android:theme="@style/DialogButton"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardSeparator" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.design.card.MaterialCardView>
+
             <LinearLayout
                 android:id="@id/paymentDetailsContainer"
                 android:layout_width="match_parent"
@@ -110,6 +170,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sphereContainer"
+                tools:visibility="visible"
                 >
 
                 <TextView
@@ -120,6 +181,7 @@
                     android:text="@string/PROFILE_PAYMENT_SECTION_TITLE" />
 
                 <TextView
+                    android:id="@+id/autogiroTitle"
                     style="@style/Body.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -180,6 +242,7 @@
                     tools:text="149 kr/mån" />
 
                 <TextView
+                    android:id="@+id/bankTitle"
                     style="@style/Headline.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -214,70 +277,6 @@
                     tools:visibility="visible" />
             </LinearLayout>
 
-            <android.support.design.card.MaterialCardView
-                android:id="@id/connectBankAccountContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin_triple"
-                android:layout_marginEnd="@dimen/base_margin"
-                android:visibility="gone"
-                app:cardCornerRadius="@dimen/hedvig_card_view_radius"
-                app:cardUseCompatPadding="true"
-                app:layout_constraintTop_toBottomOf="@id/sphereContainer"
-                >
-
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@id/cardTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_margin_triple"
-                        android:layout_marginTop="@dimen/base_margin_triple"
-                        android:text="@string/PROFILE_PAYMENT_CONNECT_DIRECT_DEBIT_TITLE"
-                        android:theme="@style/Headline.Small"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@id/cardParagraph"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="@dimen/base_margin"
-                        android:layout_marginEnd="20dp"
-                        android:text="@string/PROFILE_PAYMENT_CONNECT_DIRECT_DEBIT_DESCRIPTION"
-                        android:theme="@style/Body.Small"
-                        app:layout_constraintTop_toBottomOf="@id/cardTitle" />
-
-                    <View
-                        android:id="@id/cardSeparator"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/base_margin_triple"
-                        android:background="@color/light_gray"
-                        app:layout_constraintTop_toBottomOf="@id/cardParagraph" />
-
-                    <Button
-                        android:id="@id/connectBankAccount"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/base_margin_double"
-                        android:text="@string/PROFILE_PAYMENT_CONNECT_DIRECT_DEBIT_BUTTON"
-                        android:theme="@style/DialogButton"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cardSeparator" />
-
-                </android.support.constraint.ConstraintLayout>
-
-            </android.support.design.card.MaterialCardView>
-
             <View
                 android:id="@id/separator"
                 android:layout_width="match_parent"
@@ -301,7 +300,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/separator"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                android:layout_gravity="center" />
 
             <Button
                 android:id="@+id/redeemCode"
@@ -312,10 +312,9 @@
                 android:theme="@style/Body.Small.Link.Emphasized"
                 android:text="@string/REFERRAL_ADDCOUPON_HEADLINE"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/changeBankAccount" />
-        </android.support.constraint.ConstraintLayout>
+                tools:visibility="visible"
+                android:layout_gravity="center"/>
+        </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
