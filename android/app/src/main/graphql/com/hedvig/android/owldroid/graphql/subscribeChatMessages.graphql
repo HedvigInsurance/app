@@ -10,6 +10,19 @@ subscription ChatMessage {
         type
         text
       }
+      ... on MessageBodyFile {
+        file {
+          signedUrl
+        }
+      }
+      ... on MessageBodyText {
+        keyboard
+        placeholder
+      }
+      ... on MessageBodyNumber {
+        keyboard
+        placeholder
+      }
     }
   }
 }
