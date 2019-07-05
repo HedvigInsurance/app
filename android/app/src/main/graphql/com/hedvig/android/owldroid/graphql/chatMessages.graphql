@@ -1,28 +1,38 @@
 query ChatMessages {
   messages {
-    globalId
-    id
-    header {
-      fromMyself
+    ... ChatMessageFragmet
+  }
+}
+
+subscription ChatMessage {
+  message {
+    ... ChatMessageFragmet
+  }
+}
+
+fragment ChatMessageFragmet on Message {
+  globalId
+  id
+  header {
+    fromMyself
+  }
+  body {
+    ... on MessageBodyCore {
+      type
+      text
     }
-    body {
-      ... on MessageBodyCore {
-        type
-        text
+    ... on MessageBodyFile {
+      file {
+        signedUrl
       }
-      ... on MessageBodyFile {
-        file {
-          signedUrl
-        }
-      }
-      ... on MessageBodyText {
-        keyboard
-        placeholder
-      }
-      ... on MessageBodyNumber {
-        keyboard
-        placeholder
-      }
+    }
+    ... on MessageBodyText {
+      keyboard
+      placeholder
+    }
+    ... on MessageBodyNumber {
+      keyboard
+      placeholder
     }
   }
 }

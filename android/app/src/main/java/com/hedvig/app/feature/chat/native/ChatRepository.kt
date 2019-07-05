@@ -4,6 +4,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.ApolloSubscriptionCall
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.rx2.Rx2Apollo
+import com.hedvig.android.owldroid.fragment.ChatMessageFragmet
 import com.hedvig.android.owldroid.graphql.ChatMessageSubscription
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.android.owldroid.graphql.SendChatTextResponseMutation
@@ -45,15 +46,19 @@ class ChatRepository(
             apolloClient.mutate(sendChatMessageMutation))
     }
 
-    fun writeNewMessage(mapToMessage: ChatMessagesQuery.Message) {
+    fun writeNewMessage(mapToMessage: ChatMessageFragmet) {
         val cachedData = apolloClient
             .apolloStore()
             .read(messagesQuery)
             .execute()
 
+        val chatMessageQueryBuilder = ChatMessagesQuery.Message.builder().fragments {
+            ChatMessagesQuery.Message.Fragments.builder().chatMessageFragmet(mapToMessage)
+        }
+
         val newMessagesBuilder = cachedData
             .toBuilder()
-            .messages { it.add(0, mapToMessage.toBuilder()) }
+            .messages { it.add(0, chatMessageQueryBuilder) }
 
         apolloClient
             .apolloStore()
