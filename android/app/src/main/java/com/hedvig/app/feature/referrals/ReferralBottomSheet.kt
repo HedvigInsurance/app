@@ -24,14 +24,13 @@ class ReferralBottomSheet : RoundedBottomSheetDialogFragment() {
                 getString(R.string.REFERRAL_PROGRESS_MORE_INFO_PARAGRAPH_ONE),
                 "REFERRAL_VALUE" to args.getString(REFERRAL_VALUE))
             dialog.referralMoreInfoButton.setHapticClickListener {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TERMS_AND_CONDITION_LINK)))
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(resources.getString(R.string.REFERRAL_MORE_INFO_LINK))))
             }
         }
         return dialog
     }
 
     companion object {
-        private const val TERMS_AND_CONDITION_LINK = "https://www.hedvig.com/invite/terms"
         private const val REFERRAL_VALUE = "referral_value"
 
         const val TAG = "referrals_more_info"
