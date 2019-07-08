@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.hedvig.android.owldroid.fragment.ChatMessageFragmet
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.app.R
 import com.hedvig.app.util.convertDpToPixel
@@ -82,12 +83,12 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount() = messages.size
 
-    override fun getItemViewType(position: Int) = if (messages[position].header.isFromMyself) {
+    override fun getItemViewType(position: Int) = if (messages[position].fragments.chatMessageFragmet.header.isFromMyself) {
         when {
-            isImageUploadMessage(messages[position].body) -> FROM_ME_IMAGE_UPLOAD
-            isFileUploadMessage((messages[position].body)) -> FROM_ME_FILE_UPLOAD
-            isGiphyMessage(messages[position].body?.text) -> FROM_ME_GIPHY
-            isImageMessage(messages[position].body?.text) -> FROM_ME_IMAGE
+            isImageUploadMessage(messages[position].fragments.chatMessageFragmet.body) -> FROM_ME_IMAGE_UPLOAD
+            isFileUploadMessage((messages[position].fragments.chatMessageFragmet.body)) -> FROM_ME_FILE_UPLOAD
+            isGiphyMessage(messages[position].fragments.chatMessageFragmet.body?.text) -> FROM_ME_GIPHY
+            isImageMessage(messages[position].fragments.chatMessageFragmet.body?.text) -> FROM_ME_IMAGE
             else -> FROM_ME_TEXT
         }
     } else {
@@ -97,22 +98,22 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder.itemViewType) {
             FROM_HEDVIG -> {
-                (viewHolder as? HedvigMessage)?.apply { bind(messages[position].body?.text) }
+                (viewHolder as? HedvigMessage)?.apply { bind(messages[position].fragments.chatMessageFragmet.body?.text) }
             }
             FROM_ME_TEXT -> {
-                (viewHolder as? UserMessage)?.apply { bind(messages[position].body?.text) }
+                (viewHolder as? UserMessage)?.apply { bind(messages[position].fragments.chatMessageFragmet.body?.text) }
             }
             FROM_ME_GIPHY -> {
-                (viewHolder as? GiphyUserMessage)?.apply { bind(messages[position].body?.text) }
+                (viewHolder as? GiphyUserMessage)?.apply { bind(messages[position].fragments.chatMessageFragmet.body?.text) }
             }
             FROM_ME_IMAGE -> {
-                (viewHolder as? ImageUserMessage)?.apply { bind(messages[position].body?.text) }
+                (viewHolder as? ImageUserMessage)?.apply { bind(messages[position].fragments.chatMessageFragmet.body?.text) }
             }
             FROM_ME_IMAGE_UPLOAD -> {
-                (viewHolder as? ImageUploadUserMessage)?.apply { bind(getFileUrl(messages[position].body)) }
+                (viewHolder as? ImageUploadUserMessage)?.apply { bind(getFileUrl(messages[position].fragments.chatMessageFragmet.body)) }
             }
             FROM_ME_FILE_UPLOAD -> {
-                (viewHolder as? FileUploadUserMessage)?.apply { bind(getFileUrl(messages[position].body)) }
+                (viewHolder as? FileUploadUserMessage)?.apply { bind(getFileUrl(messages[position].fragments.chatMessageFragmet.body)) }
             }
         }
     }
@@ -230,20 +231,20 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             return imageExtensions.contains(asUri.lastPathSegment?.substringAfterLast('.', ""))
         }
 
-        private fun isImageUploadMessage(body: ChatMessagesQuery.Body?): Boolean {
-            val asUpload = (body as? ChatMessagesQuery.AsMessageBodyFile) ?: return false
+        private fun isImageUploadMessage(body: ChatMessageFragmet.Body?): Boolean {
+            val asUpload = (body as? ChatMessageFragmet.AsMessageBodyFile) ?: return false
 
             return isImageMessage(asUpload.file.signedUrl)
         }
 
-        private fun isFileUploadMessage(body: ChatMessagesQuery.Body?): Boolean {
-            val asUpload = (body as? ChatMessagesQuery.AsMessageBodyFile) ?: return false
+        private fun isFileUploadMessage(body: ChatMessageFragmet.Body?): Boolean {
+            val asUpload = (body as? ChatMessageFragmet.AsMessageBodyFile) ?: return false
 
             return !isImageMessage(asUpload.file.signedUrl)
         }
 
-        private fun getFileUrl(body: ChatMessagesQuery.Body?) =
-            (body as? ChatMessagesQuery.AsMessageBodyFile)?.file?.signedUrl
+        private fun getFileUrl(body: ChatMessageFragmet.Body?) =
+            (body as? ChatMessageFragmet.AsMessageBodyFile)?.file?.signedUrl
     }
 }
 

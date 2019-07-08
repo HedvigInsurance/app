@@ -34,5 +34,6 @@ class NativeChatActivity : AppCompatActivity() {
 
     private fun bindData(data: ChatMessagesQuery.Data) {
         (messages.adapter as? ChatAdapter)?.messages = data.messages
+        input.message = data.messages.firstOrNull()?.let { ChatInputType.from(it) }
     }
 }

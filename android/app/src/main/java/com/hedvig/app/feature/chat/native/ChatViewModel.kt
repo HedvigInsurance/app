@@ -7,7 +7,6 @@ import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import timber.log.Timber
-import com.hedvig.app.util.extensions.mapToMessage
 import com.hedvig.app.util.safeLet
 import com.apollographql.apollo.api.Response
 import com.hedvig.android.owldroid.graphql.ChatMessageSubscription
@@ -38,7 +37,7 @@ class ChatViewModel(
         disposables += chatRepository.subscribeToChatMessages()
             .subscribe({ response ->
                 Timber.e("onNext")
-                response.data()?.message?.let { chatRepository.writeNewMessage(it.mapToMessage()) }
+                response.data()?.message?.let { chatRepository.writeNewMessage(it.fragments.chatMessageFragmet) }
             }, {
                 Timber.e(it)
             }, {
@@ -48,7 +47,7 @@ class ChatViewModel(
     }
 
     fun respondToLasMessage(message: String) {
-        val id = messages.value?.messages?.firstOrNull()?.globalId
+        val id = messages.value?.messages?.firstOrNull()?.fragments?.chatMessageFragmet?.globalId
             ?: run {
                 Timber.e("Messages is not initialized!")
                 return
