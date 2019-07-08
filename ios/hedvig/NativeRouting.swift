@@ -164,7 +164,7 @@ class NativeRouting: RCTEventEmitter {
     @objc func presentLoggedIn() {
         DispatchQueue.main.async {
             guard let keyWindow = UIApplication.shared.keyWindow else { return }
-            self.bag += keyWindow.present(LoggedIn(), options: [.prefersNavigationBarHidden(true)], animated: true)
+            self.bag += keyWindow.present(LoggedIn(displayNews: false), options: [.prefersNavigationBarHidden(true)], animated: true)
         }
     }
 
