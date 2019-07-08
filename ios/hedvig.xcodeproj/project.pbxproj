@@ -306,11 +306,9 @@
 		EBE8B8CB22B9201900E32499 /* UIStackView+DraggableOverlaySizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8CA22B9201900E32499 /* UIStackView+DraggableOverlaySizing.swift */; };
 		EBE8B8D022B9202300E32499 /* ApplyDiscount.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8CD22B9202300E32499 /* ApplyDiscount.swift */; };
 		EBE8B8D122B9202300E32499 /* DiscountTerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8CF22B9202300E32499 /* DiscountTerms.swift */; };
-		EBE8B8D322B9203F00E32499 /* ApplyDiscountSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8D222B9203F00E32499 /* ApplyDiscountSection.swift */; };
 		EBECC26621B9230000716BEA /* NativeRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBECC26521B9230000716BEA /* NativeRouting.swift */; };
 		EBECC26821B92E4800716BEA /* NativeRouting.m in Sources */ = {isa = PBXBuildFile; fileRef = EBECC26721B92E4800716BEA /* NativeRouting.m */; };
 		EBFA05E722B0DF86009D3FAE /* RegisterPushToken.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EBFA05E622B0DF86009D3FAE /* RegisterPushToken.graphql */; };
-		EBFA05E922B0E82B009D3FAE /* PushNotificationsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05E822B0E82B009D3FAE /* PushNotificationsState.swift */; };
 		EBFA05EB22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05EA22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift */; };
 		EBFA061222B13515009D3FAE /* ActivityBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA061122B13515009D3FAE /* ActivityBarButton.swift */; };
 		EBFA061422B13542009D3FAE /* String+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA061322B13542009D3FAE /* String+Color.swift */; };
@@ -631,11 +629,9 @@
 		EBE8B8CA22B9201900E32499 /* UIStackView+DraggableOverlaySizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStackView+DraggableOverlaySizing.swift"; sourceTree = "<group>"; };
 		EBE8B8CD22B9202300E32499 /* ApplyDiscount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyDiscount.swift; sourceTree = "<group>"; };
 		EBE8B8CF22B9202300E32499 /* DiscountTerms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscountTerms.swift; sourceTree = "<group>"; };
-		EBE8B8D222B9203F00E32499 /* ApplyDiscountSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyDiscountSection.swift; sourceTree = "<group>"; };
 		EBECC26521B9230000716BEA /* NativeRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeRouting.swift; sourceTree = "<group>"; };
 		EBECC26721B92E4800716BEA /* NativeRouting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NativeRouting.m; sourceTree = "<group>"; };
 		EBFA05E622B0DF86009D3FAE /* RegisterPushToken.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RegisterPushToken.graphql; sourceTree = "<group>"; };
-		EBFA05E822B0E82B009D3FAE /* PushNotificationsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsState.swift; sourceTree = "<group>"; };
 		EBFA05EA22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+DelayedTouchCancel.swift"; sourceTree = "<group>"; };
 		EBFA061122B13515009D3FAE /* ActivityBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityBarButton.swift; sourceTree = "<group>"; };
 		EBFA061322B13542009D3FAE /* String+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Color.swift"; sourceTree = "<group>"; };
@@ -724,7 +720,6 @@
 				EB384A43228D4D0C00D226D1 /* Offer.swift */,
 				EB384A45228D4F8A00D226D1 /* ReactNativeContainer.swift */,
 				EB384A49228DB22F00D226D1 /* ApplicationState.swift */,
-				EBFA05E822B0E82B009D3FAE /* PushNotificationsState.swift */,
 			);
 			path = hedvig;
 			sourceTree = "<group>";
@@ -988,7 +983,6 @@
 		EB11E99B2277047700D95365 /* Viewables */ = {
 			isa = PBXGroup;
 			children = (
-				EBE8B8D222B9203F00E32499 /* ApplyDiscountSection.swift */,
 				EB11E99C2277047700D95365 /* DeductibleCircle.swift */,
 				EB11E99D2277047700D95365 /* MonthlyPaymentCircle.swift */,
 				EB11E99E2277047700D95365 /* UpdatingMessage.swift */,
@@ -1895,7 +1889,6 @@
 				EB11EA5D2277047700D95365 /* FeedbackRow.swift in Sources */,
 				EB11EAD82277047800D95365 /* CellForRow.swift in Sources */,
 				EB11EB2E2277382700D95365 /* Divider.swift in Sources */,
-				EBFA05E922B0E82B009D3FAE /* PushNotificationsState.swift in Sources */,
 				EBCAA8A52281C28E003C4833 /* LargeIconTitleSubtitle.swift in Sources */,
 				EB11EACE2277047700D95365 /* TextStyle.swift in Sources */,
 				EB48684D22C627DE00688463 /* WelcomePagerProceedButton.swift in Sources */,
@@ -2013,7 +2006,6 @@
 				EB11EA7A2277047700D95365 /* DeductibleCircle.swift in Sources */,
 				EBE8B8C722B91FEC00E32499 /* LoadableView.swift in Sources */,
 				EBCAA816228086BC003C4833 /* DashboardRouting.swift in Sources */,
-				EBE8B8D322B9203F00E32499 /* ApplyDiscountSection.swift in Sources */,
 				EB11ED28227ADBDE00D95365 /* Claims.swift in Sources */,
 				EB11EAE02277047800D95365 /* RemoteConfigContainer.swift in Sources */,
 				EBFA061222B13515009D3FAE /* ActivityBarButton.swift in Sources */,
