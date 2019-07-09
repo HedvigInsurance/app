@@ -13,8 +13,7 @@
 		559CCAF02121B3530080C272 /* debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 559CCAEF2121B3530080C272 /* debug.xcconfig */; };
 		55A1D9ED211DB2FA00547027 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55A1D9EC211DB2FA00547027 /* GoogleService-Info.plist */; };
 		64ADFEB80E9B4CE188FF5E21 /* SoRay-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 446808BB14A544DA8419781D /* SoRay-ExtraBold.ttf */; };
-		A70345BF22D47508005750BB /* PushNotificationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70345BE22D47508005750BB /* PushNotificationState.swift */; };
-		A70345C122D47541005750BB /* PushNotificationRegistrer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70345C022D47541005750BB /* PushNotificationRegistrer.swift */; };
+		8B5D02A022D48116003F4F1E /* PushNotificationsRegistrer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5D029F22D48115003F4F1E /* PushNotificationsRegistrer.swift */; };
 		A70345C322D47666005750BB /* PushNotificationsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70345C222D47666005750BB /* PushNotificationsState.swift */; };
 		AC5BB2AB4E954E429F91AB9E /* Merriweather-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D398F87383C7495A9938B698 /* Merriweather-Light.ttf */; };
 		B56386491DB9693800A0598C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56386481DB9693800A0598C /* AppDelegate.swift */; };
@@ -332,9 +331,8 @@
 		55A1D9EC211DB2FA00547027 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7B57D15156864FA4B906A3EC /* CircularStd-Book.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CircularStd-Book.ttf"; path = "../assets/fonts/CircularStd-Book.ttf"; sourceTree = "<group>"; };
 		83A077794D771D15504FC9E0 /* Pods-hedvig.release - staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.release - staging.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.release - staging.xcconfig"; sourceTree = "<group>"; };
+		8B5D029F22D48115003F4F1E /* PushNotificationsRegistrer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationsRegistrer.swift; sourceTree = "<group>"; };
 		A281C30BA39C06CBD5F9B8EC /* Pods-hedvig.debug - staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.debug - staging.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.debug - staging.xcconfig"; sourceTree = "<group>"; };
-		A70345BE22D47508005750BB /* PushNotificationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationState.swift; sourceTree = "<group>"; };
-		A70345C022D47541005750BB /* PushNotificationRegistrer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationRegistrer.swift; sourceTree = "<group>"; };
 		A70345C222D47666005750BB /* PushNotificationsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsState.swift; sourceTree = "<group>"; };
 		ACBFB1A6F0450ECB42BF7149 /* Pods-hedvig.debug - production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.debug - production.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.debug - production.xcconfig"; sourceTree = "<group>"; };
 		B56386411DB9693800A0598C /* Hedvig Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hedvig Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1155,8 +1153,7 @@
 				EB384A6022943E0400D226D1 /* DocumentPicker.swift */,
 				EB384A6222953A2700D226D1 /* ImagePicker.swift */,
 				EB48684022C5009600688463 /* PanDirectionGestureRecognizer.swift */,
-				A70345BE22D47508005750BB /* PushNotificationState.swift */,
-				A70345C022D47541005750BB /* PushNotificationRegistrer.swift */,
+				8B5D029F22D48115003F4F1E /* PushNotificationsRegistrer.swift */,
 			);
 			path = Generic;
 			sourceTree = "<group>";
@@ -2078,6 +2075,7 @@
 				EB8E2A8A22C229C5009F6180 /* ReferralsNotification.swift in Sources */,
 				EB11EA4F2277047700D95365 /* HappyAvatar.swift in Sources */,
 				EBFA061422B13542009D3FAE /* String+Color.swift in Sources */,
+				8B5D02A022D48116003F4F1E /* PushNotificationsRegistrer.swift in Sources */,
 				EB11EA672277047700D95365 /* InsuranceCertificateRow.swift in Sources */,
 				EB11EAA82277047700D95365 /* CachedImage.swift in Sources */,
 				EB11EA632277047700D95365 /* AboutRow.swift in Sources */,
@@ -2090,7 +2088,6 @@
 				EB11EABA2277047700D95365 /* UIView+RelativeFrame.swift in Sources */,
 				EB11EB022277047800D95365 /* Localization.swift in Sources */,
 				EB11ED0D227ADBA600D95365 /* UIView+FrameWithoutTransform.swift in Sources */,
-				A70345C122D47541005750BB /* PushNotificationRegistrer.swift in Sources */,
 				EBCAA8AA2281C28E003C4833 /* Countdown.swift in Sources */,
 				EB11EA962277047700D95365 /* MyCoinsured.swift in Sources */,
 				EB11EADA2277047800D95365 /* TransitionStyle.swift in Sources */,
@@ -2110,7 +2107,6 @@
 				EBCAA8CB22846FE6003C4833 /* UIViewController+PreferredContentSizeSignal.swift in Sources */,
 				EB11EAA52277047700D95365 /* Spacing.swift in Sources */,
 				EB11EAB32277047700D95365 /* SignalProvider+LazyBindTo.swift in Sources */,
-				A70345BF22D47508005750BB /* PushNotificationState.swift in Sources */,
 				EB11EA5E2277047700D95365 /* ProfileSection.swift in Sources */,
 				EB11EA462277047700D95365 /* MarketingPresentationStyle.swift in Sources */,
 				EB11EA742277047700D95365 /* Feedback.swift in Sources */,
