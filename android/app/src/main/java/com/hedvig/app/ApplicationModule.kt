@@ -55,6 +55,8 @@ import org.koin.dsl.module
 import timber.log.Timber
 import java.io.File
 import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport
+import com.hedvig.app.feature.chat.native.UserViewModel
+import com.hedvig.app.util.extensions.getAuthenticationToken
 
 fun isDebug() = BuildConfig.DEBUG || BuildConfig.APP_ID == "com.hedvig.test.app"
 
@@ -81,12 +83,14 @@ val applicationModule = module {
                 val builder = original
                     .newBuilder()
                     .method(original.method(), original.body())
-                try {
-                    get<AsyncStorageNative>().getKey("@hedvig:token")
-                } catch (exception: Exception) {
-                    Timber.e(exception, "Got an exception while trying to retrieve token")
-                    null
-                }?.let { token ->
+                //todo need to re store this
+//                try {
+//                    get<AsyncStorageNative>().getKey("@hedvig:token")
+//                } catch (exception: Exception) {
+//                    Timber.e(exception, "Got an exception while trying to retrieve token")
+//
+//                }
+                get<Context>().getAuthenticationToken()?.let { token ->
                     builder.header("Authorization", token)
                 }
                 chain.proceed(builder.build())
@@ -100,12 +104,13 @@ val applicationModule = module {
     }
     single {
         val okHttpClient: OkHttpClient = get()
-        val token = try {
-            get<AsyncStorageNative>().getKey("@hedvig:token")
-        } catch (exception: Exception) {
-            Timber.e(exception, "Got an exception while trying to retrieve token")
-            null
-        }
+        val token = get<Context>().getAuthenticationToken()
+//            try {
+//            get<AsyncStorageNative>().getKey("@hedvig:token")
+//        } catch (exception: Exception) {
+//            Timber.e(exception, "Got an exception while trying to retrieve token")
+//
+//        }
         val builder = ApolloClient
             .builder()
             .serverUrl(BuildConfig.GRAPHQL_URL)
@@ -132,6 +137,7 @@ val viewModelModule = module {
     viewModel { WhatsNewViewModel(get()) }
     viewModel { BaseTabViewModel(get(), get()) }
     viewModel { com.hedvig.app.feature.chat.native.ChatViewModel(get()) }
+    viewModel { UserViewModel(get()) }
     viewModel { ReferralViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
 }

@@ -1,16 +1,19 @@
 package com.hedvig.app.feature.chat.native
 
-import com.hedvig.android.owldroid.fragment.ChatMessageFragmet
+import com.hedvig.android.owldroid.fragment.ChatMessageFragment
+import com.hedvig.android.owldroid.fragment.SingleSelectChoice
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.android.owldroid.type.KeyboardType
 import timber.log.Timber
 
 sealed class ChatInputType {
     companion object {
-        fun from(message: ChatMessagesQuery.Message) = when (val body = message.fragments.chatMessageFragmet.body) {
-            is ChatMessageFragmet.AsMessageBodyFile -> TextInput()
-            is ChatMessageFragmet.AsMessageBodyText -> TextInput(body.keyboard, body.placeholder, true)
-            is ChatMessageFragmet.AsMessageBodyNumber -> TextInput(body.keyboard, body.placeholder, false)
+        fun from(message: ChatMessagesQuery.Message) = when (val body = message.fragments.chatMessageFragment.body) {
+            is ChatMessageFragment.AsMessageBodyFile -> TextInput()
+            is ChatMessageFragment.AsMessageBodyText -> TextInput(body.keyboard, body.placeholder, true)
+            is ChatMessageFragment.AsMessageBodyNumber -> TextInput(body.keyboard, body.placeholder, false)
+            is ChatMessageFragment.AsMessageBodySingleSelect -> SingleSelect(body.choices?.map { it.fragments.singleSelectChoice } ?: listOf())
+            is ChatMessageFragment.AsMessageBodyParagraph -> ParagraphInput
             else -> {
                 Timber.e("Implement support for ${message::class.java.simpleName}")
                 NullInput
@@ -25,6 +28,7 @@ data class TextInput(
     val richTextSupport: Boolean = false
 ) : ChatInputType()
 
-data class SingleSelect(val options: List<*>) : ChatInputType()
+data class SingleSelect(val options: List<SingleSelectChoice>) : ChatInputType()
 object Audio : ChatInputType()
+object ParagraphInput : ChatInputType()
 object NullInput : ChatInputType()

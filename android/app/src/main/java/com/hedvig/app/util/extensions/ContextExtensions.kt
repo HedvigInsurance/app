@@ -27,6 +27,8 @@ import kotlin.system.exitProcess
 private const val SHARED_PREFERENCE_NAME = "hedvig_shared_preference"
 private const val SHARED_PREFERENCE_IS_LOGGED_IN = "shared_preference_is_logged_in"
 
+private const val SHARED_PREFERENCE_AUTHENTICATION_TOKEN = "shared_preference_authentication_token"
+
 fun Context.compatColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
 fun Context.compatFont(@FontRes font: Int) = ResourcesCompat.getFont(this, font)
@@ -47,6 +49,12 @@ fun Context.triggerRestartActivity(activity: Class<*> = SplashActivity::class.ja
     mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, pendingIntent)
     exitProcess(0)
 }
+
+fun Context.setAuthenticationToken(token: String?) =
+    getSharedPreferences().edit().putString(SHARED_PREFERENCE_AUTHENTICATION_TOKEN, token).commit()
+
+fun Context.getAuthenticationToken(): String? =
+    getSharedPreferences().getString(SHARED_PREFERENCE_AUTHENTICATION_TOKEN, null)
 
 fun Context.setIsLoggedIn(isLoggedIn: Boolean) =
     getSharedPreferences().edit().putBoolean(SHARED_PREFERENCE_IS_LOGGED_IN, isLoggedIn).commit()

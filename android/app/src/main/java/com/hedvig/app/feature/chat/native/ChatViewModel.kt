@@ -2,15 +2,10 @@ package com.hedvig.app.feature.chat.native
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import timber.log.Timber
-import com.hedvig.app.util.safeLet
-import com.apollographql.apollo.api.Response
-import com.hedvig.android.owldroid.graphql.ChatMessageSubscription
-import io.reactivex.subscribers.DisposableSubscriber
 
 
 class ChatViewModel(
@@ -19,25 +14,22 @@ class ChatViewModel(
 
     val messages = MutableLiveData<ChatMessagesQuery.Data>()
     val sendMessageResponse = MutableLiveData<Boolean>()
+    val sendSingelSelectResponse = MutableLiveData<Boolean>()
 
     private val disposables = CompositeDisposable()
 
-    init {
-        disposables += chatRepository
-            .fetchChatMessages()
-            .subscribe({ response ->
-                val data = response.data()
-                messages.postValue(data)
-                //TODO: look at this
-                data?.messages?.filter { m ->
-                    true
-                }
-            }, { Timber.e(it) })
+    fun loadAndSubscribe() {
+        load()
 
         disposables += chatRepository.subscribeToChatMessages()
             .subscribe({ response ->
                 Timber.e("onNext")
-                response.data()?.message?.let { chatRepository.writeNewMessage(it.fragments.chatMessageFragmet) }
+                response.data()?.message?.let {
+                    chatRepository
+                        .writeNewMessage(
+                            it.fragments.chatMessageFragment
+                        )
+                }
             }, {
                 Timber.e(it)
             }, {
@@ -46,18 +38,34 @@ class ChatViewModel(
             })
     }
 
-    fun respondToLasMessage(message: String) {
-        val id = messages.value?.messages?.firstOrNull()?.fragments?.chatMessageFragmet?.globalId
-            ?: run {
-                Timber.e("Messages is not initialized!")
-                return
-            }
-
+    fun load() {
         disposables += chatRepository
-            .sendChatMessage(id, message)
+            .fetchChatMessages()
+            .subscribe( { response ->
+                val data = response.data()
+                messages.postValue(data)
+                //TODO: look at this
+                data?.messages?.filter {
+                    true
+                }
+            }, { Timber.e(it) })
+    }
+
+    fun respondToLastMessage(message: String) {
+        disposables += chatRepository
+            .sendChatMessage(getLastId(), message)
             .subscribe({ sendMessageResponse.postValue(it.data()?.isSendChatTextResponse) }, { Timber.e(it) })
     }
 
+    fun respondWithSingleSelect(value: String) {
+        disposables += chatRepository
+            .sendSingleSelect(getLastId(), value)
+            .subscribe({ sendSingelSelectResponse.postValue(it.data()?.isSendChatSingleSelectResponse) }, { Timber.e(it) })
+    }
+
+    private fun getLastId(): String =
+        messages.value?.messages?.firstOrNull()?.fragments?.chatMessageFragment?.globalId
+            ?: throw RuntimeException("Messages is not initialized!")
 
     override fun onCleared() {
         super.onCleared()

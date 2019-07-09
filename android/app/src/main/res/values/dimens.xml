@@ -98,5 +98,5 @@
     <dimen name="referrals_button_bottom_margin">80dp</dimen>
     <dimen name="chat_attatch_icon_size">40dp</dimen>
     <dimen name="chat_background_edit_text_rounded_corner_radius">28dp</dimen>
-    <dimen name="chat_message_corner_radius">20dp</dimen>
+    <dimen name="chat_message_corner_radius">32dp</dimen>
 </resources>

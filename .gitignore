@@ -67,3 +67,6 @@ sentry.properties
 .project
 schema.json
 mapping.txt
+
+# graphql
+.graphqlconfig

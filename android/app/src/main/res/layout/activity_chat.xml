@@ -19,6 +19,38 @@
         tools:listItem=""
         tools:listitem="@layout/chat_message_hedvig" />
 
+    <ImageView
+        android:id="@+id/resetChatButton"
+        android:layout_width="@dimen/chat_top_bar_button_size"
+        android:layout_height="@dimen/chat_top_bar_button_size"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/CHAT_RESTART_CONTENT_DESCRIPTION"
+        android:padding="@dimen/base_margin_half"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_restart_gray"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/reload"
+        android:layout_width="@dimen/chat_top_bar_button_size"
+        android:layout_height="@dimen/chat_top_bar_button_size"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/CHAT_RESTART_CONTENT_DESCRIPTION"
+        android:padding="@dimen/base_margin_half"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:rotation="180"
+        app:srcCompat="@drawable/ic_chat_send_green" />
+
     <com.hedvig.app.feature.chat.native.ChatInputView
         android:id="@+id/input"
         android:layout_width="match_parent"

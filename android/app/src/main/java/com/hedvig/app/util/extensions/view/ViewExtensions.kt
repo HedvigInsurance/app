@@ -138,3 +138,6 @@ fun View.setupLargeTitle(
     icon?.let { toolbar.setNavigationIcon(it) }
     backAction?.let { toolbar.setNavigationOnClickListener { it() } }
 }
+
+val ViewGroup.children: List<View>
+    get() = (0 until childCount).map { getChildAt(it) }

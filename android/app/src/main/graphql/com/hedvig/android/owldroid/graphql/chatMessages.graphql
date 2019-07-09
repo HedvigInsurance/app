@@ -1,22 +1,28 @@
 query ChatMessages {
   messages {
-    ... ChatMessageFragmet
+    ... ChatMessageFragment
   }
 }
 
 subscription ChatMessage {
   message {
-    ... ChatMessageFragmet
+    ... ChatMessageFragment
   }
 }
 
-fragment ChatMessageFragmet on Message {
+fragment ChatMessageFragment on Message {
   globalId
   id
   header {
     fromMyself
   }
   body {
+    ... on MessageBodySingleSelect {
+      type
+      choices {
+        ... SingleSelectChoice
+      }
+    }
     ... on MessageBodyCore {
       type
       text
@@ -34,5 +40,35 @@ fragment ChatMessageFragmet on Message {
       keyboard
       placeholder
     }
+    ... on MessageBodyParagraph {
+      id
+      text
+      type
+    }
+  }
+}
+
+fragment SingleSelectChoice on MessageBodyChoices {
+  ... on MessageBodyChoicesSelection {
+    type
+    value
+    text
+    selected
+    clearable
+  }
+  ... on MessageBodyChoicesLink {
+    type
+    value
+    text
+    selected
+    view
+    appUrl
+    webUrl
+  }
+  ... on MessageBodyChoicesUndefined {
+    type
+    value
+    text
+    selected
   }
 }
