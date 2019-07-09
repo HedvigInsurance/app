@@ -83,14 +83,13 @@ val applicationModule = module {
                 val builder = original
                     .newBuilder()
                     .method(original.method(), original.body())
-                //todo need to re store this
-//                try {
-//                    get<AsyncStorageNative>().getKey("@hedvig:token")
-//                } catch (exception: Exception) {
-//                    Timber.e(exception, "Got an exception while trying to retrieve token")
-//
-//                }
-                get<Context>().getAuthenticationToken()?.let { token ->
+                try {
+                    get<AsyncStorageNative>().getKey("@hedvig:token")
+                } catch (exception: Exception) {
+                    Timber.e(exception, "Got an exception while trying to retrieve token")
+                    //TODO we should change this out!
+                    get<Context>().getAuthenticationToken()
+                }?.let { token ->
                     builder.header("Authorization", token)
                 }
                 chain.proceed(builder.build())
@@ -104,13 +103,14 @@ val applicationModule = module {
     }
     single {
         val okHttpClient: OkHttpClient = get()
-        val token = get<Context>().getAuthenticationToken()
-//            try {
-//            get<AsyncStorageNative>().getKey("@hedvig:token")
-//        } catch (exception: Exception) {
-//            Timber.e(exception, "Got an exception while trying to retrieve token")
-//
-//        }
+        val token =
+            try {
+                get<AsyncStorageNative>().getKey("@hedvig:token")
+            } catch (exception: Exception) {
+                Timber.e(exception, "Got an exception while trying to retrieve token")
+                //TODO we should change this out!
+                get<Context>().getAuthenticationToken()
+            }
         val builder = ApolloClient
             .builder()
             .serverUrl(BuildConfig.GRAPHQL_URL)
