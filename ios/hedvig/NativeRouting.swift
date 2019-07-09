@@ -102,7 +102,7 @@ class NativeRouting: RCTEventEmitter {
             }
 
             let perilInformation = PerilInformation(
-                title: title,
+                title: title.replacingOccurrences(of: “-\n”, with: “”)
                 description: description,
                 icon: Peril.iconAsset(for: idString)
             )
