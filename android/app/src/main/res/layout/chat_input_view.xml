@@ -67,24 +67,26 @@
         android:id="@+id/singleSelectContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/base_margin_double"
         android:gravity="end"
-        android:orientation="vertical"/>
+        android:orientation="vertical"
+        android:padding="@dimen/base_margin_double" />
 
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/paragraphView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_chat_send_green"
-        android:rotation="180"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:layout_gravity="start"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/hedvig_typing_animation_2"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/nullView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Null View"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:text="Null View"
+        android:visibility="gone" />
 </FrameLayout>

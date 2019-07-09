@@ -49,10 +49,10 @@ class ChatInputView : FrameLayout {
         }
     }
 
-    fun initialize(sendTextMessage: (String) -> Unit, sendSingleSelect: (String) -> Unit , pullMessages: () -> Unit) {
+    fun initialize(sendTextMessage: (String) -> Unit, sendSingleSelect: (String) -> Unit, paragraphPullMessages: () -> Unit) {
         this.sendTextMessage = sendTextMessage
         this.sendSingleSelect = sendSingleSelect
-        this.pullMessages = pullMessages
+        this.pullMessages = paragraphPullMessages
     }
 
     fun clearInput() {
@@ -120,7 +120,7 @@ class ChatInputView : FrameLayout {
 
     private fun bindParagraphInput() {
         paragraphView.show()
-        postDelayed(pullMessages, 500)
+        pullMessages()
     }
 
     private fun bindNullInput() {
