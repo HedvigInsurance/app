@@ -13,7 +13,6 @@ import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import com.hedvig.app.BaseActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.chat.ChatActivity
-import com.hedvig.app.feature.chat.native.NativeChatActivity
 import com.hedvig.app.feature.marketing.service.MarketingTracker
 import com.hedvig.app.util.OnSwipeListener
 import com.hedvig.app.util.SimpleOnSwipeListener
@@ -297,7 +296,7 @@ class MarketingActivity: BaseActivity() {
                 marketingStoriesViewModel.page.value,
                 marketingStoriesViewModel.blurred.value
             )
-            val intent = Intent(this, NativeChatActivity::class.java)
+            val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("intent", "onboarding")
             intent.putExtra("show_restart", true)
             startActivity(intent)
