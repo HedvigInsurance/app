@@ -82,13 +82,10 @@ class ChatRepository(
             ChatMessagesQuery
             .Message
             .builder()
-            .__typename("")
+            .__typename(message.__typename)
             .fragments(
                 chatMessagesFragment
             )
-//        val chatMessageQueryBuilder = ChatMessagesQuery.Message.builder().fragments {
-//            ChatMessagesQuery.Message.Fragments.builder().chatMessageFragmet(message)
-//        }
 
         val newMessagesBuilder = cachedData
             .toBuilder()

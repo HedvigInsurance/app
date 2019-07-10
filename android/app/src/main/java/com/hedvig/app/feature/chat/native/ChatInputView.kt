@@ -127,6 +127,7 @@ class ChatInputView : FrameLayout {
 
     private fun bindParagraphInput() {
         paragraphView.show()
+        paragraphView.playAnimation()
         paragraphPullMessages()
     }
 
