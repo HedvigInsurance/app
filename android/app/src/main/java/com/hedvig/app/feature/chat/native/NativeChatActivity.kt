@@ -9,7 +9,6 @@ import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setAuthenticationToken
 import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.extensions.view.setHapticClickListener
-import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.showRestartDialog
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -27,7 +26,7 @@ class NativeChatActivity : AppCompatActivity() {
         input.initialize(
             sendTextMessage = { message -> chatViewModel.respondToLastMessage(message) },
             sendSingleSelect = { value -> chatViewModel.respondWithSingleSelect(value) },
-            pullMessages = { chatViewModel.load()}
+            paragraphPullMessages = { chatViewModel.load() }
         )
 
         messages.adapter = ChatAdapter()
