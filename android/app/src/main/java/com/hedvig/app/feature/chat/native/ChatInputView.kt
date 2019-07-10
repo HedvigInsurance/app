@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.TextView
-import com.hedvig.android.owldroid.fragment.SingleSelectChoice
+import com.hedvig.android.owldroid.fragment.ChatMessageFragment
 import com.hedvig.android.owldroid.type.KeyboardType
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.children
@@ -65,6 +65,7 @@ class ChatInputView : FrameLayout {
         textInputContainer.remove()
         singleSelectContainer.remove()
         paragraphView.remove()
+        paragraphView.cancelAnimation()
         nullView.remove()
     }
 
@@ -93,11 +94,11 @@ class ChatInputView : FrameLayout {
         singleSelectContainer.removeAllViews()
         input.options.forEach {
             when (it) {
-                is SingleSelectChoice.AsMessageBodyChoicesSelection ->
+                is ChatMessageFragment.AsMessageBodyChoicesSelection ->
                     inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.SELCETION)
-                is SingleSelectChoice.AsMessageBodyChoicesLink ->
+                is ChatMessageFragment.AsMessageBodyChoicesLink ->
                     inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.LINK)
-                is SingleSelectChoice.AsMessageBodyChoicesUndefined ->
+                is ChatMessageFragment.AsMessageBodyChoicesUndefined ->
                     inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.UNDIFINED)
             }
         }

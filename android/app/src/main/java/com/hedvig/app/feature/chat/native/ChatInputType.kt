@@ -1,7 +1,6 @@
 package com.hedvig.app.feature.chat.native
 
 import com.hedvig.android.owldroid.fragment.ChatMessageFragment
-import com.hedvig.android.owldroid.fragment.SingleSelectChoice
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.android.owldroid.type.KeyboardType
 import timber.log.Timber
@@ -12,7 +11,7 @@ sealed class ChatInputType {
             is ChatMessageFragment.AsMessageBodyFile -> TextInput()
             is ChatMessageFragment.AsMessageBodyText -> TextInput(body.keyboard, body.placeholder, true)
             is ChatMessageFragment.AsMessageBodyNumber -> TextInput(body.keyboard, body.placeholder, false)
-            is ChatMessageFragment.AsMessageBodySingleSelect -> SingleSelect(body.choices?.map { it.fragments.singleSelectChoice } ?: listOf())
+            is ChatMessageFragment.AsMessageBodySingleSelect -> SingleSelect(body.choices?: listOf())
             is ChatMessageFragment.AsMessageBodyParagraph -> ParagraphInput
             else -> {
                 Timber.e("Implement support for ${message::class.java.simpleName}")
@@ -28,7 +27,7 @@ data class TextInput(
     val richTextSupport: Boolean = false
 ) : ChatInputType()
 
-data class SingleSelect(val options: List<SingleSelectChoice>) : ChatInputType()
+data class SingleSelect(val options: List<ChatMessageFragment.Choice>) : ChatInputType()
 object Audio : ChatInputType()
 object ParagraphInput : ChatInputType()
 object NullInput : ChatInputType()

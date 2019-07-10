@@ -20,7 +20,28 @@ fragment ChatMessageFragment on Message {
     ... on MessageBodySingleSelect {
       type
       choices {
-        ... SingleSelectChoice
+        ... on MessageBodyChoicesSelection {
+          type
+          value
+          text
+          selected
+          clearable
+        }
+        ... on MessageBodyChoicesLink {
+          type
+          value
+          text
+          selected
+          view
+          appUrl
+          webUrl
+        }
+        ... on MessageBodyChoicesUndefined {
+          type
+          value
+          text
+          selected
+        }
       }
     }
     ... on MessageBodyCore {
@@ -45,30 +66,5 @@ fragment ChatMessageFragment on Message {
       text
       type
     }
-  }
-}
-
-fragment SingleSelectChoice on MessageBodyChoices {
-  ... on MessageBodyChoicesSelection {
-    type
-    value
-    text
-    selected
-    clearable
-  }
-  ... on MessageBodyChoicesLink {
-    type
-    value
-    text
-    selected
-    view
-    appUrl
-    webUrl
-  }
-  ... on MessageBodyChoicesUndefined {
-    type
-    value
-    text
-    selected
   }
 }
