@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.hedvig.android.owldroid.fragment.SingleSelectChoice
 import com.hedvig.android.owldroid.type.KeyboardType
 import com.hedvig.app.R
+import com.hedvig.app.feature.profile.ui.charity.CharityExplanationBottomSheet
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.view.children
 import com.hedvig.app.util.extensions.view.remove
@@ -26,6 +27,7 @@ class ChatInputView : FrameLayout {
     private lateinit var sendSingleSelect: ((String) -> Unit)
     private lateinit var singleSelectLink: ((String) -> Unit)
     private lateinit var paragraphPullMessages: (() -> Unit)
+    private lateinit var openUpload: (() -> Unit)
 
     private val layoutInflater: LayoutInflater by lazy {
         LayoutInflater.from(context)
@@ -48,13 +50,17 @@ class ChatInputView : FrameLayout {
         inputText.sendClickListener = {
             sendTextMessage(inputText.currentMessage)
         }
+        uploadFile.setHapticClickListener {
+            openUpload()
+        }
     }
 
-    fun initialize(sendTextMessage: (String) -> Unit, sendSingleSelect: (String) -> Unit, sendSingleSelectLink: (String) -> Unit, paragraphPullMessages: () -> Unit) {
+    fun initialize(sendTextMessage: (String) -> Unit, sendSingleSelect: (String) -> Unit, sendSingleSelectLink: (String) -> Unit, paragraphPullMessages: () -> Unit, openUpload: () -> Unit) {
         this.sendTextMessage = sendTextMessage
         this.sendSingleSelect = sendSingleSelect
         this.singleSelectLink = sendSingleSelectLink
         this.paragraphPullMessages = paragraphPullMessages
+        this.openUpload = openUpload
     }
 
     fun clearInput() {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.app.R
+import com.hedvig.app.feature.profile.ui.charity.CharityExplanationBottomSheet
 import com.hedvig.app.util.extensions.*
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.showRestartDialog
@@ -24,7 +25,8 @@ class NativeChatActivity : AppCompatActivity() {
             sendTextMessage = { message -> chatViewModel.respondToLastMessage(message) },
             sendSingleSelect = { value -> chatViewModel.respondWithSingleSelect(value) },
             sendSingleSelectLink = { value -> handleSingleSelectLink(value) },
-            paragraphPullMessages = { chatViewModel.load() }
+            paragraphPullMessages = { chatViewModel.load() },
+            openUpload = { }
         )
 
         messages.adapter = ChatAdapter()
