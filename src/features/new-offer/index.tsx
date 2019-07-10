@@ -19,10 +19,24 @@ import { ScrollContent } from 'src/features/new-offer/components/scroll-content'
 import { Checkout } from 'src/features/new-offer/components/checkout';
 import { SignButton } from 'src/features/new-offer/components/sign-button';
 import { AndroidHeader } from 'src/features/new-offer/android-header';
-import { Provider } from 'constate';
+import { Container, Provider, ActionMap } from 'constate';
 
 import { NewOfferComponent } from 'src/graphql/components';
 import { DiscountButton } from './components/discount-button';
+
+interface State {
+  freeMonths: number;
+}
+
+interface Actions {
+  setFreeMonths: (freeMonths: number) => void;
+}
+
+const actions: ActionMap<State, Actions> = {
+  setFreeMonths: (freeMonths) => () => ({
+    freeMonths,
+  }),
+};
 
 const AnimatedScrollView = Animated.createAnimatedComponent<ScrollViewProps>(
   ScrollView,
@@ -123,171 +137,201 @@ const bounceScrollView = () => {
 };
 
 export const NewOffer: React.SFC = () => (
-  <Provider>
-    <NewOfferComponent>
-      {({ data, loading, error, refetch, updateQuery }) =>
-        loading || error ? null : (
-          <>
-            <AnimationValueProvider initialValue={0}>
-              {({ animatedValue }) => (
-                <>
-                  {Platform.OS === 'android' && (
-                    <AndroidHeader subtitle={data!.insurance.address!} />
-                  )}
-                  <ScrollContainer
-                    onScroll={getScrollHandler(animatedValue)}
-                    scrollEventThrottle={1}
-                    contentContainerStyle={{
-                      alignItems: 'center',
-                    }}
-                    innerRef={NewOfferRef}
-                  >
-                    <FixedContainer animatedValue={animatedValue}>
-                      <Spacing height={15} />
-                      <PriceBubble
-                        discountedPrice={data!.insurance!.cost!.monthlyNet}
-                        price={data!.insurance!.cost!.monthlyGross}
-                      />
-                      <Spacing height={15} />
-                      <FeaturesContainer animatedValue={animatedValue}>
-                        <FeaturesBubbles
-                          onPress={() => bounceScrollView()}
-                          personsInHousehold={
-                            data!.insurance.personsInHousehold!
-                          }
+  <Container actions={actions} initialState={{ freeMonths: 0 }}>
+    {({ freeMonths, setFreeMonths }) => (
+      <Provider>
+        <NewOfferComponent>
+          {({ data, loading, error, refetch, updateQuery }) =>
+            loading || error ? null : (
+              <>
+                <AnimationValueProvider initialValue={0}>
+                  {({ animatedValue }) => (
+                    <>
+                      {Platform.OS === 'android' && (
+                        <AndroidHeader subtitle={data!.insurance.address!} />
+                      )}
+                      <ScrollContainer
+                        onScroll={getScrollHandler(animatedValue)}
+                        scrollEventThrottle={1}
+                        contentContainerStyle={{
+                          alignItems: 'center',
+                        }}
+                        innerRef={NewOfferRef}
+                      >
+                        <FixedContainer animatedValue={animatedValue}>
+                          <Spacing height={15} />
+                          <PriceBubble
+                            discountedPrice={data!.insurance!.cost!.monthlyNet}
+                            price={data!.insurance!.cost!.monthlyGross}
+                            freeMonths={freeMonths}
+                          />
+                          <Spacing height={15} />
+                          <FeaturesContainer animatedValue={animatedValue}>
+                            <FeaturesBubbles
+                              onPress={() => bounceScrollView()}
+                              personsInHousehold={
+                                data!.insurance.personsInHousehold!
+                              }
+                              insuredAtOtherCompany={
+                                data!.insurance.insuredAtOtherCompany!
+                              }
+                              type={data!.insurance.type!}
+                            />
+                            <DiscountButton
+                              discount={data!.insurance!.cost!.monthlyDiscount}
+                              onPress={() => {
+                                if (
+                                  Number(
+                                    data!.insurance!.cost!.monthlyDiscount!
+                                      .amount,
+                                  ) !== 0
+                                ) {
+                                  if (Platform.OS === 'ios') {
+                                    NativeModules.NativeRouting.showRemoveCodeAlert(
+                                      true,
+                                    ).then((didRemoveCode: boolean) => {
+                                      if (didRemoveCode) {
+                                        updateQuery((queryData) => ({
+                                          ...queryData!,
+                                          insurance: {
+                                            ...queryData!.insurance,
+                                            cost: {
+                                              __typename: 'InsuranceCost',
+                                              monthlyDiscount: {
+                                                __typename: 'MonetaryAmountV2',
+                                                amount: '0.00',
+                                              },
+                                              monthlyNet: queryData.insurance
+                                                .cost!.monthlyGross,
+                                              monthlyGross: queryData.insurance
+                                                .cost!.monthlyGross,
+                                            },
+                                          },
+                                        }));
+                                      }
+                                    });
+                                  }
+                                  if (Platform.OS === 'android') {
+                                    NativeModules.ActivityStarter.showRemoveCodeAlert().then(
+                                      (didRemoveCode: boolean) => {
+                                        if (didRemoveCode) {
+                                          updateQuery((queryData) => ({
+                                            ...queryData!,
+                                            insurance: {
+                                              ...queryData!.insurance,
+                                              cost: {
+                                                __typename: 'InsuranceCost',
+                                                monthlyDiscount: {
+                                                  __typename:
+                                                    'MonetaryAmountV2',
+                                                  amount: '0.00',
+                                                },
+                                                monthlyNet: queryData.insurance
+                                                  .cost!.monthlyGross,
+                                                monthlyGross: queryData
+                                                  .insurance.cost!.monthlyGross,
+                                              },
+                                            },
+                                          }));
+                                        }
+                                      },
+                                    );
+                                  }
+                                } else {
+                                  if (Platform.OS === 'ios') {
+                                    NativeModules.NativeRouting.showRedeemCodeOverlay(
+                                      true,
+                                    ).then((redeemResponse: string) => {
+                                      if (redeemResponse != null) {
+                                        const response = JSON.parse(
+                                          redeemResponse,
+                                        );
+
+                                        const campaign =
+                                          response.compaigns.length > 0
+                                            ? response.compaigns[0]
+                                            : null;
+                                        if (
+                                          campaign !== null &&
+                                          campaign.incentive.__typename ===
+                                            'FreeMonths'
+                                        ) {
+                                          setFreeMonths(campaign.incentive
+                                            .quantity as number);
+                                        }
+
+                                        updateQuery((queryData) => ({
+                                          ...queryData!,
+                                          insurance: {
+                                            ...queryData!.insurance,
+                                            cost: response.cost,
+                                          },
+                                        }));
+                                      }
+                                    });
+                                  }
+                                  if (Platform.OS === 'android') {
+                                    NativeModules.ActivityStarter.showRedeemCodeOverlay().then(
+                                      (redeemResponse: string) => {
+                                        if (redeemResponse != null) {
+                                          const data = JSON.parse(
+                                            redeemResponse,
+                                          );
+                                          updateQuery((queryData) => ({
+                                            ...queryData!,
+                                            insurance: {
+                                              ...queryData!.insurance,
+                                              cost: {
+                                                __typename: data.__typename,
+                                                monthlyDiscount: {
+                                                  __typename:
+                                                    data.monthlyDiscount
+                                                      .__typename,
+                                                  amount:
+                                                    data.monthlyDiscount.amount,
+                                                },
+                                                monthlyNet: {
+                                                  __typename:
+                                                    data.monthlyNet.__typename,
+                                                  amount:
+                                                    data.monthlyNet.amount,
+                                                },
+                                                monthlyGross: {
+                                                  __typename:
+                                                    data.monthlyGross
+                                                      .__typename,
+                                                  amount:
+                                                    data.monthlyGross.amount,
+                                                },
+                                              },
+                                            },
+                                          }));
+                                        }
+                                      },
+                                    );
+                                  }
+                                }
+                              }}
+                            />
+                          </FeaturesContainer>
+                        </FixedContainer>
+                        <ScrollContent
                           insuredAtOtherCompany={
                             data!.insurance.insuredAtOtherCompany!
                           }
-                          type={data!.insurance.type!}
+                          scrollAnimatedValue={animatedValue}
                         />
-                        <DiscountButton
-                          discount={data!.insurance!.cost!.monthlyDiscount}
-                          onPress={() => {
-                            if (
-                              Number(
-                                data!.insurance!.cost!.monthlyDiscount!.amount,
-                              ) !== 0
-                            ) {
-                              if (Platform.OS === 'ios') {
-                                NativeModules.NativeRouting.showRemoveCodeAlert(
-                                  true,
-                                ).then((didRemoveCode: boolean) => {
-                                  if (didRemoveCode) {
-                                    updateQuery((queryData) => ({
-                                      ...queryData!,
-                                      insurance: {
-                                        ...queryData!.insurance,
-                                        cost: {
-                                          __typename: 'InsuranceCost',
-                                          monthlyDiscount: {
-                                            __typename: 'MonetaryAmountV2',
-                                            amount: '0.00',
-                                          },
-                                          monthlyNet: queryData.insurance.cost!
-                                            .monthlyGross,
-                                          monthlyGross: queryData.insurance
-                                            .cost!.monthlyGross,
-                                        },
-                                      },
-                                    }));
-                                  }
-                                });
-                              }
-                              if (Platform.OS === 'android') {
-                                NativeModules.ActivityStarter.showRemoveCodeAlert().then(
-                                  (didRemoveCode: boolean) => {
-                                    if (didRemoveCode) {
-                                      updateQuery((queryData) => ({
-                                        ...queryData!,
-                                        insurance: {
-                                          ...queryData!.insurance,
-                                          cost: {
-                                            __typename: 'InsuranceCost',
-                                            monthlyDiscount: {
-                                              __typename: 'MonetaryAmountV2',
-                                              amount: '0.00',
-                                            },
-                                            monthlyNet: queryData.insurance
-                                              .cost!.monthlyGross,
-                                            monthlyGross: queryData.insurance
-                                              .cost!.monthlyGross,
-                                          },
-                                        },
-                                      }));
-                                    }
-                                  },
-                                );
-                              }
-                            } else {
-                              if (Platform.OS === 'ios') {
-                                NativeModules.NativeRouting.showRedeemCodeOverlay(
-                                  true,
-                                ).then((redeemResponse: string) => {
-                                  if (redeemResponse != null) {
-                                    updateQuery((queryData) => ({
-                                      ...queryData!,
-                                      insurance: {
-                                        ...queryData!.insurance,
-                                        cost: JSON.parse(redeemResponse),
-                                      },
-                                    }));
-                                  }
-                                });
-                              }
-                              if (Platform.OS === 'android') {
-                                NativeModules.ActivityStarter.showRedeemCodeOverlay().then(
-                                  (redeemResponse: string) => {
-                                    if (redeemResponse != null) {
-                                      const data = JSON.parse(redeemResponse);
-                                      updateQuery((queryData) => ({
-                                        ...queryData!,
-                                        insurance: {
-                                          ...queryData!.insurance,
-                                          cost: {
-                                            __typename: data.__typename,
-                                            monthlyDiscount: {
-                                              __typename:
-                                                data.monthlyDiscount.__typename,
-                                              amount:
-                                                data.monthlyDiscount.amount,
-                                            },
-                                            monthlyNet: {
-                                              __typename:
-                                                data.monthlyNet.__typename,
-                                              amount: data.monthlyNet.amount,
-                                            },
-                                            monthlyGross: {
-                                              __typename:
-                                                data.monthlyGross.__typename,
-                                              amount: data.monthlyGross.amount,
-                                            },
-                                          },
-                                        },
-                                      }));
-                                    }
-                                  },
-                                );
-                              }
-                            }
-                          }}
-                        />
-                      </FeaturesContainer>
-                    </FixedContainer>
-                    <ScrollContent
-                      insuredAtOtherCompany={
-                        data!.insurance.insuredAtOtherCompany!
-                      }
-                      scrollAnimatedValue={animatedValue}
-                    />
-                  </ScrollContainer>
-                  <SignButton scrollAnimatedValue={animatedValue} />
-                  <Checkout monthlyCost={data!.insurance.monthlyCost!} />
-                </>
-              )}
-            </AnimationValueProvider>
-          </>
-        )
-      }
-    </NewOfferComponent>
-  </Provider>
+                      </ScrollContainer>
+                      <SignButton scrollAnimatedValue={animatedValue} />
+                      <Checkout monthlyCost={data!.insurance.monthlyCost!} />
+                    </>
+                  )}
+                </AnimationValueProvider>
+              </>
+            )
+          }
+        </NewOfferComponent>
+      </Provider>
+    )}
+  </Container>
 );

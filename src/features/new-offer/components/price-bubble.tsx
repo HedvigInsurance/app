@@ -45,11 +45,20 @@ const DiscountCircle = styled(Circle)({
   position: 'absolute',
 });
 
+const PreDiscountText = styled(Text)({
+  color: colors.WHITE,
+  fontFamily: fonts.CIRCULAR,
+  fontSize: getCircleSize() === LARGE_CIRCLE_SIZE ? 14 : 12,
+  fontWeight: 'normal',
+  textAlign: 'center',
+});
+
 const DiscountText = styled(Text)({
   color: colors.WHITE,
   fontFamily: fonts.CIRCULAR,
   fontSize: getCircleSize() === LARGE_CIRCLE_SIZE ? 14 : 12,
   fontWeight: 'bold',
+  textAlign: 'center',
 });
 
 const Price = styled(Text)({
@@ -77,7 +86,8 @@ const NetPrice = styled(Price)({
 
 interface PriceBubbleProps {
   price: MonetaryAmountV2;
-  discountedPrice?: MonetaryAmountV2;
+  discountedPrice: MonetaryAmountV2;
+  freeMonths: number;
 }
 
 const formatMonetaryAmount = (monetaryAmount: MonetaryAmountV2) =>
@@ -86,46 +96,55 @@ const formatMonetaryAmount = (monetaryAmount: MonetaryAmountV2) =>
 export const PriceBubble: React.SFC<PriceBubbleProps> = ({
   price,
   discountedPrice,
+  freeMonths,
 }) => (
-    <Sequence>
-      <Delay config={{ delay: 650 }} />
-      <Spring
-        config={{
-          bounciness: 12,
-        }}
-        toValue={1}
-        initialValue={0.5}
-      >
-        {(animatedValue) => (
-          <AnimatedView
-            style={{
-              opacity: animatedValue.interpolate({
-                inputRange: [0.5, 1],
-                outputRange: [0, 1],
-              }),
-              transform: [{ scale: animatedValue }],
-            }}
-          >
-            <Circle>
+  <Sequence>
+    <Delay config={{ delay: 650 }} />
+    <Spring
+      config={{
+        bounciness: 12,
+      }}
+      toValue={1}
+      initialValue={0.5}
+    >
+      {(animatedValue) => (
+        <AnimatedView
+          style={{
+            opacity: animatedValue.interpolate({
+              inputRange: [0.5, 1],
+              outputRange: [0, 1],
+            }),
+            transform: [{ scale: animatedValue }],
+          }}
+        >
+          <Circle>
+            {discountedPrice.amount !== price.amount ? (
+              <>
+                <GrossPrice>{formatMonetaryAmount(price)} kr/mån</GrossPrice>
+                <NetPrice>{formatMonetaryAmount(discountedPrice)}</NetPrice>
+              </>
+            ) : (
+              <Price>{formatMonetaryAmount(price)}</Price>
+            )}
+            <MonthlyLabel>kr/mån</MonthlyLabel>
+          </Circle>
+
+          {(discountedPrice.amount !== price.amount || freeMonths > 0) && (
+            <DiscountCircle>
               {discountedPrice.amount !== price.amount ? (
-                <>
-                  <GrossPrice>{formatMonetaryAmount(price)} kr/mån</GrossPrice>
-                  <NetPrice>{formatMonetaryAmount(discountedPrice)}</NetPrice>
-                </>
-              ) : (
-                  <Price>{formatMonetaryAmount(price)}</Price>
-                )}
-              <MonthlyLabel>kr/mån</MonthlyLabel>
-            </Circle>
-            {discountedPrice.amount !== price.amount && (
-              <DiscountCircle>
                 <TranslationsConsumer textKey="OFFER_SCREEN_INVITED_BUBBLE">
                   {(text) => <DiscountText>{text}</DiscountText>}
                 </TranslationsConsumer>
-              </DiscountCircle>
-            )}
-          </AnimatedView>
-        )}
-      </Spring>
-    </Sequence>
-  );
+              ) : (
+                <>
+                  <PreDiscountText>Rabatt!</PreDiscountText>
+                  <DiscountText>{freeMonths} månader gratis!</DiscountText>
+                </>
+              )}
+            </DiscountCircle>
+          )}
+        </AnimatedView>
+      )}
+    </Spring>
+  </Sequence>
+);
