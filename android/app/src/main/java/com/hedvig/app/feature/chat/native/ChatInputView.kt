@@ -9,8 +9,8 @@ import android.widget.TextView
 import com.hedvig.android.owldroid.fragment.SingleSelectChoice
 import com.hedvig.android.owldroid.type.KeyboardType
 import com.hedvig.app.R
+import com.hedvig.app.util.extensions.children
 import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.view.children
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
