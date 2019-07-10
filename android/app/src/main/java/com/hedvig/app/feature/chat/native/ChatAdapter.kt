@@ -83,17 +83,18 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount() = messages.size
 
-    override fun getItemViewType(position: Int) = if (messages[position].fragments.chatMessageFragment.header.isFromMyself) {
-        when {
-            isImageUploadMessage(messages[position].fragments.chatMessageFragment.body) -> FROM_ME_IMAGE_UPLOAD
-            isFileUploadMessage((messages[position].fragments.chatMessageFragment.body)) -> FROM_ME_FILE_UPLOAD
-            isGiphyMessage(messages[position].fragments.chatMessageFragment.body?.text) -> FROM_ME_GIPHY
-            isImageMessage(messages[position].fragments.chatMessageFragment.body?.text) -> FROM_ME_IMAGE
-            else -> FROM_ME_TEXT
+    override fun getItemViewType(position: Int) =
+        if (messages[position].fragments.chatMessageFragment.header.isFromMyself) {
+            when {
+                isImageUploadMessage(messages[position].fragments.chatMessageFragment.body) -> FROM_ME_IMAGE_UPLOAD
+                isFileUploadMessage((messages[position].fragments.chatMessageFragment.body)) -> FROM_ME_FILE_UPLOAD
+                isGiphyMessage(messages[position].fragments.chatMessageFragment.body?.text) -> FROM_ME_GIPHY
+                isImageMessage(messages[position].fragments.chatMessageFragment.body?.text) -> FROM_ME_IMAGE
+                else -> FROM_ME_TEXT
+            }
+        } else {
+            FROM_HEDVIG
         }
-    } else {
-        FROM_HEDVIG
-    }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder.itemViewType) {
@@ -101,7 +102,13 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 (viewHolder as? HedvigMessage)?.apply { bind(messages[position].fragments.chatMessageFragment.body?.text) }
             }
             FROM_ME_TEXT -> {
-                (viewHolder as? UserMessage)?.apply { bind(messages[position].fragments.chatMessageFragment.body?.text) }
+                (viewHolder as? UserMessage)?.apply {
+                    bind(
+                        messages[position].fragments.chatMessageFragment.body?.text,
+                        position,
+                        messages[position].fragments.chatMessageFragment.header.statusMessage
+                    )
+                }
             }
             FROM_ME_GIPHY -> {
                 (viewHolder as? GiphyUserMessage)?.apply { bind(messages[position].fragments.chatMessageFragment.body?.text) }
@@ -137,9 +144,17 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class UserMessage(view: View) : RecyclerView.ViewHolder(view) {
         val message: TextView = view.userMessage
+        val status: TextView = view.statusMessage
 
-        fun bind(text: String?) {
+        fun bind(text: String?, position: Int, statusMessage: String?) {
             message.text = text
+            if (statusMessage != null && position == 1) {
+                status.text = statusMessage
+                status.show()
+            } else {
+                status.text = ""
+                status.remove()
+            }
         }
     }
 
@@ -222,7 +237,6 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             "jpg", "png", "gif", "jpeg"
         )
 
-        private fun isLast(position: Int, items: List<*>) = items.size - 1 == position
         private fun isGiphyMessage(text: String?) = text?.contains("giphy.com") ?: false
         private fun getExtension(uri: Uri) = uri.lastPathSegment?.substringAfterLast('.', "")
         private fun isImageMessage(text: String?): Boolean {
