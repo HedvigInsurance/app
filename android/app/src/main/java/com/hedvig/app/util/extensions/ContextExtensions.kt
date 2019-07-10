@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.FontRes
@@ -111,3 +112,7 @@ fun Context.makeToast(
     text: String,
     length: Int = Toast.LENGTH_LONG
 ) = Toast.makeText(this, text, length).show()
+
+fun Context.makeACall(
+    phoneNumber: Uri
+) = startActivity(Intent(Intent.ACTION_DIAL).apply { data = phoneNumber })

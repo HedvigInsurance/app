@@ -108,12 +108,12 @@
 
     <fragment
         android:id="@+id/claimsCommonClaimFragment"
-        android:name="com.hedvig.app.feature.claims.ui.commonclaim.CommonClaimFragment"
+        android:name="com.hedvig.app.feature.claims.ui.commonclaim.CommonClaimActivity"
         android:label="CommonClaimFragment" />
 
     <fragment
         android:id="@+id/claimsEmergencyFragment"
-        android:name="com.hedvig.app.feature.claims.ui.commonclaim.EmergencyFragment"
+        android:name="com.hedvig.app.feature.claims.ui.commonclaim.EmergencyActivity"
         android:label="EmergencyFragment" />
 
     <fragment

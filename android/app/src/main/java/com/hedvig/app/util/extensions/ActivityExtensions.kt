@@ -122,3 +122,6 @@ fun Activity.startClosableChat() {
 
     ActivityCompat.startActivity(this, intent, options.toBundle())
 }
+
+fun Activity.sceneTransitionAnimation(vararg sharedElements: Pair<View, String>) =
+    ActivityOptionsCompat.makeSceneTransitionAnimation(this, *sharedElements.map { (a, b) -> android.support.v4.util.Pair(a, b) }.toTypedArray())

@@ -20,7 +20,7 @@ class CommonClaimsAdapter(
     private val requestBuilder: RequestBuilder<PictureDrawable>,
     private val baseUrl: String,
     private val navigateToCommonClaimFragment: (CommonClaimQuery.CommonClaim) -> Unit,
-    private val navigateToEmergencyFragment: (CommonClaimQuery.CommonClaim) -> Unit
+    private val navigateToEmergencyFragment: (CommonClaimQuery.CommonClaim, container: ViewHolder) -> Unit
 ) : RecyclerView.Adapter<CommonClaimsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -42,7 +42,7 @@ class CommonClaimsAdapter(
                 is CommonClaimQuery.AsTitleAndBulletPoints ->
                     view.setOnClickListener { navigateToCommonClaimFragment.invoke(commonClaim) }
                 is CommonClaimQuery.AsEmergency ->
-                    view.setOnClickListener { navigateToEmergencyFragment.invoke(commonClaim) }
+                    view.setOnClickListener { navigateToEmergencyFragment.invoke(commonClaim, viewHolder) }
                 else ->
                     view.setOnClickListener { Timber.i("Not a recognized view") }
             }

@@ -9,13 +9,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.RequestBuilder
-import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.app.R
+import com.hedvig.app.feature.claims.ui.commonclaim.BulletPoint
 import kotlinx.android.synthetic.main.claim_bulletpoint_row.view.*
-import org.jetbrains.annotations.NotNull
 
 class BulletPointsAdapter(
-    private val bulletPoints: @NotNull MutableList<CommonClaimQuery.BulletPoint>,
+    private val bulletPoints: List<BulletPoint>,
     private val baseUrl: String,
     private val requestBuilder: RequestBuilder<PictureDrawable>
 ) : RecyclerView.Adapter<BulletPointsAdapter.ViewHolder>() {
@@ -33,7 +32,7 @@ class BulletPointsAdapter(
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val bulletPoint = bulletPoints[position]
         viewHolder.apply {
-            requestBuilder.load(Uri.parse(baseUrl + bulletPoint.icon.svgUrl)).into(bulletPointIcon)
+            requestBuilder.load(Uri.parse(baseUrl + bulletPoint.iconUrl)).into(bulletPointIcon)
             bulletPointTitle.text = bulletPoint.title
             bulletPointDescription.text = bulletPoint.description
         }

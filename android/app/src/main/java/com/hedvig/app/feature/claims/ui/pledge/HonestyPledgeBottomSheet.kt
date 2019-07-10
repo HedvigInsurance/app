@@ -21,7 +21,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
     val tracker: ClaimsTracker by inject()
 
-    val claimsViewModel: ClaimsViewModel by sharedViewModel()
+    private val claimsViewModel: ClaimsViewModel by sharedViewModel()
 
     override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
 
@@ -41,6 +41,7 @@ class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
     }
 
     companion object {
+        const val TAG = "honesty_pledge"
         private const val ARGS_CLAIM_KEY = "claim_key"
 
         fun newInstance(claimKey: String): HonestyPledgeBottomSheet {

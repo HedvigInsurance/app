@@ -85,6 +85,22 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name=".feature.claims.ui.commonclaim.CommonClaimActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Light"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".feature.claims.ui.commonclaim.EmergencyActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Light"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".feature.profile.ui.aboutapp.AboutAppActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"

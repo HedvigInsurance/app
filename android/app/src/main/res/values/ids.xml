@@ -105,4 +105,5 @@
     <item name="bankAccountUnderChangeParagraph" type="id" />
     <item name="profileReferralRow" type="id" />
     <item name="iconNavigateNext" type="id" />
+    <item name="tag_reflow_data" type="id" />
 </resources>

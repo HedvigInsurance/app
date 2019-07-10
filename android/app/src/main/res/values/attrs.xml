@@ -17,4 +17,11 @@
     <declare-styleable name="PagerIndicatorView">
         <attr name="pager" format="reference" />
     </declare-styleable>
+    <declare-styleable name="ReflowText">
+        <attr name="velocity" format="dimension" />
+        <attr name="minDuration" format="integer" />
+        <attr name="maxDuration" format="integer" />
+        <attr name="staggerDelay" format="integer" />
+        <attr name="freezeFrame" format="boolean" />
+    </declare-styleable>
 </resources>

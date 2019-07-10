@@ -57,3 +57,5 @@ var Fragment.statusBarColor: Int
 
 val Fragment.screenWidth: Int
     get() = requireActivity().screenWidth
+
+fun Fragment.sceneTransitionAnimation(vararg sharedElements: Pair<View, String>) = requireActivity().sceneTransitionAnimation(*sharedElements)

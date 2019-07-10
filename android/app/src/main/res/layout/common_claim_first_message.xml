@@ -10,12 +10,39 @@
     android:paddingBottom="@dimen/common_claim_first_message_bottom_margin"
     tools:background="#D7FDF4">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin_double"
+        android:layout_marginBottom="@dimen/base_margin_triple"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:id="@+id/goBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="Tillbaka"
+            app:srcCompat="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/screenTitle"
+            style="@style/Body.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/base_margin_triple"
+            android:transitionName="@string/app_bar_title"
+            tools:text="Försenat bagage" />
+
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/commonClaimFirstMessageIcon"
         android:layout_width="@dimen/common_claim_icon_size"
         android:layout_height="@dimen/common_claim_icon_size"
         android:layout_marginStart="@dimen/base_margin_triple"
         android:contentDescription="@null"
+        android:transitionName="@string/common_claim_first_message_icon"
         tools:src="@drawable/icon_charity" />
 
     <TextView

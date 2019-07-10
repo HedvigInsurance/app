@@ -7,4 +7,7 @@
 
     <string name="two_hundred_thousand" translatable="false">200 000</string>
     <string name="one_million" translatable="false">1 000 000</string>
+    <string name="common_claim_first_message_icon" translatable="false">common_claim_first_message_icon</string>
+    <string name="claim_card_cell" translatable="false">claim_card_cell</string>
+    <string name="app_bar_title" translatable="false">app_bar_title</string>
 </resources>
