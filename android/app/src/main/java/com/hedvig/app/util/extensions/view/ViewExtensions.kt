@@ -138,3 +138,4 @@ fun View.setupLargeTitle(
     icon?.let { toolbar.setNavigationIcon(it) }
     backAction?.let { toolbar.setNavigationOnClickListener { it() } }
 }
+

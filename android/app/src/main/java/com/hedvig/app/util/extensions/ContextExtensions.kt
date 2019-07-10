@@ -22,10 +22,14 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.hedvig.app.SplashActivity
+import com.hedvig.app.feature.offer.NativeOfferActivity
+import timber.log.Timber
 import kotlin.system.exitProcess
 
 private const val SHARED_PREFERENCE_NAME = "hedvig_shared_preference"
 private const val SHARED_PREFERENCE_IS_LOGGED_IN = "shared_preference_is_logged_in"
+
+private const val SHARED_PREFERENCE_AUTHENTICATION_TOKEN = "shared_preference_authentication_token"
 
 fun Context.compatColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
@@ -47,6 +51,12 @@ fun Context.triggerRestartActivity(activity: Class<*> = SplashActivity::class.ja
     mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, pendingIntent)
     exitProcess(0)
 }
+
+fun Context.setAuthenticationToken(token: String?) =
+    getSharedPreferences().edit().putString(SHARED_PREFERENCE_AUTHENTICATION_TOKEN, token).commit()
+
+fun Context.getAuthenticationToken(): String? =
+    getSharedPreferences().getString(SHARED_PREFERENCE_AUTHENTICATION_TOKEN, null)
 
 fun Context.setIsLoggedIn(isLoggedIn: Boolean) =
     getSharedPreferences().edit().putBoolean(SHARED_PREFERENCE_IS_LOGGED_IN, isLoggedIn).commit()
@@ -114,3 +124,16 @@ fun Context.makeToast(
 ) = Toast.makeText(this, text, length).show()
 
 fun Context.openUri(uri: Uri) = startActivity(Intent(Intent.ACTION_VIEW, uri))
+
+//TODO handle login
+fun Context.handleSingleSelectLink(value: String) = when(value) {
+    "message.forslag.dashboard" -> {
+        startActivity(Intent(this, NativeOfferActivity::class.java).also {
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        })
+    }
+    else -> {
+        Timber.e("Can't handle the link $value")
+    }
+}
