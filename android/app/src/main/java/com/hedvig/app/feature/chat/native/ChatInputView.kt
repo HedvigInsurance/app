@@ -24,6 +24,7 @@ class ChatInputView : FrameLayout {
 
     private lateinit var sendTextMessage: ((String) -> Unit)
     private lateinit var sendSingleSelect: ((String) -> Unit)
+    private lateinit var singleSelectLink: ((String) -> Unit)
     private lateinit var paragraphPullMessages: (() -> Unit)
 
     private val layoutInflater: LayoutInflater by lazy {
@@ -49,9 +50,10 @@ class ChatInputView : FrameLayout {
         }
     }
 
-    fun initialize(sendTextMessage: (String) -> Unit, sendSingleSelect: (String) -> Unit, paragraphPullMessages: () -> Unit) {
+    fun initialize(sendTextMessage: (String) -> Unit, sendSingleSelect: (String) -> Unit, sendSingleSelectLink: (String) -> Unit, paragraphPullMessages: () -> Unit) {
         this.sendTextMessage = sendTextMessage
         this.sendSingleSelect = sendSingleSelect
+        this.singleSelectLink = sendSingleSelectLink
         this.paragraphPullMessages = paragraphPullMessages
     }
 
@@ -92,23 +94,28 @@ class ChatInputView : FrameLayout {
         input.options.forEach {
             when (it) {
                 is SingleSelectChoice.AsMessageBodyChoicesSelection ->
-                    inflateSingleSelectButton(it.text, it.value)
+                    inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.SELCETION)
                 is SingleSelectChoice.AsMessageBodyChoicesLink ->
-                    inflateSingleSelectButton(it.text, it.value)
+                    inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.LINK)
                 is SingleSelectChoice.AsMessageBodyChoicesUndefined ->
-                    inflateSingleSelectButton(it.text, it.value)
+                    inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.UNDIFINED)
             }
         }
     }
 
-    private fun inflateSingleSelectButton(label: String, value: String) {
+    private fun inflateSingleSelectButton(label: String, value: String, type: SingleSelectChoiceType) {
         val singleSelectButton = layoutInflater.inflate(R.layout.chat_single_select_button, singleSelectContainer, false) as TextView
         singleSelectButton.text = label
         singleSelectButton.setHapticClickListener {
             singleSelectButton.isSelected = true
             singleSelectButton.setTextColor(context.compatColor(R.color.white))
             disableSingleButtons()
-            sendSingleSelect(value)
+            when (type) {
+                SingleSelectChoiceType.UNDIFINED, // TODO: Let's talk about this one
+                SingleSelectChoiceType.SELCETION -> sendSingleSelect(value)
+                SingleSelectChoiceType.LINK -> singleSelectLink(value)
+            }
+
         }
 
         singleSelectContainer.addView(singleSelectButton)
@@ -126,4 +133,10 @@ class ChatInputView : FrameLayout {
     private fun bindNullInput() {
         nullView.show()
     }
+}
+
+enum class SingleSelectChoiceType {
+    LINK,
+    SELCETION,
+    UNDIFINED
 }

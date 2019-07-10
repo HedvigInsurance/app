@@ -109,6 +109,13 @@
             android:theme="@style/Theme.Exponent.Light"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".feature.offer.NativeOfferActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Exponent.Light"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".feature.chat.ChatActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
