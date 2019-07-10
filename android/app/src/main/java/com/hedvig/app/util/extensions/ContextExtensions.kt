@@ -125,6 +125,7 @@ fun Context.makeToast(
 
 fun Context.openUri(uri: Uri) = startActivity(Intent(Intent.ACTION_VIEW, uri))
 
+//TODO handle login
 fun Context.handleSingleSelectLink(value: String) = when(value) {
     "message.forslag.dashboard" -> {
         startActivity(Intent(this, NativeOfferActivity::class.java).also {

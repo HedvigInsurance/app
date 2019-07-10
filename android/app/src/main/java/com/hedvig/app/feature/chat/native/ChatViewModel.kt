@@ -82,10 +82,6 @@ class ChatViewModel(
     private fun postResponseValue(response: Response<ChatMessagesQuery.Data>) {
         val data = response.data()
         messages.postValue(data)
-        //TODO: look at this
-        data?.messages?.filter {
-            true
-        }
     }
 
     fun respondToLastMessage(message: String) {
