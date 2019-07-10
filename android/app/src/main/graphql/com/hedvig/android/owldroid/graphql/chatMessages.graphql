@@ -15,6 +15,7 @@ fragment ChatMessageFragmet on Message {
   id
   header {
     fromMyself
+    statusMessage
   }
   body {
     ... on MessageBodyCore {
