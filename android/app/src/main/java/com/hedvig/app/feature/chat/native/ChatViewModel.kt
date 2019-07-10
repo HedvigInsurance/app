@@ -51,7 +51,7 @@ class ChatViewModel(
                 if (shouldBeDelayed(response)) {
                     postWithDelay(response)
                 } else {
-                    postResponse(response)
+                    postResponseValue(response)
                 }
             }, { Timber.e(it) })
     }
@@ -72,14 +72,14 @@ class ChatViewModel(
             .timer(delay, TimeUnit.MILLISECONDS, Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                postResponse(response)
+                postResponseValue(response)
             }, {
                 Timber.e(it, "Timer failed!")
-                postResponse(response)
+                postResponseValue(response)
             })
     }
 
-    private fun postResponse(response: Response<ChatMessagesQuery.Data>) {
+    private fun postResponseValue(response: Response<ChatMessagesQuery.Data>) {
         val data = response.data()
         messages.postValue(data)
         //TODO: look at this

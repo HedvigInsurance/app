@@ -35,7 +35,6 @@ class NativeChatActivity : AppCompatActivity() {
         }
         chatViewModel.sendMessageResponse.observe(this) { response ->
             if (response == true) {
-
                 input.clearInput()
                 chatViewModel.load()
             }

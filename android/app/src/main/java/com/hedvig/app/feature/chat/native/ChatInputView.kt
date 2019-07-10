@@ -24,7 +24,7 @@ class ChatInputView : FrameLayout {
 
     private lateinit var sendTextMessage: ((String) -> Unit)
     private lateinit var sendSingleSelect: ((String) -> Unit)
-    private lateinit var pullMessages: (() -> Unit)
+    private lateinit var paragraphPullMessages: (() -> Unit)
 
     private val layoutInflater: LayoutInflater by lazy {
         LayoutInflater.from(context)
@@ -52,7 +52,7 @@ class ChatInputView : FrameLayout {
     fun initialize(sendTextMessage: (String) -> Unit, sendSingleSelect: (String) -> Unit, paragraphPullMessages: () -> Unit) {
         this.sendTextMessage = sendTextMessage
         this.sendSingleSelect = sendSingleSelect
-        this.pullMessages = paragraphPullMessages
+        this.paragraphPullMessages = paragraphPullMessages
     }
 
     fun clearInput() {
@@ -120,7 +120,7 @@ class ChatInputView : FrameLayout {
 
     private fun bindParagraphInput() {
         paragraphView.show()
-        pullMessages()
+        paragraphPullMessages()
     }
 
     private fun bindNullInput() {
