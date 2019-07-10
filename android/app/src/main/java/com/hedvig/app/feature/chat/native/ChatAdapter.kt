@@ -84,7 +84,7 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount() = messages.size
 
     override fun getItemViewType(position: Int) =
-        if (messages[position].fragments.chatMessageFragmet.header.isFromMyself) {
+        if (messages[position].fragments.chatMessageFragment.header.isFromMyself) {
             when {
                 isImageUploadMessage(messages[position].fragments.chatMessageFragment.body) -> FROM_ME_IMAGE_UPLOAD
                 isFileUploadMessage((messages[position].fragments.chatMessageFragment.body)) -> FROM_ME_FILE_UPLOAD
@@ -105,6 +105,7 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 (viewHolder as? UserMessage)?.apply {
                     bind(
                         messages[position].fragments.chatMessageFragment.body?.text,
+                        position,
                         messages[position].fragments.chatMessageFragment.header.statusMessage
                     )
                 }
@@ -145,16 +146,15 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val message: TextView = view.userMessage
         val status: TextView = view.statusMessage
 
-        fun bind(text: String?, statusMessage: String?) {
+        fun bind(text: String?, position: Int, statusMessage: String?) {
             message.text = text
-            if (statusMessage != null) {
+            if (statusMessage != null && position == 1) {
                 status.text = statusMessage
                 status.show()
             } else {
                 status.text = ""
                 status.remove()
             }
-
         }
     }
 
@@ -237,7 +237,6 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             "jpg", "png", "gif", "jpeg"
         )
 
-        private fun isLast(position: Int, items: List<*>) = items.size - 1 == position
         private fun isGiphyMessage(text: String?) = text?.contains("giphy.com") ?: false
         private fun getExtension(uri: Uri) = uri.lastPathSegment?.substringAfterLast('.', "")
         private fun isImageMessage(text: String?): Boolean {
