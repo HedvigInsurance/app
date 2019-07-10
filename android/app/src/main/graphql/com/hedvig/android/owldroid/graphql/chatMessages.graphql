@@ -1,16 +1,16 @@
 query ChatMessages {
   messages {
-    ... ChatMessageFragmet
+    ... ChatMessageFragment
   }
 }
 
 subscription ChatMessage {
   message {
-    ... ChatMessageFragmet
+    ... ChatMessageFragment
   }
 }
 
-fragment ChatMessageFragmet on Message {
+fragment ChatMessageFragment on Message {
   globalId
   id
   header {
@@ -18,6 +18,33 @@ fragment ChatMessageFragmet on Message {
     statusMessage
   }
   body {
+    ... on MessageBodySingleSelect {
+      type
+      choices {
+        ... on MessageBodyChoicesSelection {
+          type
+          value
+          text
+          selected
+          clearable
+        }
+        ... on MessageBodyChoicesLink {
+          type
+          value
+          text
+          selected
+          view
+          appUrl
+          webUrl
+        }
+        ... on MessageBodyChoicesUndefined {
+          type
+          value
+          text
+          selected
+        }
+      }
+    }
     ... on MessageBodyCore {
       type
       text
@@ -34,6 +61,11 @@ fragment ChatMessageFragmet on Message {
     ... on MessageBodyNumber {
       keyboard
       placeholder
+    }
+    ... on MessageBodyParagraph {
+      id
+      text
+      type
     }
   }
 }
