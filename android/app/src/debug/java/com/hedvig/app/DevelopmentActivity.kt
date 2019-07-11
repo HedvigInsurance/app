@@ -59,7 +59,7 @@ class DevelopmentActivity : AppCompatActivity() {
             startActivity(ReferralsSuccessfulInviteActivity.newInstance(this, "Fredrik", "10.00"))
         }
 
-        findViewById<Button>(R.id.openNativeChat).setOnClickListener {
+        findViewById<Button>(R.id.openNativeChat).setHapticClickListener {
             startActivity(Intent(this, NativeChatActivity::class.java))
         }
     }

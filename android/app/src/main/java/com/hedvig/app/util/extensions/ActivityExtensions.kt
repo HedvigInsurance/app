@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.app_bar.*
 import com.hedvig.app.feature.chat.ChatActivity
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
-import kotlin.reflect.KClass
 
 fun Activity.setLightNavigationBar() {
     window.navigationBarColor = compatColor(R.color.off_white)
@@ -122,3 +121,5 @@ fun Activity.startClosableChat() {
 
     ActivityCompat.startActivity(this, intent, options.toBundle())
 }
+
+fun Activity.compatRequestPermissions(permissions: Array<String>, requestCode: Int) = ActivityCompat.requestPermissions(this, permissions, requestCode)

@@ -11,8 +11,9 @@ sealed class ChatInputType {
             is ChatMessageFragment.AsMessageBodyFile -> TextInput()
             is ChatMessageFragment.AsMessageBodyText -> TextInput(body.keyboard, body.placeholder, true)
             is ChatMessageFragment.AsMessageBodyNumber -> TextInput(body.keyboard, body.placeholder, false)
-            is ChatMessageFragment.AsMessageBodySingleSelect -> SingleSelect(body.choices?: listOf())
+            is ChatMessageFragment.AsMessageBodySingleSelect -> SingleSelect(body.choices ?: listOf())
             is ChatMessageFragment.AsMessageBodyParagraph -> ParagraphInput
+            is ChatMessageFragment.AsMessageBodyAudio -> Audio
             else -> {
                 Timber.e("Implement support for ${message::class.java.simpleName}")
                 NullInput

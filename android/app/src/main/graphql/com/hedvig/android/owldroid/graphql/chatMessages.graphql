@@ -67,5 +67,8 @@ fragment ChatMessageFragment on Message {
       text
       type
     }
+    ... on MessageBodyAudio {
+      id
+    }
   }
 }

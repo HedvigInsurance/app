@@ -39,6 +39,7 @@ class ChatInputView : FrameLayout {
                 is TextInput -> bindTextInput(value)
                 is SingleSelect -> bindSingleSelect(value)
                 is ParagraphInput -> bindParagraphInput()
+                is Audio -> bindAudio()
                 is NullInput -> bindNullInput()
             }
         }
@@ -50,22 +51,33 @@ class ChatInputView : FrameLayout {
         }
     }
 
-    fun initialize(sendTextMessage: (String) -> Unit, sendSingleSelect: (String) -> Unit, sendSingleSelectLink: (String) -> Unit, paragraphPullMessages: () -> Unit) {
+    fun initialize(
+        sendTextMessage: (String) -> Unit,
+        sendSingleSelect: (String) -> Unit,
+        sendSingleSelectLink: (String) -> Unit,
+        paragraphPullMessages: () -> Unit,
+        requestAudioPermission: () -> Unit,
+        uploadRecording: (String) -> Unit
+    ) {
         this.sendTextMessage = sendTextMessage
         this.sendSingleSelect = sendSingleSelect
         this.singleSelectLink = sendSingleSelectLink
         this.paragraphPullMessages = paragraphPullMessages
+        audioRecorder.initialize(requestAudioPermission, uploadRecording)
     }
 
     fun clearInput() {
         inputText.text.clear()
     }
 
+    fun onPermissionResult(granted: Boolean) = audioRecorder.onPermissionResult(granted)
+
     private fun hideInputContainers() {
         textInputContainer.remove()
         singleSelectContainer.remove()
         paragraphView.remove()
         paragraphView.cancelAnimation()
+        audioRecorder.remove()
         nullView.remove()
     }
 
@@ -95,25 +107,26 @@ class ChatInputView : FrameLayout {
         input.options.forEach {
             when (it) {
                 is ChatMessageFragment.AsMessageBodyChoicesSelection ->
-                    inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.SELCETION)
+                    inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.SELECTION)
                 is ChatMessageFragment.AsMessageBodyChoicesLink ->
                     inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.LINK)
                 is ChatMessageFragment.AsMessageBodyChoicesUndefined ->
-                    inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.UNDIFINED)
+                    inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.UNDEFINED)
             }
         }
     }
 
     private fun inflateSingleSelectButton(label: String, value: String, type: SingleSelectChoiceType) {
-        val singleSelectButton = layoutInflater.inflate(R.layout.chat_single_select_button, singleSelectContainer, false) as TextView
+        val singleSelectButton =
+            layoutInflater.inflate(R.layout.chat_single_select_button, singleSelectContainer, false) as TextView
         singleSelectButton.text = label
         singleSelectButton.setHapticClickListener {
             singleSelectButton.isSelected = true
             singleSelectButton.setTextColor(context.compatColor(R.color.white))
             disableSingleButtons()
             when (type) {
-                SingleSelectChoiceType.UNDIFINED, // TODO: Let's talk about this one
-                SingleSelectChoiceType.SELCETION -> sendSingleSelect(value)
+                SingleSelectChoiceType.UNDEFINED, // TODO: Let's talk about this one
+                SingleSelectChoiceType.SELECTION -> sendSingleSelect(value)
                 SingleSelectChoiceType.LINK -> singleSelectLink(value)
             }
 
@@ -132,6 +145,10 @@ class ChatInputView : FrameLayout {
         paragraphPullMessages()
     }
 
+    private fun bindAudio() {
+        audioRecorder.show()
+    }
+
     private fun bindNullInput() {
         nullView.show()
     }
@@ -139,6 +156,6 @@ class ChatInputView : FrameLayout {
 
 enum class SingleSelectChoiceType {
     LINK,
-    SELCETION,
-    UNDIFINED
+    SELECTION,
+    UNDEFINED
 }

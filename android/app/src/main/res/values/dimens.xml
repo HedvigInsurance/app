@@ -100,4 +100,5 @@
     <dimen name="chat_background_edit_text_rounded_corner_radius">28dp</dimen>
     <dimen name="chat_message_corner_radius">20dp</dimen>
     <dimen name="chat_single_select_corner_radius">32dp</dimen>
+    <dimen name="audio_recorder_button_size">56dp</dimen>
 </resources>

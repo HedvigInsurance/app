@@ -1,9 +1,12 @@
 package com.hedvig.app.feature.chat.native
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.app.R
+import com.hedvig.app.util.extensions.compatRequestPermissions
 import com.hedvig.app.util.extensions.handleSingleSelectLink
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setAuthenticationToken
@@ -13,6 +16,7 @@ import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.showRestartDialog
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class NativeChatActivity : AppCompatActivity() {
 
@@ -28,7 +32,16 @@ class NativeChatActivity : AppCompatActivity() {
             sendTextMessage = { message -> chatViewModel.respondToLastMessage(message) },
             sendSingleSelect = { value -> chatViewModel.respondWithSingleSelect(value) },
             sendSingleSelectLink = { value -> handleSingleSelectLink(value) },
-            paragraphPullMessages = { chatViewModel.load() }
+            paragraphPullMessages = { chatViewModel.load() },
+            requestAudioPermission = {
+                compatRequestPermissions(
+                    arrayOf(Manifest.permission.RECORD_AUDIO),
+                    REQUEST_AUDIO_PERMISSION_REQUEST_CODE
+                )
+            },
+            uploadRecording = { path ->
+                Timber.e(path)
+            }
         )
 
         messages.adapter = ChatAdapter()
@@ -75,5 +88,18 @@ class NativeChatActivity : AppCompatActivity() {
     private fun bindData(data: ChatMessagesQuery.Data) {
         (messages.adapter as? ChatAdapter)?.messages = data.messages
         input.message = data.messages.firstOrNull()?.let { ChatInputType.from(it) }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_AUDIO_PERMISSION_REQUEST_CODE -> {
+                input.onPermissionResult(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            }
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+
+    companion object {
+        const val REQUEST_AUDIO_PERMISSION_REQUEST_CODE = 12994
     }
 }
