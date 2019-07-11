@@ -4,23 +4,29 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.app.R
-import com.hedvig.app.util.extensions.handleSingleSelectLink
-import com.hedvig.app.util.extensions.observe
-import com.hedvig.app.util.extensions.setAuthenticationToken
-import com.hedvig.app.util.extensions.triggerRestartActivity
-import com.hedvig.app.util.extensions.getAuthenticationToken
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.showRestartDialog
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import com.hedvig.app.util.extensions.observe
+import com.hedvig.app.util.extensions.handleSingleSelectLink
+import com.hedvig.app.util.extensions.setAuthenticationToken
+import com.hedvig.app.util.extensions.triggerRestartActivity
+import com.hedvig.app.util.extensions.getAuthenticationToken
+import com.hedvig.app.util.extensions.calculateKeyboardHeight
 
 class NativeChatActivity : AppCompatActivity() {
 
     private val chatViewModel: ChatViewModel by viewModel()
     private val userViewModel: UserViewModel by viewModel()
 
+    private var keyboardHeight = 0
+    private var isKeyboardBreakPoint = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        keyboardHeight = resources.getDimensionPixelSize(R.dimen.default_attach_file_height)
+        isKeyboardBreakPoint = resources.getDimensionPixelSize(R.dimen.is_keyboard_brake_point_height)
 
         setContentView(R.layout.activity_chat)
 
@@ -29,7 +35,11 @@ class NativeChatActivity : AppCompatActivity() {
             sendSingleSelect = { value -> chatViewModel.respondWithSingleSelect(value) },
             sendSingleSelectLink = { value -> handleSingleSelectLink(value) },
             paragraphPullMessages = { chatViewModel.load() },
-            openUpload = { }
+            openUpload = {
+                val attachPicker = AttachPicker(this)
+                attachPicker.pickerHeight = keyboardHeight
+                attachPicker.show()
+            }
         )
 
         messages.adapter = ChatAdapter()
@@ -70,6 +80,13 @@ class NativeChatActivity : AppCompatActivity() {
                 }
             }
             userViewModel.newSession()
+        }
+
+        chatRoot.viewTreeObserver.addOnGlobalLayoutListener {
+            val keyboardHeight = chatRoot.calculateKeyboardHeight()
+            if (keyboardHeight > isKeyboardBreakPoint) {
+                this.keyboardHeight = keyboardHeight
+            }
         }
     }
 

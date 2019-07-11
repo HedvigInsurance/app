@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.whenApiVersion
+import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.app_bar.view.*
 
 fun View.show(): View {
@@ -138,4 +139,3 @@ fun View.setupLargeTitle(
     icon?.let { toolbar.setNavigationIcon(it) }
     backAction?.let { toolbar.setNavigationOnClickListener { it() } }
 }
-
