@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils.loadAnimation
 class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog) {
 
     var pickerHeight = 0
+    lateinit var images: List<String>
 
     private var preventDismiss = false
     private var runningDismissAnimation = false
@@ -36,21 +37,21 @@ class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog
 
     override fun show() {
         super.show()
-        animatePicker(true)
+        animatePickerSheet(true)
     }
 
     override fun dismiss() {
         if (!runningDismissAnimation) {
             preventDismiss = true
             runningDismissAnimation = true
-            animatePicker(false)
+            animatePickerSheet(false)
         }
         if (!preventDismiss) {
             super.dismiss()
         }
     }
 
-    private fun animatePicker(show: Boolean) {
+    private fun animatePickerSheet(show: Boolean) {
         //maybe we should create a better animation but this is something
         val animation = loadAnimation(context, if (show) R.anim.slide_in_up else R.anim.slide_out_down)
         animation.setAnimationListener(object : Animation.AnimationListener {

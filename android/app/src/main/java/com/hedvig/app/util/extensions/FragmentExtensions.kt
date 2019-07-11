@@ -13,12 +13,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
-import android.view.View
-import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
 import com.hedvig.app.util.extensions.view.setupLargeTitle
-import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.app_bar.*
-import kotlinx.android.synthetic.main.app_bar.view.*
 
 val Fragment.localBroadcastManager get() = LocalBroadcastManager.getInstance(requireContext())
 

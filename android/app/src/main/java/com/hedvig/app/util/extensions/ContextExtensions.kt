@@ -30,6 +30,7 @@ private const val SHARED_PREFERENCE_NAME = "hedvig_shared_preference"
 private const val SHARED_PREFERENCE_IS_LOGGED_IN = "shared_preference_is_logged_in"
 
 private const val SHARED_PREFERENCE_AUTHENTICATION_TOKEN = "shared_preference_authentication_token"
+const val SHARED_PREFERENCE_ASKED_FOR_PERMISSION_PREFIX_KEY = "shared_preference_asked_for_permission_prefix"
 
 fun Context.compatColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
@@ -137,3 +138,9 @@ fun Context.handleSingleSelectLink(value: String) = when(value) {
         Timber.e("Can't handle the link $value")
     }
 }
+
+fun Context.getStoredBoolean(key: String): Boolean =
+    getSharedPreferences().getBoolean(key, false)
+
+fun Context.storeBoolean(key: String, value: Boolean): Boolean =
+    getSharedPreferences().edit().putBoolean(key, value).commit()

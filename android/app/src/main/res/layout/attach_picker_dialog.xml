@@ -11,11 +11,10 @@
         android:background="@color/off_white"
         android:layout_gravity="bottom">
 
-        <TextView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/attachFileRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:text="attach a file" />
+            android:layout_height="match_parent" />
 
     </FrameLayout>
 </FrameLayout>
