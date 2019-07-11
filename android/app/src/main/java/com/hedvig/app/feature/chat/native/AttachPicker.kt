@@ -8,10 +8,15 @@ import android.view.*
 import com.hedvig.app.R
 import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.attach_picker_dialog.*
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils.loadAnimation
 
 class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog) {
 
     var pickerHeight = 0
+
+    private var preventDismiss = false
+    private var runningDismissAnimation = false
 
     init {
         window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or
@@ -27,6 +32,39 @@ class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog
         setupDialogTouchEvents()
         setupWindowsParams()
         setupBottomSheetParams()
+    }
+
+    override fun show() {
+        super.show()
+        animatePicker(true)
+    }
+
+    override fun dismiss() {
+        if (!runningDismissAnimation) {
+            preventDismiss = true
+            runningDismissAnimation = true
+            animatePicker(false)
+        }
+        if (!preventDismiss) {
+            super.dismiss()
+        }
+    }
+
+    private fun animatePicker(show: Boolean) {
+        //maybe we should create a better animation but this is something
+        val animation = loadAnimation(context, if (show) R.anim.slide_in_up else R.anim.slide_out_down)
+        animation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationEnd(animation: Animation?) {
+                if (!show) {
+                    preventDismiss = false
+                    dismiss()
+                    runningDismissAnimation = false
+                }
+            }
+            override fun onAnimationRepeat(animation: Animation?) = Unit
+            override fun onAnimationStart(animation: Animation?) = Unit
+        })
+        attachPickerBottomSheet.startAnimation(animation)
     }
 
     private fun setupWindowsParams() = window?.let { window ->
@@ -62,5 +100,9 @@ class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog
         }
         //prevent dismiss in this area
         attachPickerBottomSheet.setOnTouchListener { _, _ -> true }
+    }
+
+    companion object {
+        private const val ANIMATION_DURATION_MS = 1000L
     }
 }
