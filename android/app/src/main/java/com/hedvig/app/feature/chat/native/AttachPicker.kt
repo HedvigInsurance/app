@@ -20,6 +20,9 @@ class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog
     private var preventDismiss = false
     private var runningDismissAnimation = false
 
+    private lateinit var takePhotoCallback: () -> Unit
+    private lateinit var uploadFileCallback: () -> Unit
+
     init {
         window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or
             WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
@@ -35,6 +38,11 @@ class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog
         setupWindowsParams()
         setupBottomSheetParams()
         setupRecyclerView()
+    }
+
+    fun initialize(takePhotoCallback: () -> Unit, uploadFileCallback: () -> Unit) {
+        this.takePhotoCallback = takePhotoCallback
+        this.uploadFileCallback = uploadFileCallback
     }
 
     override fun show() {
@@ -64,6 +72,7 @@ class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog
                     runningDismissAnimation = false
                 }
             }
+
             override fun onAnimationRepeat(animation: Animation?) = Unit
             override fun onAnimationStart(animation: Animation?) = Unit
         })
@@ -98,7 +107,12 @@ class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog
 
     private fun setupRecyclerView() {
         attachFileRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        attachFileRecyclerView.adapter = AttachFileAdapter(images, pickerHeight)
+        attachFileRecyclerView.adapter = AttachFileAdapter(
+            images,
+            pickerHeight,
+            takePhotoCallback,
+            uploadFileCallback
+        )
     }
 
     private fun setupDialogTouchEvents() {

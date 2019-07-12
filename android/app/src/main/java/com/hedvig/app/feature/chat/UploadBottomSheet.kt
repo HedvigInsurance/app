@@ -21,6 +21,8 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
     val chatViewModel: ChatViewModel by sharedViewModel()
 
+    var fileUploadedSuccessfulCallback: ((String) -> Unit)? = null
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         val view = LayoutInflater
@@ -60,6 +62,7 @@ class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
                     putExtra(ActivityStarterModule.FILE_UPLOAD_RESULT, ActivityStarterModule.FILE_UPLOAD_SUCCESS)
                     putExtra(ActivityStarterModule.FILE_UPLOAD_KEY, fuk)
                 })
+                fileUploadedSuccessfulCallback?.invoke(fuk)
                 isCancelable = true
                 dismiss()
             }

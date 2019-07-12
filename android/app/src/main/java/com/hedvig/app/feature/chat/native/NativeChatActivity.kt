@@ -20,6 +20,11 @@ import com.hedvig.app.util.extensions.getAuthenticationToken
 import com.hedvig.app.util.extensions.calculateKeyboardHeight
 import com.hedvig.app.util.extensions.hasPermissions
 import com.hedvig.app.util.extensions.askForPermissions
+import android.content.Intent
+import android.app.Activity
+import android.graphics.Bitmap
+import com.hedvig.app.feature.chat.UploadBottomSheet
+import timber.log.Timber
 
 class NativeChatActivity : AppCompatActivity() {
 
@@ -28,6 +33,8 @@ class NativeChatActivity : AppCompatActivity() {
 
     private var keyboardHeight = 0
     private var isKeyboardBreakPoint = 0
+
+    private var cameraImageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,9 +113,45 @@ class NativeChatActivity : AppCompatActivity() {
 
     private fun openAttachPicker() {
         val attachPicker = AttachPicker(this)
+        attachPicker.initialize({
+            if (hasPermissions(this, android.Manifest.permission.CAMERA)) {
+                startTakePicture()
+            } else {
+                askForPermissions(arrayOf(android.Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSIONS)
+            }
+        }, {
+            val uploadBottomSheet = UploadBottomSheet()
+            uploadBottomSheet.fileUploadedSuccessfulCallback = {
+                // todo upload successful
+            }
+            uploadBottomSheet.show(supportFragmentManager, "FileUploadOverlay")
+        })
         attachPicker.pickerHeight = keyboardHeight
         attachPicker.images = getImagesPath()
         attachPicker.show()
+    }
+
+    private fun startTakePicture() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        takePictureIntent.resolveActivity(packageManager)?.let {
+            startActivityForResult(takePictureIntent, TAKE_PICTURE_REQUEST_CODE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            TAKE_PICTURE_REQUEST_CODE -> if (resultCode == Activity.RESULT_OK) {
+                data?.extras?.let { extras ->
+                    val imageBitmap = extras.get("data") as Bitmap? ?: run {
+                        Timber.e("No picture data when taking a picture")
+                        return
+                    }
+                    //todo send imageBitmap
+                }
+            }
+        }
     }
 
     private fun getImagesPath(): List<String> {
@@ -135,12 +178,18 @@ class NativeChatActivity : AppCompatActivity() {
             REQUEST_WRITE_PERMISSIONS ->
                 if ((grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }))
                     openAttachPicker()
+            REQUEST_CAMERA_PERMISSIONS ->
+                if ((grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }))
+                    startTakePicture()
             else -> { // Ignore all other requests.
             }
         }
     }
 
     companion object {
-        private const val REQUEST_WRITE_PERMISSIONS = 35134 //randomly selected number
+        private const val REQUEST_WRITE_PERMISSIONS = 35134
+        private const val REQUEST_CAMERA_PERMISSIONS = 54332
+
+        private const val TAKE_PICTURE_REQUEST_CODE = 2371
     }
 }
