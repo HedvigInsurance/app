@@ -100,11 +100,11 @@ class ChatInputView : FrameLayout {
         input.options.forEach {
             when (it) {
                 is ChatMessageFragment.AsMessageBodyChoicesSelection ->
-                    inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.SELCETION)
+                    inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.SELECTION)
                 is ChatMessageFragment.AsMessageBodyChoicesLink ->
                     inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.LINK)
                 is ChatMessageFragment.AsMessageBodyChoicesUndefined ->
-                    inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.UNDIFINED)
+                    inflateSingleSelectButton(it.text, it.value, SingleSelectChoiceType.UNDEFINED)
             }
         }
     }
@@ -117,8 +117,8 @@ class ChatInputView : FrameLayout {
             singleSelectButton.setTextColor(context.compatColor(R.color.white))
             disableSingleButtons()
             when (type) {
-                SingleSelectChoiceType.UNDIFINED, // TODO: Let's talk about this one
-                SingleSelectChoiceType.SELCETION -> sendSingleSelect(value)
+                SingleSelectChoiceType.UNDEFINED, // TODO: Let's talk about this one
+                SingleSelectChoiceType.SELECTION -> sendSingleSelect(value)
                 SingleSelectChoiceType.LINK -> singleSelectLink(value)
             }
 
@@ -144,6 +144,6 @@ class ChatInputView : FrameLayout {
 
 enum class SingleSelectChoiceType {
     LINK,
-    SELCETION,
-    UNDIFINED
+    SELECTION,
+    UNDEFINED
 }

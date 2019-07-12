@@ -34,8 +34,6 @@ class NativeChatActivity : AppCompatActivity() {
     private var keyboardHeight = 0
     private var isKeyboardBreakPoint = 0
 
-    private var cameraImageUri: Uri? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         keyboardHeight = resources.getDimensionPixelSize(R.dimen.default_attach_file_height)
