@@ -1,6 +1,8 @@
 package com.hedvig.app.feature.chat.native
 
 import android.content.Context
+import android.support.animation.DynamicAnimation
+import android.support.animation.SpringAnimation
 import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -145,6 +147,11 @@ class ChatInputView : FrameLayout {
     private fun bindNullInput() {
         nullView.show()
     }
+
+    fun rotateFileUploadIcon(isOpening: Boolean) {
+        SpringAnimation(uploadFile, DynamicAnimation.ROTATION).animateToFinalPosition(if (isOpening) 135f else 0f)
+    }
+
 }
 
 enum class SingleSelectChoiceType {

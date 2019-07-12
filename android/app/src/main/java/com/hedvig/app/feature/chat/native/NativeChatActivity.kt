@@ -23,6 +23,8 @@ import com.hedvig.app.util.extensions.askForPermissions
 import android.content.Intent
 import android.app.Activity
 import android.graphics.Bitmap
+import android.os.Handler
+import android.view.MotionEvent
 import com.hedvig.app.feature.chat.UploadBottomSheet
 import com.hedvig.app.util.extensions.view.updatePadding
 import timber.log.Timber
@@ -37,6 +39,10 @@ class NativeChatActivity : AppCompatActivity() {
 
     private var isKeyboardShown = false
 
+    private var preventOpenAttachFile = false
+    private var preventOpenAttachFileHandler = Handler()
+    private val resetPreventOpenAttachFile = { preventOpenAttachFile = false}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         keyboardHeight = resources.getDimensionPixelSize(R.dimen.default_attach_file_height)
@@ -50,10 +56,12 @@ class NativeChatActivity : AppCompatActivity() {
             sendSingleSelectLink = { value -> handleSingleSelectLink(value) },
             paragraphPullMessages = { chatViewModel.load() },
             openAttachFile = {
-                if (hasPermissions(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    openAttachPicker()
-                } else {
-                    askForPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSIONS)
+                if (!preventOpenAttachFile) {
+                    if (hasPermissions(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        openAttachPicker()
+                    } else {
+                        askForPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSIONS)
+                    }
                 }
             }
         )
@@ -132,7 +140,16 @@ class NativeChatActivity : AppCompatActivity() {
                 uploadBottomSheet.show(supportFragmentManager, "FileUploadOverlay")
             },
             dismissCallback = { motionEvent ->
-                motionEvent?.let { this.dispatchTouchEvent(motionEvent) }
+
+                motionEvent?.let {
+                    preventOpenAttachFile = true
+                    this.dispatchTouchEvent(motionEvent)
+                    preventOpenAttachFileHandler.removeCallbacks(resetPreventOpenAttachFile)
+                    // unfortunately the best way I found to prevent reopening :(
+                    preventOpenAttachFileHandler.postDelayed (resetPreventOpenAttachFile,100)
+                }
+
+                input.rotateFileUploadIcon(false)
                 if (!isKeyboardShown) {
                     input.updatePadding(bottom = 0)
                 }
@@ -144,6 +161,7 @@ class NativeChatActivity : AppCompatActivity() {
             input.updatePadding(bottom = keyboardHeight)
         }
         attachPicker.show()
+        input.rotateFileUploadIcon(true)
     }
 
     private fun startTakePicture() {
@@ -199,6 +217,11 @@ class NativeChatActivity : AppCompatActivity() {
             else -> { // Ignore all other requests.
             }
         }
+    }
+
+    override fun onDestroy() {
+        preventOpenAttachFileHandler.removeCallbacks(resetPreventOpenAttachFile)
+        super.onDestroy()
     }
 
     companion object {
