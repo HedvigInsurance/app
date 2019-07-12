@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.hedvig.app.R
@@ -22,7 +23,9 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
 
     private lateinit var takePhotoCallback: () -> Unit
     private lateinit var uploadFileCallback: () -> Unit
-    private lateinit var dismissCallback: () -> Unit
+    private lateinit var dismissCallback: (MotionEvent?) -> Unit
+
+    private var dismissMotionEvent: MotionEvent? = null
 
     init {
         window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or
@@ -41,7 +44,7 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
         setupRecyclerView()
     }
 
-    fun initialize(takePhotoCallback: () -> Unit, uploadFileCallback: () -> Unit, dismissCallback: () -> Unit) {
+    fun initialize(takePhotoCallback: () -> Unit, uploadFileCallback: () -> Unit, dismissCallback: (MotionEvent?) -> Unit) {
         this.takePhotoCallback = takePhotoCallback
         this.uploadFileCallback = uploadFileCallback
         this.dismissCallback = dismissCallback
@@ -49,11 +52,12 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
 
     override fun show() {
         super.show()
+        dismissMotionEvent = null
         animatePickerSheet(true)
     }
 
     override fun dismiss() {
-        dismissCallback()
+        dismissCallback(dismissMotionEvent)
         if (!runningDismissAnimation) {
             preventDismiss = true
             runningDismissAnimation = true
@@ -119,7 +123,8 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
     }
 
     private fun setupDialogTouchEvents() {
-        attachPickerRoot.setOnTouchListener { _, _ ->
+        attachPickerRoot.setOnTouchListener { _, event ->
+            dismissMotionEvent = event
             dismiss()
             false
         }

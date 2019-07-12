@@ -26,7 +26,7 @@ class ChatInputView : FrameLayout {
     private lateinit var sendSingleSelect: ((String) -> Unit)
     private lateinit var singleSelectLink: ((String) -> Unit)
     private lateinit var paragraphPullMessages: (() -> Unit)
-    private lateinit var openUpload: (() -> Unit)
+    private lateinit var openAttachFile: (() -> Unit)
 
     private val layoutInflater: LayoutInflater by lazy {
         LayoutInflater.from(context)
@@ -50,16 +50,21 @@ class ChatInputView : FrameLayout {
             sendTextMessage(inputText.currentMessage)
         }
         uploadFile.setHapticClickListener {
-            openUpload()
+            inputText.clearFocus()
+            openAttachFile()
         }
     }
 
-    fun initialize(sendTextMessage: (String) -> Unit, sendSingleSelect: (String) -> Unit, sendSingleSelectLink: (String) -> Unit, paragraphPullMessages: () -> Unit, openUpload: () -> Unit) {
+    fun initialize(sendTextMessage: (String) -> Unit,
+                   sendSingleSelect: (String) -> Unit,
+                   sendSingleSelectLink: (String) -> Unit,
+                   paragraphPullMessages: () -> Unit,
+                   openAttachFile: () -> Unit) {
         this.sendTextMessage = sendTextMessage
         this.sendSingleSelect = sendSingleSelect
         this.singleSelectLink = sendSingleSelectLink
         this.paragraphPullMessages = paragraphPullMessages
-        this.openUpload = openUpload
+        this.openAttachFile = openAttachFile
     }
 
     fun clearInput() {

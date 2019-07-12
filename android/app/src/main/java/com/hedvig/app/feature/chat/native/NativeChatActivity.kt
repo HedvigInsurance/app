@@ -49,7 +49,7 @@ class NativeChatActivity : AppCompatActivity() {
             sendSingleSelect = { value -> chatViewModel.respondWithSingleSelect(value) },
             sendSingleSelectLink = { value -> handleSingleSelectLink(value) },
             paragraphPullMessages = { chatViewModel.load() },
-            openUpload = {
+            openAttachFile = {
                 if (hasPermissions(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     openAttachPicker()
                 } else {
@@ -130,11 +130,13 @@ class NativeChatActivity : AppCompatActivity() {
                     // todo upload successful
                 }
                 uploadBottomSheet.show(supportFragmentManager, "FileUploadOverlay")
-            }, dismissCallback = {
+            },
+            dismissCallback = { motionEvent ->
+                motionEvent?.let { this.dispatchTouchEvent(motionEvent) }
                 if (!isKeyboardShown) {
                     input.updatePadding(bottom = 0)
                 }
-        }
+            }
         )
         attachPicker.pickerHeight = keyboardHeight
         attachPicker.images = getImagesPath()
