@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -12,9 +13,14 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.hedvig.app.R
+import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
+import com.hedvig.app.util.extensions.view.show
 import kotlinx.android.synthetic.main.attach_file_image_item.view.*
 import kotlinx.android.synthetic.main.camera_and_misc_item.view.*
+import android.util.TypedValue
+import com.hedvig.app.util.extensions.compatDrawable
+
 
 class AttachFileAdapter(private val imageUris: List<String>, private val pickerHeight: Int): RecyclerView.Adapter<AttachFileAdapter.ViewHolder>() {
 
@@ -63,8 +69,28 @@ class AttachFileAdapter(private val imageUris: List<String>, private val pickerH
                         .load(uri)
                         .transform(MultiTransformation(CenterCrop(), RoundedCorners(roundedCornersRadius)))
                         .into(attachFileImage)
-                    attachFileImageContainer.setHapticClickListener {
+                    attachFileSendButton.remove()
+                    attachFileSendButton.setHapticClickListener {
                         //todo
+                    }
+                    val outValue = TypedValue()
+                    attachFileImageContainer.context.theme.resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true)
+                    attachFileImageContainer.foreground = attachFileImageContainer.context.getDrawable(outValue.resourceId)
+
+                    attachFileImageContainer.setHapticClickListener {
+                        attachFileSendButton.alpha = 0f
+
+                        attachFileSendButton.show()
+                        attachFileSendButton.animate()
+                            .alpha(1f)
+                            .setDuration(SHOW_SEND_BUTTON_ANIMATION_DURATION_MS)
+                            .withEndAction {
+                                // remove click
+                                attachFileImageContainer.foreground = null
+                                attachFileImageContainer.setOnClickListener(null)
+                            }
+                            .start()
+
                     }
                 }
             }
@@ -83,11 +109,14 @@ class AttachFileAdapter(private val imageUris: List<String>, private val pickerH
         class ImageViewHolder(itemView: View) : ViewHolder(itemView) {
             val attachFileImage: ImageView = itemView.attachFileImage
             val attachFileImageContainer: FrameLayout = itemView.attachFileContainer
+            val attachFileSendButton: Button = itemView.attachFileSendButton
         }
     }
 
     companion object {
         private const val CAMERA_AND_MISC_VIEW_TYPE = 0
         private const val IMAGE_VIEW_TYPE = 1
+
+        private const val SHOW_SEND_BUTTON_ANIMATION_DURATION_MS = 225L
     }
 }
