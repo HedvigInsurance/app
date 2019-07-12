@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.attach_picker_dialog.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils.loadAnimation
 
-class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog) {
+class AttachPickerDialog(context: Context) : Dialog(context, R.style.TransparentDialog) {
 
     var pickerHeight = 0
     lateinit var images: List<String>
@@ -122,9 +122,5 @@ class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog
         }
         //prevent dismiss in this area
         attachPickerBottomSheet.setOnTouchListener { _, _ -> true }
-    }
-
-    companion object {
-        private const val ANIMATION_DURATION_MS = 1000L
     }
 }

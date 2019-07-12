@@ -112,7 +112,7 @@ class NativeChatActivity : AppCompatActivity() {
     }
 
     private fun openAttachPicker() {
-        val attachPicker = AttachPicker(this)
+        val attachPicker = AttachPickerDialog(this)
         attachPicker.initialize({
             if (hasPermissions(this, android.Manifest.permission.CAMERA)) {
                 startTakePicture()
