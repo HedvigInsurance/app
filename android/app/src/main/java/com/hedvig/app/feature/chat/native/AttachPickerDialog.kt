@@ -22,6 +22,7 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
 
     private lateinit var takePhotoCallback: () -> Unit
     private lateinit var uploadFileCallback: () -> Unit
+    private lateinit var dismissCallback: () -> Unit
 
     init {
         window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or
@@ -40,9 +41,10 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
         setupRecyclerView()
     }
 
-    fun initialize(takePhotoCallback: () -> Unit, uploadFileCallback: () -> Unit) {
+    fun initialize(takePhotoCallback: () -> Unit, uploadFileCallback: () -> Unit, dismissCallback: () -> Unit) {
         this.takePhotoCallback = takePhotoCallback
         this.uploadFileCallback = uploadFileCallback
+        this.dismissCallback = dismissCallback
     }
 
     override fun show() {
@@ -51,6 +53,7 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
     }
 
     override fun dismiss() {
+        dismissCallback()
         if (!runningDismissAnimation) {
             preventDismiss = true
             runningDismissAnimation = true

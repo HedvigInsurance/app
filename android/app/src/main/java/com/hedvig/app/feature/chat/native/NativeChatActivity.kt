@@ -24,6 +24,7 @@ import android.content.Intent
 import android.app.Activity
 import android.graphics.Bitmap
 import com.hedvig.app.feature.chat.UploadBottomSheet
+import com.hedvig.app.util.extensions.view.updatePadding
 import timber.log.Timber
 
 class NativeChatActivity : AppCompatActivity() {
@@ -33,6 +34,8 @@ class NativeChatActivity : AppCompatActivity() {
 
     private var keyboardHeight = 0
     private var isKeyboardBreakPoint = 0
+
+    private var isKeyboardShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +55,6 @@ class NativeChatActivity : AppCompatActivity() {
                 } else {
                     askForPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSIONS)
                 }
-
             }
         )
 
@@ -100,6 +102,9 @@ class NativeChatActivity : AppCompatActivity() {
             val keyboardHeight = chatRoot.calculateKeyboardHeight()
             if (keyboardHeight > isKeyboardBreakPoint) {
                 this.keyboardHeight = keyboardHeight
+                isKeyboardShown = true
+            } else {
+                isKeyboardShown = false
             }
         }
     }
@@ -111,21 +116,31 @@ class NativeChatActivity : AppCompatActivity() {
 
     private fun openAttachPicker() {
         val attachPicker = AttachPickerDialog(this)
-        attachPicker.initialize({
-            if (hasPermissions(this, android.Manifest.permission.CAMERA)) {
-                startTakePicture()
-            } else {
-                askForPermissions(arrayOf(android.Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSIONS)
-            }
-        }, {
-            val uploadBottomSheet = UploadBottomSheet()
-            uploadBottomSheet.fileUploadedSuccessfulCallback = {
-                // todo upload successful
-            }
-            uploadBottomSheet.show(supportFragmentManager, "FileUploadOverlay")
-        })
+        attachPicker.initialize(
+            takePhotoCallback = {
+                if (hasPermissions(this, android.Manifest.permission.CAMERA)) {
+                    startTakePicture()
+                } else {
+                    askForPermissions(arrayOf(android.Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSIONS)
+                }
+            },
+            uploadFileCallback = {
+                val uploadBottomSheet = UploadBottomSheet()
+                uploadBottomSheet.fileUploadedSuccessfulCallback = {
+                    // todo upload successful
+                }
+                uploadBottomSheet.show(supportFragmentManager, "FileUploadOverlay")
+            }, dismissCallback = {
+                if (!isKeyboardShown) {
+                    input.updatePadding(bottom = 0)
+                }
+        }
+        )
         attachPicker.pickerHeight = keyboardHeight
         attachPicker.images = getImagesPath()
+        if (!isKeyboardShown) {
+            input.updatePadding(bottom = keyboardHeight)
+        }
         attachPicker.show()
     }
 
