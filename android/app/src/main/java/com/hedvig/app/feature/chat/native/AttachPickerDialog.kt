@@ -12,11 +12,14 @@ import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.attach_picker_dialog.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils.loadAnimation
+import com.hedvig.app.util.extensions.view.fadeIn
+import com.hedvig.app.util.extensions.view.remove
+import com.hedvig.app.util.extensions.view.show
+import kotlinx.android.synthetic.main.loading_spinner.*
 
 class AttachPickerDialog(context: Context) : Dialog(context, R.style.TransparentDialog) {
 
     var pickerHeight = 0
-    lateinit var images: List<String>
 
     private var preventDismiss = false
     private var runningDismissAnimation = false
@@ -114,12 +117,17 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
 
     private fun setupRecyclerView() {
         attachFileRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    fun setImages(images: List<String>) {
         attachFileRecyclerView.adapter = AttachFileAdapter(
             images,
             pickerHeight,
             takePhotoCallback,
             uploadFileCallback
         )
+        attachFileRecyclerView.fadeIn()
+        loadingSpinner.remove()
     }
 
     private fun setupDialogTouchEvents() {

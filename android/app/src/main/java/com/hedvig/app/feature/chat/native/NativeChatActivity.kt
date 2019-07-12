@@ -27,6 +27,7 @@ import android.os.Handler
 import android.view.MotionEvent
 import com.hedvig.app.feature.chat.UploadBottomSheet
 import com.hedvig.app.util.extensions.view.updatePadding
+import kotlinx.coroutines.*
 import timber.log.Timber
 
 class NativeChatActivity : AppCompatActivity() {
@@ -123,8 +124,8 @@ class NativeChatActivity : AppCompatActivity() {
     }
 
     private fun openAttachPicker() {
-        val attachPicker = AttachPickerDialog(this)
-        attachPicker.initialize(
+        val attachPickerDialog = AttachPickerDialog(this)
+        attachPickerDialog.initialize(
             takePhotoCallback = {
                 if (hasPermissions(this, android.Manifest.permission.CAMERA)) {
                     startTakePicture()
@@ -155,12 +156,19 @@ class NativeChatActivity : AppCompatActivity() {
                 }
             }
         )
-        attachPicker.pickerHeight = keyboardHeight
-        attachPicker.images = getImagesPath()
+        attachPickerDialog.pickerHeight = keyboardHeight
         if (!isKeyboardShown) {
             input.updatePadding(bottom = keyboardHeight)
         }
-        attachPicker.show()
+        attachPickerDialog.show()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val images = getImagesPath()
+            GlobalScope.launch(Dispatchers.Main) {
+                attachPickerDialog.setImages(images)
+            }
+        }
+
         input.rotateFileUploadIcon(true)
     }
 
@@ -187,13 +195,13 @@ class NativeChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun getImagesPath(): List<String> {
+    private suspend fun getImagesPath(): List<String> = withContext(Dispatchers.IO) {
         val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val listOfAllImages = ArrayList<String>()
         val columnIndexData: Int
 
         val projection = arrayOf(MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-        val cursor = this.contentResolver.query(uri, projection, null, null, null)
+        val cursor = this@NativeChatActivity.contentResolver.query(uri, projection, null, null, null)
 
         cursor?.let {
             columnIndexData = cursor.getColumnIndexOrThrow(MediaColumns.DATA)
@@ -203,7 +211,7 @@ class NativeChatActivity : AppCompatActivity() {
         }
         cursor?.close()
 
-        return listOfAllImages
+        listOfAllImages
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

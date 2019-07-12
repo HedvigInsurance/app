@@ -139,3 +139,9 @@ fun View.setupLargeTitle(
     icon?.let { toolbar.setNavigationIcon(it) }
     backAction?.let { toolbar.setNavigationOnClickListener { it() } }
 }
+
+fun View.fadeIn() {
+    alpha = 0f
+    show()
+    animate().setDuration(225).alpha(1f).start()
+}
