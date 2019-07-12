@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.hedvig.app.R
 import com.hedvig.app.util.whenApiVersion
@@ -33,6 +34,7 @@ class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog
         setupDialogTouchEvents()
         setupWindowsParams()
         setupBottomSheetParams()
+        setupRecyclerView()
     }
 
     override fun show() {
@@ -92,6 +94,11 @@ class AttachPicker(context: Context) : Dialog(context, R.style.TransparentDialog
         val params = attachPickerBottomSheet.layoutParams
         params.height = pickerHeight
         attachPickerBottomSheet.layoutParams = params
+    }
+
+    private fun setupRecyclerView() {
+        attachFileRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        attachFileRecyclerView.adapter = AttachFileAdapter(images, pickerHeight)
     }
 
     private fun setupDialogTouchEvents() {

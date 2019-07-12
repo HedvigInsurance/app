@@ -102,4 +102,8 @@
     <dimen name="chat_single_select_corner_radius">32dp</dimen>
     <dimen name="default_attach_file_height">280dp</dimen>
     <dimen name="is_keyboard_brake_point_height">120dp</dimen>
+
+    <dimen name="camera_and_misc_button_width">120dp</dimen>
+    <dimen name="camera_and_misc_button_background_stroke_width">1dp</dimen>
+    <dimen name="attach_file_rounded_corners_radius">20dp</dimen>
 </resources>
