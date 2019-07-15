@@ -16,19 +16,26 @@ import com.hedvig.app.BuildConfig
 import com.hedvig.app.feature.chat.ChatRepository
 import com.hedvig.app.feature.chat.dto.UploadData
 import com.hedvig.app.feature.chat.dto.UploadResponse
-import com.hedvig.app.service.FileService
 import com.hedvig.app.util.extensions.into
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.*
 import org.jetbrains.annotations.NotNull
+import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
+import com.hedvig.android.owldroid.graphql.SendChatSingleSelectResponseMutation
+import com.hedvig.android.owldroid.graphql.SendChatTextResponseMutation
+import com.hedvig.android.owldroid.graphql.UploadClaimMutation
+import com.hedvig.android.owldroid.type.ChatResponseBodySingleSelectInput
+import com.hedvig.android.owldroid.type.ChatResponseBodyTextInput
+import com.hedvig.android.owldroid.type.ChatResponseSingleSelectInput
+import com.hedvig.android.owldroid.type.ChatResponseTextInput
+import com.hedvig.app.service.FileService
+import io.reactivex.Observable
 import java.io.File
 
 class ChatRepository(
     private val apolloClient: ApolloClient,
-    private val fileService: FileService,
-    private val context: Context
+    private val fileService: FileService
 ) {
     private lateinit var messagesQuery: ChatMessagesQuery
 
@@ -57,16 +64,19 @@ class ChatRepository(
                 .build()
 
         return Rx2Apollo.from(
-            apolloClient.mutate(sendChatMessageMutation))
+            apolloClient.mutate(sendChatMessageMutation)
+        )
     }
 
     fun sendSingleSelect(id: String, value: String): Observable<Response<SendChatSingleSelectResponseMutation.Data>> {
         val input = ChatResponseSingleSelectInput.builder()
             .globalId(id)
-            .body(ChatResponseBodySingleSelectInput
-                .builder()
-                .selectedValue(value)
-                .build())
+            .body(
+                ChatResponseBodySingleSelectInput
+                    .builder()
+                    .selectedValue(value)
+                    .build()
+            )
             .build()
 
         val sendChatSingleSelectMutation = SendChatSingleSelectResponseMutation
@@ -75,7 +85,17 @@ class ChatRepository(
             .build()
 
         return Rx2Apollo.from(
-            apolloClient.mutate(sendChatSingleSelectMutation))
+            apolloClient.mutate(sendChatSingleSelectMutation)
+        )
+    }
+
+    fun uploadClaim(id: String, path: String): Observable<Response<UploadClaimMutation.Data>> {
+        val mutation = UploadClaimMutation.builder()
+            .id(id)
+            .claim(FileUpload(fileService.getMimeType(path), File(path)))
+            .build()
+
+        return Rx2Apollo.from(apolloClient.mutate(mutation))
     }
 
     fun writeNewMessage(message: ChatMessageFragment) {

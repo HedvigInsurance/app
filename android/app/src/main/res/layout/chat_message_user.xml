@@ -11,10 +11,12 @@
         android:layout_height="match_parent"
         android:layout_weight="0.2" />
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.8">
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:gravity="end"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/userMessage"
@@ -28,6 +30,18 @@
             android:padding="12dp"
             tools:text="Min email är test@hedvig.com" />
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/statusMessage"
+            style="@style/Body.XSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_margin_half"
+            android:layout_marginEnd="@dimen/base_margin_double"
+            android:textColor="@color/off_black"
+            android:visibility="gone"
+            tools:text="Hedvig svarar inom 15 min"
+            tools:visibility="visible" />
+
+    </LinearLayout>
 
 </LinearLayout>

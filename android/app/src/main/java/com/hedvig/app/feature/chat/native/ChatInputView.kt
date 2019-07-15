@@ -42,6 +42,7 @@ class ChatInputView : FrameLayout {
                 is TextInput -> bindTextInput(value)
                 is SingleSelect -> bindSingleSelect(value)
                 is ParagraphInput -> bindParagraphInput()
+                is Audio -> bindAudio()
                 is NullInput -> bindNullInput()
             }
         }
@@ -61,23 +62,29 @@ class ChatInputView : FrameLayout {
                    sendSingleSelect: (String) -> Unit,
                    sendSingleSelectLink: (String) -> Unit,
                    paragraphPullMessages: () -> Unit,
-                   openAttachFile: () -> Unit) {
+                   openAttachFile: () -> Unit,
+                   requestAudioPermission: () -> Unit,
+                   uploadRecording: (String) -> Unit) {
         this.sendTextMessage = sendTextMessage
         this.sendSingleSelect = sendSingleSelect
         this.singleSelectLink = sendSingleSelectLink
         this.paragraphPullMessages = paragraphPullMessages
         this.openAttachFile = openAttachFile
+        audioRecorder.initialize(requestAudioPermission, uploadRecording)
     }
 
     fun clearInput() {
         inputText.text.clear()
     }
 
+    fun onPermissionResult(granted: Boolean) = audioRecorder.onPermissionResult(granted)
+
     private fun hideInputContainers() {
         textInputContainer.remove()
         singleSelectContainer.remove()
         paragraphView.remove()
         paragraphView.cancelAnimation()
+        audioRecorder.remove()
         nullView.remove()
     }
 
@@ -117,7 +124,8 @@ class ChatInputView : FrameLayout {
     }
 
     private fun inflateSingleSelectButton(label: String, value: String, type: SingleSelectChoiceType) {
-        val singleSelectButton = layoutInflater.inflate(R.layout.chat_single_select_button, singleSelectContainer, false) as TextView
+        val singleSelectButton =
+            layoutInflater.inflate(R.layout.chat_single_select_button, singleSelectContainer, false) as TextView
         singleSelectButton.text = label
         singleSelectButton.setHapticClickListener {
             singleSelectButton.isSelected = true
@@ -142,6 +150,10 @@ class ChatInputView : FrameLayout {
         paragraphView.show()
         paragraphView.playAnimation()
         paragraphPullMessages()
+    }
+
+    private fun bindAudio() {
+        audioRecorder.show()
     }
 
     private fun bindNullInput() {

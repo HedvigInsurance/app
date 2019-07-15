@@ -15,6 +15,7 @@ fragment ChatMessageFragment on Message {
   id
   header {
     fromMyself
+    statusMessage
   }
   body {
     ... on MessageBodySingleSelect {
@@ -65,6 +66,9 @@ fragment ChatMessageFragment on Message {
       id
       text
       type
+    }
+    ... on MessageBodyAudio {
+      id
     }
   }
 }

@@ -26,7 +26,7 @@ apollo {
     customTypeMapping = [
             "URL"      : "java.lang.String",
             "LocalDate": "org.threeten.bp.LocalDate",
-            "Upload" : "com.apollographql.apollo.api.FileUpload"
+            "Upload"   : "com.apollographql.apollo.api.FileUpload"
     ]
 }
 
@@ -227,7 +227,9 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
-com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
+googleServices {
+    disableVersionCheck = true
+}
 
 apply plugin: 'com.hedvig.textkeys'
 

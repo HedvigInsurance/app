@@ -1,5 +1,6 @@
 package com.hedvig.app.feature.chat.native
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -12,6 +13,8 @@ import android.provider.MediaStore
 import android.provider.MediaStore.MediaColumns
 import android.net.Uri
 import com.hedvig.app.R
+import com.hedvig.app.util.extensions.compatRequestPermissions
+import com.hedvig.app.util.extensions.handleSingleSelectLink
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.handleSingleSelectLink
 import com.hedvig.app.util.extensions.setAuthenticationToken
@@ -27,6 +30,10 @@ import android.os.Handler
 import com.hedvig.app.feature.chat.UploadBottomSheet
 import com.hedvig.app.util.extensions.view.updatePadding
 import kotlinx.coroutines.*
+import com.hedvig.app.util.extensions.view.setHapticClickListener
+import com.hedvig.app.util.showRestartDialog
+import kotlinx.android.synthetic.main.activity_chat.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class NativeChatActivity : AppCompatActivity() {
@@ -41,7 +48,7 @@ class NativeChatActivity : AppCompatActivity() {
 
     private var preventOpenAttachFile = false
     private var preventOpenAttachFileHandler = Handler()
-    private val resetPreventOpenAttachFile = { preventOpenAttachFile = false}
+    private val resetPreventOpenAttachFile = { preventOpenAttachFile = false }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +70,15 @@ class NativeChatActivity : AppCompatActivity() {
                         askForPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSIONS)
                     }
                 }
+            },
+            requestAudioPermission = {
+                compatRequestPermissions(
+                    arrayOf(Manifest.permission.RECORD_AUDIO),
+                    REQUEST_AUDIO_PERMISSION_REQUEST_CODE
+                )
+            },
+            uploadRecording = { path ->
+                chatViewModel.uploadClaim(path)
             }
         )
 
@@ -77,6 +93,11 @@ class NativeChatActivity : AppCompatActivity() {
             }
         }
         chatViewModel.sendSingleSelectResponse.observe(lifecycleOwner = this) { response ->
+            if (response == true) {
+                chatViewModel.load()
+            }
+        }
+        chatViewModel.uploadClaimResponse.observe(this) { response ->
             if (response == true) {
                 chatViewModel.load()
             }
@@ -146,7 +167,7 @@ class NativeChatActivity : AppCompatActivity() {
                     this.dispatchTouchEvent(motionEvent)
                     preventOpenAttachFileHandler.removeCallbacks(resetPreventOpenAttachFile)
                     // unfortunately the best way I found to prevent reopening :(
-                    preventOpenAttachFileHandler.postDelayed (resetPreventOpenAttachFile,100)
+                    preventOpenAttachFileHandler.postDelayed(resetPreventOpenAttachFile, 100)
                 }
 
                 input.rotateFileUploadIcon(false)
@@ -229,6 +250,9 @@ class NativeChatActivity : AppCompatActivity() {
             REQUEST_CAMERA_PERMISSIONS ->
                 if ((grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }))
                     startTakePicture()
+            REQUEST_AUDIO_PERMISSION_REQUEST_CODE ->
+                if ((grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }))
+                    input.onPermissionResult(grantResults[0] == PackageManager.PERMISSION_GRANTED)
             else -> { // Ignore all other requests.
             }
         }
@@ -242,6 +266,8 @@ class NativeChatActivity : AppCompatActivity() {
     companion object {
         private const val REQUEST_WRITE_PERMISSIONS = 35134
         private const val REQUEST_CAMERA_PERMISSIONS = 54332
+
+        const val REQUEST_AUDIO_PERMISSION_REQUEST_CODE = 12994
 
         private const val TAKE_PICTURE_REQUEST_CODE = 2371
     }

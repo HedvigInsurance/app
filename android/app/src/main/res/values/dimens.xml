@@ -106,4 +106,5 @@
     <dimen name="camera_and_misc_button_width">120dp</dimen>
     <dimen name="camera_and_misc_button_background_stroke_width">1dp</dimen>
     <dimen name="attach_file_rounded_corners_radius">20dp</dimen>
+    <dimen name="audio_recorder_button_size">56dp</dimen>
 </resources>

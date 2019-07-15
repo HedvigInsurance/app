@@ -127,7 +127,6 @@ fun Activity.startClosableChat() {
     ActivityCompat.startActivity(this, intent, options.toBundle())
 }
 
-
 fun hasPermissions(context: Context, vararg permissions: String): Boolean {
     for (permission in permissions) {
         if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
@@ -181,3 +180,6 @@ private fun Context.openAppSettings() {
     intent.data = uri
     startActivity(intent)
 }
+
+// todo lets remove this
+fun Activity.compatRequestPermissions(permissions: Array<String>, requestCode: Int) = ActivityCompat.requestPermissions(this, permissions, requestCode)

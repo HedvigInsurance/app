@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/base_margin"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/uploadFile"
@@ -76,9 +77,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
+        android:layout_marginStart="@dimen/base_margin_double"
         android:visibility="gone"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/hedvig_typing_animation_2"
+        tools:visibility="visible" />
+
+    <com.hedvig.app.feature.chat.native.AudioRecorderView
+        android:id="@+id/audioRecorder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/base_margin_double"
+        android:visibility="gone"
         tools:visibility="visible" />
 
     <!-- Todo remove this -->
