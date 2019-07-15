@@ -2,9 +2,9 @@ package com.hedvig.app.feature.chat.native
 
 import android.app.Dialog
 import android.content.Context
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.hedvig.app.R
@@ -14,7 +14,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils.loadAnimation
 import com.hedvig.app.util.extensions.view.fadeIn
 import com.hedvig.app.util.extensions.view.remove
-import com.hedvig.app.util.extensions.view.show
 import kotlinx.android.synthetic.main.loading_spinner.*
 
 class AttachPickerDialog(context: Context) : Dialog(context, R.style.TransparentDialog) {
@@ -25,8 +24,9 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
     private var runningDismissAnimation = false
 
     private lateinit var takePhotoCallback: () -> Unit
-    private lateinit var uploadFileCallback: () -> Unit
+    private lateinit var showUploadBottomSheetCallback: () -> Unit
     private lateinit var dismissCallback: (MotionEvent?) -> Unit
+    private lateinit var uploadFileCallback: (Uri) -> Unit
 
     private var dismissMotionEvent: MotionEvent? = null
 
@@ -47,10 +47,14 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
         setupRecyclerView()
     }
 
-    fun initialize(takePhotoCallback: () -> Unit, uploadFileCallback: () -> Unit, dismissCallback: (MotionEvent?) -> Unit) {
+    fun initialize(takePhotoCallback: () -> Unit,
+                   showUploadBottomSheetCallback: () -> Unit,
+                   dismissCallback: (MotionEvent?) -> Unit,
+                   uploadFileCallback: (Uri) -> Unit) {
         this.takePhotoCallback = takePhotoCallback
-        this.uploadFileCallback = uploadFileCallback
+        this.showUploadBottomSheetCallback = showUploadBottomSheetCallback
         this.dismissCallback = dismissCallback
+        this.uploadFileCallback = uploadFileCallback
     }
 
     override fun show() {
@@ -124,6 +128,7 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
             images,
             pickerHeight,
             takePhotoCallback,
+            showUploadBottomSheetCallback,
             uploadFileCallback
         )
         attachFileRecyclerView.fadeIn()

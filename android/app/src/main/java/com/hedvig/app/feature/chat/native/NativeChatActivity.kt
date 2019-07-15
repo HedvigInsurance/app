@@ -24,7 +24,6 @@ import android.content.Intent
 import android.app.Activity
 import android.graphics.Bitmap
 import android.os.Handler
-import android.view.MotionEvent
 import com.hedvig.app.feature.chat.UploadBottomSheet
 import com.hedvig.app.util.extensions.view.updatePadding
 import kotlinx.coroutines.*
@@ -68,16 +67,16 @@ class NativeChatActivity : AppCompatActivity() {
         )
 
         messages.adapter = ChatAdapter()
-        chatViewModel.messages.observe(this) { data ->
+        chatViewModel.messages.observe(lifecycleOwner = this) { data ->
             data?.let { bindData(it) }
         }
-        chatViewModel.sendMessageResponse.observe(this) { response ->
+        chatViewModel.sendMessageResponse.observe(lifecycleOwner = this) { response ->
             if (response == true) {
                 input.clearInput()
                 chatViewModel.load()
             }
         }
-        chatViewModel.sendSingelSelectResponse.observe(this) { response ->
+        chatViewModel.sendSingleSelectResponse.observe(lifecycleOwner = this) { response ->
             if (response == true) {
                 chatViewModel.load()
             }
@@ -97,7 +96,7 @@ class NativeChatActivity : AppCompatActivity() {
         getAuthenticationToken()?.let {
             chatViewModel.loadAndSubscribe()
         } ?: run {
-            userViewModel.newSessionInformation.observe(this@NativeChatActivity) { data ->
+            userViewModel.newSessionInformation.observe(lifecycleOwner = this@NativeChatActivity) { data ->
                 data?.createSessionV2?.token?.let {
                     setAuthenticationToken(it)
 
@@ -133,7 +132,7 @@ class NativeChatActivity : AppCompatActivity() {
                     askForPermissions(arrayOf(android.Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSIONS)
                 }
             },
-            uploadFileCallback = {
+            showUploadBottomSheetCallback = {
                 val uploadBottomSheet = UploadBottomSheet()
                 uploadBottomSheet.fileUploadedSuccessfulCallback = {
                     // todo upload successful
@@ -154,8 +153,16 @@ class NativeChatActivity : AppCompatActivity() {
                 if (!isKeyboardShown) {
                     input.updatePadding(bottom = 0)
                 }
+            },
+            uploadFileCallback = { uri ->
+                chatViewModel.uploadFile(uri)
             }
         )
+        chatViewModel.uploadFileResponse.observe(lifecycleOwner = this) { data ->
+            data?.uploadFile?.let {
+                // TODO UI
+            }
+        }
         attachPickerDialog.pickerHeight = keyboardHeight
         if (!isKeyboardShown) {
             input.updatePadding(bottom = keyboardHeight)

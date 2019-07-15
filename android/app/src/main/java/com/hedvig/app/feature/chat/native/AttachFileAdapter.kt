@@ -1,5 +1,6 @@
 package com.hedvig.app.feature.chat.native
 
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,11 @@ import kotlinx.android.synthetic.main.attach_file_image_item.view.*
 import kotlinx.android.synthetic.main.camera_and_misc_item.view.*
 import android.util.TypedValue
 
-class AttachFileAdapter(private val imageUris: List<String>, private val pickerHeight: Int, private val takePhoto: () -> Unit,  private val uploadFile: () -> Unit) : RecyclerView.Adapter<AttachFileAdapter.ViewHolder>() {
+class AttachFileAdapter(private val imageUris: List<String>,
+                        private val pickerHeight: Int,
+                        private val takePhoto: () -> Unit,
+                        private val showUploadFileDialog: () -> Unit,
+                        private val uploadFile: (Uri) -> Unit) : RecyclerView.Adapter<AttachFileAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         if (viewType == CAMERA_AND_MISC_VIEW_TYPE) {
@@ -49,7 +54,7 @@ class AttachFileAdapter(private val imageUris: List<String>, private val pickerH
                     takePhoto()
                 }
                 viewHolder.miscButton.setHapticClickListener {
-                    uploadFile()
+                    showUploadFileDialog()
                 }
             }
             is ViewHolder.ImageViewHolder -> {
@@ -68,7 +73,7 @@ class AttachFileAdapter(private val imageUris: List<String>, private val pickerH
                         .into(attachFileImage)
                     attachFileSendButton.remove()
                     attachFileSendButton.setHapticClickListener {
-                        //todo
+                        uploadFile(Uri.parse(uri))
                     }
                     val outValue = TypedValue()
                     attachFileImageContainer.context.theme.resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true)

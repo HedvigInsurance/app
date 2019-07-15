@@ -2,8 +2,12 @@ package com.hedvig.app.feature.chat.native
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.net.Uri
 import com.apollographql.apollo.api.Response
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
+import com.hedvig.android.owldroid.graphql.SendChatFileResponseMutation
+import com.hedvig.android.owldroid.graphql.UploadFileMutation
+import com.hedvig.app.util.LiveEvent
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -18,9 +22,14 @@ class ChatViewModel(
 
     val messages = MutableLiveData<ChatMessagesQuery.Data>()
     val sendMessageResponse = MutableLiveData<Boolean>()
-    val sendSingelSelectResponse = MutableLiveData<Boolean>()
+    val sendSingleSelectResponse = MutableLiveData<Boolean>()
+    val sendFileResponse = MutableLiveData<Boolean>()
+    val uploadFileResponse = MutableLiveData<UploadFileMutation.Data>()
 
     private val disposables = CompositeDisposable()
+
+    val isUploading = LiveEvent<Boolean>()
+    val fileUploadKey = LiveEvent<String>()
 
     fun loadAndSubscribe() {
         load()
@@ -52,6 +61,18 @@ class ChatViewModel(
                     postWithDelay(response)
                 } else {
                     postResponseValue(response)
+                }
+            }, { Timber.e(it) })
+    }
+
+    fun uploadFile(uri: Uri) {
+        isUploading.value = true
+        disposables += chatRepository
+            .uploadFile(uri)
+            .subscribe({ data ->
+                data.data()?.let {
+                    respondWithFile(it.uploadFile.key, uri)
+                    uploadFileResponse.postValue(data.data())
                 }
             }, { Timber.e(it) })
     }
@@ -90,10 +111,22 @@ class ChatViewModel(
             .subscribe({ sendMessageResponse.postValue(it.data()?.isSendChatTextResponse) }, { Timber.e(it) })
     }
 
+    private fun respondWithFile(key: String, uri: Uri) {
+        disposables += chatRepository
+            .sendFileResponse(getLastId(), key, uri)
+            .subscribe({
+                it.data()?.let { data ->
+                    sendFileResponse.postValue(data.isSendChatFileResponse)
+                }
+            }, {
+                Timber.e(it)
+            })
+    }
+
     fun respondWithSingleSelect(value: String) {
         disposables += chatRepository
             .sendSingleSelect(getLastId(), value)
-            .subscribe({ sendSingelSelectResponse.postValue(it.data()?.isSendChatSingleSelectResponse) }, { Timber.e(it) })
+            .subscribe({ sendSingleSelectResponse.postValue(it.data()?.isSendChatSingleSelectResponse) }, { Timber.e(it) })
     }
 
     private fun getLastId(): String =

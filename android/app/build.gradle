@@ -25,7 +25,8 @@ apollo {
     generateModelBuilder = true
     customTypeMapping = [
             "URL"      : "java.lang.String",
-            "LocalDate": "org.threeten.bp.LocalDate"
+            "LocalDate": "org.threeten.bp.LocalDate",
+            "Upload" : "com.apollographql.apollo.api.FileUpload"
     ]
 }
 
