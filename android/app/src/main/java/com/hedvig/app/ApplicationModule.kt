@@ -117,7 +117,12 @@ val applicationModule = module {
             .okHttpClient(okHttpClient)
             .addCustomTypeAdapter(CustomType.LOCALDATE, PromiscuousLocalDateAdapter())
             .subscriptionConnectionParams(mapOf("Authorization" to token))
-            .subscriptionTransportFactory(WebSocketSubscriptionTransport.Factory(BuildConfig.WS_GRAPHQL_URL, okHttpClient))
+            .subscriptionTransportFactory(
+                WebSocketSubscriptionTransport.Factory(
+                    BuildConfig.WS_GRAPHQL_URL,
+                    okHttpClient
+                )
+            )
             .normalizedCache(get())
 
         if (isDebug()) {
@@ -162,7 +167,7 @@ val repositoriesModule = module {
     single { ReferralRepository(get()) }
     single { UserRepository(get()) }
     single { WhatsNewRepository(get(), get()) }
-    single { com.hedvig.app.feature.chat.native.ChatRepository(get()) }
+    single { com.hedvig.app.feature.chat.native.ChatRepository(get(), get()) }
     single { WelcomeRepository(get()) }
 }
 

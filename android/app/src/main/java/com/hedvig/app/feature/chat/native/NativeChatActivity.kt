@@ -40,7 +40,7 @@ class NativeChatActivity : AppCompatActivity() {
                 )
             },
             uploadRecording = { path ->
-                Timber.e(path)
+                chatViewModel.uploadClaim(path)
             }
         )
 
@@ -54,7 +54,12 @@ class NativeChatActivity : AppCompatActivity() {
                 chatViewModel.load()
             }
         }
-        chatViewModel.sendSingelSelectResponse.observe(this) { response ->
+        chatViewModel.sendSingleSelectResponse.observe(this) { response ->
+            if (response == true) {
+                chatViewModel.load()
+            }
+        }
+        chatViewModel.uploadClaimResponse.observe(this) { response ->
             if (response == true) {
                 chatViewModel.load()
             }
