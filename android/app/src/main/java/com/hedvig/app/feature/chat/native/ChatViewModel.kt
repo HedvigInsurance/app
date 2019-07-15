@@ -16,9 +16,10 @@ class ChatViewModel(
     private val chatRepository: ChatRepository
 ) : ViewModel() {
 
+    val uploadClaimResponse = MutableLiveData<Boolean>()
     val messages = MutableLiveData<ChatMessagesQuery.Data>()
     val sendMessageResponse = MutableLiveData<Boolean>()
-    val sendSingelSelectResponse = MutableLiveData<Boolean>()
+    val sendSingleSelectResponse = MutableLiveData<Boolean>()
 
     private val disposables = CompositeDisposable()
 
@@ -29,6 +30,7 @@ class ChatViewModel(
             .subscribe({ response ->
                 Timber.e("onNext")
                 response.data()?.message?.let {
+                    Timber.e("Incoming message on subscription: %s", it.toString())
                     chatRepository
                         .writeNewMessage(
                             it.fragments.chatMessageFragment
@@ -57,7 +59,9 @@ class ChatViewModel(
     }
 
     private fun calculateDelay(response: Response<ChatMessagesQuery.Data>): Long =
-        response.data()?.messages?.firstOrNull()?.fragments?.chatMessageFragment?.body?.text?.length?.times(PARAGRAPH_DELAY_MULTIPLIER_MS)?.toLong()
+        response.data()?.messages?.firstOrNull()?.fragments?.chatMessageFragment?.body?.text?.length?.times(
+            PARAGRAPH_DELAY_MULTIPLIER_MS
+        )?.toLong()
             ?: 0L
 
     //Todo: I will need help with the logic of this
@@ -93,7 +97,9 @@ class ChatViewModel(
     fun respondWithSingleSelect(value: String) {
         disposables += chatRepository
             .sendSingleSelect(getLastId(), value)
-            .subscribe({ sendSingelSelectResponse.postValue(it.data()?.isSendChatSingleSelectResponse) }, { Timber.e(it) })
+            .subscribe(
+                { sendSingleSelectResponse.postValue(it.data()?.isSendChatSingleSelectResponse) },
+                { Timber.e(it) })
     }
 
     private fun getLastId(): String =
@@ -103,6 +109,20 @@ class ChatViewModel(
     override fun onCleared() {
         super.onCleared()
         disposables.clear()
+    }
+
+    fun uploadClaim(path: String) {
+        disposables += chatRepository
+            .uploadClaim(getLastId(), path)
+            .subscribe({ response ->
+                if (response.hasErrors()) {
+                    Timber.e(response.errors().toString())
+                    return@subscribe
+                }
+
+                load()
+
+            }, { Timber.e(it) })
     }
 
     companion object {

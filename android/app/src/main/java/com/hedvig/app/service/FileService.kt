@@ -35,7 +35,12 @@ class FileService(
         if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
             return context.contentResolver.getType(uri)
         }
-        val fileExtension = MimeTypeMap.getFileExtensionFromUrl(uri.toString())
+
+        return getMimeType(uri.toString())
+    }
+
+    fun getMimeType(path: String): String? {
+        val fileExtension = MimeTypeMap.getFileExtensionFromUrl(path)
         return MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension.toLowerCase())
     }
 }
