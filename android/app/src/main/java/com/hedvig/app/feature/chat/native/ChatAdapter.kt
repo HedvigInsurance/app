@@ -1,10 +1,12 @@
 package com.hedvig.app.feature.chat.native
 
+import android.content.Context
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -19,6 +21,7 @@ import com.hedvig.app.util.extensions.openUri
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
+import com.hedvig.app.util.extensions.view.updateMargin
 import com.hedvig.app.util.interpolateTextKey
 import kotlinx.android.synthetic.main.chat_message_file_upload.view.*
 import kotlinx.android.synthetic.main.chat_message_hedvig.view.*
@@ -26,7 +29,10 @@ import kotlinx.android.synthetic.main.chat_message_user.view.*
 import kotlinx.android.synthetic.main.chat_message_user_giphy.view.*
 import kotlinx.android.synthetic.main.chat_message_user_image.view.*
 
-class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val doubleMargin = context.resources.getDimensionPixelSize(R.dimen.base_margin_double)
+    private val baseMargin = context.resources.getDimensionPixelSize(R.dimen.base_margin)
 
     var messages: List<ChatMessagesQuery.Message> = listOf()
         set(value) {
@@ -106,7 +112,8 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     bind(
                         messages[position].fragments.chatMessageFragment.body?.text,
                         position,
-                        messages[position].fragments.chatMessageFragment.header.statusMessage
+                        messages[position].fragments.chatMessageFragment.header.statusMessage,
+                        messages[position].fragments.chatMessageFragment.header.isEditAllowed
                     )
                 }
             }
@@ -144,9 +151,10 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class UserMessage(view: View) : RecyclerView.ViewHolder(view) {
         val message: TextView = view.userMessage
+        val edit: ImageButton = view.editMessage
         val status: TextView = view.statusMessage
 
-        fun bind(text: String?, position: Int, statusMessage: String?) {
+        fun bind(text: String?, position: Int, statusMessage: String?, editAllowed: Boolean) {
             message.text = text
             if (statusMessage != null && position == 1) {
                 status.text = statusMessage
@@ -154,6 +162,14 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             } else {
                 status.text = ""
                 status.remove()
+            }
+            if (editAllowed) {
+                edit.show()
+                edit.setHapticClickListener { onPressEdit() }
+                message.updateMargin(end = baseMargin)
+            } else {
+                edit.remove()
+                message.updateMargin(end = doubleMargin)
             }
         }
     }

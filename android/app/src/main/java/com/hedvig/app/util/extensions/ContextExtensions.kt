@@ -86,7 +86,7 @@ fun Context.showShareSheet(title: String, configureClosure: ((Intent) -> Unit)?)
  */
 fun Context.showAlert(
     @StringRes title: Int,
-    @StringRes message: Int,
+    @StringRes message: Int? = null,
     @StringRes positiveLabel: Int = android.R.string.ok,
     @StringRes negativeLabel: Int = android.R.string.cancel,
     positiveAction: () -> Unit,
@@ -95,12 +95,14 @@ fun Context.showAlert(
     AlertDialog
         .Builder(this)
         .setTitle(resources.getString(title))
-        .setMessage(resources.getString(message))
         .setPositiveButton(resources.getString(positiveLabel)) { _, _ ->
             positiveAction()
         }
         .setNegativeButton(resources.getString(negativeLabel)) { _, _ ->
             negativeAction?.let { it() }
+        }
+        .apply {
+            message?.let { setMessage(it) }
         }
         .show()
         .apply {

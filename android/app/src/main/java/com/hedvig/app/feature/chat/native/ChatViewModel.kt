@@ -125,6 +125,18 @@ class ChatViewModel(
             }, { Timber.e(it) })
     }
 
+    fun editLastResponse() {
+        disposables += chatRepository
+            .editLastResponse()
+            .subscribe({ response ->
+                if (response.hasErrors()) {
+                    Timber.e(response.errors().toString())
+                    return@subscribe
+                }
+                load()
+            }, { Timber.e(it) })
+    }
+
     companion object {
         private const val PARAGRAPH_DELAY_MULTIPLIER_MS = 30
     }

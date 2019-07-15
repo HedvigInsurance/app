@@ -7,16 +7,16 @@ import android.support.v7.app.AppCompatActivity
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.compatRequestPermissions
+import com.hedvig.app.util.extensions.getAuthenticationToken
 import com.hedvig.app.util.extensions.handleSingleSelectLink
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setAuthenticationToken
+import com.hedvig.app.util.extensions.showAlert
 import com.hedvig.app.util.extensions.triggerRestartActivity
-import com.hedvig.app.util.extensions.getAuthenticationToken
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.showRestartDialog
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class NativeChatActivity : AppCompatActivity() {
 
@@ -44,7 +44,17 @@ class NativeChatActivity : AppCompatActivity() {
             }
         )
 
-        messages.adapter = ChatAdapter()
+        messages.adapter = ChatAdapter(this, onPressEdit = {
+            showAlert(
+                R.string.CHAT_EDIT_MESSAGE_TITLE,
+                positiveLabel = R.string.CHAT_EDIT_MESSAGE_SUBMIT,
+                negativeLabel = R.string.CHAT_EDIT_MESSAGE_CANCEL,
+                positiveAction = {
+                    chatViewModel.editLastResponse()
+                }
+            )
+        })
+
         chatViewModel.messages.observe(this) { data ->
             data?.let { bindData(it) }
         }
