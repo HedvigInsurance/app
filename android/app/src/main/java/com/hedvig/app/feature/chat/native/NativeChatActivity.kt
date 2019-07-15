@@ -31,8 +31,6 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 import android.os.Environment
 import java.io.File
-import android.os.StrictMode.VmPolicy
-import android.os.StrictMode
 import android.support.v4.content.FileProvider
 import java.io.IOException
 
