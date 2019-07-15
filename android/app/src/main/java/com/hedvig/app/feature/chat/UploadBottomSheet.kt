@@ -17,6 +17,7 @@ import com.hedvig.app.util.extensions.view.show
 import kotlinx.android.synthetic.main.file_upload_dialog.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
+import com.hedvig.app.feature.chat.native.ChatViewModel
 
 class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
     val chatViewModel: ChatViewModel by sharedViewModel()
@@ -56,12 +57,8 @@ class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
             }
         }
 
-        chatViewModel.fileUploadKey.observe(this) { fileUploadKey ->
-            fileUploadKey?.let { fuk ->
-                localBroadcastManager.sendBroadcast(Intent(ActivityStarterModule.FILE_UPLOAD_INTENT).apply {
-                    putExtra(ActivityStarterModule.FILE_UPLOAD_RESULT, ActivityStarterModule.FILE_UPLOAD_SUCCESS)
-                    putExtra(ActivityStarterModule.FILE_UPLOAD_KEY, fuk)
-                })
+        chatViewModel.uploadFileResponse.observe(this) { data ->
+            data?.uploadFile?.key?.let { fuk ->
                 fileUploadedSuccessfulCallback?.invoke(fuk)
                 isCancelable = true
                 dismiss()
@@ -91,14 +88,14 @@ class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
             SELECT_FILE_REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     resultData?.data?.let { uri ->
-                        chatViewModel.uploadFile(uri)
+                        chatViewModel.uploadFileFromProvider(uri)
                     }
                 }
             }
             SELECT_IMAGE_REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     resultData?.data?.let { uri ->
-                        chatViewModel.uploadFile(uri)
+                        chatViewModel.uploadFileFromProvider(uri)
                     }
                 }
             }

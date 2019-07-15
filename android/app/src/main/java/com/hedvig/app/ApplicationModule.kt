@@ -167,7 +167,7 @@ val repositoriesModule = module {
     single { ReferralRepository(get()) }
     single { UserRepository(get()) }
     single { WhatsNewRepository(get(), get()) }
-    single { com.hedvig.app.feature.chat.native.ChatRepository(get(), get()) }
+    single { com.hedvig.app.feature.chat.native.ChatRepository(get(), get(), get()) }
     single { WelcomeRepository(get()) }
 }
 

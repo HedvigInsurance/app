@@ -25,12 +25,10 @@ class ChatViewModel(
     val sendMessageResponse = MutableLiveData<Boolean>()
     val sendSingleSelectResponse = MutableLiveData<Boolean>()
     val sendFileResponse = MutableLiveData<Boolean>()
-    val uploadFileResponse = MutableLiveData<UploadFileMutation.Data>()
+    val isUploading = LiveEvent<Boolean>()
+    val uploadFileResponse = LiveEvent<UploadFileMutation.Data>()
 
     private val disposables = CompositeDisposable()
-
-    val isUploading = LiveEvent<Boolean>()
-    val fileUploadKey = LiveEvent<String>()
 
     fun loadAndSubscribe() {
         load()
@@ -71,6 +69,18 @@ class ChatViewModel(
         isUploading.value = true
         disposables += chatRepository
             .uploadFile(uri)
+            .subscribe({ data ->
+                data.data()?.let {
+                    respondWithFile(it.uploadFile.key, uri)
+                    uploadFileResponse.postValue(data.data())
+                }
+            }, { Timber.e(it) })
+    }
+
+    fun uploadFileFromProvider(uri: Uri) {
+        isUploading.value = true
+        disposables += chatRepository
+            .uploadFileFromProvider(uri)
             .subscribe({ data ->
                 data.data()?.let {
                     respondWithFile(it.uploadFile.key, uri)
