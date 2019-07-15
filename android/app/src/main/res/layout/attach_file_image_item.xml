@@ -24,4 +24,6 @@
         android:layout_gravity="center"
         android:text="@string/CHAT_UPLOAD_PRESS_SEND_LABEL" />
 
+    <include layout="@layout/loading_spinner"/>
+
 </FrameLayout>

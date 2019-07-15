@@ -13,18 +13,24 @@ import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.hedvig.app.R
-import com.hedvig.app.util.extensions.view.remove
-import com.hedvig.app.util.extensions.view.setHapticClickListener
-import com.hedvig.app.util.extensions.view.show
 import kotlinx.android.synthetic.main.attach_file_image_item.view.*
 import kotlinx.android.synthetic.main.camera_and_misc_item.view.*
 import android.util.TypedValue
+import com.airbnb.lottie.LottieAnimationView
+import com.hedvig.app.util.extensions.view.*
+import kotlinx.android.synthetic.main.loading_spinner.view.*
 
-class AttachFileAdapter(private val imageUris: List<String>,
+class AttachFileAdapter(private val imageUris: List<ImageData>,
                         private val pickerHeight: Int,
                         private val takePhoto: () -> Unit,
                         private val showUploadFileDialog: () -> Unit,
                         private val uploadFile: (Uri) -> Unit) : RecyclerView.Adapter<AttachFileAdapter.ViewHolder>() {
+
+    var isUploadingTakenPicture: Boolean = false
+        set(value) {
+            field = value
+            notifyItemChanged(0)
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         if (viewType == CAMERA_AND_MISC_VIEW_TYPE) {
@@ -50,6 +56,13 @@ class AttachFileAdapter(private val imageUris: List<String>,
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         when (viewHolder) {
             is ViewHolder.CameraAndMiscViewHolder -> {
+                if (isUploadingTakenPicture) {
+                    viewHolder.loadingSpinner.show()
+                    viewHolder.cameraIcon.remove()
+                } else {
+                    viewHolder.loadingSpinner.remove()
+                    viewHolder.cameraIcon.show()
+                }
                 viewHolder.cameraButton.setHapticClickListener {
                     takePhoto()
                 }
@@ -59,7 +72,7 @@ class AttachFileAdapter(private val imageUris: List<String>,
             }
             is ViewHolder.ImageViewHolder -> {
                 viewHolder.apply {
-                    val uri = imageUris[position]
+                    val image = imageUris[position]
                     val params = attachFileImage.layoutParams
                     val margin = attachFileImage.context.resources.getDimensionPixelSize(R.dimen.base_margin_double) * 2
                     val roundedCornersRadius = attachFileImage.context.resources.getDimensionPixelSize(R.dimen.attach_file_rounded_corners_radius)
@@ -68,35 +81,48 @@ class AttachFileAdapter(private val imageUris: List<String>,
                     attachFileImage.layoutParams = params
                     Glide
                         .with(attachFileImage.context)
-                        .load(uri)
+                        .load(image.path)
                         .transform(MultiTransformation(CenterCrop(), RoundedCorners(roundedCornersRadius)))
                         .into(attachFileImage)
                     attachFileSendButton.remove()
                     attachFileSendButton.setHapticClickListener {
-                        uploadFile(Uri.parse(uri))
+                        image.isLoading = true
+                        uploadFile(Uri.parse(image.path))
+                        attachFileSendButton.fadeOut(endAction = {
+                            attachFileSendButton.remove()
+                        })
+                        loadingSpinner.fadeIn()
+                    }
+                    if (image.isLoading) {
+                        loadingSpinner.show()
+                    } else {
+                        loadingSpinner.remove()
                     }
                     val outValue = TypedValue()
                     attachFileImageContainer.context.theme.resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true)
                     attachFileImageContainer.foreground = attachFileImageContainer.context.getDrawable(outValue.resourceId)
 
                     attachFileImageContainer.setHapticClickListener {
-                        attachFileSendButton.alpha = 0f
 
                         attachFileSendButton.show()
-                        attachFileSendButton.animate()
-                            .alpha(1f)
-                            .setDuration(SHOW_SEND_BUTTON_ANIMATION_DURATION_MS)
-                            .withEndAction {
-                                // remove click
-                                attachFileImageContainer.foreground = null
-                                attachFileImageContainer.setOnClickListener(null)
-                            }
-                            .start()
-
+                        attachFileSendButton.fadeIn(endAction = {
+                            attachFileImageContainer.foreground = null
+                            attachFileImageContainer.setOnClickListener(null)
+                        })
                     }
                 }
             }
         }
+    }
+
+    fun update(path: String) {
+        val index = imageUris.indexOfFirst {
+            it.path == path
+        }
+
+        imageUris[index].isLoading = false
+
+        notifyItemChanged(index)
     }
 
     override fun getItemViewType(position: Int) =
@@ -105,6 +131,8 @@ class AttachFileAdapter(private val imageUris: List<String>,
     sealed class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         class CameraAndMiscViewHolder(itemView: View) : ViewHolder(itemView) {
             val cameraButton: FrameLayout = itemView.cameraButton
+            val cameraIcon: ImageView = itemView.cameraIcon
+            val loadingSpinner: LottieAnimationView = itemView.loadingSpinner
             val miscButton: FrameLayout = itemView.miscButton
         }
 
@@ -112,6 +140,7 @@ class AttachFileAdapter(private val imageUris: List<String>,
             val attachFileImage: ImageView = itemView.attachFileImage
             val attachFileImageContainer: FrameLayout = itemView.attachFileContainer
             val attachFileSendButton: Button = itemView.attachFileSendButton
+            val loadingSpinner: LottieAnimationView = itemView.loadingSpinner
         }
     }
 
@@ -119,6 +148,10 @@ class AttachFileAdapter(private val imageUris: List<String>,
         private const val CAMERA_AND_MISC_VIEW_TYPE = 0
         private const val IMAGE_VIEW_TYPE = 1
 
-        private const val SHOW_SEND_BUTTON_ANIMATION_DURATION_MS = 225L
     }
 }
+
+data class ImageData(
+    val path: String,
+    var isLoading: Boolean = false
+)

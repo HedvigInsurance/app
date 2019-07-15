@@ -16,7 +16,6 @@ import com.hedvig.app.R
 import com.hedvig.app.util.extensions.compatRequestPermissions
 import com.hedvig.app.util.extensions.handleSingleSelectLink
 import com.hedvig.app.util.extensions.observe
-import com.hedvig.app.util.extensions.handleSingleSelectLink
 import com.hedvig.app.util.extensions.setAuthenticationToken
 import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.extensions.getAuthenticationToken
@@ -25,16 +24,17 @@ import com.hedvig.app.util.extensions.hasPermissions
 import com.hedvig.app.util.extensions.askForPermissions
 import android.content.Intent
 import android.app.Activity
-import android.graphics.Bitmap
 import android.os.Handler
 import com.hedvig.app.feature.chat.UploadBottomSheet
 import com.hedvig.app.util.extensions.view.updatePadding
 import kotlinx.coroutines.*
-import com.hedvig.app.util.extensions.view.setHapticClickListener
-import com.hedvig.app.util.showRestartDialog
-import kotlinx.android.synthetic.main.activity_chat.*
-import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import android.os.Environment
+import java.io.File
+import android.os.StrictMode.VmPolicy
+import android.os.StrictMode
+import android.support.v4.content.FileProvider
+import java.io.IOException
 
 class NativeChatActivity : AppCompatActivity() {
 
@@ -49,6 +49,10 @@ class NativeChatActivity : AppCompatActivity() {
     private var preventOpenAttachFile = false
     private var preventOpenAttachFileHandler = Handler()
     private val resetPreventOpenAttachFile = { preventOpenAttachFile = false }
+
+    private var attachPickerDialog: AttachPickerDialog? = null
+
+    private var currentPhotoPath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,6 +140,11 @@ class NativeChatActivity : AppCompatActivity() {
                 isKeyboardShown = false
             }
         }
+        chatViewModel.takePictureUploadOutcome.observe(lifecycleOwner = this) {
+            attachPickerDialog?.uploadingTakenPicture(false)
+            currentPhotoPath?.let { File(it).delete() }
+            chatViewModel.load()
+        }
     }
 
     private fun bindData(data: ChatMessagesQuery.Data) {
@@ -174,14 +183,16 @@ class NativeChatActivity : AppCompatActivity() {
                 if (!isKeyboardShown) {
                     input.updatePadding(bottom = 0)
                 }
+                this.attachPickerDialog = null
             },
             uploadFileCallback = { uri ->
                 chatViewModel.uploadFile(uri)
             }
         )
-        chatViewModel.uploadFileResponse.observe(lifecycleOwner = this) { data ->
-            data?.uploadFile?.let {
-                // TODO UI
+        chatViewModel.fileUploadOutcome.observe(lifecycleOwner = this) { data ->
+            data?.uri?.path?.let { path ->
+                attachPickerDialog.updateImages(path)
+                chatViewModel.load()
             }
         }
         attachPickerDialog.pickerHeight = keyboardHeight
@@ -198,12 +209,37 @@ class NativeChatActivity : AppCompatActivity() {
         }
 
         input.rotateFileUploadIcon(true)
+        this.attachPickerDialog = attachPickerDialog
     }
 
     private fun startTakePicture() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            ?: run {
+                Timber.e("Could not getExternalFilesDir")
+                return
+            }
 
-        takePictureIntent.resolveActivity(packageManager)?.let {
+        val tempTakenPhotoFile = try {
+            File.createTempFile(
+                "JPEG_${System.currentTimeMillis()}_",
+                ".jpg",
+                storageDir
+            ).apply {
+                currentPhotoPath = absolutePath
+            }
+        } catch (ex: IOException) {
+            Timber.e("Error occurred while creating the photo file")
+            null
+        }
+
+        tempTakenPhotoFile?.also { file ->
+            val photoURI: Uri = FileProvider.getUriForFile(
+                this,
+                "com.hedvig.android.file.provider",
+                file
+            )
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
             startActivityForResult(takePictureIntent, TAKE_PICTURE_REQUEST_CODE)
         }
     }
@@ -212,12 +248,11 @@ class NativeChatActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             TAKE_PICTURE_REQUEST_CODE -> if (resultCode == Activity.RESULT_OK) {
-                data?.extras?.let { extras ->
-                    val imageBitmap = extras.get("data") as Bitmap? ?: run {
-                        Timber.e("No picture data when taking a picture")
-                        return
-                    }
-                    //todo send imageBitmap
+                Timber.i("path $currentPhotoPath")
+                currentPhotoPath?.let { tempFile ->
+                    attachPickerDialog?.uploadingTakenPicture(true)
+
+                    chatViewModel.uploadTakenPicture(Uri.fromFile(File(tempFile)))
                 }
             }
         }

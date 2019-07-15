@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModel
 import android.net.Uri
 import com.apollographql.apollo.api.Response
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
-import com.hedvig.android.owldroid.graphql.SendChatFileResponseMutation
 import com.hedvig.android.owldroid.graphql.UploadFileMutation
 import com.hedvig.app.util.LiveEvent
 import io.reactivex.Observable
@@ -27,6 +26,8 @@ class ChatViewModel(
     val sendFileResponse = MutableLiveData<Boolean>()
     val isUploading = LiveEvent<Boolean>()
     val uploadFileResponse = LiveEvent<UploadFileMutation.Data>()
+    val fileUploadOutcome = LiveEvent<FileUploadOutcome>()
+    val takePictureUploadOutcome = LiveEvent<FileUploadOutcome>()
 
     private val disposables = CompositeDisposable()
 
@@ -66,14 +67,26 @@ class ChatViewModel(
     }
 
     fun uploadFile(uri: Uri) {
+        uploadFile(uri) { data ->
+            fileUploadOutcome.postValue(FileUploadOutcome(uri, !data.hasErrors()))
+        }
+    }
+
+    fun uploadTakenPicture(uri: Uri) {
+        uploadFile(uri) { data ->
+            takePictureUploadOutcome.postValue(FileUploadOutcome(uri, !data.hasErrors()))
+        }
+    }
+
+    private fun uploadFile(uri: Uri, onNext: (Response<UploadFileMutation.Data>) -> Unit) {
         isUploading.value = true
         disposables += chatRepository
             .uploadFile(uri)
-            .subscribe({ data ->
+            .subscribe( { data ->
                 data.data()?.let {
                     respondWithFile(it.uploadFile.key, uri)
-                    uploadFileResponse.postValue(data.data())
                 }
+                onNext(data)
             }, { Timber.e(it) })
     }
 
@@ -172,3 +185,8 @@ class ChatViewModel(
         private const val PARAGRAPH_DELAY_MULTIPLIER_MS = 30
     }
 }
+
+data class FileUploadOutcome(
+    val uri: Uri,
+    val wasSuccessFull: Boolean
+)

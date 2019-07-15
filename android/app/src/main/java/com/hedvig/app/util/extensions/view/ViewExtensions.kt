@@ -140,8 +140,18 @@ fun View.setupLargeTitle(
     backAction?.let { toolbar.setNavigationOnClickListener { it() } }
 }
 
-fun View.fadeIn() {
+fun View.fadeIn(endAction: (() -> Unit)? = null) {
     alpha = 0f
     show()
-    animate().setDuration(225).alpha(1f).start()
+    val animation = animate().setDuration(225).alpha(1f)
+    endAction?.let { animation.withEndAction(it) }
+    animation.start()
+}
+
+fun View.fadeOut(endAction: (() -> Unit)? = null) {
+    alpha = 1f
+    show()
+    val animation = animate().setDuration(225).alpha(0f)
+    endAction?.let { animation.withEndAction(it) }
+    animation.start()
 }
