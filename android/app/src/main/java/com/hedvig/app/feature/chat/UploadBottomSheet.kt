@@ -22,8 +22,6 @@ import com.hedvig.app.feature.chat.native.ChatViewModel
 class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
     val chatViewModel: ChatViewModel by sharedViewModel()
 
-    var fileUploadedSuccessfulCallback: ((String) -> Unit)? = null
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         val view = LayoutInflater
@@ -58,8 +56,7 @@ class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
         }
 
         chatViewModel.uploadFileResponse.observe(this) { data ->
-            data?.uploadFile?.key?.let { fuk ->
-                fileUploadedSuccessfulCallback?.invoke(fuk)
+            data?.uploadFile?.key?.let {
                 isCancelable = true
                 dismiss()
             }

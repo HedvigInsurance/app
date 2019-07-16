@@ -162,9 +162,6 @@ class NativeChatActivity : AppCompatActivity() {
             },
             showUploadBottomSheetCallback = {
                 val uploadBottomSheet = UploadBottomSheet()
-                uploadBottomSheet.fileUploadedSuccessfulCallback = {
-                    chatViewModel.load()
-                }
                 uploadBottomSheet.show(supportFragmentManager, "FileUploadOverlay")
             },
             dismissCallback = { motionEvent ->

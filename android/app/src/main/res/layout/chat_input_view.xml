@@ -29,7 +29,7 @@
 
         <TextView
             android:id="@+id/sendGif"
-            android:layout_width="@dimen/chat_attatch_icon_size"
+            android:layout_width="@dimen/chat_attach_icon_size"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginStart="@dimen/base_margin_half"
