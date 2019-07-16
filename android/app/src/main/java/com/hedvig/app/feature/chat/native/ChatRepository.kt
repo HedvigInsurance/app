@@ -9,6 +9,7 @@ import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.fragment.ChatMessageFragment
 import com.hedvig.android.owldroid.graphql.ChatMessageSubscription
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
+import com.hedvig.android.owldroid.graphql.EditLastResponseMutation
 import com.hedvig.android.owldroid.graphql.SendChatSingleSelectResponseMutation
 import com.hedvig.android.owldroid.graphql.SendChatTextResponseMutation
 import com.hedvig.android.owldroid.graphql.UploadClaimMutation
@@ -114,4 +115,6 @@ class ChatRepository(
             .writeAndPublish(messagesQuery, newMessagesBuilder.build())
             .execute()
     }
+
+    fun editLastResponse() = Rx2Apollo.from(apolloClient.mutate(EditLastResponseMutation()))
 }
