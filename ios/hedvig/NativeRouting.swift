@@ -77,13 +77,13 @@ class NativeRouting: RCTEventEmitter {
 
         bag += ApolloContainer.shared.client.fetch(query: InsurancePriceQuery())
             .valueSignal
-            .compactMap { $0.data?.insurance.cost?.monthlyGross.amount }
+            .compactMap { $0.data?.insurance.cost?.monthlyGross }
             .onValue { monthlyGross in
                 bag.dispose()
                 Analytics.logEvent("ecommerce_purchase", parameters: [
                     "transaction_id": UUID().uuidString,
-                    "value": monthlyGross,
-                    "currency": "SEK"
+                    "value": Double(monthlyGross.amount),
+                    "currency": monthlyGross.currency
                 ])
             }
     }
