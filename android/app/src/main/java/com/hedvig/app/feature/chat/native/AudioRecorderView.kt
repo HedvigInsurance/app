@@ -10,7 +10,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.askForPermissions
-import com.hedvig.app.util.extensions.hasPermission
 import com.hedvig.app.util.extensions.hasPermissions
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
@@ -47,7 +46,7 @@ class AudioRecorderView : LinearLayout {
         (upload as TextView).text = resources.getString(R.string.AUDIO_INPUT_SAVE)
 
         startRecording.setHapticClickListener {
-            if (hasPermissions(context, Manifest.permission.RECORD_AUDIO)) {
+            if (context.hasPermissions(Manifest.permission.RECORD_AUDIO)) {
                 triggerStartRecording()
             } else {
                 requestPermission()

@@ -127,19 +127,7 @@ fun Activity.startClosableChat() {
     ActivityCompat.startActivity(this, intent, options.toBundle())
 }
 
-fun Context.hasPermissions(vararg permissions: String): Boolean {
-    for (permission in permissions) {
-        if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-            return false
-        }
-    }
-    return true
-}
-
-fun Activity.askForPermissions(permissions: Array<String>, requestCode: Int, shouldNotAskAction: (() -> Unit)? = null) =
-    (this as AppCompatActivity).askForPermissions(permissions, requestCode, shouldNotAskAction)
-
-fun AppCompatActivity.askForPermissions(permissions: Array<String>, requestCode: Int, shouldNotAskAction: (() -> Unit)? = null) {
+fun Activity.askForPermissions(permissions: Array<String>, requestCode: Int, shouldNotAskAction: (() -> Unit)? = null) {
     permissions.forEach {
         if (ActivityCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_DENIED) {
             when {
@@ -157,7 +145,7 @@ fun AppCompatActivity.askForPermissions(permissions: Array<String>, requestCode:
     }
 }
 
-private fun Context.showPermissionExplanationDialog(permission: String) {
+private fun Activity.showPermissionExplanationDialog(permission: String) {
     when (permission) {
         android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
         android.Manifest.permission.READ_EXTERNAL_STORAGE ->
@@ -184,7 +172,7 @@ private fun Context.showPermissionExplanationDialog(permission: String) {
     }
 }
 
-private fun Context.openAppSettings() {
+private fun Activity.openAppSettings() {
     val intent = Intent()
     intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
     val uri = Uri.fromParts("package", packageName, null)

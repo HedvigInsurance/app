@@ -65,7 +65,7 @@ class NativeChatActivity : AppCompatActivity() {
             paragraphPullMessages = { chatViewModel.load() },
             openAttachFile = {
                 if (!preventOpenAttachFile) {
-                    if (hasPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    if (hasPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         openAttachPicker()
                     } else {
                         askForPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSION)
@@ -150,7 +150,7 @@ class NativeChatActivity : AppCompatActivity() {
         val attachPickerDialog = AttachPickerDialog(this)
         attachPickerDialog.initialize(
             takePhotoCallback = {
-                if (hasPermissions(this, Manifest.permission.CAMERA)) {
+                if (hasPermissions(Manifest.permission.CAMERA)) {
                     startTakePicture()
                 } else {
                     askForPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)

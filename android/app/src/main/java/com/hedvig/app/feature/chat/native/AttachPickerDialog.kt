@@ -95,21 +95,25 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
 
     private fun setupWindowsParams() = window?.let { window ->
         val params = window.attributes
-        params.width = ViewGroup.LayoutParams.MATCH_PARENT
-        params.height = ViewGroup.LayoutParams.MATCH_PARENT
 
-        params.dimAmount = 0f
-        params.flags = params.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
+        params.apply {
+            width = ViewGroup.LayoutParams.MATCH_PARENT
+            height = ViewGroup.LayoutParams.MATCH_PARENT
 
-        params.flags = params.flags or
-            WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM or
-            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
-            WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or
-            WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+            dimAmount = 0f
+            flags = flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
 
-        whenApiVersion(Build.VERSION_CODES.P) {
-            params.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            flags = flags or
+                WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM or
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
+                WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or
+                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+
+            whenApiVersion(Build.VERSION_CODES.P) {
+                layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            }
         }
+
         window.attributes = params
     }
 
