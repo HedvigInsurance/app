@@ -131,7 +131,7 @@ class ChatRepository(
     fun uploadFile(uri: Uri): Observable<Response<UploadFileMutation.Data>> =
         uploadFile(File(uri.path), fileService.getMimeType(uri) ?: "")
 
-    private fun uploadFile(file: File, mimeType: String): @NotNull Observable<Response<UploadFileMutation.Data>> {
+    private fun uploadFile(file: File, mimeType: String): Observable<Response<UploadFileMutation.Data>> {
         val uploadFileMutation = UploadFileMutation
             .builder()
             .file(FileUpload(mimeType, file))
