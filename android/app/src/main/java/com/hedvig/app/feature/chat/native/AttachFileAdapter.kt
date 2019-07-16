@@ -73,7 +73,7 @@ class AttachFileAdapter(private val attachImageData: List<AttachImageData>,
             }
             is ViewHolder.ImageViewHolder -> {
                 viewHolder.apply {
-                    val image = attachImageData[position]
+                    val image = attachImageData[position - 1]
                     val params = attachFileImage.layoutParams
                     val margin = attachFileImage.context.resources.getDimensionPixelSize(R.dimen.base_margin_double) * 2
                     val roundedCornersRadius = attachFileImage.context.resources.getDimensionPixelSize(R.dimen.attach_file_rounded_corners_radius)
@@ -127,7 +127,7 @@ class AttachFileAdapter(private val attachImageData: List<AttachImageData>,
         }
 
         attachImageData[index].isLoading = false
-        notifyItemChanged(index)
+        notifyItemChanged(index + 1)
     }
 
     override fun getItemViewType(position: Int) =
