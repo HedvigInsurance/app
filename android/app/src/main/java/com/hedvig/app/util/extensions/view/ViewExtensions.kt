@@ -16,6 +16,7 @@ import android.view.ViewTreeObserver
 import android.widget.RelativeLayout
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.whenApiVersion
+import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.app_bar.view.*
 
 fun View.show(): View {
@@ -160,3 +161,18 @@ fun View.setupLargeTitle(
     backAction?.let { toolbar.setNavigationOnClickListener { it() } }
 }
 
+fun View.fadeIn(endAction: (() -> Unit)? = null) {
+    alpha = 0f
+    show()
+    val animation = animate().setDuration(225).alpha(1f)
+    endAction?.let { animation.withEndAction(it) }
+    animation.start()
+}
+
+fun View.fadeOut(endAction: (() -> Unit)? = null) {
+    alpha = 1f
+    show()
+    val animation = animate().setDuration(225).alpha(0f)
+    endAction?.let { animation.withEndAction(it) }
+    animation.start()
+}

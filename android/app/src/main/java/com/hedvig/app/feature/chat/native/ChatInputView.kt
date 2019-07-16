@@ -1,6 +1,8 @@
 package com.hedvig.app.feature.chat.native
 
 import android.content.Context
+import android.support.animation.DynamicAnimation
+import android.support.animation.SpringAnimation
 import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -26,6 +28,7 @@ class ChatInputView : FrameLayout {
     private lateinit var sendSingleSelect: ((String) -> Unit)
     private lateinit var singleSelectLink: ((String) -> Unit)
     private lateinit var paragraphPullMessages: (() -> Unit)
+    private lateinit var openAttachFile: (() -> Unit)
 
     private val layoutInflater: LayoutInflater by lazy {
         LayoutInflater.from(context)
@@ -49,20 +52,24 @@ class ChatInputView : FrameLayout {
         inputText.sendClickListener = {
             sendTextMessage(inputText.currentMessage)
         }
+        uploadFile.setHapticClickListener {
+            inputText.clearFocus()
+            openAttachFile()
+        }
     }
 
-    fun initialize(
-        sendTextMessage: (String) -> Unit,
-        sendSingleSelect: (String) -> Unit,
-        sendSingleSelectLink: (String) -> Unit,
-        paragraphPullMessages: () -> Unit,
-        requestAudioPermission: () -> Unit,
-        uploadRecording: (String) -> Unit
-    ) {
+    fun initialize(sendTextMessage: (String) -> Unit,
+                   sendSingleSelect: (String) -> Unit,
+                   sendSingleSelectLink: (String) -> Unit,
+                   paragraphPullMessages: () -> Unit,
+                   openAttachFile: () -> Unit,
+                   requestAudioPermission: () -> Unit,
+                   uploadRecording: (String) -> Unit) {
         this.sendTextMessage = sendTextMessage
         this.sendSingleSelect = sendSingleSelect
         this.singleSelectLink = sendSingleSelectLink
         this.paragraphPullMessages = paragraphPullMessages
+        this.openAttachFile = openAttachFile
         audioRecorder.initialize(requestAudioPermission, uploadRecording)
     }
 
@@ -70,7 +77,7 @@ class ChatInputView : FrameLayout {
         inputText.text.clear()
     }
 
-    fun onPermissionResult(granted: Boolean) = audioRecorder.onPermissionResult(granted)
+    fun audioRecorderPermissionGranted() = audioRecorder.permissionGranted()
 
     private fun hideInputContainers() {
         textInputContainer.remove()
@@ -152,10 +159,10 @@ class ChatInputView : FrameLayout {
     private fun bindNullInput() {
         nullView.show()
     }
+
+    fun rotateFileUploadIcon(isOpening: Boolean) {
+        SpringAnimation(uploadFile, DynamicAnimation.ROTATION).animateToFinalPosition(if (isOpening) 135f else 0f)
+    }
+
 }
 
-enum class SingleSelectChoiceType {
-    LINK,
-    SELECTION,
-    UNDEFINED
-}

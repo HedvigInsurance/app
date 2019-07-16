@@ -7,16 +7,14 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import com.hedvig.app.R
-import com.hedvig.app.react.ActivityStarterModule
 import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
-import com.hedvig.app.util.extensions.localBroadcastManager
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import kotlinx.android.synthetic.main.file_upload_dialog.*
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
+import com.hedvig.app.feature.chat.native.ChatViewModel
 
 class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
     val chatViewModel: ChatViewModel by sharedViewModel()
@@ -41,7 +39,7 @@ class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
     }
 
     private fun setupSubscriptions() {
-        chatViewModel.isUploading.observe(this) { isUploading ->
+        chatViewModel.isUploading.observe(lifecycleOwner = this) { isUploading ->
             isUploading?.let { iu ->
                 if (iu) {
                     dialog.header.text = resources.getString(R.string.FILE_UPLOAD_IS_UPLOADING)
@@ -54,12 +52,8 @@ class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
             }
         }
 
-        chatViewModel.fileUploadKey.observe(this) { fileUploadKey ->
-            fileUploadKey?.let { fuk ->
-                localBroadcastManager.sendBroadcast(Intent(ActivityStarterModule.FILE_UPLOAD_INTENT).apply {
-                    putExtra(ActivityStarterModule.FILE_UPLOAD_RESULT, ActivityStarterModule.FILE_UPLOAD_SUCCESS)
-                    putExtra(ActivityStarterModule.FILE_UPLOAD_KEY, fuk)
-                })
+        chatViewModel.uploadBottomSheetResponse.observe(lifecycleOwner = this) { data ->
+            data?.uploadFile?.key?.let {
                 isCancelable = true
                 dismiss()
             }
@@ -88,14 +82,14 @@ class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
             SELECT_FILE_REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     resultData?.data?.let { uri ->
-                        chatViewModel.uploadFile(uri)
+                        chatViewModel.uploadFileFromProvider(uri)
                     }
                 }
             }
             SELECT_IMAGE_REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     resultData?.data?.let { uri ->
-                        chatViewModel.uploadFile(uri)
+                        chatViewModel.uploadFileFromProvider(uri)
                     }
                 }
             }

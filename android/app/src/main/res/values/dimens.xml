@@ -96,9 +96,15 @@
     <dimen name="news_close_button_size">28dp</dimen>
 
     <dimen name="referrals_button_bottom_margin">80dp</dimen>
-    <dimen name="chat_attatch_icon_size">40dp</dimen>
+    <dimen name="chat_attach_icon_size">40dp</dimen>
     <dimen name="chat_background_edit_text_rounded_corner_radius">28dp</dimen>
     <dimen name="chat_message_corner_radius">20dp</dimen>
     <dimen name="chat_single_select_corner_radius">32dp</dimen>
+    <dimen name="default_attach_file_height">280dp</dimen>
+    <dimen name="is_keyboard_brake_point_height">120dp</dimen>
+
+    <dimen name="camera_and_misc_button_width">120dp</dimen>
+    <dimen name="camera_and_misc_button_background_stroke_width">1dp</dimen>
+    <dimen name="attach_file_rounded_corners_radius">20dp</dimen>
     <dimen name="audio_recorder_button_size">56dp</dimen>
 </resources>

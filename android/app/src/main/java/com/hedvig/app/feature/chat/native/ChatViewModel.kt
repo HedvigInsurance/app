@@ -2,8 +2,11 @@ package com.hedvig.app.feature.chat.native
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.net.Uri
 import com.apollographql.apollo.api.Response
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
+import com.hedvig.android.owldroid.graphql.UploadFileMutation
+import com.hedvig.app.util.LiveEvent
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -16,10 +19,14 @@ class ChatViewModel(
     private val chatRepository: ChatRepository
 ) : ViewModel() {
 
-    val uploadClaimResponse = MutableLiveData<Boolean>()
     val messages = MutableLiveData<ChatMessagesQuery.Data>()
     val sendMessageResponse = MutableLiveData<Boolean>()
     val sendSingleSelectResponse = MutableLiveData<Boolean>()
+    val sendFileResponse = MutableLiveData<Boolean>()
+    val isUploading = LiveEvent<Boolean>()
+    val uploadBottomSheetResponse = LiveEvent<UploadFileMutation.Data>()
+    val fileUploadOutcome = LiveEvent<FileUploadOutcome>()
+    val takePictureUploadOutcome = LiveEvent<FileUploadOutcome>()
 
     private val disposables = CompositeDisposable()
 
@@ -58,6 +65,42 @@ class ChatViewModel(
             }, { Timber.e(it) })
     }
 
+    fun uploadFile(uri: Uri) {
+        uploadFile(uri) { data ->
+            fileUploadOutcome.postValue(FileUploadOutcome(uri, !data.hasErrors()))
+        }
+    }
+
+    fun uploadTakenPicture(uri: Uri) {
+        uploadFile(uri) { data ->
+            takePictureUploadOutcome.postValue(FileUploadOutcome(uri, !data.hasErrors()))
+        }
+    }
+
+    private fun uploadFile(uri: Uri, onNext: (Response<UploadFileMutation.Data>) -> Unit) {
+        isUploading.value = true
+        disposables += chatRepository
+            .uploadFile(uri)
+            .subscribe( { data ->
+                data.data()?.let {
+                    respondWithFile(it.uploadFile.key, uri)
+                }
+                onNext(data)
+            }, { Timber.e(it) })
+    }
+
+    fun uploadFileFromProvider(uri: Uri) {
+        isUploading.value = true
+        disposables += chatRepository
+            .uploadFileFromProvider(uri)
+            .subscribe({ data ->
+                data.data()?.let {
+                    respondWithFile(it.uploadFile.key, uri)
+                    uploadBottomSheetResponse.postValue(data.data())
+                }
+            }, { Timber.e(it) })
+    }
+
     private fun calculateDelay(response: Response<ChatMessagesQuery.Data>): Long =
         response.data()?.messages?.firstOrNull()?.fragments?.chatMessageFragment?.body?.text?.length?.times(
             PARAGRAPH_DELAY_MULTIPLIER_MS
@@ -92,6 +135,18 @@ class ChatViewModel(
         disposables += chatRepository
             .sendChatMessage(getLastId(), message)
             .subscribe({ sendMessageResponse.postValue(it.data()?.isSendChatTextResponse) }, { Timber.e(it) })
+    }
+
+    private fun respondWithFile(key: String, uri: Uri) {
+        disposables += chatRepository
+            .sendFileResponse(getLastId(), key, uri)
+            .subscribe({
+                it.data()?.let { data ->
+                    sendFileResponse.postValue(data.isSendChatFileResponse)
+                }
+            }, {
+                Timber.e(it)
+            })
     }
 
     fun respondWithSingleSelect(value: String) {
@@ -141,3 +196,4 @@ class ChatViewModel(
         private const val PARAGRAPH_DELAY_MULTIPLIER_MS = 30
     }
 }
+

@@ -12,10 +12,12 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.provider.Settings
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.FontRes
 import android.support.annotation.StringRes
+import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.content.res.AppCompatResources
@@ -31,6 +33,7 @@ private const val SHARED_PREFERENCE_NAME = "hedvig_shared_preference"
 private const val SHARED_PREFERENCE_IS_LOGGED_IN = "shared_preference_is_logged_in"
 
 private const val SHARED_PREFERENCE_AUTHENTICATION_TOKEN = "shared_preference_authentication_token"
+const val SHARED_PREFERENCE_ASKED_FOR_PERMISSION_PREFIX_KEY = "shared_preference_asked_for_permission_prefix"
 
 fun Context.compatColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
@@ -141,7 +144,17 @@ fun Context.handleSingleSelectLink(value: String) = when(value) {
     }
 }
 
-fun Context.hasPermission(permission: String) = ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+fun Context.getStoredBoolean(key: String): Boolean =
+    getSharedPreferences().getBoolean(key, false)
 
+fun Context.storeBoolean(key: String, value: Boolean): Boolean =
+    getSharedPreferences().edit().putBoolean(key, value).commit()
 
-
+fun Context.hasPermissions(vararg permissions: String): Boolean {
+    for (permission in permissions) {
+        if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            return false
+        }
+    }
+    return true
+}

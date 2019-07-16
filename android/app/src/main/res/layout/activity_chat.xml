@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chatRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/off_white"
@@ -46,10 +47,10 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/CHAT_RESTART_CONTENT_DESCRIPTION"
         android:padding="@dimen/base_margin_half"
+        android:rotation="180"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:rotation="180"
         app:srcCompat="@drawable/ic_chat_send_green" />
 
     <com.hedvig.app.feature.chat.native.ChatInputView
