@@ -11,6 +11,7 @@ import Flow
 import Foundation
 import Photos
 import Presentation
+import AVFoundation
 
 struct MarketingResultEventBody: Encodable {
     var marketingResult: String?
@@ -101,7 +102,7 @@ class NativeRouting: RCTEventEmitter {
             }
 
             let perilInformation = PerilInformation(
-                title: title,
+                title: title.replacingOccurrences(of: "-\n", with: ""),
                 description: description,
                 icon: Peril.iconAsset(for: idString)
             )
@@ -163,7 +164,7 @@ class NativeRouting: RCTEventEmitter {
     @objc func presentLoggedIn() {
         DispatchQueue.main.async {
             guard let keyWindow = UIApplication.shared.keyWindow else { return }
-            self.bag += keyWindow.present(LoggedIn(), options: [.prefersNavigationBarHidden(true)], animated: true)
+            self.bag += keyWindow.present(LoggedIn(displayNews: false), options: [.prefersNavigationBarHidden(true)], animated: true)
         }
     }
 
@@ -179,6 +180,12 @@ class NativeRouting: RCTEventEmitter {
                         self.bag += keyWindow.rootViewController?.present(Welcome(data: data), options: [.prefersNavigationBarHidden(true)]).disposable
                     }
             }
+        }
+    }
+
+    @objc func requestMicrophonePermission(_ _: Bool, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter _: RCTPromiseRejectBlock) {
+        AVCaptureDevice.requestAccess(for: .audio) { granted in
+            resolve(granted)
         }
     }
 
