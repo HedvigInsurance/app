@@ -41,7 +41,7 @@
             android:layout_marginEnd="@dimen/base_margin_double"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/CHAT_EDIT_MESSAGE_DESCRIPTION"
-            android:src="@drawable/ic_edit"
+            android:src="@drawable/ic_chat_edit_last_message"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/statusMessage"
             app:layout_constraintEnd_toEndOf="parent"
