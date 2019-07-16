@@ -4,5 +4,5 @@ import android.net.Uri
 
 data class FileUploadOutcome(
     val uri: Uri,
-    val wasSuccessFull: Boolean
+    val wasSuccessful: Boolean
 )
