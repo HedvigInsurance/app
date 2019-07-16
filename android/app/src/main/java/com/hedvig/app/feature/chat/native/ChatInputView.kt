@@ -77,7 +77,7 @@ class ChatInputView : FrameLayout {
         inputText.text.clear()
     }
 
-    fun onPermissionResult(granted: Boolean) = audioRecorder.onPermissionResult(granted)
+    fun audioRecorderPermissionGranted() = audioRecorder.permissionGranted()
 
     private fun hideInputContainers() {
         textInputContainer.remove()
@@ -166,8 +166,3 @@ class ChatInputView : FrameLayout {
 
 }
 
-enum class SingleSelectChoiceType {
-    LINK,
-    SELECTION,
-    UNDEFINED
-}

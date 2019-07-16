@@ -9,7 +9,9 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.hedvig.app.R
+import com.hedvig.app.util.extensions.askForPermissions
 import com.hedvig.app.util.extensions.hasPermission
+import com.hedvig.app.util.extensions.hasPermissions
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
@@ -30,7 +32,6 @@ class AudioRecorderView : LinearLayout {
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(context, attributeSet, defStyle)
 
     private var elapsedTime: Disposable? = null
-    private var hasPermission: Boolean
 
     private var recorder: MediaRecorder? = null
     private var player: MediaPlayer? = null
@@ -45,10 +46,8 @@ class AudioRecorderView : LinearLayout {
         (playback as TextView).text = resources.getString(R.string.AUDIO_INPUT_PLAY)
         (upload as TextView).text = resources.getString(R.string.AUDIO_INPUT_SAVE)
 
-        hasPermission = context.hasPermission(Manifest.permission.RECORD_AUDIO)
-
         startRecording.setHapticClickListener {
-            if (hasPermission) {
+            if (hasPermissions(context, Manifest.permission.RECORD_AUDIO)) {
                 triggerStartRecording()
             } else {
                 requestPermission()
@@ -85,11 +84,8 @@ class AudioRecorderView : LinearLayout {
         this.uploadRecording = uploadRecording
     }
 
-    fun onPermissionResult(granted: Boolean) {
-        if (granted) {
-            hasPermission = true
-            triggerStartRecording()
-        }
+    fun permissionGranted() {
+        triggerStartRecording()
     }
 
     private fun triggerStopRecording() {

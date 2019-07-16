@@ -19,13 +19,12 @@ class ChatViewModel(
     private val chatRepository: ChatRepository
 ) : ViewModel() {
 
-    val uploadClaimResponse = MutableLiveData<Boolean>()
     val messages = MutableLiveData<ChatMessagesQuery.Data>()
     val sendMessageResponse = MutableLiveData<Boolean>()
     val sendSingleSelectResponse = MutableLiveData<Boolean>()
     val sendFileResponse = MutableLiveData<Boolean>()
     val isUploading = LiveEvent<Boolean>()
-    val uploadFileResponse = LiveEvent<UploadFileMutation.Data>()
+    val uploadBottomSheetResponse = LiveEvent<UploadFileMutation.Data>()
     val fileUploadOutcome = LiveEvent<FileUploadOutcome>()
     val takePictureUploadOutcome = LiveEvent<FileUploadOutcome>()
 
@@ -97,7 +96,7 @@ class ChatViewModel(
             .subscribe({ data ->
                 data.data()?.let {
                     respondWithFile(it.uploadFile.key, uri)
-                    uploadFileResponse.postValue(data.data())
+                    uploadBottomSheetResponse.postValue(data.data())
                 }
             }, { Timber.e(it) })
     }
@@ -186,7 +185,3 @@ class ChatViewModel(
     }
 }
 
-data class FileUploadOutcome(
-    val uri: Uri,
-    val wasSuccessFull: Boolean
-)

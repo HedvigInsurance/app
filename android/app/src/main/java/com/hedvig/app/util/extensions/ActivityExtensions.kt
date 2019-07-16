@@ -166,7 +166,18 @@ private fun Context.showPermissionExplanationDialog(permission: String) {
                 message = R.string.PERMISSION_DIALOG_EXTERNAL_STORAGE_MESSAGE,
                 positiveAction = { openAppSettings() }
             )
-        //TODO add camera and audio
+        android.Manifest.permission.RECORD_AUDIO ->
+            showAlert(
+                title = R.string.PERMISSION_DIALOG_TITLE,
+                message = R.string.PERMISSION_DIALOG_RECORD_AUDIO_MESSAGE,
+                positiveAction = { openAppSettings() }
+            )
+        android.Manifest.permission.CAMERA ->
+            showAlert(
+                title = R.string.PERMISSION_DIALOG_TITLE,
+                message = R.string.PERMISSION_DIALOG_CAMERA_MESSAGE,
+                positiveAction = { openAppSettings() }
+            )
         else -> {
             Timber.e("No dialog for permission $permission!")
         }
@@ -180,6 +191,3 @@ private fun Context.openAppSettings() {
     intent.data = uri
     startActivity(intent)
 }
-
-// todo lets remove this
-fun Activity.compatRequestPermissions(permissions: Array<String>, requestCode: Int) = ActivityCompat.requestPermissions(this, permissions, requestCode)

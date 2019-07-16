@@ -13,7 +13,6 @@ import android.provider.MediaStore
 import android.provider.MediaStore.MediaColumns
 import android.net.Uri
 import com.hedvig.app.R
-import com.hedvig.app.util.extensions.compatRequestPermissions
 import com.hedvig.app.util.extensions.handleSingleSelectLink
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setAuthenticationToken
@@ -66,18 +65,15 @@ class NativeChatActivity : AppCompatActivity() {
             paragraphPullMessages = { chatViewModel.load() },
             openAttachFile = {
                 if (!preventOpenAttachFile) {
-                    if (hasPermissions(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    if (hasPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         openAttachPicker()
                     } else {
-                        askForPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSIONS)
+                        askForPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSION)
                     }
                 }
             },
             requestAudioPermission = {
-                compatRequestPermissions(
-                    arrayOf(Manifest.permission.RECORD_AUDIO),
-                    REQUEST_AUDIO_PERMISSION_REQUEST_CODE
-                )
+                askForPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_AUDIO_PERMISSION)
             },
             uploadRecording = { path ->
                 chatViewModel.uploadClaim(path)
@@ -88,6 +84,7 @@ class NativeChatActivity : AppCompatActivity() {
         chatViewModel.messages.observe(lifecycleOwner = this) { data ->
             data?.let { bindData(it) }
         }
+        // Maybe we should move the loading into the chatViewModel instead
         chatViewModel.sendMessageResponse.observe(lifecycleOwner = this) { response ->
             if (response == true) {
                 input.clearInput()
@@ -99,10 +96,14 @@ class NativeChatActivity : AppCompatActivity() {
                 chatViewModel.load()
             }
         }
-        chatViewModel.uploadClaimResponse.observe(this) { response ->
+        chatViewModel.sendFileResponse.observe(lifecycleOwner = this) { response ->
             if (response == true) {
                 chatViewModel.load()
             }
+        }
+        chatViewModel.takePictureUploadOutcome.observe(lifecycleOwner = this) {
+            attachPickerDialog?.uploadingTakenPicture(false)
+            currentPhotoPath?.let { File(it).delete() }
         }
 
         resetChatButton.setOnClickListener {
@@ -138,11 +139,6 @@ class NativeChatActivity : AppCompatActivity() {
                 isKeyboardShown = false
             }
         }
-        chatViewModel.takePictureUploadOutcome.observe(lifecycleOwner = this) {
-            attachPickerDialog?.uploadingTakenPicture(false)
-            currentPhotoPath?.let { File(it).delete() }
-            chatViewModel.load()
-        }
     }
 
     private fun bindData(data: ChatMessagesQuery.Data) {
@@ -154,15 +150,14 @@ class NativeChatActivity : AppCompatActivity() {
         val attachPickerDialog = AttachPickerDialog(this)
         attachPickerDialog.initialize(
             takePhotoCallback = {
-                if (hasPermissions(this, android.Manifest.permission.CAMERA)) {
+                if (hasPermissions(this, Manifest.permission.CAMERA)) {
                     startTakePicture()
                 } else {
-                    askForPermissions(arrayOf(android.Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSIONS)
+                    askForPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
                 }
             },
             showUploadBottomSheetCallback = {
-                val uploadBottomSheet = UploadBottomSheet()
-                uploadBottomSheet.show(supportFragmentManager, "FileUploadOverlay")
+                UploadBottomSheet().show(supportFragmentManager, "FileUploadOverlay")
             },
             dismissCallback = { motionEvent ->
 
@@ -242,7 +237,6 @@ class NativeChatActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             TAKE_PICTURE_REQUEST_CODE -> if (resultCode == Activity.RESULT_OK) {
-                Timber.i("path $currentPhotoPath")
                 currentPhotoPath?.let { tempFile ->
                     attachPickerDialog?.uploadingTakenPicture(true)
 
@@ -273,15 +267,15 @@ class NativeChatActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
-            REQUEST_WRITE_PERMISSIONS ->
+            REQUEST_WRITE_PERMISSION ->
                 if ((grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }))
                     openAttachPicker()
-            REQUEST_CAMERA_PERMISSIONS ->
+            REQUEST_CAMERA_PERMISSION ->
                 if ((grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }))
                     startTakePicture()
-            REQUEST_AUDIO_PERMISSION_REQUEST_CODE ->
+            REQUEST_AUDIO_PERMISSION ->
                 if ((grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }))
-                    input.onPermissionResult(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    input.audioRecorderPermissionGranted()
             else -> { // Ignore all other requests.
             }
         }
@@ -293,10 +287,9 @@ class NativeChatActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val REQUEST_WRITE_PERMISSIONS = 35134
-        private const val REQUEST_CAMERA_PERMISSIONS = 54332
-
-        const val REQUEST_AUDIO_PERMISSION_REQUEST_CODE = 12994
+        private const val REQUEST_WRITE_PERMISSION = 35134
+        private const val REQUEST_CAMERA_PERMISSION = 54332
+        private const val REQUEST_AUDIO_PERMISSION = 12994
 
         private const val TAKE_PICTURE_REQUEST_CODE = 2371
     }
