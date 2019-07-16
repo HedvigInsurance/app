@@ -13,14 +13,12 @@ import android.provider.MediaStore
 import android.provider.MediaStore.MediaColumns
 import android.net.Uri
 import com.hedvig.app.R
-import com.hedvig.app.util.extensions.compatRequestPermissions
 import com.hedvig.app.util.extensions.getAuthenticationToken
 import com.hedvig.app.util.extensions.handleSingleSelectLink
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setAuthenticationToken
 import com.hedvig.app.util.extensions.showAlert
 import com.hedvig.app.util.extensions.triggerRestartActivity
-import com.hedvig.app.util.extensions.getAuthenticationToken
 import com.hedvig.app.util.extensions.calculateKeyboardHeight
 import com.hedvig.app.util.extensions.hasPermissions
 import com.hedvig.app.util.extensions.askForPermissions
@@ -35,10 +33,6 @@ import android.os.Environment
 import java.io.File
 import android.support.v4.content.FileProvider
 import java.io.IOException
-import com.hedvig.app.util.extensions.view.setHapticClickListener
-import com.hedvig.app.util.showRestartDialog
-import kotlinx.android.synthetic.main.activity_chat.*
-import org.koin.android.viewmodel.ext.android.viewModel
 
 class NativeChatActivity : AppCompatActivity() {
 
