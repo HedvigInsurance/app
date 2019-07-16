@@ -16,6 +16,7 @@ fragment ChatMessageFragment on Message {
   header {
     fromMyself
     statusMessage
+    editAllowed
   }
   body {
     ... on MessageBodySingleSelect {

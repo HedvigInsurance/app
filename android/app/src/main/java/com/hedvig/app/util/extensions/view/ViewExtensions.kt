@@ -6,12 +6,14 @@ import android.support.annotation.ColorInt
 import android.support.annotation.Dimension
 import android.support.annotation.DrawableRes
 import android.support.annotation.FontRes
+import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.HapticFeedbackConstants
 import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.RelativeLayout
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.activity_chat.*
@@ -93,6 +95,25 @@ fun View.updatePadding(
     end ?: paddingEnd,
     bottom ?: paddingBottom
 )
+
+fun View.updateMargin(
+    @Dimension start: Int? = null,
+    @Dimension top: Int? = null,
+    @Dimension end: Int? = null,
+    @Dimension bottom: Int? = null
+) {
+    val prevLayoutParams = layoutParams as? ViewGroup.MarginLayoutParams
+    when (parent) {
+        is ConstraintLayout -> ConstraintLayout.LayoutParams(layoutParams.width, layoutParams.height)
+        is RelativeLayout -> RelativeLayout.LayoutParams(layoutParams.width, layoutParams.height)
+        else -> ViewGroup.MarginLayoutParams(layoutParams.width, layoutParams.height)
+    }.apply {
+        (start ?: prevLayoutParams?.marginStart)?.let { marginStart = it }
+        (top ?: prevLayoutParams?.topMargin)?.let { topMargin = it }
+        (end ?: prevLayoutParams?.marginEnd)?.let { marginEnd = it }
+        (bottom ?: prevLayoutParams?.bottomMargin)?.let { bottomMargin = it }
+    }
+}
 
 inline fun <reified T : ViewGroup.LayoutParams> View.setSize(
     @Dimension width: Int? = null,
