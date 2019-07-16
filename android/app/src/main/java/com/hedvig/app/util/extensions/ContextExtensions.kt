@@ -145,6 +145,3 @@ fun Context.getStoredBoolean(key: String): Boolean =
 
 fun Context.storeBoolean(key: String, value: Boolean): Boolean =
     getSharedPreferences().edit().putBoolean(key, value).commit()
-
-//todo we should remove this
-fun Context.hasPermission(permission: String) = ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED

@@ -89,7 +89,7 @@ class ProfileViewModel(
                 profileRepository.writeEmailAndPhoneNumberInCache(email.getOrNull(), phoneNumber.getOrNull())
                 dirty.postValue(false)
             }, { error ->
-                Timber.e(error, "Failed to imageWasUploaded email and/or phone number")
+                Timber.e(error, "Failed to update email and/or phone number")
             })
     }
 
