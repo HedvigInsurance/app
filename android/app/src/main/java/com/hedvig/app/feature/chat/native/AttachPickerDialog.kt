@@ -125,7 +125,7 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
 
     fun setImages(images: List<String>) {
         attachFileRecyclerView.adapter = AttachFileAdapter(
-            images.map { ImageData(it) },
+            images.map { AttachImageData(it) },
             pickerHeight,
             takePhotoCallback,
             showUploadBottomSheetCallback,
@@ -135,10 +135,10 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
         loadingSpinner.remove()
     }
 
-    fun updateImages(path: String) {
+    fun imageWasUploaded(path: String) {
         val fileAdapter = attachFileRecyclerView.adapter as AttachFileAdapter?
             ?: run { return }
-        fileAdapter.update(path)
+        fileAdapter.imageWasUploaded(path)
     }
 
     private fun setupDialogTouchEvents() {

@@ -2,25 +2,26 @@ package com.hedvig.app.feature.chat.native
 
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.hedvig.app.R
+import com.hedvig.app.util.extensions.view.*
 import kotlinx.android.synthetic.main.attach_file_image_item.view.*
 import kotlinx.android.synthetic.main.camera_and_misc_item.view.*
-import android.util.TypedValue
-import com.airbnb.lottie.LottieAnimationView
-import com.hedvig.app.util.extensions.view.*
 import kotlinx.android.synthetic.main.loading_spinner.view.*
+import timber.log.Timber
 
-class AttachFileAdapter(private val imageUris: List<ImageData>,
+class AttachFileAdapter(private val attachImageData: List<AttachImageData>,
                         private val pickerHeight: Int,
                         private val takePhoto: () -> Unit,
                         private val showUploadFileDialog: () -> Unit,
@@ -51,7 +52,7 @@ class AttachFileAdapter(private val imageUris: List<ImageData>,
             )
         }
 
-    override fun getItemCount() = imageUris.size + 1
+    override fun getItemCount() = attachImageData.size + 1
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         when (viewHolder) {
@@ -72,7 +73,7 @@ class AttachFileAdapter(private val imageUris: List<ImageData>,
             }
             is ViewHolder.ImageViewHolder -> {
                 viewHolder.apply {
-                    val image = imageUris[position]
+                    val image = attachImageData[position]
                     val params = attachFileImage.layoutParams
                     val margin = attachFileImage.context.resources.getDimensionPixelSize(R.dimen.base_margin_double) * 2
                     val roundedCornersRadius = attachFileImage.context.resources.getDimensionPixelSize(R.dimen.attach_file_rounded_corners_radius)
@@ -115,13 +116,17 @@ class AttachFileAdapter(private val imageUris: List<ImageData>,
         }
     }
 
-    fun update(path: String) {
-        val index = imageUris.indexOfFirst {
+    fun imageWasUploaded(path: String) {
+        val index = attachImageData.indexOfFirst {
             it.path == path
         }
 
-        imageUris[index].isLoading = false
+        if (index == -1) {
+            Timber.e("Failed to update AttachImageData of: $path")
+            return
+        }
 
+        attachImageData[index].isLoading = false
         notifyItemChanged(index)
     }
 
@@ -147,11 +152,6 @@ class AttachFileAdapter(private val imageUris: List<ImageData>,
     companion object {
         private const val CAMERA_AND_MISC_VIEW_TYPE = 0
         private const val IMAGE_VIEW_TYPE = 1
-
     }
 }
 
-data class ImageData(
-    val path: String,
-    var isLoading: Boolean = false
-)

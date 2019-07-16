@@ -186,8 +186,7 @@ class NativeChatActivity : AppCompatActivity() {
         )
         chatViewModel.fileUploadOutcome.observe(lifecycleOwner = this) { data ->
             data?.uri?.path?.let { path ->
-                attachPickerDialog.updateImages(path)
-                chatViewModel.load()
+                attachPickerDialog.imageWasUploaded(path)
             }
         }
         attachPickerDialog.pickerHeight = keyboardHeight
