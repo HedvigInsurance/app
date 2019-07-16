@@ -127,7 +127,7 @@ fun Activity.startClosableChat() {
     ActivityCompat.startActivity(this, intent, options.toBundle())
 }
 
-fun hasPermissions(context: Context, vararg permissions: String): Boolean {
+fun Context.hasPermissions(vararg permissions: String): Boolean {
     for (permission in permissions) {
         if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
             return false
