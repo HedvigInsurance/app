@@ -19,7 +19,7 @@ import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setAuthenticationToken
 import com.hedvig.app.util.extensions.showAlert
 import com.hedvig.app.util.extensions.triggerRestartActivity
-import com.hedvig.app.util.extensions.calculateKeyboardHeight
+import com.hedvig.app.util.extensions.calculateNonFullscreenHeightDiff
 import com.hedvig.app.util.extensions.hasPermissions
 import com.hedvig.app.util.extensions.askForPermissions
 import android.content.Intent
@@ -40,12 +40,14 @@ class NativeChatActivity : AppCompatActivity() {
     private val userViewModel: UserViewModel by viewModel()
 
     private var keyboardHeight = 0
+    private var systemNavHeight = 0
+    private var navHeightDiff = 0
     private var isKeyboardBreakPoint = 0
 
     private var isKeyboardShown = false
-
     private var preventOpenAttachFile = false
     private var preventOpenAttachFileHandler = Handler()
+
     private val resetPreventOpenAttachFile = { preventOpenAttachFile = false }
 
     private var attachPickerDialog: AttachPickerDialog? = null
@@ -56,6 +58,7 @@ class NativeChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         keyboardHeight = resources.getDimensionPixelSize(R.dimen.default_attach_file_height)
         isKeyboardBreakPoint = resources.getDimensionPixelSize(R.dimen.is_keyboard_brake_point_height)
+        navHeightDiff = resources.getDimensionPixelSize(R.dimen.nav_height_div)
 
         setContentView(R.layout.activity_chat)
 
@@ -142,11 +145,13 @@ class NativeChatActivity : AppCompatActivity() {
         }
 
         chatRoot.viewTreeObserver.addOnGlobalLayoutListener {
-            val keyboardHeight = chatRoot.calculateKeyboardHeight()
-            if (keyboardHeight > isKeyboardBreakPoint) {
-                this.keyboardHeight = keyboardHeight
+            val heightDiff = chatRoot.calculateNonFullscreenHeightDiff()
+            if (heightDiff > isKeyboardBreakPoint) {
+                if (systemNavHeight > 0) systemNavHeight -= navHeightDiff
+                this.keyboardHeight = heightDiff - systemNavHeight
                 isKeyboardShown = true
             } else {
+                systemNavHeight = heightDiff
                 isKeyboardShown = false
             }
         }
