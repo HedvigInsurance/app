@@ -19,7 +19,7 @@ import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setAuthenticationToken
 import com.hedvig.app.util.extensions.showAlert
 import com.hedvig.app.util.extensions.triggerRestartActivity
-import com.hedvig.app.util.extensions.calculateKeyboardHeight
+import com.hedvig.app.util.extensions.calculateNonFullscreenHeightDiff
 import com.hedvig.app.util.extensions.hasPermissions
 import com.hedvig.app.util.extensions.askForPermissions
 import android.content.Intent
@@ -40,6 +40,7 @@ class NativeChatActivity : AppCompatActivity() {
     private val userViewModel: UserViewModel by viewModel()
 
     private var keyboardHeight = 0
+    private var systemNavHeight = 0
     private var isKeyboardBreakPoint = 0
 
     private var isKeyboardShown = false
@@ -142,11 +143,12 @@ class NativeChatActivity : AppCompatActivity() {
         }
 
         chatRoot.viewTreeObserver.addOnGlobalLayoutListener {
-            val keyboardHeight = chatRoot.calculateKeyboardHeight()
-            if (keyboardHeight > isKeyboardBreakPoint) {
-                this.keyboardHeight = keyboardHeight
+            val heightDiff = chatRoot.calculateNonFullscreenHeightDiff()
+            if (heightDiff > isKeyboardBreakPoint) {
+                this.keyboardHeight = heightDiff - systemNavHeight
                 isKeyboardShown = true
             } else {
+                systemNavHeight = heightDiff
                 isKeyboardShown = false
             }
         }
