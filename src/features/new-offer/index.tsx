@@ -21,7 +21,10 @@ import { SignButton } from 'src/features/new-offer/components/sign-button';
 import { AndroidHeader } from 'src/features/new-offer/android-header';
 import { Provider } from 'constate';
 
-import { NewOfferComponent } from 'src/graphql/components';
+import {
+  NewOfferComponent,
+  NewOfferRedeemedCampaigns,
+} from 'src/graphql/components';
 import { DiscountButton } from './components/discount-button';
 
 const AnimatedScrollView = Animated.createAnimatedComponent<ScrollViewProps>(
@@ -122,6 +125,15 @@ const bounceScrollView = () => {
   }, 250);
 };
 
+const redeemedCampaign = (redeemedCampaigns: NewOfferRedeemedCampaigns[]) => {
+  console.log(redeemedCampaigns);
+  if (redeemedCampaigns !== null && redeemedCampaigns.length !== 0) {
+    return redeemedCampaigns[0];
+  } else {
+    return null;
+  }
+};
+
 export const NewOffer: React.SFC = () => (
   <Provider>
     <NewOfferComponent>
@@ -147,6 +159,9 @@ export const NewOffer: React.SFC = () => (
                       <PriceBubble
                         discountedPrice={data!.insurance!.cost!.monthlyNet}
                         price={data!.insurance!.cost!.monthlyGross}
+                        redeemedCampaign={redeemedCampaign(
+                          data!.redeemedCampaigns,
+                        )}
                       />
                       <Spacing height={15} />
                       <FeaturesContainer animatedValue={animatedValue}>
