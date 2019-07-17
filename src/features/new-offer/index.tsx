@@ -175,13 +175,14 @@ export const NewOffer: React.SFC = () => (
                           type={data!.insurance.type!}
                         />
                         <DiscountButton
-                          discount={data!.insurance!.cost!.monthlyDiscount}
+                          redeemedCampaign={redeemedCampaign(
+                            data!.redeemedCampaigns,
+                          )}
                           onPress={() => {
-                            if (
-                              Number(
-                                data!.insurance!.cost!.monthlyDiscount!.amount,
-                              ) !== 0
-                            ) {
+                            let campaign = redeemedCampaign(
+                              data!.redeemedCampaigns,
+                            );
+                            if (campaign !== null) {
                               if (Platform.OS === 'ios') {
                                 NativeModules.NativeRouting.showRemoveCodeAlert(
                                   true,
@@ -203,6 +204,7 @@ export const NewOffer: React.SFC = () => (
                                             .cost!.monthlyGross,
                                         },
                                       },
+                                      redeemedCampaigns: [],
                                     }));
                                   }
                                 });
@@ -227,6 +229,7 @@ export const NewOffer: React.SFC = () => (
                                               .cost!.monthlyGross,
                                           },
                                         },
+                                        redeemedCampaigns: [],
                                       }));
                                     }
                                   },
@@ -238,12 +241,14 @@ export const NewOffer: React.SFC = () => (
                                   true,
                                 ).then((redeemResponse: string) => {
                                   if (redeemResponse != null) {
+                                    const data = JSON.parse(redeemResponse);
                                     updateQuery((queryData) => ({
                                       ...queryData!,
                                       insurance: {
                                         ...queryData!.insurance,
-                                        cost: JSON.parse(redeemResponse),
+                                        cost: data.insurance.cost,
                                       },
+                                      redeemedCampaigns: data.redeemedCampaigns,
                                     }));
                                   }
                                 });
@@ -277,6 +282,8 @@ export const NewOffer: React.SFC = () => (
                                             },
                                           },
                                         },
+                                        redeemedCampaigns:
+                                          data.redeemedCampaigns,
                                       }));
                                     }
                                   },
