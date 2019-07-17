@@ -133,6 +133,16 @@ const redeemedCampaign = (redeemedCampaigns: NewOfferRedeemedCampaigns[]) => {
   }
 };
 
+const hasRedeemedCampigns = (
+  redeemedCampaigns: NewOfferRedeemedCampaigns[],
+) => {
+  if (redeemedCampaigns !== null && redeemedCampaigns.length !== 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export const NewOffer: React.SFC = () => (
   <Provider>
     <NewOfferComponent>
@@ -179,10 +189,7 @@ export const NewOffer: React.SFC = () => (
                             data!.redeemedCampaigns,
                           )}
                           onPress={() => {
-                            let campaign = redeemedCampaign(
-                              data!.redeemedCampaigns,
-                            );
-                            if (campaign !== null) {
+                            if (hasRedeemedCampigns(data!.redeemedCampaigns)) {
                               if (Platform.OS === 'ios') {
                                 NativeModules.NativeRouting.showRemoveCodeAlert(
                                   true,

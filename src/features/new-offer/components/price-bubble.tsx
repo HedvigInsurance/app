@@ -46,19 +46,20 @@ const DiscountCircle = styled(Circle)({
   position: 'absolute',
 });
 
-const DiscountTextSmall = styled(Text)({
+const DiscountText = styled(Text)(({ size }: { size: 'small' | 'large' }) => ({
   color: colors.WHITE,
   fontFamily: fonts.CIRCULAR,
-  fontSize: getCircleSize() === LARGE_CIRCLE_SIZE ? 12 : 11,
-});
-
-const DiscountText = styled(Text)({
-  color: colors.WHITE,
-  fontFamily: fonts.CIRCULAR,
-  fontSize: getCircleSize() === LARGE_CIRCLE_SIZE ? 14 : 12,
+  fontSize:
+    getCircleSize() === LARGE_CIRCLE_SIZE
+      ? size == 'small'
+        ? 12
+        : 14
+      : size == 'small'
+        ? 11
+        : 12,
   textAlign: 'center',
-  fontWeight: 'bold',
-});
+  fontWeight: size == 'small' ? 'normal' : 'bold',
+}));
 
 const Price = styled(Text)({
   color: colors.BLACK,
@@ -92,18 +93,18 @@ interface PriceBubbleProps {
 const formatMonetaryAmount = (monetaryAmount: MonetaryAmountV2) =>
   Number(monetaryAmount.amount);
 
-const discountBubble = (incentive: Incentive) => {
+const DiscountBubble: React.SFC<{ incentive: Incentive }> = ({ incentive }) => {
   if ('quantity' in incentive) {
     return (
       <DiscountCircle>
         <TranslationsConsumer textKey="OFFER_SCREEN_FREE_MONTHS_BUBBLE_TITLE">
-          {(text) => <DiscountTextSmall>{text}</DiscountTextSmall>}
+          {(text) => <DiscountText size="small">{text}</DiscountText>}
         </TranslationsConsumer>
         <TranslationsPlaceholderConsumer
           textKey="OFFER_SCREEN_FREE_MONTHS_BUBBLE"
           replacements={{ free_month: incentive.quantity }}
         >
-          {(nodes) => <DiscountText>{nodes}</DiscountText>}
+          {(nodes) => <DiscountText size="large">{nodes}</DiscountText>}
         </TranslationsPlaceholderConsumer>
       </DiscountCircle>
     );
@@ -111,7 +112,7 @@ const discountBubble = (incentive: Incentive) => {
     return (
       <DiscountCircle>
         <TranslationsConsumer textKey="OFFER_SCREEN_INVITED_BUBBLE">
-          {(text) => <DiscountText>{text}</DiscountText>}
+          {(text) => <DiscountText size="large">{text}</DiscountText>}
         </TranslationsConsumer>
       </DiscountCircle>
     );
@@ -153,9 +154,9 @@ export const PriceBubble: React.SFC<PriceBubbleProps> = ({
             )}
             <MonthlyLabel>kr/mån</MonthlyLabel>
           </Circle>
-
-          {redeemedCampaign !== null &&
-            discountBubble(redeemedCampaign.incentive!)}
+          {redeemedCampaign !== null && (
+            <DiscountBubble incentive={redeemedCampaign!.incentive!} />
+          )}
         </AnimatedView>
       )}
     </Spring>
