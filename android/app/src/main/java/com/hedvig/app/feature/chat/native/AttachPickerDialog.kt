@@ -12,7 +12,6 @@ import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.attach_picker_dialog.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils.loadAnimation
-import com.hedvig.app.util.extensions.setLightNavigationBar
 import com.hedvig.app.util.extensions.view.fadeIn
 import com.hedvig.app.util.extensions.view.remove
 import kotlinx.android.synthetic.main.loading_spinner.*
