@@ -126,7 +126,6 @@ const bounceScrollView = () => {
 };
 
 const redeemedCampaign = (redeemedCampaigns: NewOfferRedeemedCampaigns[]) => {
-  console.log(redeemedCampaigns);
   if (redeemedCampaigns !== null && redeemedCampaigns.length !== 0) {
     return redeemedCampaigns[0];
   } else {

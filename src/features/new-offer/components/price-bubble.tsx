@@ -50,13 +50,13 @@ const DiscountTextSmall = styled(Text)({
   color: colors.WHITE,
   fontFamily: fonts.CIRCULAR,
   fontSize: getCircleSize() === LARGE_CIRCLE_SIZE ? 12 : 11,
-  fontWeight: 'bold',
 });
 
 const DiscountText = styled(Text)({
   color: colors.WHITE,
   fontFamily: fonts.CIRCULAR,
   fontSize: getCircleSize() === LARGE_CIRCLE_SIZE ? 14 : 12,
+  textAlign: 'center',
   fontWeight: 'bold',
 });
 
@@ -94,23 +94,27 @@ const formatMonetaryAmount = (monetaryAmount: MonetaryAmountV2) =>
 
 const discountBubble = (incentive: Incentive) => {
   if ('quantity' in incentive) {
-    <DiscountCircle>
-      <TranslationsConsumer textKey="OFFER_SCREEN_FREE_MONTHS_BUBBLE_TITLE">
-        {(text) => <DiscountTextSmall>{text}</DiscountTextSmall>}
-      </TranslationsConsumer>
-      <TranslationsPlaceholderConsumer
-        textKey="OFFER_SCREEN_FREE_MONTHS_BUBBLE"
-        replacements={{ address: incentive.quantity }}
-      >
-        {(nodes) => <DiscountText>{nodes}</DiscountText>}
-      </TranslationsPlaceholderConsumer>
-    </DiscountCircle>;
+    return (
+      <DiscountCircle>
+        <TranslationsConsumer textKey="OFFER_SCREEN_FREE_MONTHS_BUBBLE_TITLE">
+          {(text) => <DiscountTextSmall>{text}</DiscountTextSmall>}
+        </TranslationsConsumer>
+        <TranslationsPlaceholderConsumer
+          textKey="OFFER_SCREEN_FREE_MONTHS_BUBBLE"
+          replacements={{ free_month: incentive.quantity }}
+        >
+          {(nodes) => <DiscountText>{nodes}</DiscountText>}
+        </TranslationsPlaceholderConsumer>
+      </DiscountCircle>
+    );
   } else {
-    <DiscountCircle>
-      <TranslationsConsumer textKey="OFFER_SCREEN_INVITED_BUBBLE">
-        {(text) => <DiscountText>{text}</DiscountText>}
-      </TranslationsConsumer>
-    </DiscountCircle>;
+    return (
+      <DiscountCircle>
+        <TranslationsConsumer textKey="OFFER_SCREEN_INVITED_BUBBLE">
+          {(text) => <DiscountText>{text}</DiscountText>}
+        </TranslationsConsumer>
+      </DiscountCircle>
+    );
   }
 };
 
@@ -149,6 +153,7 @@ export const PriceBubble: React.SFC<PriceBubbleProps> = ({
             )}
             <MonthlyLabel>kr/mån</MonthlyLabel>
           </Circle>
+
           {redeemedCampaign !== null &&
             discountBubble(redeemedCampaign.incentive!)}
         </AnimatedView>
