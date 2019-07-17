@@ -41,12 +41,13 @@ class NativeChatActivity : AppCompatActivity() {
 
     private var keyboardHeight = 0
     private var systemNavHeight = 0
+    private var navHeightDiff = 0
     private var isKeyboardBreakPoint = 0
 
     private var isKeyboardShown = false
-
     private var preventOpenAttachFile = false
     private var preventOpenAttachFileHandler = Handler()
+
     private val resetPreventOpenAttachFile = { preventOpenAttachFile = false }
 
     private var attachPickerDialog: AttachPickerDialog? = null
@@ -57,6 +58,7 @@ class NativeChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         keyboardHeight = resources.getDimensionPixelSize(R.dimen.default_attach_file_height)
         isKeyboardBreakPoint = resources.getDimensionPixelSize(R.dimen.is_keyboard_brake_point_height)
+        navHeightDiff = resources.getDimensionPixelSize(R.dimen.nav_height_div)
 
         setContentView(R.layout.activity_chat)
 
@@ -145,6 +147,7 @@ class NativeChatActivity : AppCompatActivity() {
         chatRoot.viewTreeObserver.addOnGlobalLayoutListener {
             val heightDiff = chatRoot.calculateNonFullscreenHeightDiff()
             if (heightDiff > isKeyboardBreakPoint) {
+                if (systemNavHeight > 0) systemNavHeight -= navHeightDiff
                 this.keyboardHeight = heightDiff - systemNavHeight
                 isKeyboardShown = true
             } else {
