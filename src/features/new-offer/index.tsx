@@ -255,7 +255,7 @@ export const NewOffer: React.SFC = () => (
                                         ...queryData!.insurance,
                                         cost: data.insurance.cost,
                                       },
-                                      redeemedCampaigns: data.redeemedCampaigns,
+                                      redeemedCampaigns: data.campaigns,
                                     }));
                                   }
                                 });
@@ -270,27 +270,31 @@ export const NewOffer: React.SFC = () => (
                                         insurance: {
                                           ...queryData!.insurance,
                                           cost: {
-                                            __typename: data.__typename,
+                                            __typename: data.cost.__typename,
                                             monthlyDiscount: {
                                               __typename:
-                                                data.monthlyDiscount.__typename,
+                                                data.cost.monthlyDiscount
+                                                  .__typename,
                                               amount:
-                                                data.monthlyDiscount.amount,
+                                                data.cost.monthlyDiscount
+                                                  .amount,
                                             },
                                             monthlyNet: {
                                               __typename:
-                                                data.monthlyNet.__typename,
-                                              amount: data.monthlyNet.amount,
+                                                data.cost.monthlyNet.__typename,
+                                              amount:
+                                                data.cost.monthlyNet.amount,
                                             },
                                             monthlyGross: {
                                               __typename:
-                                                data.monthlyGross.__typename,
-                                              amount: data.monthlyGross.amount,
+                                                data.cost.monthlyGross
+                                                  .__typename,
+                                              amount:
+                                                data.cost.monthlyGross.amount,
                                             },
                                           },
                                         },
-                                        redeemedCampaigns:
-                                          data.redeemedCampaigns,
+                                        redeemedCampaigns: [...data.campaigns],
                                       }));
                                     }
                                   },
