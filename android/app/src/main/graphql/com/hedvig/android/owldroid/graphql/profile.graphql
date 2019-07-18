@@ -23,6 +23,7 @@ query Profile {
       monthlyNet {
         amount
       }
+      freeUntil
     }
   }
   bankAccount {

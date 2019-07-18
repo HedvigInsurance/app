@@ -60,6 +60,7 @@
                     tools:text="129" />
 
                 <android.support.constraint.ConstraintLayout
+                    android:id="@+id/constraintLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/sub_sphere_offset"
@@ -99,6 +100,38 @@
 
             </android.support.constraint.ConstraintLayout>
 
+            <LinearLayout
+                android:id="@+id/freeUntilContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin_triple"
+                android:layout_marginEnd="@dimen/base_margin"
+                android:padding="@dimen/base_margin_double"
+                android:background="@drawable/background_rounded_corners_pink"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/freeUntilText"
+                    style="@style/Headline.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/PROFILE_PAYMENT_FREE_UNTIL_LABEL" />
+
+                <TextView
+                    android:id="@+id/freeUntilMessage"
+                    style="@style/Body.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/base_margin_half"
+                    tools:text="@string/PROFILE_PAYMENT_FREE_UNTIL_MESSAGE" />
+
+            </LinearLayout>
+
             <android.support.design.card.MaterialCardView
                 android:id="@id/connectBankAccountContainer"
                 android:layout_width="match_parent"
@@ -106,6 +139,7 @@
                 android:layout_marginStart="@dimen/base_margin"
                 android:layout_marginTop="@dimen/base_margin_triple"
                 android:layout_marginEnd="@dimen/base_margin"
+                app:cardCornerRadius="@dimen/bottom_sheet_corner_radius_less"
                 android:visibility="gone"
                 tools:visibility="visible">
 
