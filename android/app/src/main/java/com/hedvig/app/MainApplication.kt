@@ -13,6 +13,8 @@ import com.facebook.soloader.SoLoader
 import com.hedvig.app.react.ActivityStarterReactPackage
 import com.hedvig.app.react.NativeRoutingPackage
 import com.hedvig.app.service.TextKeys
+import com.hedvig.app.util.extensions.getAuthenticationToken
+import com.hedvig.app.util.extensions.setAuthenticationToken
 import com.hedvig.app.util.react.AsyncStorageNative
 import com.horcrux.svg.SvgPackage
 import com.ice.restring.Restring
@@ -74,6 +76,11 @@ class MainApplication : Application(), ReactApplication {
         super.onCreate()
         AndroidThreeTen.init(this)
 
+        setAuthenticationToken(null)
+        if (getAuthenticationToken() == null) {
+            tryToMigrateTokenFromReactDB()
+        }
+
         startKoin {
             androidLogger()
             androidContext(this@MainApplication)
@@ -98,6 +105,12 @@ class MainApplication : Application(), ReactApplication {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         setupRestring()
+    }
+
+    private fun tryToMigrateTokenFromReactDB() {
+        LegacyReactDatabaseSupplier.getInstance(this).get()?.let { dataBase ->
+            Timber.i("db: ${dataBase.isOpen}")
+        }
     }
 
     private fun setupRestring() {
