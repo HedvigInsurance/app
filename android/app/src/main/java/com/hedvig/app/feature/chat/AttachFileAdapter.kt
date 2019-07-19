@@ -1,4 +1,4 @@
-package com.hedvig.app.feature.chat.native
+package com.hedvig.app.feature.chat
 
 import android.net.Uri
 import android.support.v7.widget.RecyclerView

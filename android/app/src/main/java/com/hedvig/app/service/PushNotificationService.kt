@@ -16,7 +16,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hedvig.app.R
 import com.hedvig.app.SplashActivity
-import com.hedvig.app.feature.chat.ChatActivity
+import com.hedvig.app.feature.chat.NativeChatActivity
 import com.hedvig.app.feature.referrals.ReferralsSuccessfulInviteActivity
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.safeLet
@@ -85,8 +85,8 @@ class PushNotificationService : FirebaseMessagingService() {
         }
 
     private fun sendChatMessageNotification() {
-        val chatIntent = Intent(this, ChatActivity::class.java)
-        chatIntent.putExtra(ChatActivity.EXTRA_SHOW_CLOSE, true)
+        val chatIntent = Intent(this, NativeChatActivity::class.java)
+        chatIntent.putExtra(NativeChatActivity.EXTRA_SHOW_CLOSE, true)
 
         val pendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
             addNextIntentWithParentStack(chatIntent)

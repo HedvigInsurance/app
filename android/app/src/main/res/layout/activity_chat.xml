@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/off_white"
-    tools:context=".feature.chat.native.NativeChatActivity">
+    tools:context=".feature.chat.NativeChatActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/messages"
@@ -53,7 +53,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_chat_send_green" />
 
-    <com.hedvig.app.feature.chat.native.ChatInputView
+    <com.hedvig.app.feature.chat.ChatInputView
         android:id="@+id/input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.hedvig.app.feature.chat.native
+package com.hedvig.app.feature.chat
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -25,7 +25,6 @@ import com.hedvig.app.util.extensions.askForPermissions
 import android.content.Intent
 import android.app.Activity
 import android.os.Handler
-import com.hedvig.app.feature.chat.UploadBottomSheet
 import com.hedvig.app.util.extensions.view.updatePadding
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -308,5 +307,7 @@ class NativeChatActivity : AppCompatActivity() {
         private const val REQUEST_AUDIO_PERMISSION = 12994
 
         private const val TAKE_PICTURE_REQUEST_CODE = 2371
+
+        const val EXTRA_SHOW_CLOSE = "extra_show_close"
     }
 }

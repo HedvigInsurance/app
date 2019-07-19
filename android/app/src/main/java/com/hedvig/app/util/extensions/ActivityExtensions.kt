@@ -1,7 +1,6 @@
 package com.hedvig.app.util.extensions
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -20,9 +19,9 @@ import com.hedvig.app.util.extensions.view.setupLargeTitle
 import com.hedvig.app.util.hasNotch
 import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.app_bar.*
-import com.hedvig.app.feature.chat.ChatActivity
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
+import com.hedvig.app.feature.chat.NativeChatActivity
 import timber.log.Timber
 
 fun Activity.setLightNavigationBar() {
@@ -118,8 +117,8 @@ fun AppCompatActivity.setupLargeTitle(
 val Activity.localBroadcastManager get() = android.support.v4.content.LocalBroadcastManager.getInstance(this)
 
 fun Activity.startClosableChat() {
-    val intent = Intent(this, ChatActivity::class.java)
-    intent.putExtra(ChatActivity.EXTRA_SHOW_CLOSE, true)
+    val intent = Intent(this, NativeChatActivity::class.java)
+    intent.putExtra(NativeChatActivity.EXTRA_SHOW_CLOSE, true)
 
     val options =
         ActivityOptionsCompat.makeCustomAnimation(this, R.anim.activity_slide_up_in, R.anim.stay_in_place)

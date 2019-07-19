@@ -1,4 +1,4 @@
-package com.hedvig.app.feature.chat.native
+package com.hedvig.app.feature.chat
 
 import com.hedvig.android.owldroid.fragment.ChatMessageFragment
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
@@ -11,7 +11,8 @@ sealed class ChatInputType {
             is ChatMessageFragment.AsMessageBodyFile -> TextInput()
             is ChatMessageFragment.AsMessageBodyText -> TextInput(body.keyboard, body.placeholder, true)
             is ChatMessageFragment.AsMessageBodyNumber -> TextInput(body.keyboard, body.placeholder, false)
-            is ChatMessageFragment.AsMessageBodySingleSelect -> SingleSelect(body.choices ?: listOf())
+            is ChatMessageFragment.AsMessageBodySingleSelect -> SingleSelect(body.choices
+                ?: listOf())
             is ChatMessageFragment.AsMessageBodyParagraph -> ParagraphInput
             is ChatMessageFragment.AsMessageBodyAudio -> Audio
             else -> {

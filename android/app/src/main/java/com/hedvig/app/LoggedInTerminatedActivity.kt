@@ -3,7 +3,7 @@ package com.hedvig.app
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.hedvig.app.feature.chat.ChatActivity
+import com.hedvig.app.feature.chat.NativeChatActivity
 import com.hedvig.app.terminated.TerminatedTracker
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.ice.restring.Restring
@@ -23,7 +23,7 @@ class LoggedInTerminatedActivity : BaseActivity() {
         setContentView(R.layout.logged_in_terminated_activity)
 
         terminatedOpenChatButton.setHapticClickListener {
-            val intent = Intent(this, ChatActivity::class.java)
+            val intent = Intent(this, NativeChatActivity::class.java)
             startActivity(intent)
         }
     }
