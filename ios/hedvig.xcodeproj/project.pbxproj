@@ -13,6 +13,8 @@
 		559CCAF02121B3530080C272 /* debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 559CCAEF2121B3530080C272 /* debug.xcconfig */; };
 		55A1D9ED211DB2FA00547027 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55A1D9EC211DB2FA00547027 /* GoogleService-Info.plist */; };
 		64ADFEB80E9B4CE188FF5E21 /* SoRay-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 446808BB14A544DA8419781D /* SoRay-ExtraBold.ttf */; };
+		8B5D02A022D48116003F4F1E /* PushNotificationsRegistrer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5D029F22D48115003F4F1E /* PushNotificationsRegistrer.swift */; };
+		A70345C322D47666005750BB /* PushNotificationsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70345C222D47666005750BB /* PushNotificationsState.swift */; };
 		AC5BB2AB4E954E429F91AB9E /* Merriweather-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D398F87383C7495A9938B698 /* Merriweather-Light.ttf */; };
 		B56386491DB9693800A0598C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56386481DB9693800A0598C /* AppDelegate.swift */; };
 		B56386511DB9693800A0598C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B56386501DB9693800A0598C /* Assets.xcassets */; };
@@ -306,11 +308,9 @@
 		EBE8B8CB22B9201900E32499 /* UIStackView+DraggableOverlaySizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8CA22B9201900E32499 /* UIStackView+DraggableOverlaySizing.swift */; };
 		EBE8B8D022B9202300E32499 /* ApplyDiscount.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8CD22B9202300E32499 /* ApplyDiscount.swift */; };
 		EBE8B8D122B9202300E32499 /* DiscountTerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8CF22B9202300E32499 /* DiscountTerms.swift */; };
-		EBE8B8D322B9203F00E32499 /* ApplyDiscountSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8D222B9203F00E32499 /* ApplyDiscountSection.swift */; };
 		EBECC26621B9230000716BEA /* NativeRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBECC26521B9230000716BEA /* NativeRouting.swift */; };
 		EBECC26821B92E4800716BEA /* NativeRouting.m in Sources */ = {isa = PBXBuildFile; fileRef = EBECC26721B92E4800716BEA /* NativeRouting.m */; };
 		EBFA05E722B0DF86009D3FAE /* RegisterPushToken.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EBFA05E622B0DF86009D3FAE /* RegisterPushToken.graphql */; };
-		EBFA05E922B0E82B009D3FAE /* PushNotificationsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05E822B0E82B009D3FAE /* PushNotificationsState.swift */; };
 		EBFA05EB22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05EA22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift */; };
 		EBFA061222B13515009D3FAE /* ActivityBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA061122B13515009D3FAE /* ActivityBarButton.swift */; };
 		EBFA061422B13542009D3FAE /* String+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA061322B13542009D3FAE /* String+Color.swift */; };
@@ -331,7 +331,9 @@
 		55A1D9EC211DB2FA00547027 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7B57D15156864FA4B906A3EC /* CircularStd-Book.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CircularStd-Book.ttf"; path = "../assets/fonts/CircularStd-Book.ttf"; sourceTree = "<group>"; };
 		83A077794D771D15504FC9E0 /* Pods-hedvig.release - staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.release - staging.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.release - staging.xcconfig"; sourceTree = "<group>"; };
+		8B5D029F22D48115003F4F1E /* PushNotificationsRegistrer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationsRegistrer.swift; sourceTree = "<group>"; };
 		A281C30BA39C06CBD5F9B8EC /* Pods-hedvig.debug - staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.debug - staging.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.debug - staging.xcconfig"; sourceTree = "<group>"; };
+		A70345C222D47666005750BB /* PushNotificationsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsState.swift; sourceTree = "<group>"; };
 		ACBFB1A6F0450ECB42BF7149 /* Pods-hedvig.debug - production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hedvig.debug - production.xcconfig"; path = "Pods/Target Support Files/Pods-hedvig/Pods-hedvig.debug - production.xcconfig"; sourceTree = "<group>"; };
 		B56386411DB9693800A0598C /* Hedvig Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hedvig Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B56386481DB9693800A0598C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -631,11 +633,9 @@
 		EBE8B8CA22B9201900E32499 /* UIStackView+DraggableOverlaySizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStackView+DraggableOverlaySizing.swift"; sourceTree = "<group>"; };
 		EBE8B8CD22B9202300E32499 /* ApplyDiscount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyDiscount.swift; sourceTree = "<group>"; };
 		EBE8B8CF22B9202300E32499 /* DiscountTerms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscountTerms.swift; sourceTree = "<group>"; };
-		EBE8B8D222B9203F00E32499 /* ApplyDiscountSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyDiscountSection.swift; sourceTree = "<group>"; };
 		EBECC26521B9230000716BEA /* NativeRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeRouting.swift; sourceTree = "<group>"; };
 		EBECC26721B92E4800716BEA /* NativeRouting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NativeRouting.m; sourceTree = "<group>"; };
 		EBFA05E622B0DF86009D3FAE /* RegisterPushToken.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RegisterPushToken.graphql; sourceTree = "<group>"; };
-		EBFA05E822B0E82B009D3FAE /* PushNotificationsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsState.swift; sourceTree = "<group>"; };
 		EBFA05EA22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+DelayedTouchCancel.swift"; sourceTree = "<group>"; };
 		EBFA061122B13515009D3FAE /* ActivityBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityBarButton.swift; sourceTree = "<group>"; };
 		EBFA061322B13542009D3FAE /* String+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Color.swift"; sourceTree = "<group>"; };
@@ -724,7 +724,7 @@
 				EB384A43228D4D0C00D226D1 /* Offer.swift */,
 				EB384A45228D4F8A00D226D1 /* ReactNativeContainer.swift */,
 				EB384A49228DB22F00D226D1 /* ApplicationState.swift */,
-				EBFA05E822B0E82B009D3FAE /* PushNotificationsState.swift */,
+				A70345C222D47666005750BB /* PushNotificationsState.swift */,
 			);
 			path = hedvig;
 			sourceTree = "<group>";
@@ -988,7 +988,6 @@
 		EB11E99B2277047700D95365 /* Viewables */ = {
 			isa = PBXGroup;
 			children = (
-				EBE8B8D222B9203F00E32499 /* ApplyDiscountSection.swift */,
 				EB11E99C2277047700D95365 /* DeductibleCircle.swift */,
 				EB11E99D2277047700D95365 /* MonthlyPaymentCircle.swift */,
 				EB11E99E2277047700D95365 /* UpdatingMessage.swift */,
@@ -1154,6 +1153,7 @@
 				EB384A6022943E0400D226D1 /* DocumentPicker.swift */,
 				EB384A6222953A2700D226D1 /* ImagePicker.swift */,
 				EB48684022C5009600688463 /* PanDirectionGestureRecognizer.swift */,
+				8B5D029F22D48115003F4F1E /* PushNotificationsRegistrer.swift */,
 			);
 			path = Generic;
 			sourceTree = "<group>";
@@ -1847,6 +1847,7 @@
 				EB8E2A7D22C229C5009F6180 /* Referrals.swift in Sources */,
 				EB11ED29227ADBDE00D95365 /* CommonClaimCard.swift in Sources */,
 				EB11EA892277047700D95365 /* CharityLogo.swift in Sources */,
+				A70345C322D47666005750BB /* PushNotificationsState.swift in Sources */,
 				EB11EB2C2277360900D95365 /* MultilineLabelIcon.swift in Sources */,
 				EB11EAE12277047800D95365 /* ApolloContainer.swift in Sources */,
 				EB11EAFB2277047800D95365 /* Icon.swift in Sources */,
@@ -1895,7 +1896,6 @@
 				EB11EA5D2277047700D95365 /* FeedbackRow.swift in Sources */,
 				EB11EAD82277047800D95365 /* CellForRow.swift in Sources */,
 				EB11EB2E2277382700D95365 /* Divider.swift in Sources */,
-				EBFA05E922B0E82B009D3FAE /* PushNotificationsState.swift in Sources */,
 				EBCAA8A52281C28E003C4833 /* LargeIconTitleSubtitle.swift in Sources */,
 				EB11EACE2277047700D95365 /* TextStyle.swift in Sources */,
 				EB48684D22C627DE00688463 /* WelcomePagerProceedButton.swift in Sources */,
@@ -2013,7 +2013,6 @@
 				EB11EA7A2277047700D95365 /* DeductibleCircle.swift in Sources */,
 				EBE8B8C722B91FEC00E32499 /* LoadableView.swift in Sources */,
 				EBCAA816228086BC003C4833 /* DashboardRouting.swift in Sources */,
-				EBE8B8D322B9203F00E32499 /* ApplyDiscountSection.swift in Sources */,
 				EB11ED28227ADBDE00D95365 /* Claims.swift in Sources */,
 				EB11EAE02277047800D95365 /* RemoteConfigContainer.swift in Sources */,
 				EBFA061222B13515009D3FAE /* ActivityBarButton.swift in Sources */,
@@ -2076,6 +2075,7 @@
 				EB8E2A8A22C229C5009F6180 /* ReferralsNotification.swift in Sources */,
 				EB11EA4F2277047700D95365 /* HappyAvatar.swift in Sources */,
 				EBFA061422B13542009D3FAE /* String+Color.swift in Sources */,
+				8B5D02A022D48116003F4F1E /* PushNotificationsRegistrer.swift in Sources */,
 				EB11EA672277047700D95365 /* InsuranceCertificateRow.swift in Sources */,
 				EB11EAA82277047700D95365 /* CachedImage.swift in Sources */,
 				EB11EA632277047700D95365 /* AboutRow.swift in Sources */,

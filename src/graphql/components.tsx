@@ -113,6 +113,8 @@ export interface Query {
   commonClaims: CommonClaim[];
 
   news: News[];
+
+  welcome: Welcome[];
 }
 
 export interface Language extends Node {
@@ -410,6 +412,10 @@ export interface MessageBodyText extends MessageBodyCore {
   id: string;
 
   text: string;
+
+  placeholder?: string | null;
+
+  keyboard?: KeyboardType | null;
 }
 
 export interface MessageBodyNumber extends MessageBodyCore {
@@ -418,6 +424,10 @@ export interface MessageBodyNumber extends MessageBodyCore {
   id: string;
 
   text: string;
+
+  placeholder?: string | null;
+
+  keyboard?: KeyboardType | null;
 }
 
 export interface MessageBodyAudio extends MessageBodyCore {
@@ -450,6 +460,8 @@ export interface MessageBodyFile extends MessageBodyCore {
   key?: string | null;
 
   mimeType?: string | null;
+
+  file: File;
 }
 
 export interface MessageBodyParagraph extends MessageBodyCore {
@@ -486,6 +498,8 @@ export interface MessageHeader {
   loadingIndicator?: string | null;
 
   markedAsRead: boolean;
+
+  statusMessage?: string | null;
 }
 
 export interface ChatResponse {
@@ -586,6 +600,10 @@ export interface Referrals {
   referredBy?: Referral | null;
 }
 
+export interface AcceptedReferral {
+  quantity?: number | null;
+}
+
 export interface ActiveReferral {
   discount: MonetaryAmountV2;
 
@@ -593,10 +611,6 @@ export interface ActiveReferral {
 }
 
 export interface InProgressReferral {
-  name?: string | null;
-}
-
-export interface NotInitiatedReferral {
   name?: string | null;
 }
 
@@ -651,6 +665,15 @@ export interface Emergency {
 }
 /** A page in the `What's new`-screen in the app */
 export interface News {
+  /** Illustration shown for the page */
+  illustration: Icon;
+  /** Text key for the paragraph shown below the title */
+  paragraph: string;
+  /** Text key for the title of the page */
+  title: string;
+}
+/** A page in the `Welcome`-screen in the app */
+export interface Welcome {
   /** Illustration shown for the page */
   illustration: Icon;
   /** Text key for the paragraph shown below the title */
@@ -2135,11 +2158,7 @@ export interface ChatResponseBodyFileInput {
 export interface ChatResponseAudioInput {
   globalId: string;
 
-  body: ChatResponseBodyAudioInput;
-}
-
-export interface ChatResponseBodyAudioInput {
-  url: string;
+  file: Upload;
 }
 
 export interface TriggerClaimChatInput {
@@ -3766,6 +3785,10 @@ export interface TranslationSubscriptionWhereInput {
   node?: TranslationWhereInput | null;
 }
 
+export interface ChatResponseBodyAudioInput {
+  url: string;
+}
+
 // ====================================================
 // Arguments
 // ====================================================
@@ -3816,11 +3839,16 @@ export interface CommonClaimsQueryArgs {
   locale: Locale;
 }
 export interface NewsQueryArgs {
+  platform: Platform;
+
   sinceVersion: string;
 
   locale: Locale;
-
+}
+export interface WelcomeQueryArgs {
   platform: Platform;
+
+  locale: Locale;
 }
 export interface TranslationsLanguageArgs {
   where?: TranslationWhereInput | null;
@@ -4000,18 +4028,18 @@ export enum TranslationOrderByInput {
 }
 
 export enum HedvigColor {
-  DarkGray = 'DarkGray',
-  White = 'White',
-  Purple = 'Purple',
   DarkPurple = 'DarkPurple',
   BlackPurple = 'BlackPurple',
-  LightGray = 'LightGray',
-  Black = 'Black',
-  OffWhite = 'OffWhite',
-  Yellow = 'Yellow',
+  DarkGray = 'DarkGray',
   Pink = 'Pink',
+  White = 'White',
+  Black = 'Black',
   Turquoise = 'Turquoise',
   OffBlack = 'OffBlack',
+  Purple = 'Purple',
+  LightGray = 'LightGray',
+  Yellow = 'Yellow',
+  OffWhite = 'OffWhite',
 }
 
 export enum MarketingStoryOrderByInput {
@@ -4090,6 +4118,15 @@ export enum MessageBodyChoicesLinkView {
   DASHBOARD = 'DASHBOARD',
 }
 
+export enum KeyboardType {
+  DEFAULT = 'DEFAULT',
+  NUMBERPAD = 'NUMBERPAD',
+  DECIMALPAD = 'DECIMALPAD',
+  NUMERIC = 'NUMERIC',
+  EMAIL = 'EMAIL',
+  PHONE = 'PHONE',
+}
+
 export enum DirectDebitStatus {
   ACTIVE = 'ACTIVE',
   PENDING = 'PENDING',
@@ -4106,13 +4143,13 @@ export enum RegisterAccountProcessingStatus {
 }
 
 export enum Locale {
-  en_SE = 'en_SE',
   sv_SE = 'sv_SE',
+  en_SE = 'en_SE',
 }
 
 export enum Platform {
-  Android = 'Android',
   iOS = 'iOS',
+  Android = 'Android',
 }
 
 export enum LoggingSource {
@@ -4239,9 +4276,9 @@ export type MessageBodyChoices =
 export type Incentive = FreeMonths | MonthlyCostDeduction;
 
 export type Referral =
+  | AcceptedReferral
   | ActiveReferral
   | InProgressReferral
-  | NotInitiatedReferral
   | TerminatedReferral;
 
 export type CommonClaimLayouts = TitleAndBulletPoints | Emergency;
@@ -4270,6 +4307,8 @@ export type NewOfferQuery = {
   __typename?: 'Query';
 
   insurance: NewOfferInsurance;
+
+  redeemedCampaigns: NewOfferRedeemedCampaigns[];
 };
 
 export type NewOfferInsurance = {
@@ -4314,6 +4353,38 @@ export type NewOfferMonthlyNet = {
   __typename?: 'MonetaryAmountV2';
 
   amount: string;
+};
+
+export type NewOfferRedeemedCampaigns = {
+  __typename?: 'Campaign';
+
+  code: string;
+
+  incentive?: Incentive | null;
+};
+
+export type NewOfferIncentive =
+  | NewOfferFreeMonthsInlineFragment
+  | NewOfferMonthlyCostDeductionInlineFragment;
+
+export type NewOfferFreeMonthsInlineFragment = {
+  __typename?: 'FreeMonths';
+
+  quantity?: number | null;
+};
+
+export type NewOfferMonthlyCostDeductionInlineFragment = {
+  __typename?: 'MonthlyCostDeduction';
+
+  amount?: NewOfferAmount | null;
+};
+
+export type NewOfferAmount = {
+  __typename?: 'MonetaryAmountV2';
+
+  amount: string;
+
+  currency: string;
 };
 
 export type OfferPerilsVariables = {};
@@ -4431,6 +4502,20 @@ export const NewOfferDocument = gql`
         }
         monthlyNet {
           amount
+        }
+      }
+    }
+    redeemedCampaigns {
+      code
+      incentive {
+        ... on FreeMonths {
+          quantity
+        }
+        ... on MonthlyCostDeduction {
+          amount {
+            amount
+            currency
+          }
         }
       }
     }

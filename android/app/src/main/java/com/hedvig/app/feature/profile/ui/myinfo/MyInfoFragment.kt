@@ -12,6 +12,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
@@ -36,6 +37,10 @@ class MyInfoFragment : Fragment() {
     private var emailTextWatcher: TextWatcher? = null
     private var phoneNumberTextWatcher: TextWatcher? = null
 
+    private val navController: NavController by lazy {
+        requireActivity().findNavController(R.id.loggedNavigationHost)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_my_info, container, false)
 
@@ -43,7 +48,7 @@ class MyInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupLargeTitle(R.string.PROFILE_MY_INFO_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            requireActivity().findNavController(R.id.loggedInFragment).popBackStack()
+            navController.popBackStack()
         }
 
         sphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_purple))

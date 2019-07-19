@@ -17,4 +17,18 @@ query NewOffer {
         	}
         }
     }
+    redeemedCampaigns {
+        code
+        incentive {
+        ... on FreeMonths {
+            quantity
+        }
+        ... on MonthlyCostDeduction {
+            amount {
+                amount
+                currency
+            }
+        }
+        }
+    }
 }
