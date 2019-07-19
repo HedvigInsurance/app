@@ -129,19 +129,7 @@ class ChatActivity : AppCompatActivity() {
         reload.setHapticClickListener {
             chatViewModel.load()
         }
-
-        getAuthenticationToken()?.let {
-            chatViewModel.loadAndSubscribe()
-        } ?: run {
-            userViewModel.newSessionInformation.observe(lifecycleOwner = this@ChatActivity) { data ->
-                data?.createSessionV2?.token?.let {
-                    setAuthenticationToken(it)
-
-                    chatViewModel.loadAndSubscribe()
-                }
-            }
-            userViewModel.newSession()
-        }
+        chatViewModel.loadAndSubscribe()
 
         chatRoot.viewTreeObserver.addOnGlobalLayoutListener {
             val heightDiff = chatRoot.calculateNonFullscreenHeightDiff()

@@ -10,10 +10,7 @@ import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.R
 import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
 import com.hedvig.app.feature.profile.ui.aboutapp.AboutAppActivity
-import com.hedvig.app.util.extensions.observe
-import com.hedvig.app.util.extensions.proxyNavigate
-import com.hedvig.app.util.extensions.setIsLoggedIn
-import com.hedvig.app.util.extensions.triggerRestartActivity
+import com.hedvig.app.util.extensions.*
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
@@ -78,6 +75,7 @@ class ProfileFragment : BaseTabFragment() {
             }
             logout.setOnClickListener {
                 profileViewModel.logout {
+                    requireContext().setAuthenticationToken(null)
                     requireContext().setIsLoggedIn(false)
                     FirebaseInstanceId.getInstance().deleteInstanceId()
                     requireActivity().triggerRestartActivity()
