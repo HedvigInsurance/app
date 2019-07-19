@@ -253,7 +253,7 @@ export const NewOffer: React.SFC = () => (
                                       ...queryData!,
                                       insurance: {
                                         ...queryData!.insurance,
-                                        cost: data.insurance.cost,
+                                        cost: data.cost,
                                       },
                                       redeemedCampaigns: data.campaigns,
                                     }));
