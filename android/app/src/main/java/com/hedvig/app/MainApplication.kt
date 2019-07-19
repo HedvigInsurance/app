@@ -13,6 +13,7 @@ import com.facebook.soloader.SoLoader
 import com.hedvig.app.react.ActivityStarterReactPackage
 import com.hedvig.app.react.NativeRoutingPackage
 import com.hedvig.app.service.TextKeys
+import com.hedvig.app.util.extensions.*
 import com.hedvig.app.util.react.AsyncStorageNative
 import com.horcrux.svg.SvgPackage
 import com.ice.restring.Restring
@@ -74,6 +75,10 @@ class MainApplication : Application(), ReactApplication {
         super.onCreate()
         AndroidThreeTen.init(this)
 
+        if (getAuthenticationToken() == null && !getStoredBoolean(SHARED_PREFERENCE_TRIED_MIGRATION_OF_TOKEN)) {
+            tryToMigrateTokenFromReactDB()
+        }
+
         startKoin {
             androidLogger()
             androidContext(this@MainApplication)
@@ -98,6 +103,16 @@ class MainApplication : Application(), ReactApplication {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         setupRestring()
+    }
+
+    private fun tryToMigrateTokenFromReactDB() {
+        val instance = LegacyReactDatabaseSupplier.getInstance(this)
+        instance.getTokenIfExists()?.let { token ->
+            setAuthenticationToken(token)
+        }
+        instance.clearAndCloseDatabase()
+        // Let's only try this once
+        storeBoolean(SHARED_PREFERENCE_TRIED_MIGRATION_OF_TOKEN, true)
     }
 
     private fun setupRestring() {
