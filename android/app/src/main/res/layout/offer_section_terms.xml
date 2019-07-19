@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_offer">
+
+    <TextView
+        style="@style/Headline.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/base_margin_double"
+        tools:text="Viktiga villkor" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawableStart="@drawable/ic_filled_checkmark"
+        android:lines="2"
+        tools:text="Sveriges enda försäkring helt utan bindningstid" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawableStart="@drawable/ic_filled_checkmark"
+        android:lines="2"
+        tools:text="Lägenheten är försäkrad utan begränsning" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawableStart="@drawable/ic_filled_checkmark"
+        android:lines="2"
+        tools:text="Maxersättning för prylarna i ditt hem är 1 miljon kr" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawableStart="@drawable/ic_filled_checkmark"
+        android:lines="2"
+        tools:text="Självrisken är 1 500 kr" />
+
+</merge>

@@ -1,0 +1,19 @@
+query Offer {
+  insurance {
+    address
+    personsInHousehold
+    insuredAtOtherCompany
+    type
+    cost {
+      monthlyDiscount {
+        amount
+      }
+      monthlyGross {
+        amount
+      }
+      monthlyNet {
+        amount
+      }
+    }
+  }
+}

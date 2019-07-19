@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@null"
+        tools:src="@drawable/claims_illustration" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/Headline.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin_double"
+        android:layout_marginTop="@dimen/base_margin_double"
+        tools:text="Testvägen 1" />
+
+    <TextView
+        android:id="@+id/paragraph"
+        style="@style/Body.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin_double"
+        android:layout_marginTop="@dimen/base_margin"
+        android:layout_marginEnd="@dimen/base_margin_double"
+        tools:text="Vi vet hur mycket ett hem betyder. Därför ger vi det ett riktigt bra skydd, så att du kan känna dig trygg i alla lägen." />
+
+    <LinearLayout
+        android:id="@+id/perilsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/base_margin_double"
+        android:orientation="horizontal" />
+
+</LinearLayout>

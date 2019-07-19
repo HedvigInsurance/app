@@ -56,6 +56,8 @@ import timber.log.Timber
 import java.io.File
 import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport
 import com.hedvig.app.feature.chat.native.UserViewModel
+import com.hedvig.app.feature.offer.OfferRepository
+import com.hedvig.app.feature.offer.OfferViewModel
 import com.hedvig.app.util.extensions.getAuthenticationToken
 
 fun isDebug() = BuildConfig.DEBUG || BuildConfig.APP_ID == "com.hedvig.test.app"
@@ -145,6 +147,7 @@ val viewModelModule = module {
     viewModel { UserViewModel(get()) }
     viewModel { ReferralViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
+    viewModel { OfferViewModel(get()) }
 }
 
 val serviceModule = module {
@@ -169,6 +172,7 @@ val repositoriesModule = module {
     single { WhatsNewRepository(get(), get()) }
     single { com.hedvig.app.feature.chat.native.ChatRepository(get(), get(), get()) }
     single { WelcomeRepository(get()) }
+    single { OfferRepository(get()) }
 }
 
 val trackerModule = module {

@@ -1,12 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="TODO OFFER SCREEN"/>
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <include
+            layout="@layout/loading_spinner"
+            tools:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <include
+                android:id="@+id/homeSection"
+                layout="@layout/offer_peril_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/stuffSection"
+                layout="@layout/offer_peril_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/meSection"
+                layout="@layout/offer_peril_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include layout="@layout/offer_section_terms" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</ScrollView>
