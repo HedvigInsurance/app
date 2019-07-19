@@ -7,6 +7,11 @@ import android.support.v7.app.AppCompatDelegate
 import com.apollographql.apollo.ApolloClient
 import com.facebook.soloader.SoLoader
 import com.hedvig.app.service.TextKeys
+import com.hedvig.app.util.extensions.getAuthenticationToken
+import com.hedvig.app.util.extensions.setAuthenticationToken
+import com.hedvig.app.util.extensions.getStoredBoolean
+import com.hedvig.app.util.extensions.storeBoolean
+import com.hedvig.app.util.extensions.SHARED_PREFERENCE_TRIED_MIGRATION_OF_TOKEN
 import com.ice.restring.Restring
 import com.jakewharton.threetenabp.AndroidThreeTen
 import net.ypresto.timbertreeutils.CrashlyticsLogExceptionTree
@@ -32,6 +37,10 @@ class MainApplication : Application() {
         super.onCreate()
         AndroidThreeTen.init(this)
 
+        if (getAuthenticationToken() == null && !getStoredBoolean(SHARED_PREFERENCE_TRIED_MIGRATION_OF_TOKEN)) {
+            tryToMigrateTokenFromReactDB()
+        }
+
         startKoin {
             androidLogger()
             androidContext(this@MainApplication)
@@ -55,6 +64,16 @@ class MainApplication : Application() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         setupRestring()
+    }
+
+    private fun tryToMigrateTokenFromReactDB() {
+        val instance = LegacyReactDatabaseSupplier.getInstance(this)
+        instance.getTokenIfExists()?.let { token ->
+            setAuthenticationToken(token)
+        }
+        instance.clearAndCloseDatabase()
+        // Let's only try this once
+        storeBoolean(SHARED_PREFERENCE_TRIED_MIGRATION_OF_TOKEN, true)
     }
 
     private fun setupRestring() {
