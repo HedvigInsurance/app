@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import timber.log.Timber
 
-class LegacyReactDatabaseSupplier private constructor(private val mContext: Context) : SQLiteOpenHelper(mContext, DATABASE_NAME, null, DATABASE_VERSION) {
+class LegacyReactDatabaseSupplier private constructor(private val context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
-    private var mDb: SQLiteDatabase? = null
+    private var database: SQLiteDatabase? = null
     private var mMaximumDatabaseSize = 6L * 1024L * 1024L // 6 MB in bytes
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -19,14 +19,12 @@ class LegacyReactDatabaseSupplier private constructor(private val mContext: Cont
         Timber.e("This database is deprecated and should not be used. Let's not upgrade is!")
     }
 
-    /**
-     * Verify the database exists and is open.
-     */
     /* package */ @Synchronized
     internal fun ensureDatabase(): Boolean {
-        if (mDb != null && mDb!!.isOpen) {
+        if (database != null && database!!.isOpen) {
             return true
         }
+
         // Sometimes retrieving the database fails. We do 2 retries: first without database deletion
         // and then with deletion.
         var lastSQLiteException: SQLiteException? = null
@@ -35,7 +33,7 @@ class LegacyReactDatabaseSupplier private constructor(private val mContext: Cont
                 if (tries > 0) {
                     deleteDatabase()
                 }
-                mDb = writableDatabase
+                database = writableDatabase
                 break
             } catch (e: SQLiteException) {
                 lastSQLiteException = e
@@ -49,22 +47,20 @@ class LegacyReactDatabaseSupplier private constructor(private val mContext: Cont
             }
 
         }
-        if (mDb == null) {
+        if (database == null) {
             lastSQLiteException?.let {
-                Timber.e(it, "mDb could not be created :(")
-            } ?: Timber.e("mDb could not be created and lastSQLiteException :crying_sad_face:")
+                Timber.e(it, "database could not be created :(")
+            } ?: Timber.e("database could not be created and lastSQLiteException :crying_sad_face:")
         }
-        // This is a sane limit to protect the user from the app storing too much data in the database.
-        // This also protects the database from filling up the disk cache and becoming malformed
-        // (endTransaction() calls will throw an exception, not rollback, and leave the db malformed).
-        mDb?.maximumSize = mMaximumDatabaseSize
+
+        database?.maximumSize = mMaximumDatabaseSize
         return true
     }
 
     @Synchronized
     fun get(): SQLiteDatabase? {
         ensureDatabase()
-        return mDb
+        return database
     }
 
     @Synchronized
@@ -91,33 +87,41 @@ class LegacyReactDatabaseSupplier private constructor(private val mContext: Cont
     @Synchronized
     private fun deleteDatabase(): Boolean {
         closeDatabase()
-        return mContext.deleteDatabase(DATABASE_NAME)
+        return context.deleteDatabase(DATABASE_NAME)
     }
 
     @Synchronized
     private fun closeDatabase() {
-        if (mDb != null && mDb!!.isOpen) {
-            mDb!!.close()
-            mDb = null
+        if (database?.isOpen == true) {
+            database?.close()
+            database = null
         }
+    }
+
+    fun getTokenIfExists(): String?  {
+        ensureDatabase()
+        val cursor = database?.rawQuery("SELECT * FROM catalystLocalStorage", null)
+            ?: return null
+
+        var token: String? = null
+        while (cursor.moveToNext()) {
+            if (cursor.getString(0) == TOKEN_KEY) {
+                token = cursor.getString(1)
+            }
+        }
+        cursor.close()
+        return token
     }
 
     companion object {
 
-        // VisibleForTesting
-        val DATABASE_NAME = "RKStorage"
+        const val DATABASE_NAME = "RKStorage"
 
-        private val DATABASE_VERSION = 1
-        private val SLEEP_TIME_MS = 30
+        private const val DATABASE_VERSION = 1
+        private const val SLEEP_TIME_MS = 30
 
-        internal val TABLE_CATALYST = "catalystLocalStorage"
-        internal val KEY_COLUMN = "key"
-        internal val VALUE_COLUMN = "value"
-
-        internal val VERSION_TABLE_CREATE = "CREATE TABLE " + TABLE_CATALYST + " (" +
-            KEY_COLUMN + " TEXT PRIMARY KEY, " +
-            VALUE_COLUMN + " TEXT NOT NULL" +
-            ")"
+        internal const val TABLE_CATALYST = "catalystLocalStorage"
+        private const val TOKEN_KEY = "@hedvig:token"
 
         fun getInstance(context: Context): LegacyReactDatabaseSupplier {
             return LegacyReactDatabaseSupplier(context.applicationContext)
