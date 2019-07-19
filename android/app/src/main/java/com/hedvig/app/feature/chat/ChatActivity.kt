@@ -33,7 +33,7 @@ import java.io.File
 import android.support.v4.content.FileProvider
 import java.io.IOException
 
-class NativeChatActivity : AppCompatActivity() {
+class ChatActivity : AppCompatActivity() {
 
     private val chatViewModel: ChatViewModel by viewModel()
     private val userViewModel: UserViewModel by viewModel()
@@ -122,7 +122,7 @@ class NativeChatActivity : AppCompatActivity() {
         resetChatButton.setOnClickListener {
             showRestartDialog {
                 setAuthenticationToken(null)
-                userViewModel.logout { triggerRestartActivity(NativeChatActivity::class.java) }
+                userViewModel.logout { triggerRestartActivity(ChatActivity::class.java) }
             }
         }
 
@@ -133,7 +133,7 @@ class NativeChatActivity : AppCompatActivity() {
         getAuthenticationToken()?.let {
             chatViewModel.loadAndSubscribe()
         } ?: run {
-            userViewModel.newSessionInformation.observe(lifecycleOwner = this@NativeChatActivity) { data ->
+            userViewModel.newSessionInformation.observe(lifecycleOwner = this@ChatActivity) { data ->
                 data?.createSessionV2?.token?.let {
                     setAuthenticationToken(it)
 
@@ -267,7 +267,7 @@ class NativeChatActivity : AppCompatActivity() {
         val columnIndexData: Int
 
         val projection = arrayOf(MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-        val cursor = this@NativeChatActivity.contentResolver.query(uri, projection, null, null, null)
+        val cursor = this@ChatActivity.contentResolver.query(uri, projection, null, null, null)
 
         cursor?.let {
             columnIndexData = cursor.getColumnIndexOrThrow(MediaColumns.DATA)

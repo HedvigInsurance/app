@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.hedvig.app.BaseActivity
 import com.hedvig.app.R
-import com.hedvig.app.feature.chat.NativeChatActivity
+import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.util.extensions.makeToast
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.setHapticClickListener
@@ -52,7 +52,7 @@ class ReferralsReceiverActivity : BaseActivity() {
     }
 
     private fun startChat() {
-        val intent = Intent(this, NativeChatActivity::class.java)
+        val intent = Intent(this, ChatActivity::class.java)
         intent.putExtra("intent", "onboarding")
         intent.putExtra("show_restart", true)
         startActivity(intent)

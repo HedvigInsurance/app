@@ -25,7 +25,7 @@
         tools:replace="android:label">
 
         <activity
-            android:name=".feature.chat.NativeChatActivity"
+            android:name=".feature.chat.ChatActivity"
             android:theme="@style/Theme.Exponent.Light" />
 
         <activity

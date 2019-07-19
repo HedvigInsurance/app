@@ -14,7 +14,7 @@
             android:theme="@style/Theme.Exponent.Splash" />
 
         <activity
-            android:name=".feature.chat.NativeChatActivity"
+            android:name=".feature.chat.ChatActivity"
             android:theme="@style/Theme.Exponent.Light">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

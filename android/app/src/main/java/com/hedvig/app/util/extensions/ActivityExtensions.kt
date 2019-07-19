@@ -21,7 +21,7 @@ import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.app_bar.*
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
-import com.hedvig.app.feature.chat.NativeChatActivity
+import com.hedvig.app.feature.chat.ChatActivity
 import timber.log.Timber
 
 fun Activity.setLightNavigationBar() {
@@ -117,8 +117,8 @@ fun AppCompatActivity.setupLargeTitle(
 val Activity.localBroadcastManager get() = android.support.v4.content.LocalBroadcastManager.getInstance(this)
 
 fun Activity.startClosableChat() {
-    val intent = Intent(this, NativeChatActivity::class.java)
-    intent.putExtra(NativeChatActivity.EXTRA_SHOW_CLOSE, true)
+    val intent = Intent(this, ChatActivity::class.java)
+    intent.putExtra(ChatActivity.EXTRA_SHOW_CLOSE, true)
 
     val options =
         ActivityOptionsCompat.makeCustomAnimation(this, R.anim.activity_slide_up_in, R.anim.stay_in_place)

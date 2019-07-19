@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/off_white"
-    tools:context=".feature.chat.NativeChatActivity">
+    tools:context=".feature.chat.ChatActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/messages"
