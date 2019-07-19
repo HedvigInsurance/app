@@ -131,13 +131,15 @@ fun Context.makeToast(
 
 fun Context.openUri(uri: Uri) = startActivity(Intent(Intent.ACTION_VIEW, uri))
 
-//TODO handle login
 fun Context.handleSingleSelectLink(value: String) = when(value) {
     "message.forslag.dashboard" -> {
         startActivity(Intent(this, NativeOfferActivity::class.java).also {
             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         })
+    }
+    "message.bankid.start" -> {
+
     }
     else -> {
         Timber.e("Can't handle the link $value")
