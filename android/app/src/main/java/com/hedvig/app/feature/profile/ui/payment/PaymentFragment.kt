@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.service.ProfileTracker
@@ -26,6 +27,7 @@ import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
+import com.hedvig.app.util.safeLet
 import com.hedvig.app.viewmodel.DirectDebitViewModel
 import kotlinx.android.synthetic.main.fragment_payment.*
 import kotlinx.android.synthetic.main.loading_spinner.*
@@ -150,26 +152,72 @@ class PaymentFragment : Fragment() {
         when (directDebitViewModel.data.value?.directDebitStatus ?: return) {
             DirectDebitStatus.ACTIVE -> {
                 paymentDetailsContainer.show()
-                bankName.text = profileData.bankAccount?.bankName ?: ""
+
+                profileData.bankAccount?.let { bankAccount ->
+                    bankName.text = bankAccount.bankName
+                    accountNumber.text = bankAccount.descriptor
+
+                    toggleBankInfo(true)
+                } ?: toggleBankInfo(false)
+
+                toggleAutogiro(true)
 
                 separator.show()
-                accountNumber.text = profileData.bankAccount?.descriptor ?: ""
                 changeBankAccount.show()
-                if (profileData.insurance.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0) {
-                    redeemCode.show()
-                }
             }
             DirectDebitStatus.PENDING -> {
                 paymentDetailsContainer.show()
-                bankName.text = profileData.bankAccount?.bankName
 
-                accountNumber.text = resources.getString(R.string.PROFILE_PAYMENT_ACCOUNT_NUMBER_CHANGING)
+                profileData.bankAccount?.let { bankAccount ->
+                    bankName.text = bankAccount.bankName
+                    accountNumber.text = resources.getString(R.string.PROFILE_PAYMENT_ACCOUNT_NUMBER_CHANGING)
+
+                    toggleBankInfo(true)
+                } ?: toggleBankInfo(false)
+
+                toggleAutogiro(false)
+
                 bankAccountUnderChangeParagraph.show()
             }
-            DirectDebitStatus.NEEDS_SETUP -> connectBankAccountContainer.show()
+            DirectDebitStatus.NEEDS_SETUP -> {
+                paymentDetailsContainer.show()
+                toggleAutogiro(false)
+                toggleBankInfo(false)
+                connectBankAccountContainer.show()
+            }
             else -> {
                 Timber.e("Payment fragment direct debit status UNKNOWN!")
             }
+        }
+
+        showRedeemCodeOnNoDiscount(profileData)
+    }
+
+    private fun toggleBankInfo(show: Boolean) {
+        if (show) {
+            bankTitle.show()
+            bankName.show()
+            accountNumber.show()
+        } else {
+            bankTitle.remove()
+            bankName.remove()
+            accountNumber.remove()
+        }
+    }
+
+    private fun toggleAutogiro(show: Boolean) {
+        if (show) {
+            autogiroTitle.show()
+            autogiroDate.show()
+        } else {
+            autogiroTitle.remove()
+            autogiroDate.remove()
+        }
+    }
+
+    private fun showRedeemCodeOnNoDiscount(profileData: ProfileQuery.Data) {
+        if (profileData.insurance.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0) {
+            redeemCode.show()
         }
     }
 
