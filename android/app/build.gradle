@@ -5,18 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.apollographql.android'
 
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
-
 import com.android.build.OutputFile
-
-project.ext.react = [
-        entryFile           : "index.android.js",
-        bundleInStaging     : true,
-        devDisabledInStaging: true
-]
-
-apply from: '../../node_modules/react-native/react.gradle'
-apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 
 def enableSeparateBuildPerCPUArchitecture = false
 
@@ -43,7 +32,8 @@ android {
 
     defaultConfig {
         targetSdkVersion 28
-        applicationId project.env.get('APP_ID')
+        applicationId 'com.hedvig'
+
         minSdkVersion 21
         multiDexEnabled true
         versionCode 43
@@ -75,18 +65,42 @@ android {
 
     buildTypes {
         release {
+            applicationIdSuffix '.app'
+
+            buildConfigField "String", "APP_ID", "\"com.hedvig.app\""
+            buildConfigField "String", "GRAPHQL_URL", "\"https://giraffe.hedvig.com/graphql\""
+            buildConfigField "String", "WS_GRAPHQL_URL", "\"wss://giraffe.hedvig.com/subscriptions\""
+            buildConfigField "String", "BASE_URL", "\"https://giraffe.hedvig.com\""
+            buildConfigField "String", "REFERRALS_LANDING_BASE_URL", "\"https://www.hedvig.com/referrals/\""
+
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         staging {
+            applicationIdSuffix '.test.app'
+
+            buildConfigField "String", "APP_ID", "\"com.hedvig.test.app\""
+            buildConfigField "String", "GRAPHQL_URL", "\"https://graphql.dev.hedvigit.com/graphql\""
+            buildConfigField "String", "WS_GRAPHQL_URL", "\"wss://graphql.dev.hedvigit.com/subscriptions\""
+            buildConfigField "String", "BASE_URL", "\"https://graphql.dev.hedvigit.com\""
+            buildConfigField "String", "REFERRALS_LANDING_BASE_URL", "\"https://hedvig-web-onboarding-staging.herokuapp.com/referrals/\""
+
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         debug {
+            applicationIdSuffix '.dev.app'
+
+            buildConfigField "String", "APP_ID", "\"com.hedvig.dev.app\""
+            buildConfigField "String", "GRAPHQL_URL", "\"https://graphql.dev.hedvigit.com/graphql\""
+            buildConfigField "String", "WS_GRAPHQL_URL", "\"wss://graphql.dev.hedvigit.com/subscriptions\""
+            buildConfigField "String", "BASE_URL", "\"https://graphql.dev.hedvigit.com\""
+            buildConfigField "String", "REFERRALS_LANDING_BASE_URL", "\"https://hedvig-web-onboarding-staging.herokuapp.com/referrals/\""
+
             debuggable true
         }
     }
@@ -109,16 +123,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-image-picker')
-    implementation project(':react-native-fs')
-    implementation project(':react-native-svg')
-    implementation project(':react-native-config')
-    implementation project(':react-native-sound')
-    implementation project(':react-native-sentry')
-    implementation project(':react-native-branch')
-    implementation project(':react-native-audio')
-    implementation project(':react-native-analytics-segment-io')
-    implementation project(':lottie-react-native')
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'

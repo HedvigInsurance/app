@@ -6,9 +6,7 @@ import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.*
 import io.reactivex.Observable
-import javax.inject.Singleton
 
-@Singleton
 class ProfileRepository(private val apolloClient: ApolloClient) {
     private lateinit var profileQuery: ProfileQuery
     fun fetchProfile(): Observable<ProfileQuery.Data?> {

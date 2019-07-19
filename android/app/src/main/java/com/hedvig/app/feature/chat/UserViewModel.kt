@@ -1,4 +1,4 @@
-package com.hedvig.app.feature.chat.native
+package com.hedvig.app.feature.chat
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel

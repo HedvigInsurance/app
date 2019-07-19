@@ -11,8 +11,6 @@ import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.type.CustomType
 import com.hedvig.app.data.debit.DirectDebitRepository
-import com.hedvig.app.feature.chat.ChatRepository
-import com.hedvig.app.feature.chat.ChatViewModel
 import com.hedvig.app.feature.chat.UserRepository
 import com.hedvig.app.feature.claims.data.ClaimsRepository
 import com.hedvig.app.feature.claims.service.ClaimsTracker
@@ -45,8 +43,6 @@ import com.hedvig.app.service.TextKeys
 import com.hedvig.app.terminated.TerminatedTracker
 import com.hedvig.app.util.apollo.ApolloTimberLogger
 import com.hedvig.app.util.apollo.PromiscuousLocalDateAdapter
-import com.hedvig.app.util.react.AsyncStorageNative
-import com.hedvig.app.util.react.AsyncStorageNativeImpl
 import com.hedvig.app.viewmodel.DirectDebitViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -55,7 +51,9 @@ import org.koin.dsl.module
 import timber.log.Timber
 import java.io.File
 import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport
-import com.hedvig.app.feature.chat.native.UserViewModel
+import com.hedvig.app.feature.chat.ChatRepository
+import com.hedvig.app.feature.chat.ChatViewModel
+import com.hedvig.app.feature.chat.UserViewModel
 import com.hedvig.app.util.extensions.getAuthenticationToken
 
 fun isDebug() = BuildConfig.DEBUG || BuildConfig.APP_ID == "com.hedvig.test.app"
@@ -68,7 +66,6 @@ val applicationModule = module {
             LeastRecentlyUsedCacheEvictor((10 * 1024 * 1024).toLong())
         )
     }
-    single<AsyncStorageNative> { AsyncStorageNativeImpl(get()) }
     single<NormalizedCacheFactory<LruNormalizedCache>> {
         LruNormalizedCacheFactory(
             EvictionPolicy.builder().maxSizeBytes(
@@ -83,13 +80,7 @@ val applicationModule = module {
                 val builder = original
                     .newBuilder()
                     .method(original.method(), original.body())
-                try {
-                    get<AsyncStorageNative>().getKey("@hedvig:token")
-                } catch (exception: Exception) {
-                    Timber.e(exception, "Got an exception while trying to retrieve token")
-                    //TODO we should change this out!
-                    get<Context>().getAuthenticationToken()
-                }?.let { token ->
+                get<Context>().getAuthenticationToken()?.let { token ->
                     builder.header("Authorization", token)
                 }
                 chain.proceed(builder.build())
@@ -103,14 +94,7 @@ val applicationModule = module {
     }
     single {
         val okHttpClient: OkHttpClient = get()
-        val token =
-            try {
-                get<AsyncStorageNative>().getKey("@hedvig:token")
-            } catch (exception: Exception) {
-                Timber.e(exception, "Got an exception while trying to retrieve token")
-                //TODO we should change this out!
-                get<Context>().getAuthenticationToken()
-            }
+        val token = get<Context>().getAuthenticationToken()
         val builder = ApolloClient
             .builder()
             .serverUrl(BuildConfig.GRAPHQL_URL)
@@ -138,10 +122,9 @@ val viewModelModule = module {
     viewModel { ClaimsViewModel(get(), get()) }
     viewModel { DirectDebitViewModel(get()) }
     viewModel { DashboardViewModel(get(), get()) }
-    viewModel { ChatViewModel(get(), get()) }
     viewModel { WhatsNewViewModel(get()) }
     viewModel { BaseTabViewModel(get(), get()) }
-    viewModel { com.hedvig.app.feature.chat.native.ChatViewModel(get()) }
+    viewModel { ChatViewModel(get()) }
     viewModel { UserViewModel(get()) }
     viewModel { ReferralViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
@@ -149,7 +132,7 @@ val viewModelModule = module {
 
 val serviceModule = module {
     single { FileService(get()) }
-    single { LoginStatusService(get(), get(), get()) }
+    single { LoginStatusService(get(), get()) }
     single { Referrals(get()) }
     single { RemoteConfig() }
     single { TextKeys(get()) }
@@ -158,7 +141,6 @@ val serviceModule = module {
 
 val repositoriesModule = module {
     single { ChatRepository(get(), get(), get()) }
-    single { com.hedvig.app.data.chat.ChatRepository(get()) }
     single { DirectDebitRepository(get()) }
     single { ClaimsRepository(get()) }
     single { DashboardRepository(get()) }
@@ -167,7 +149,6 @@ val repositoriesModule = module {
     single { ReferralRepository(get()) }
     single { UserRepository(get()) }
     single { WhatsNewRepository(get(), get()) }
-    single { com.hedvig.app.feature.chat.native.ChatRepository(get(), get(), get()) }
     single { WelcomeRepository(get()) }
 }
 

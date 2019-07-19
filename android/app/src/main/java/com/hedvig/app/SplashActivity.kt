@@ -2,14 +2,12 @@ package com.hedvig.app
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.hedvig.app.feature.marketing.ui.MarketingActivity
-import com.hedvig.app.feature.offer.OfferActivity
+import com.hedvig.app.feature.offer.NativeOfferActivity
 import com.hedvig.app.feature.referrals.ReferralsReceiverActivity
 import com.hedvig.app.service.LoginStatus
 import com.hedvig.app.service.LoginStatusService
@@ -80,7 +78,7 @@ class SplashActivity : BaseActivity() {
     private fun navigateToActivity(loginStatus: LoginStatus) = when (loginStatus) {
         LoginStatus.ONBOARDING -> handleFirebaseDynamicLink(intent)
         LoginStatus.IN_OFFER -> {
-            val intent = Intent(this, OfferActivity::class.java)
+            val intent = Intent(this, NativeOfferActivity::class.java)
             startActivity(intent)
         }
         LoginStatus.LOGGED_IN -> startActivity(Intent(this, LoggedInActivity::class.java))

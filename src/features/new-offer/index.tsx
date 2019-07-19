@@ -21,7 +21,10 @@ import { SignButton } from 'src/features/new-offer/components/sign-button';
 import { AndroidHeader } from 'src/features/new-offer/android-header';
 import { Provider } from 'constate';
 
-import { NewOfferComponent } from 'src/graphql/components';
+import {
+  NewOfferComponent,
+  NewOfferRedeemedCampaigns,
+} from 'src/graphql/components';
 import { DiscountButton } from './components/discount-button';
 
 const AnimatedScrollView = Animated.createAnimatedComponent<ScrollViewProps>(
@@ -122,6 +125,24 @@ const bounceScrollView = () => {
   }, 250);
 };
 
+const redeemedCampaign = (redeemedCampaigns: NewOfferRedeemedCampaigns[]) => {
+  if (redeemedCampaigns !== null && redeemedCampaigns.length !== 0) {
+    return redeemedCampaigns[0];
+  } else {
+    return null;
+  }
+};
+
+const hasRedeemedCampigns = (
+  redeemedCampaigns: NewOfferRedeemedCampaigns[],
+) => {
+  if (redeemedCampaigns !== null && redeemedCampaigns.length !== 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export const NewOffer: React.SFC = () => (
   <Provider>
     <NewOfferComponent>
@@ -147,6 +168,9 @@ export const NewOffer: React.SFC = () => (
                       <PriceBubble
                         discountedPrice={data!.insurance!.cost!.monthlyNet}
                         price={data!.insurance!.cost!.monthlyGross}
+                        redeemedCampaign={redeemedCampaign(
+                          data!.redeemedCampaigns,
+                        )}
                       />
                       <Spacing height={15} />
                       <FeaturesContainer animatedValue={animatedValue}>
@@ -161,13 +185,11 @@ export const NewOffer: React.SFC = () => (
                           type={data!.insurance.type!}
                         />
                         <DiscountButton
-                          discount={data!.insurance!.cost!.monthlyDiscount}
+                          redeemedCampaign={redeemedCampaign(
+                            data!.redeemedCampaigns,
+                          )}
                           onPress={() => {
-                            if (
-                              Number(
-                                data!.insurance!.cost!.monthlyDiscount!.amount,
-                              ) !== 0
-                            ) {
+                            if (hasRedeemedCampigns(data!.redeemedCampaigns)) {
                               if (Platform.OS === 'ios') {
                                 NativeModules.NativeRouting.showRemoveCodeAlert(
                                   true,
@@ -189,6 +211,7 @@ export const NewOffer: React.SFC = () => (
                                             .cost!.monthlyGross,
                                         },
                                       },
+                                      redeemedCampaigns: [],
                                     }));
                                   }
                                 });
@@ -213,6 +236,7 @@ export const NewOffer: React.SFC = () => (
                                               .cost!.monthlyGross,
                                           },
                                         },
+                                        redeemedCampaigns: [],
                                       }));
                                     }
                                   },
@@ -224,12 +248,14 @@ export const NewOffer: React.SFC = () => (
                                   true,
                                 ).then((redeemResponse: string) => {
                                   if (redeemResponse != null) {
+                                    const data = JSON.parse(redeemResponse);
                                     updateQuery((queryData) => ({
                                       ...queryData!,
                                       insurance: {
                                         ...queryData!.insurance,
-                                        cost: JSON.parse(redeemResponse),
+                                        cost: data.insurance.cost,
                                       },
+                                      redeemedCampaigns: data.campaigns,
                                     }));
                                   }
                                 });
@@ -244,25 +270,31 @@ export const NewOffer: React.SFC = () => (
                                         insurance: {
                                           ...queryData!.insurance,
                                           cost: {
-                                            __typename: data.__typename,
+                                            __typename: data.cost.__typename,
                                             monthlyDiscount: {
                                               __typename:
-                                                data.monthlyDiscount.__typename,
+                                                data.cost.monthlyDiscount
+                                                  .__typename,
                                               amount:
-                                                data.monthlyDiscount.amount,
+                                                data.cost.monthlyDiscount
+                                                  .amount,
                                             },
                                             monthlyNet: {
                                               __typename:
-                                                data.monthlyNet.__typename,
-                                              amount: data.monthlyNet.amount,
+                                                data.cost.monthlyNet.__typename,
+                                              amount:
+                                                data.cost.monthlyNet.amount,
                                             },
                                             monthlyGross: {
                                               __typename:
-                                                data.monthlyGross.__typename,
-                                              amount: data.monthlyGross.amount,
+                                                data.cost.monthlyGross
+                                                  .__typename,
+                                              amount:
+                                                data.cost.monthlyGross.amount,
                                             },
                                           },
                                         },
+                                        redeemedCampaigns: [...data.campaigns],
                                       }));
                                     }
                                   },

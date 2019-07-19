@@ -14,7 +14,6 @@ import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import kotlinx.android.synthetic.main.file_upload_dialog.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import com.hedvig.app.feature.chat.native.ChatViewModel
 
 class UploadBottomSheet : RoundedBottomSheetDialogFragment() {
     val chatViewModel: ChatViewModel by sharedViewModel()
