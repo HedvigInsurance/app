@@ -5,14 +5,13 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
+import com.hedvig.app.util.extensions.getAuthenticationToken
 import com.hedvig.app.util.extensions.isLoggedIn
 import com.hedvig.app.util.extensions.setIsLoggedIn
-import com.hedvig.app.util.react.AsyncStorageNative
 import io.reactivex.Observable
 
 class LoginStatusService(
     private val apolloClient: ApolloClient,
-    private val asyncStorageNative: AsyncStorageNative,
     private val context: Context
 ) {
     fun getLoginStatus(): Observable<LoginStatus> {
@@ -20,13 +19,14 @@ class LoginStatusService(
             return Observable.just(LoginStatus.LOGGED_IN)
         }
 
-        val isViewingOffer = asyncStorageNative.getKey("@hedvig:isViewingOffer")
+        // todo fix this
+//        val isViewingOffer = asyncStorageNative.getKey("@hedvig:isViewingOffer")
+//        if (isViewingOffer == "true") {
+//            return Observable.just(LoginStatus.IN_OFFER)
+//        }
 
-        if (isViewingOffer == "true") {
-            return Observable.just(LoginStatus.IN_OFFER)
-        }
 
-        asyncStorageNative.getKey("@hedvig:token") ?: return Observable.just(LoginStatus.ONBOARDING)
+        context.getAuthenticationToken() ?: return Observable.just(LoginStatus.ONBOARDING)
 
         return Rx2Apollo.from(apolloClient.query(InsuranceStatusQuery()))
             .map { response ->

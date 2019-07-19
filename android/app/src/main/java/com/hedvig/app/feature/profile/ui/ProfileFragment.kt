@@ -17,14 +17,12 @@ import com.hedvig.app.util.extensions.triggerRestartActivity
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
-import com.hedvig.app.util.react.AsyncStorageNative
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class ProfileFragment : BaseTabFragment() {
-    private val asyncStorageNative: AsyncStorageNative by inject()
 
     private val profileViewModel: ProfileViewModel by sharedViewModel()
 
@@ -81,7 +79,6 @@ class ProfileFragment : BaseTabFragment() {
             logout.setOnClickListener {
                 profileViewModel.logout {
                     requireContext().setIsLoggedIn(false)
-                    asyncStorageNative.deleteKey("@hedvig:token")
                     FirebaseInstanceId.getInstance().deleteInstanceId()
                     requireActivity().triggerRestartActivity()
                 }

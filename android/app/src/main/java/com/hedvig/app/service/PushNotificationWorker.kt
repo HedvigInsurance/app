@@ -8,7 +8,6 @@ import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.NewSessionMutation
 import com.hedvig.android.owldroid.graphql.RegisterPushTokenMutation
 import com.hedvig.app.feature.whatsnew.WhatsNewRepository
-import com.hedvig.app.util.react.AsyncStorageNative
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import org.koin.core.KoinComponent
@@ -21,7 +20,6 @@ class PushNotificationWorker(
 ) : Worker(context, params), KoinComponent {
 
     private val apolloClient: ApolloClient by inject()
-    private val asyncStorageNative: AsyncStorageNative by inject()
     private val whatsNewRepository: WhatsNewRepository by inject()
 
     private val disposables = CompositeDisposable()
@@ -48,7 +46,8 @@ class PushNotificationWorker(
                     return@subscribe
                 }
                 response.data()?.createSessionV2?.token?.let { hedvigToken ->
-                    asyncStorageNative.setKey(HEDVIG_TOKEN, hedvigToken)
+                    // TODO fix this
+//                    asyncStorageNative.setKey(HEDVIG_TOKEN, hedvigToken)
                     Timber.i("Successfully saved hedvig token")
                     done()
                 } ?: Timber.e("createSession returned no token")
@@ -57,10 +56,11 @@ class PushNotificationWorker(
 
     private fun hasHedvigToken(): Boolean {
         try {
-            val hedvigToken = asyncStorageNative.getKey(HEDVIG_TOKEN)
-            if (hedvigToken != null) {
-                return true
-            }
+            // TODO: fix
+//            val hedvigToken = asyncStorageNative.getKey(HEDVIG_TOKEN)
+//            if (hedvigToken != null) {
+//                return true
+//            }
         } catch (exception: Exception) {
             Timber.e(exception)
         }

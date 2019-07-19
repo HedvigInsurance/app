@@ -8,9 +8,7 @@ import com.hedvig.android.owldroid.graphql.TriggerCallMeChatMutation
 import com.hedvig.android.owldroid.graphql.TriggerClaimChatMutation
 import com.hedvig.android.owldroid.type.TriggerClaimChatInput
 import io.reactivex.Observable
-import javax.inject.Singleton
 
-@Singleton
 class ClaimsRepository(private val apolloClient: ApolloClient) {
     private lateinit var claimsQuery: CommonClaimQuery
 

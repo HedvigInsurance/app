@@ -43,8 +43,6 @@ import com.hedvig.app.service.TextKeys
 import com.hedvig.app.terminated.TerminatedTracker
 import com.hedvig.app.util.apollo.ApolloTimberLogger
 import com.hedvig.app.util.apollo.PromiscuousLocalDateAdapter
-import com.hedvig.app.util.react.AsyncStorageNative
-import com.hedvig.app.util.react.AsyncStorageNativeImpl
 import com.hedvig.app.viewmodel.DirectDebitViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -68,7 +66,6 @@ val applicationModule = module {
             LeastRecentlyUsedCacheEvictor((10 * 1024 * 1024).toLong())
         )
     }
-    single<AsyncStorageNative> { AsyncStorageNativeImpl(get()) }
     single<NormalizedCacheFactory<LruNormalizedCache>> {
         LruNormalizedCacheFactory(
             EvictionPolicy.builder().maxSizeBytes(
@@ -135,7 +132,7 @@ val viewModelModule = module {
 
 val serviceModule = module {
     single { FileService(get()) }
-    single { LoginStatusService(get(), get(), get()) }
+    single { LoginStatusService(get(), get()) }
     single { Referrals(get()) }
     single { RemoteConfig() }
     single { TextKeys(get()) }
