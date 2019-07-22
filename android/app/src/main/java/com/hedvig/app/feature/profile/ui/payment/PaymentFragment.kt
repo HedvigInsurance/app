@@ -227,7 +227,8 @@ class PaymentFragment : Fragment() {
     }
 
     private fun showRedeemCodeOnNoDiscount(profileData: ProfileQuery.Data) {
-        if (profileData.insurance.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0) {
+        if (profileData.insurance.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0 &&
+            profileData.insurance.cost?.freeUntil == null) {
             redeemCode.show()
         }
     }
