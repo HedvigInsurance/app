@@ -34,6 +34,7 @@ import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
+import org.threeten.bp.LocalDate
 import java.util.Calendar
 
 class PaymentFragment : Fragment() {
@@ -116,6 +117,16 @@ class PaymentFragment : Fragment() {
                 Spanned.SPAN_EXCLUSIVE_INCLUSIVE
             )
             profile_payment_amount.text = amountPartOne.concat(amountPartTwo)
+
+            profileData?.insurance?.cost?.freeUntil?.let {
+                freeUntilContainer.show()
+                freeUntilMessage.text = interpolateTextKey(
+                    getString(R.string.PROFILE_PAYMENT_FREE_UNTIL_MESSAGE),
+                    "FREE_UNTIL" to it
+                )
+            } ?: run {
+                freeUntilContainer.remove()
+            }
 
             grossPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_PRICE),
@@ -216,7 +227,8 @@ class PaymentFragment : Fragment() {
     }
 
     private fun showRedeemCodeOnNoDiscount(profileData: ProfileQuery.Data) {
-        if (profileData.insurance.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0) {
+        if (profileData.insurance.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0 &&
+            profileData.insurance.cost?.freeUntil == null) {
             redeemCode.show()
         }
     }
