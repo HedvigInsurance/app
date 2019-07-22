@@ -98,10 +98,15 @@ class LegacyReactDatabaseSupplier private constructor(private val context: Conte
         }
     }
 
-    fun getTokenIfExists(): String?  {
+    fun getTokenIfExists(): String? {
         ensureDatabase()
-        val cursor = database?.rawQuery("SELECT * FROM catalystLocalStorage", null)
-            ?: return null
+
+        val cursor = try {
+            database?.rawQuery("SELECT * FROM catalystLocalStorage", null)
+                ?: return null
+        } catch (e: SQLiteException) {
+            return null
+        }
 
         var token: String? = null
         while (cursor.moveToNext()) {

@@ -1,7 +1,6 @@
 package com.hedvig.app
 
 import android.content.Context
-import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.cache.normalized.NormalizedCacheFactory
 import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCache
@@ -9,7 +8,6 @@ import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.hedvig.android.owldroid.type.CustomType
 import com.hedvig.app.data.debit.DirectDebitRepository
 import com.hedvig.app.feature.chat.UserRepository
 import com.hedvig.app.feature.claims.data.ClaimsRepository
@@ -41,8 +39,6 @@ import com.hedvig.app.service.Referrals
 import com.hedvig.app.service.RemoteConfig
 import com.hedvig.app.service.TextKeys
 import com.hedvig.app.terminated.TerminatedTracker
-import com.hedvig.app.util.apollo.ApolloTimberLogger
-import com.hedvig.app.util.apollo.PromiscuousLocalDateAdapter
 import com.hedvig.app.viewmodel.DirectDebitViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -50,7 +46,6 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import timber.log.Timber
 import java.io.File
-import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport
 import com.hedvig.app.feature.chat.ChatRepository
 import com.hedvig.app.feature.chat.ChatViewModel
 import com.hedvig.app.feature.chat.UserViewModel
@@ -93,26 +88,7 @@ val applicationModule = module {
         builder.build()
     }
     single {
-        val okHttpClient: OkHttpClient = get()
-        val token = get<Context>().getAuthenticationToken()
-        val builder = ApolloClient
-            .builder()
-            .serverUrl(BuildConfig.GRAPHQL_URL)
-            .okHttpClient(okHttpClient)
-            .addCustomTypeAdapter(CustomType.LOCALDATE, PromiscuousLocalDateAdapter())
-            .subscriptionConnectionParams(mapOf("Authorization" to token))
-            .subscriptionTransportFactory(
-                WebSocketSubscriptionTransport.Factory(
-                    BuildConfig.WS_GRAPHQL_URL,
-                    okHttpClient
-                )
-            )
-            .normalizedCache(get())
-
-        if (isDebug()) {
-            builder.logger(ApolloTimberLogger())
-        }
-        builder.build()
+        ApolloClientWrapper(get(), get(), get())
     }
 }
 
@@ -125,7 +101,7 @@ val viewModelModule = module {
     viewModel { WhatsNewViewModel(get()) }
     viewModel { BaseTabViewModel(get(), get()) }
     viewModel { ChatViewModel(get()) }
-    viewModel { UserViewModel(get()) }
+    viewModel { UserViewModel(get(), get()) }
     viewModel { ReferralViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
 }

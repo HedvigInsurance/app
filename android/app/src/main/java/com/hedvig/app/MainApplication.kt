@@ -5,7 +5,10 @@ import android.content.Context
 import android.support.multidex.MultiDex
 import android.support.v7.app.AppCompatDelegate
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.rx2.Rx2Apollo
 import com.facebook.soloader.SoLoader
+import com.hedvig.android.owldroid.graphql.NewSessionMutation
+import com.hedvig.app.feature.whatsnew.WhatsNewRepository
 import com.hedvig.app.service.TextKeys
 import com.hedvig.app.util.extensions.getAuthenticationToken
 import com.hedvig.app.util.extensions.setAuthenticationToken
@@ -14,16 +17,22 @@ import com.hedvig.app.util.extensions.storeBoolean
 import com.hedvig.app.util.extensions.SHARED_PREFERENCE_TRIED_MIGRATION_OF_TOKEN
 import com.ice.restring.Restring
 import com.jakewharton.threetenabp.AndroidThreeTen
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import net.ypresto.timbertreeutils.CrashlyticsLogExceptionTree
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.inject
 import timber.log.Timber
 
 class MainApplication : Application() {
 
-    val apolloClient: ApolloClient by inject()
+    val apolloClientWrapper: ApolloClientWrapper by inject()
+    private val whatsNewRepository: WhatsNewRepository by inject()
+
+    private val disposables = CompositeDisposable()
 
     val textKeys: TextKeys by inject()
 
@@ -53,6 +62,11 @@ class MainApplication : Application() {
             )
         }
 
+        if (getAuthenticationToken() == null) {
+            whatsNewRepository.removeNewsForNewUser()
+            acquireHedvigToken()
+        }
+
         SoLoader.init(this, false)
         // TODO Remove this probably? Or figure out a better solve for the problem
         if (BuildConfig.DEBUG || BuildConfig.APP_ID == "com.hedvig.test.app") {
@@ -66,10 +80,27 @@ class MainApplication : Application() {
         setupRestring()
     }
 
+    private fun acquireHedvigToken() {
+        disposables += Rx2Apollo
+            .from(apolloClientWrapper.apolloClient.mutate(NewSessionMutation()))
+            .subscribe({ response ->
+                if (response.hasErrors()) {
+                    Timber.e("Failed to register a hedvig token: %s", response.errors().toString())
+                    return@subscribe
+                }
+                response.data()?.createSessionV2?.token?.let { hedvigToken ->
+                    setAuthenticationToken(hedvigToken)
+                    apolloClientWrapper.invalidateApolloClient()
+                    Timber.i("Successfully saved hedvig token")
+                } ?: Timber.e("createSession returned no token")
+            }, { Timber.e(it) })
+    }
+
     private fun tryToMigrateTokenFromReactDB() {
         val instance = LegacyReactDatabaseSupplier.getInstance(this)
         instance.getTokenIfExists()?.let { token ->
             setAuthenticationToken(token)
+            apolloClientWrapper.invalidateApolloClient()
         }
         instance.clearAndCloseDatabase()
         // Let's only try this once

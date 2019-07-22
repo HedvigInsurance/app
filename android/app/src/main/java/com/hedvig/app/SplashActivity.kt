@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.hedvig.app.feature.chat.UserViewModel
 import com.hedvig.app.feature.marketing.ui.MarketingActivity
 import com.hedvig.app.feature.offer.NativeOfferActivity
 import com.hedvig.app.feature.referrals.ReferralsReceiverActivity
@@ -17,10 +18,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class SplashActivity : BaseActivity() {
 
+    private val userViewModel: UserViewModel by viewModel()
     private val loggedInService: LoginStatusService by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +79,9 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun navigateToActivity(loginStatus: LoginStatus) = when (loginStatus) {
-        LoginStatus.ONBOARDING -> handleFirebaseDynamicLink(intent)
+        LoginStatus.ONBOARDING -> {
+            handleFirebaseDynamicLink(intent)
+        }
         LoginStatus.IN_OFFER -> {
             val intent = Intent(this, NativeOfferActivity::class.java)
             startActivity(intent)

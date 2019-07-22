@@ -151,16 +151,6 @@ class ProfileViewModel(
         }
     }
 
-    fun logout(callback: () -> Unit) {
-        disposables += profileRepository
-            .logout()
-            .subscribe({
-                callback()
-            }, { error ->
-                Timber.e(error, "Failed to log out")
-            })
-    }
-
     fun triggerFreeTextChat(done: () -> Unit) {
         disposables += chatRepository
             .triggerFreeTextChat()
