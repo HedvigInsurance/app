@@ -25,6 +25,7 @@ class ApolloClientWrapper(val okHttpClient: OkHttpClient,
     private var nullableApolloClient: ApolloClient? = null
 
     fun invalidateApolloClient() {
+        nullableApolloClient?.disableSubscriptions()
         nullableApolloClient = null
     }
 
