@@ -67,3 +67,7 @@ sentry.properties
 .project
 schema.json
 mapping.txt
+
+#branch
+branch_key.xml
+

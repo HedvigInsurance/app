@@ -14,6 +14,7 @@
 
     <dimen name="bottom_sheet_dialog_fragment_title_height">40dp</dimen>
     <dimen name="bottom_sheet_corner_radius">20dp</dimen>
+    <dimen name="bottom_sheet_corner_radius_less">8dp</dimen>
 
 
     <dimen name="dialog_width">280dp</dimen>

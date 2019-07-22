@@ -9,12 +9,12 @@ import {
 import styled from '@sampettersson/primitives';
 import { colors, fonts } from '@hedviginsurance/brand';
 import { Spacing } from 'src/components/Spacing';
-import { MonetaryAmountV2 } from 'src/graphql/components';
+import { MonetaryAmountV2, Campaign } from 'src/graphql/components';
 import { TranslationsConsumer } from 'src/components/translations/consumer';
 import { Sequence, Spring, Delay } from 'animated-react-native-components';
 
 interface DiscountButtonProps {
-  discount: MonetaryAmountV2;
+  redeemedCampaign: Campaign;
   onPress: () => void;
 }
 
@@ -37,7 +37,7 @@ const TextStyle = styled(Text)({
 });
 
 export const DiscountButton: React.SFC<DiscountButtonProps> = ({
-  discount,
+  redeemedCampaign,
   onPress,
 }) => (
   <View style={{ alignSelf: 'center' }}>
@@ -63,7 +63,7 @@ export const DiscountButton: React.SFC<DiscountButtonProps> = ({
             <ButtonStyle onPress={onPress}>
               <TranslationsConsumer
                 textKey={
-                  Number(discount.amount) !== 0
+                  redeemedCampaign !== null
                     ? 'OFFER_REMOVE_DISCOUNT_BUTTON'
                     : 'OFFER_ADD_DISCOUNT_BUTTON'
                 }
