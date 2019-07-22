@@ -1,0 +1,11 @@
+subscription authStatus {
+  authStatus {
+    status {
+      collectStatus {
+        status
+        code
+      }
+      authState
+    }
+  }
+}
