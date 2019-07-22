@@ -274,6 +274,8 @@ export interface Insurance {
 }
 
 export interface InsuranceCost {
+  freeUntil?: LocalDate | null;
+
   monthlyDiscount: MonetaryAmountV2;
 
   monthlyGross: MonetaryAmountV2;
@@ -731,6 +733,8 @@ export interface Mutation {
 
   log?: boolean | null;
 
+  autoStartToken?: AutoStartTokenResponse | null;
+
   createDontPanicSession: DontPanicSession;
 
   addDontPanicChatMessage: DontPanicChatMessage;
@@ -748,6 +752,10 @@ export interface SessionInformation {
   token: string;
 
   memberId: string;
+}
+
+export interface AutoStartTokenResponse {
+  autoStartToken: string;
 }
 
 export interface DirectDebitResponse {
@@ -772,6 +780,8 @@ export interface Subscription {
   currentChatResponse?: ChatResponse | null;
 
   chatState: ChatState;
+
+  authStatus?: AuthEvent | null;
 }
 
 export interface OfferEvent {
@@ -782,6 +792,16 @@ export interface OfferEvent {
 
 export interface SignEvent {
   status?: SignStatus | null;
+}
+
+export interface AuthEvent {
+  status?: AuthStatus | null;
+}
+
+export interface AuthStatus {
+  collectStatus?: CollectStatus | null;
+
+  authState?: AuthState | null;
 }
 /** A connection to a list of items. */
 export interface AssetConnection {
@@ -4178,6 +4198,13 @@ export enum CancelDirectDebitStatus {
 export enum OfferStatus {
   SUCCESS = 'SUCCESS',
   FAIL = 'FAIL',
+}
+
+export enum AuthState {
+  INITIATED = 'INITIATED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  FAILED = 'FAILED',
+  SUCCESS = 'SUCCESS',
 }
 
 export enum PerilOrderByInput {
