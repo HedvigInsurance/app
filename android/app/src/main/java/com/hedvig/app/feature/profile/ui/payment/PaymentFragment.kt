@@ -122,7 +122,7 @@ class PaymentFragment : Fragment() {
                 freeUntilContainer.show()
                 freeUntilMessage.text = interpolateTextKey(
                     getString(R.string.PROFILE_PAYMENT_FREE_UNTIL_MESSAGE),
-                    "FREE_UNTIL" to it.toString()
+                    "FREE_UNTIL" to it
                 )
             } ?: run {
                 freeUntilContainer.remove()
