@@ -13,9 +13,6 @@ import com.hedvig.app.feature.referrals.ReferralsReceiverActivity
 import com.hedvig.app.service.LoginStatus
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.getAuthenticationToken
-import com.hedvig.app.util.extensions.observe
-import com.hedvig.app.util.extensions.setAuthenticationToken
 import com.hedvig.app.util.whenApiVersion
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
@@ -81,21 +78,9 @@ class SplashActivity : BaseActivity() {
         }
     }
 
-    private fun handleHasNoAuthToken() {
-        userViewModel.newSessionInformation.observe(lifecycleOwner = this@SplashActivity) { data ->
-            data?.createSessionV2?.token?.let {
-                setAuthenticationToken(it)
-                handleFirebaseDynamicLink(intent)
-            }
-        }
-        userViewModel.newSession()
-    }
-
     private fun navigateToActivity(loginStatus: LoginStatus) = when (loginStatus) {
         LoginStatus.ONBOARDING -> {
-            getAuthenticationToken()?.let {
-                handleFirebaseDynamicLink(intent)
-            } ?: handleHasNoAuthToken()
+            handleFirebaseDynamicLink(intent)
         }
         LoginStatus.IN_OFFER -> {
             val intent = Intent(this, NativeOfferActivity::class.java)

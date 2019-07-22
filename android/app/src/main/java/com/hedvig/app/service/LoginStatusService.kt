@@ -1,17 +1,17 @@
 package com.hedvig.app.service
 
 import android.content.Context
-import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
+import com.hedvig.app.ApolloClientWrapper
 import com.hedvig.app.util.extensions.getAuthenticationToken
 import com.hedvig.app.util.extensions.isLoggedIn
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import io.reactivex.Observable
 
 class LoginStatusService(
-    private val apolloClient: ApolloClient,
+    private val apolloClientWrapper: ApolloClientWrapper,
     private val context: Context
 ) {
     fun getLoginStatus(): Observable<LoginStatus> {
@@ -28,7 +28,7 @@ class LoginStatusService(
 
         context.getAuthenticationToken() ?: return Observable.just(LoginStatus.ONBOARDING)
 
-        return Rx2Apollo.from(apolloClient.query(InsuranceStatusQuery()))
+        return Rx2Apollo.from(apolloClientWrapper.apolloClient.query(InsuranceStatusQuery()))
             .map { response ->
                 response.data()?.insurance?.status?.let { status ->
                     when (status) {

@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.upstream.cache.CacheUtil
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
+import com.hedvig.app.ApolloClientWrapper
 import com.hedvig.app.BuildConfig
 import com.hedvig.app.util.extensions.head
 import com.hedvig.app.util.extensions.tail
@@ -23,7 +24,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class MarketingStoriesRepository(
-    private val apolloClient: ApolloClient,
+    private val apolloClientWrapper: ApolloClientWrapper,
     private val context: Context,
     private val cache: SimpleCache
 ) {
@@ -32,7 +33,7 @@ class MarketingStoriesRepository(
         val marketingStoriesQuery = MarketingStoriesQuery.builder()
             .build()
 
-        apolloClient
+        apolloClientWrapper.apolloClient
             .query(marketingStoriesQuery)
             .enqueue(object : ApolloCall.Callback<MarketingStoriesQuery.Data>() {
 

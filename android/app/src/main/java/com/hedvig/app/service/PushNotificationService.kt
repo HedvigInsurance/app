@@ -9,6 +9,7 @@ import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.TaskStackBuilder
+import androidx.work.BackoffPolicy
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -22,12 +23,15 @@ import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.safeLet
 import com.hedvig.app.util.whenApiVersion
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 class PushNotificationService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         Timber.i("Got new token: $token")
-        val work = OneTimeWorkRequest.Builder(PushNotificationWorker::class.java)
+        val work = OneTimeWorkRequest
+            .Builder(PushNotificationWorker::class.java)
+            .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.SECONDS)
             .setInputData(
                 Data.Builder()
                     .putString(PushNotificationWorker.PUSH_TOKEN, token)

@@ -20,13 +20,14 @@ import com.hedvig.android.owldroid.type.ChatResponseBodySingleSelectInput
 import com.hedvig.android.owldroid.type.ChatResponseBodyTextInput
 import com.hedvig.android.owldroid.type.ChatResponseSingleSelectInput
 import com.hedvig.android.owldroid.type.ChatResponseTextInput
+import com.hedvig.app.ApolloClientWrapper
 import com.hedvig.app.service.FileService
 import com.hedvig.app.util.extensions.into
 import io.reactivex.Observable
 import java.io.File
 
 class ChatRepository(
-    private val apolloClient: ApolloClient,
+    private val apolloClientWrapper: ApolloClientWrapper,
     private val fileService: FileService,
     private val context: Context
 ) {
@@ -35,7 +36,7 @@ class ChatRepository(
     fun fetchChatMessages(): Observable<Response<ChatMessagesQuery.Data>> {
         messagesQuery = ChatMessagesQuery()
         return Rx2Apollo.from(
-            apolloClient
+            apolloClientWrapper.apolloClient
                 .query(messagesQuery)
                 .httpCachePolicy(HttpCachePolicy.NETWORK_ONLY)
                 .responseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
@@ -43,7 +44,7 @@ class ChatRepository(
     }
 
     fun subscribeToChatMessages() =
-        Rx2Apollo.from(apolloClient.subscribe(ChatMessageSubscription.builder().build()))
+        Rx2Apollo.from(apolloClientWrapper.apolloClient.subscribe(ChatMessageSubscription.builder().build()))
 
     fun sendChatMessage(id: String, message: String): Observable<Response<SendChatTextResponseMutation.Data>> {
         val input = ChatResponseTextInput.builder()
@@ -57,7 +58,7 @@ class ChatRepository(
                 .build()
 
         return Rx2Apollo.from(
-            apolloClient.mutate(sendChatMessageMutation)
+            apolloClientWrapper.apolloClient.mutate(sendChatMessageMutation)
         )
     }
 
@@ -78,7 +79,7 @@ class ChatRepository(
             .build()
 
         return Rx2Apollo.from(
-            apolloClient.mutate(sendChatSingleSelectMutation)
+            apolloClientWrapper.apolloClient.mutate(sendChatSingleSelectMutation)
         )
     }
 
@@ -88,11 +89,11 @@ class ChatRepository(
             .claim(FileUpload(fileService.getMimeType(path), File(path)))
             .build()
 
-        return Rx2Apollo.from(apolloClient.mutate(mutation))
+        return Rx2Apollo.from(apolloClientWrapper.apolloClient.mutate(mutation))
     }
 
     fun writeNewMessage(message: ChatMessageFragment) {
-        val cachedData = apolloClient
+        val cachedData = apolloClientWrapper.apolloClient
             .apolloStore()
             .read(messagesQuery)
             .execute()
@@ -115,7 +116,7 @@ class ChatRepository(
             .toBuilder()
             .messages { it.add(0, chatMessageQueryBuilder) }
 
-        apolloClient
+        apolloClientWrapper.apolloClient
             .apolloStore()
             .writeAndPublish(messagesQuery, newMessagesBuilder.build())
             .execute()
@@ -137,7 +138,7 @@ class ChatRepository(
             .build()
 
         return Rx2Apollo.from(
-            apolloClient.mutate(uploadFileMutation))
+            apolloClientWrapper.apolloClient.mutate(uploadFileMutation))
     }
 
     fun sendFileResponse(id: String, key: String, uri: Uri): Observable<Response<SendChatFileResponseMutation.Data>> {
@@ -160,15 +161,15 @@ class ChatRepository(
             .build()
 
         return Rx2Apollo.from(
-            apolloClient.mutate(chatFileResponse))
+            apolloClientWrapper.apolloClient.mutate(chatFileResponse))
     }
   
-    fun editLastResponse() = Rx2Apollo.from(apolloClient.mutate(EditLastResponseMutation()))
+    fun editLastResponse() = Rx2Apollo.from(apolloClientWrapper.apolloClient.mutate(EditLastResponseMutation()))
 
     fun triggerFreeTextChat(): Observable<Response<TriggerFreeTextChatMutation.Data>> {
         val triggerFreeTextChatMutation = TriggerFreeTextChatMutation.builder().build()
 
-        return Rx2Apollo.from(apolloClient.mutate(triggerFreeTextChatMutation))
+        return Rx2Apollo.from(apolloClientWrapper.apolloClient.mutate(triggerFreeTextChatMutation))
     }
 
     companion object {

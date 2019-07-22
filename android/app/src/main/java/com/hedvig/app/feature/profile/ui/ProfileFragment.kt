@@ -8,6 +8,7 @@ import android.view.View
 import com.google.firebase.iid.FirebaseInstanceId
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.app.R
+import com.hedvig.app.feature.chat.UserViewModel
 import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
 import com.hedvig.app.feature.profile.ui.aboutapp.AboutAppActivity
 import com.hedvig.app.util.extensions.*
@@ -21,6 +22,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class ProfileFragment : BaseTabFragment() {
 
+    private val userViewModel: UserViewModel by sharedViewModel()
     private val profileViewModel: ProfileViewModel by sharedViewModel()
 
     override val layout = R.layout.fragment_profile
@@ -74,7 +76,7 @@ class ProfileFragment : BaseTabFragment() {
                 startActivity(Intent(requireActivity(), AboutAppActivity::class.java))
             }
             logout.setOnClickListener {
-                profileViewModel.logout {
+                userViewModel.logout {
                     requireContext().setAuthenticationToken(null)
                     requireContext().setIsLoggedIn(false)
                     FirebaseInstanceId.getInstance().deleteInstanceId()
