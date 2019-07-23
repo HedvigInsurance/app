@@ -1,4 +1,4 @@
-package com.hedvig.app.feature.chat.native
+package com.hedvig.app.feature.chat
 
 enum class SingleSelectChoiceType {
     LINK,

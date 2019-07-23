@@ -5,18 +5,19 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.hedvig.android.owldroid.graphql.TextKeysQuery
+import com.hedvig.app.ApolloClientWrapper
 import com.hedvig.app.BuildConfig
 import com.ice.restring.Restring
 import com.ice.restring.RestringUtil
 import timber.log.Timber
 
-class TextKeys(private val apolloClient: ApolloClient) {
+class TextKeys(private val apolloClientWrapper: ApolloClientWrapper) {
     fun refreshTextKeys() {
         val textKeysQuery = TextKeysQuery
             .builder()
             .build()
 
-        apolloClient
+        apolloClientWrapper.apolloClient
             .query(textKeysQuery)
             .enqueue(object : ApolloCall.Callback<TextKeysQuery.Data>() {
                 override fun onStatusEvent(event: ApolloCall.StatusEvent) {

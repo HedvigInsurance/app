@@ -26,4 +26,10 @@
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:navigationBarColor">@color/white</item>
     </style>
+
+    <style name="TransparentDialog" parent="TransparentDialog.V27" />
+
+    <style name="TransparentDialog.V27" parent="TransparentDialog.V21">
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
 </resources>

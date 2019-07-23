@@ -70,3 +70,6 @@ mapping.txt
 
 # graphql
 .graphqlconfig
+
+#branch file
+branch_key.xml

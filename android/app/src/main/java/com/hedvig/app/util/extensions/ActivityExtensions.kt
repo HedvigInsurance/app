@@ -1,7 +1,6 @@
 package com.hedvig.app.util.extensions
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -20,9 +19,9 @@ import com.hedvig.app.util.extensions.view.setupLargeTitle
 import com.hedvig.app.util.hasNotch
 import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.app_bar.*
-import com.hedvig.app.feature.chat.ChatActivity
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
+import com.hedvig.app.feature.chat.ChatActivity
 import timber.log.Timber
 
 fun Activity.setLightNavigationBar() {

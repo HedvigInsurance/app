@@ -29,7 +29,7 @@ class ViewIterator(private val parent: ViewGroup): Iterator<View> {
 }
 
 // calculates keyboard height for non fullscreen views
-fun ViewGroup.calculateKeyboardHeight(): Int {
+fun ViewGroup.calculateNonFullscreenHeightDiff(): Int {
     val r = Rect()
     this.getWindowVisibleDisplayFrame(r)
 

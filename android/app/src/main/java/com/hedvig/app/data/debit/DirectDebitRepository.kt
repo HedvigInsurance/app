@@ -6,10 +6,10 @@ import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.DirectDebitQuery
 import com.hedvig.android.owldroid.type.DirectDebitStatus
+import com.hedvig.app.ApolloClientWrapper
 import io.reactivex.Observable
-import javax.inject.Inject
 
-class DirectDebitRepository(private val apolloClient: ApolloClient) {
+class DirectDebitRepository(private val apolloClientWrapper: ApolloClientWrapper) {
     private lateinit var directDebitQuery: DirectDebitQuery
 
     fun fetchDirectDebit(): Observable<Response<DirectDebitQuery.Data>> {
@@ -18,7 +18,7 @@ class DirectDebitRepository(private val apolloClient: ApolloClient) {
             .build()
 
         return Rx2Apollo
-            .from(apolloClient.query(directDebitQuery).watcher())
+            .from(apolloClientWrapper.apolloClient.query(directDebitQuery).watcher())
     }
 
     fun refreshDirectdebitStatus(): Observable<Response<DirectDebitQuery.Data>> {
@@ -28,14 +28,14 @@ class DirectDebitRepository(private val apolloClient: ApolloClient) {
 
         return Rx2Apollo
             .from(
-                apolloClient
+                apolloClientWrapper.apolloClient
                     .query(bankAccountQuery)
                     .responseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
             )
     }
 
     fun writeDirectDebitStatusToCache(directDebitStatus: DirectDebitStatus) {
-        val cachedData = apolloClient
+        val cachedData = apolloClientWrapper.apolloClient
             .apolloStore()
             .read(directDebitQuery)
             .execute()
@@ -45,7 +45,7 @@ class DirectDebitRepository(private val apolloClient: ApolloClient) {
             .directDebitStatus(directDebitStatus)
             .build()
 
-        apolloClient
+        apolloClientWrapper.apolloClient
             .apolloStore()
             .writeAndPublish(directDebitQuery, newData)
             .execute()

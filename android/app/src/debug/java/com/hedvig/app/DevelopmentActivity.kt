@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
-import com.hedvig.app.feature.chat.native.NativeChatActivity
+import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.android.owldroid.graphql.WhatsNewQuery
 import com.hedvig.app.feature.offer.NativeOfferActivity
 import com.hedvig.app.feature.referrals.ReferralsReceiverActivity
@@ -61,7 +61,7 @@ class DevelopmentActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.openNativeChat).setHapticClickListener {
-            startActivity(Intent(this, NativeChatActivity::class.java))
+            startActivity(Intent(this, ChatActivity::class.java))
         }
 
         findViewById<Button>(R.id.openNativeOffer).setHapticClickListener {
