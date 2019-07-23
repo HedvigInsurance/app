@@ -37,22 +37,35 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : Recyc
 
     var messages: List<ChatMessagesQuery.Message> = listOf()
         set(value) {
+            val oldMessages = messages.toList()
+
+            field = value
+
             val diff =
                 DiffUtil.calculateDiff(object : DiffUtil.Callback() {
-                    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-                        messages[oldItemPosition].fragments.chatMessageFragment.id ==
-                            value[newItemPosition].fragments.chatMessageFragment.id
+                    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                        val r = oldMessages[oldItemPosition].fragments.chatMessageFragment.globalId ==
+                            value[newItemPosition].fragments.chatMessageFragment.globalId
+                        return r
+                    }
 
-                    override fun getOldListSize(): Int = messages.size
+                    override fun getOldListSize(): Int {
+                        val r = oldMessages.size
+                        return r
+                    }
 
-                    override fun getNewListSize(): Int = value.size
+                    override fun getNewListSize(): Int {
+                        val r = value.size
+                        return r
+                    }
 
-                    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-                        messages[oldItemPosition].fragments.chatMessageFragment ==
+                    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                        val r = oldMessages[oldItemPosition].fragments.chatMessageFragment ==
                             value[newItemPosition].fragments.chatMessageFragment
-
+                        return r
+                    }
                 })
-            field = value
+
             diff.dispatchUpdatesTo(this)
         }
 
@@ -236,6 +249,7 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : Recyc
                     convertDpToPixel(280f),
                     convertDpToPixel(200f)
                 )
+                .fitCenter()
                 .into(image)
         }
     }

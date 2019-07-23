@@ -32,6 +32,7 @@ import java.io.File
 import android.support.v4.content.FileProvider
 import com.hedvig.app.util.extensions.view.show
 import java.io.IOException
+import android.support.v7.widget.LinearLayoutManager
 
 class ChatActivity : AppCompatActivity() {
 
@@ -62,11 +63,21 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
 
         input.initialize(
-            sendTextMessage = { message -> chatViewModel.respondToLastMessage(message) },
-            sendSingleSelect = { value -> chatViewModel.respondWithSingleSelect(value) },
-            sendSingleSelectLink = { value -> handleSingleSelectLink(value) },
+            sendTextMessage = { message ->
+                scrollToBottom(true)
+                chatViewModel.respondToLastMessage(message)
+            },
+            sendSingleSelect = { value ->
+                scrollToBottom(true)
+                chatViewModel.respondWithSingleSelect(value)
+            },
+            sendSingleSelectLink = { value ->
+                scrollToBottom(true)
+                handleSingleSelectLink(value)
+            },
             paragraphPullMessages = { chatViewModel.load() },
             openAttachFile = {
+                scrollToBottom(true)
                 if (!preventOpenAttachFile) {
                     if (hasPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         openAttachPicker()
@@ -79,10 +90,12 @@ class ChatActivity : AppCompatActivity() {
                 askForPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_AUDIO_PERMISSION)
             },
             uploadRecording = { path ->
+                scrollToBottom(true)
                 chatViewModel.uploadClaim(path)
             }
         )
 
+        messages.setHasFixedSize(false)
         messages.adapter = ChatAdapter(this, onPressEdit = {
             showAlert(
                 R.string.CHAT_EDIT_MESSAGE_TITLE,
@@ -153,9 +166,24 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    private fun scrollToBottom(smooth: Boolean) {
+        if(smooth) {
+            (messages.layoutManager as LinearLayoutManager).smoothScrollToPosition(messages, null, 0)
+        } else {
+            (messages.layoutManager as LinearLayoutManager).scrollToPosition(0)
+        }
+    }
+
     private fun bindData(data: ChatMessagesQuery.Data) {
-        (messages.adapter as? ChatAdapter)?.messages = data.messages
         input.message = data.messages.firstOrNull()?.let { ChatInputType.from(it) }
+        (messages.adapter as? ChatAdapter)?.let {
+            it.messages = data.messages
+            val layoutManager = messages.layoutManager as LinearLayoutManager
+            val pos = layoutManager.findFirstCompletelyVisibleItemPosition()
+            if (pos == 0) {
+                scrollToBottom(false)
+            }
+        }
     }
 
     private fun openAttachPicker() {
