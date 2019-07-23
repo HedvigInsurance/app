@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -23,21 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- couldn't include and override its position -->
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/authDialogLoadingSpinner"
-        style="@style/LoadingSpinner"
-        android:layout_width="@dimen/loading_spinner_width"
-        android:layout_height="@dimen/loading_spinner_height"
-        android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginTop="@dimen/base_margin"
-        android:layout_marginEnd="@dimen/base_margin"
-        android:layout_marginBottom="@dimen/base_margin_double"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/hedvig_uploading_animation"
-        tools:visibility="gone" />
-
     <ImageView
         android:id="@+id/authImage"
         android:layout_width="wrap_content"
@@ -46,6 +30,6 @@
         android:layout_marginTop="@dimen/base_margin"
         android:layout_marginEnd="@dimen/base_margin"
         android:layout_marginBottom="@dimen/base_margin_double"
-        android:visibility="gone"/>
+        app:srcCompat="@drawable/ic_bank_id"/>
 
 </LinearLayout>

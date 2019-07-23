@@ -50,26 +50,18 @@ class AuthenticateDialog : DialogFragment() {
     }
 
     private fun bindNewStatus(state: AuthState) = when (state) {
-        AuthState.INITIATED -> dialog.apply {
-            authTitle.text = getString(R.string.BANK_ID_AUTH_TITLE_INITIATED)
-            authDialogLoadingSpinner.show()
-            authImage.remove()
+        AuthState.INITIATED -> {
+            dialog.authTitle.text = getString(R.string.BANK_ID_AUTH_TITLE_INITIATED)
         }
-        AuthState.IN_PROGRESS ->  dialog.apply {
-            authTitle.text = getString(R.string.BANK_ID_LOG_IN_TITLE_IN_PROGRESS)
-            authDialogLoadingSpinner.show()
-            authImage.remove()
+        AuthState.IN_PROGRESS -> {
+            dialog.authTitle.text = getString(R.string.BANK_ID_LOG_IN_TITLE_IN_PROGRESS)
         }
         AuthState.`$UNKNOWN`,
-        AuthState.FAILED ->  dialog.apply {
-            authTitle.text = getString(R.string.BANK_ID_LOG_IN_TITLE_FAILED)
-            authDialogLoadingSpinner.remove()
-            authImage.show() // todo set
+        AuthState.FAILED -> {
+            dialog.authTitle.text = getString(R.string.BANK_ID_LOG_IN_TITLE_FAILED)
         }
-        AuthState.SUCCESS ->  dialog.apply {
-            authTitle.text = getString(R.string.BANK_ID_LOG_IN_TITLE_SUCCESS)
-            authDialogLoadingSpinner.remove()
-            authImage.show() // todo set
+        AuthState.SUCCESS -> {
+            dialog.authTitle.text = getString(R.string.BANK_ID_LOG_IN_TITLE_SUCCESS)
             dismiss()
             startActivity(Intent(this.context, LoggedInActivity::class.java))
         }
