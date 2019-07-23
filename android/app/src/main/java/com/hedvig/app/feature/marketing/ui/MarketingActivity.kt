@@ -291,8 +291,8 @@ class MarketingActivity: BaseActivity() {
                 marketingStoriesViewModel.blurred.value
             )
             val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("intent", "onboarding")
-            intent.putExtra("show_restart", true)
+            intent.putExtra(ChatActivity.EXTRA_CHAT_INTENT, "onboarding")
+            intent.putExtra(ChatActivity.EXTRA_SHOW_RESTART, true)
             startActivity(intent)
         }
     }
