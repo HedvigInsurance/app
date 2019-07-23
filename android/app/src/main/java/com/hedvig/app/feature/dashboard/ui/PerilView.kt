@@ -3,10 +3,12 @@ package com.hedvig.app.feature.dashboard.ui
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.compatDrawable
+import com.hedvig.app.util.extensions.view.setHapticClickListener
 import kotlinx.android.synthetic.main.peril_view.view.*
 
 class PerilView : LinearLayout {
@@ -77,12 +79,20 @@ class PerilView : LinearLayout {
         fun build(
             context: Context,
             width: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
-            height: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+            height: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
+            name: String? = null,
+            iconId: String? = null,
+            onClick: ((View) -> Unit)? = null
         ) = PerilView(context).apply {
             layoutParams = MarginLayoutParams(width, height).also { lp ->
                 lp.topMargin = doubleMargin
                 lp.marginStart = doubleMargin
                 lp.marginEnd = doubleMargin
+                name?.let { perilName = it }
+                iconId?.let { perilIconId = it }
+                onClick?.let {
+                    setHapticClickListener(it)
+                }
             }
         }
     }

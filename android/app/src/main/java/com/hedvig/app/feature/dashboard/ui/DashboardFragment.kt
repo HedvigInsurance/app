@@ -6,6 +6,7 @@ import android.support.design.widget.AppBarLayout
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.hedvig.android.owldroid.fragment.PerilCategoryFragment
 import com.hedvig.android.owldroid.graphql.DashboardQuery
 import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.android.owldroid.type.InsuranceStatus
@@ -13,7 +14,6 @@ import com.hedvig.android.owldroid.type.InsuranceType
 import com.hedvig.app.R
 import com.hedvig.app.feature.dashboard.service.DashboardTracker
 import com.hedvig.app.feature.loggedin.ui.BaseTabFragment
-import com.hedvig.app.feature.referrals.RedeemCodeDialog
 import com.hedvig.app.util.extensions.addViews
 import com.hedvig.app.util.extensions.compatDrawable
 import com.hedvig.app.util.extensions.displayMetrics
@@ -27,6 +27,7 @@ import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.isApartmentOwner
 import com.hedvig.app.util.isStudentInsurance
+import com.hedvig.app.util.safeLet
 import com.hedvig.app.viewmodel.DirectDebitViewModel
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -45,6 +46,7 @@ import timber.log.Timber
 import java.util.Calendar
 import java.util.GregorianCalendar
 import java.util.concurrent.TimeUnit
+import kotlin.math.min
 
 class DashboardFragment : BaseTabFragment() {
     private val tracker: DashboardTracker by inject()
@@ -103,7 +105,7 @@ class DashboardFragment : BaseTabFragment() {
         perilCategoryContainer.removeAllViews()
 
         dashboardData.insurance.perilCategories?.forEach { category ->
-            val categoryView = makePerilCategoryRow(category)
+            val categoryView = makePerilCategoryRow(category.fragments.perilCategoryFragment)
             perilCategoryContainer.addView(categoryView)
         }
 
@@ -119,7 +121,7 @@ class DashboardFragment : BaseTabFragment() {
         setupDirectDebitStatus(directDebitData.directDebitStatus)
     }
 
-    private fun makePerilCategoryRow(category: DashboardQuery.PerilCategory): PerilCategoryView {
+    private fun makePerilCategoryRow(category: PerilCategoryFragment): PerilCategoryView {
         val categoryView =
             PerilCategoryView.build(requireContext())
 
@@ -137,8 +139,8 @@ class DashboardFragment : BaseTabFragment() {
     }
 
     private fun makePerilCategoryExpandContent(
-        perils: List<DashboardQuery.Peril>,
-        category: DashboardQuery.PerilCategory
+        perils: List<PerilCategoryFragment.Peril>,
+        category: PerilCategoryFragment
     ): LinearLayout {
         val expandedContent = LinearLayout(requireContext())
         val maxPerilsPerRow = rowWidth / perilTotalWidth
@@ -146,7 +148,7 @@ class DashboardFragment : BaseTabFragment() {
             for (row in 0 until perils.size step maxPerilsPerRow) {
                 expandedContent.orientation = LinearLayout.VERTICAL
                 val rowView = LinearLayout(requireContext())
-                val rowPerils = perils.subList(row, Math.min(row + maxPerilsPerRow, perils.size - 1))
+                val rowPerils = perils.subList(row, min(row + maxPerilsPerRow, perils.size))
                 rowView.addViews(rowPerils.map { makePeril(it, category) })
                 expandedContent.addView(rowView)
             }
@@ -158,31 +160,18 @@ class DashboardFragment : BaseTabFragment() {
         return expandedContent
     }
 
-    private fun makePeril(peril: DashboardQuery.Peril, subject: DashboardQuery.PerilCategory): PerilView {
-        val perilView = PerilView.build(requireContext())
-
-        perilView.perilName = peril.title
-        peril.id?.let { perilView.perilIconId = it }
-        perilView.setHapticClickListener {
-            val subjectName = subject.title
-            val id = peril.id
-            val title = peril.title
-            val description = peril.description
-
-            tracker.perilClick(id)
-
-            if (subjectName != null && id != null && title != null && description != null) {
-                PerilBottomSheet.newInstance(
-                    subjectName,
-                    PerilIcon.from(id),
-                    title,
-                    description
-                ).show(childFragmentManager, "perilSheet")
+    private fun makePeril(peril: PerilCategoryFragment.Peril, subject: PerilCategoryFragment) = PerilView.build(
+        requireContext(),
+        name = peril.title,
+        iconId = peril.id,
+        onClick = {
+            safeLet(subject.title, peril.id, peril.title, peril.description) { name, id, title, description ->
+                tracker.perilClick(id)
+                PerilBottomSheet.newInstance(name, PerilIcon.from(id), title, description)
+                    .show(childFragmentManager, PerilBottomSheet.TAG)
             }
         }
-
-        return perilView
-    }
+    )
 
     private fun setupAdditionalInformationRow(insuranceType: InsuranceType) {
         val additionalInformation = PerilCategoryView.build(

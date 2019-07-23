@@ -37,6 +37,8 @@ class PerilBottomSheet : RoundedBottomSheetDialogFragment() {
         private const val PERIL_TITLE = "peril_title"
         private const val PERIL_DESCRIPTION = "peril_description"
 
+        const val TAG = "perilBottomSheet"
+
         fun newInstance(subject: String, @DrawableRes icon: Int, title: String, description: String): PerilBottomSheet {
             val arguments = Bundle().apply {
                 putString(PERIL_SUBJECT, subject)
