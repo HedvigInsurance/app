@@ -3,6 +3,7 @@ package com.hedvig.app.viewmodel
 import android.arch.lifecycle.ViewModel
 import com.hedvig.android.owldroid.type.CampaignInput
 import com.hedvig.app.data.analytics.AnalyticsRepository
+import com.hedvig.app.util.anyNotNull
 import com.hedvig.app.util.safeLet
 import org.json.JSONException
 import org.json.JSONObject
@@ -27,12 +28,6 @@ class AnalyticsViewModel(private val analyticsRepository: AnalyticsRepository) :
                 .build()
 
             analyticsRepository.registerBranchCampaign(campaignInput)
-        }
-    }
-
-    private fun anyNotNull(vararg item: Any?, action: () -> Unit) {
-        if (item.any { it != null }) {
-            action()
         }
     }
 
