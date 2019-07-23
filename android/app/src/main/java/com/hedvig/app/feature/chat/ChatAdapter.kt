@@ -2,6 +2,7 @@ package com.hedvig.app.feature.chat
 
 import android.content.Context
 import android.net.Uri
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -36,8 +37,23 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : Recyc
 
     var messages: List<ChatMessagesQuery.Message> = listOf()
         set(value) {
+            val diff =
+                DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+                    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+                        messages[oldItemPosition].fragments.chatMessageFragment.id ==
+                            value[newItemPosition].fragments.chatMessageFragment.id
+
+                    override fun getOldListSize(): Int = messages.size
+
+                    override fun getNewListSize(): Int = value.size
+
+                    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+                        messages[oldItemPosition].fragments.chatMessageFragment ==
+                            value[newItemPosition].fragments.chatMessageFragment
+
+                })
             field = value
-            notifyDataSetChanged()
+            diff.dispatchUpdatesTo(this)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
