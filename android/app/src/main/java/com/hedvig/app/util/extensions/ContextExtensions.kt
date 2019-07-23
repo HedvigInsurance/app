@@ -25,6 +25,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.hedvig.app.SplashActivity
+import com.hedvig.app.authenticate.AuthenticateDialog
 import com.hedvig.app.feature.offer.NativeOfferActivity
 import timber.log.Timber
 import kotlin.system.exitProcess
@@ -131,21 +132,6 @@ fun Context.makeToast(
 ) = Toast.makeText(this, text, length).show()
 
 fun Context.openUri(uri: Uri) = startActivity(Intent(Intent.ACTION_VIEW, uri))
-
-fun Context.handleSingleSelectLink(value: String) = when(value) {
-    "message.forslag.dashboard" -> {
-        startActivity(Intent(this, NativeOfferActivity::class.java).also {
-            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        })
-    }
-    "message.bankid.start" -> {
-
-    }
-    else -> {
-        Timber.e("Can't handle the link $value")
-    }
-}
 
 fun Context.getStoredBoolean(key: String): Boolean =
     getSharedPreferences().getBoolean(key, false)

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import com.hedvig.android.owldroid.type.AuthState
+import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.chat.UserViewModel
 import com.hedvig.app.util.extensions.observe
@@ -72,6 +73,7 @@ class AuthenticateDialog : DialogFragment() {
             authTitle.text = getString(R.string.BANK_ID_LOG_IN_TITLE_SUCCESS)
             authDialogLoadingSpinner.remove()
             authImage.show() // todo set
+            startActivity(Intent(this.context, LoggedInActivity::class.java))
         }
     }
 
