@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
-import com.hedvig.app.feature.chat.UserViewModel
 import com.hedvig.app.feature.marketing.ui.MarketingActivity
 import com.hedvig.app.feature.offer.NativeOfferActivity
 import com.hedvig.app.feature.referrals.ReferralsReceiverActivity
@@ -14,19 +13,18 @@ import com.hedvig.app.service.LoginStatus
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.whenApiVersion
+import com.hedvig.app.viewmodel.AnalyticsViewModel
 import io.branch.referral.Branch
-import io.branch.referral.BranchError
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
-import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class SplashActivity : BaseActivity() {
 
-    private val userViewModel: UserViewModel by viewModel()
+    private val analyticsViewModel: AnalyticsViewModel by viewModel()
     private val loggedInService: LoginStatusService by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +41,7 @@ class SplashActivity : BaseActivity() {
         Branch.getInstance().initSession({ referringParams, error ->
             error?.let { e ->
                 Timber.e("BRANCH SDK ${e.message} code ${e.errorCode}")
-            } ?: Timber.i("BRANCH SDK $referringParams")
+            } ?: analyticsViewModel.registerBranchCampaign(referringParams)
         }, this.intent.data, this)
 
         disposables += loggedInService
