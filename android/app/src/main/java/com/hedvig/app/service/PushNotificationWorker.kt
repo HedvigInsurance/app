@@ -6,6 +6,7 @@ import androidx.work.WorkerParameters
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.RegisterPushTokenMutation
+import com.hedvig.app.ApolloClientWrapper
 import com.hedvig.app.util.extensions.getAuthenticationToken
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -18,7 +19,7 @@ class PushNotificationWorker(
     params: WorkerParameters
 ) : Worker(context, params), KoinComponent {
 
-    private val apolloClient: ApolloClient by inject()
+    private val apolloClientWrapper: ApolloClientWrapper by inject()
 
     private val disposables = CompositeDisposable()
 
@@ -51,7 +52,7 @@ class PushNotificationWorker(
             .build()
 
         disposables += Rx2Apollo
-            .from(apolloClient.mutate(registerPushTokenMutation))
+            .from(apolloClientWrapper.apolloClient.mutate(registerPushTokenMutation))
             .subscribe({ response ->
                 if (response.hasErrors()) {
                     Timber.e("Failed to handleExpandWithKeyboard push token: %s", response.errors().toString())
@@ -62,7 +63,6 @@ class PushNotificationWorker(
     }
 
     companion object {
-        private const val HEDVIG_TOKEN = "@hedvig:token"
         const val PUSH_TOKEN = "push_token"
     }
 }

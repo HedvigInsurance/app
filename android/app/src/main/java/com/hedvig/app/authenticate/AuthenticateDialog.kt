@@ -42,9 +42,6 @@ class AuthenticateDialog : DialogFragment() {
             }
         }
         userViewModel.authStatus.observe(lifecycleOwner = this) { data ->
-            Timber.i("data: $data")
-
-            Timber.i("subscribeAuthStatus observe")
             data?.authStatus?.status?.let { bindNewStatus(it) }
         }
         userViewModel.fetchBankIdStartToken()
@@ -73,6 +70,7 @@ class AuthenticateDialog : DialogFragment() {
             authTitle.text = getString(R.string.BANK_ID_LOG_IN_TITLE_SUCCESS)
             authDialogLoadingSpinner.remove()
             authImage.show() // todo set
+            dismiss()
             startActivity(Intent(this.context, LoggedInActivity::class.java))
         }
     }
