@@ -23,10 +23,8 @@ class UserViewModel(
         disposables += userRepository
             .subscribeAuthStatus()
             .subscribe({ response ->
-                Timber.i("subscribeAuthStatus onNext ${response.data()}")
                 authStatus.postValue(response.data())
             }, { e ->
-                Timber.i("subscribeAuthStatus onError")
                 Timber.e(e)
             }, {
                 //TODO: handle in UI
