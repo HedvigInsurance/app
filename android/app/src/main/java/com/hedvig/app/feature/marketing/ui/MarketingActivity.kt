@@ -283,14 +283,6 @@ class MarketingActivity: BaseActivity() {
 
         login.setHapticClickListener {
             AuthenticateDialog().show(supportFragmentManager, AuthenticateDialog.TAG)
-//            tracker.loginClick(
-//                marketingStoriesViewModel.page.value,
-//                marketingStoriesViewModel.blurred.value
-//            )
-//            val intent = Intent(this, ChatActivity::class.java)
-//            intent.putExtra("intent", "login")
-//            intent.putExtra("show_restart", true)
-//            startActivity(intent)
         }
 
         getHedvig.setHapticClickListener {
