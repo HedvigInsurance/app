@@ -14,9 +14,12 @@ import com.hedvig.app.service.LoginStatus
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.whenApiVersion
+import io.branch.referral.Branch
+import io.branch.referral.BranchError
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -36,6 +39,13 @@ class SplashActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
 
+        // Branch init
+        Branch.getInstance().initSession({ referringParams, error ->
+            error?.let { e ->
+                Timber.e("BRANCH SDK ${e.message} code ${e.errorCode}")
+            } ?: Timber.i("BRANCH SDK $referringParams")
+        }, this.intent.data, this)
+
         disposables += loggedInService
             .getLoginStatus()
             .subscribeOn(Schedulers.io())
@@ -45,6 +55,8 @@ class SplashActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        //Don't ask me why remove this when we remove branch
+        this.intent = intent
         handleFirebaseDynamicLink(intent)
     }
 
