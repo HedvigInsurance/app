@@ -38,8 +38,13 @@ class NativeOfferActivity : AppCompatActivity() {
         setContentView(R.layout.activity_offer)
 
         homeSection.paragraph.text = getString(R.string.OFFER_APARTMENT_PROTECTION_DESCRIPTION)
+        homeSection.hero.setImageDrawable(getDrawable(R.drawable.offer_house))
+
+        stuffSection.hero.setImageDrawable(getDrawable(R.drawable.offer_stuff))
         stuffSection.title.text = getString(R.string.OFFER_STUFF_PROTECTION_TITLE)
 
+
+        meSection.hero.setImageDrawable(getDrawable(R.drawable.offer_me))
         meSection.title.text = getString(R.string.OFFER_PERSONAL_PROTECTION_TITLE)
         meSection.paragraph.text = getString(R.string.OFFER_PERSONAL_PROTECTION_DESCRIPTION)
 
