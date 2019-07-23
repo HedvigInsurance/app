@@ -3,28 +3,37 @@ package com.hedvig.app.viewmodel
 import android.arch.lifecycle.ViewModel
 import com.hedvig.android.owldroid.type.CampaignInput
 import com.hedvig.app.data.analytics.AnalyticsRepository
+import com.hedvig.app.util.safeLet
 import org.json.JSONException
 import org.json.JSONObject
 
 
 class AnalyticsViewModel(private val analyticsRepository: AnalyticsRepository) : ViewModel() {
 
-    fun registerBranchCampaign(referringParams: JSONObject) {
+    fun handleBranchReferringParams(referringParams: JSONObject) {
         val utmSource = referringParams.getStringOrNull("~channel")
         val utmMedium = referringParams.getStringOrNull("~feature")
         val utmContent = referringParams.getStringOrNull("~tags")
         val utmCampaign = referringParams.getStringOrNull("~campaign")
         val utmTerm = referringParams.getStringOrNull("~keywords")
 
-        val campaignInput = CampaignInput.builder()
-            .source(utmSource)
-            .medium(utmMedium)
-            .content(utmContent)
-            .name(utmCampaign)
-            .term(utmTerm)
-            .build()
+        anyNotNull(utmSource, utmMedium, utmContent, utmCampaign, utmTerm) {
+            val campaignInput = CampaignInput.builder()
+                .source(utmSource)
+                .medium(utmMedium)
+                .content(utmContent)
+                .name(utmCampaign)
+                .term(utmTerm)
+                .build()
 
-        analyticsRepository.registerBranchCampaign(campaignInput)
+            analyticsRepository.registerBranchCampaign(campaignInput)
+        }
+    }
+
+    private fun anyNotNull(vararg item: Any?, action: () -> Unit) {
+        if (item.any { it != null }) {
+            action()
+        }
     }
 
     private fun JSONObject.getStringOrNull(key: String) = try {

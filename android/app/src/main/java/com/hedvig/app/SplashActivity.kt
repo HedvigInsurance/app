@@ -41,7 +41,7 @@ class SplashActivity : BaseActivity() {
         Branch.getInstance().initSession({ referringParams, error ->
             error?.let { e ->
                 Timber.e("BRANCH SDK ${e.message} code ${e.errorCode}")
-            } ?: analyticsViewModel.registerBranchCampaign(referringParams)
+            } ?: analyticsViewModel.handleBranchReferringParams(referringParams)
         }, this.intent.data, this)
 
         disposables += loggedInService
