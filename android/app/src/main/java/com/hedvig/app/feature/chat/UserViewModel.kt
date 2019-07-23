@@ -3,7 +3,6 @@ package com.hedvig.app.feature.chat
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.hedvig.android.owldroid.graphql.AuthStatusSubscription
-import com.hedvig.android.owldroid.graphql.AutoStartTokenMutation
 import com.hedvig.android.owldroid.graphql.BankIdAuthMutation
 import com.hedvig.app.ApolloClientWrapper
 import io.reactivex.disposables.CompositeDisposable
@@ -24,11 +23,14 @@ class UserViewModel(
         disposables += userRepository
             .subscribeAuthStatus()
             .subscribe({ response ->
+                Timber.i("subscribeAuthStatus onNext ${response.data()}")
                 authStatus.postValue(response.data())
             }, { e ->
+                Timber.i("subscribeAuthStatus onError")
                 Timber.e(e)
             }, {
-
+                //TODO: handle in UI
+                Timber.i("subscribeAuthStatus was completed")
             })
 
         disposables += userRepository
