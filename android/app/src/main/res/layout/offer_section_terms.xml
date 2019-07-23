@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/header"
         style="@style/Headline.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/base_margin_double"
-        android:text="@string/OFFER_TERMS_TITLE" />
+        android:text="@string/OFFER_TERMS_TITLE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/Body"
+        android:id="@+id/noBindingPeriod"
+        style="@style/Body.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin_triple"
@@ -23,11 +29,13 @@
         android:drawableStart="@drawable/ic_filled_checkmark_small"
         android:drawablePadding="@dimen/base_margin_double"
         android:gravity="center_vertical"
-        android:lines="2"
-        android:text="@string/OFFER_TERMS_NO_BINDING_PERIOD" />
+        android:text="@string/OFFER_TERMS_NO_BINDING_PERIOD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header" />
 
     <TextView
-        style="@style/Body"
+        android:id="@+id/noLimit"
+        style="@style/Body.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin_triple"
@@ -35,12 +43,13 @@
         android:drawableStart="@drawable/ic_filled_checkmark_small"
         android:drawablePadding="@dimen/base_margin_double"
         android:gravity="center_vertical"
-        android:lines="2"
-        android:text="@string/OFFER_TERMS_NO_COVERAGE_LIMIT" />
+        android:text="@string/OFFER_TERMS_NO_COVERAGE_LIMIT"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/noBindingPeriod" />
 
     <TextView
         android:id="@+id/maxCompensation"
-        style="@style/Body"
+        style="@style/Body.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin_triple"
@@ -48,12 +57,13 @@
         android:drawableStart="@drawable/ic_filled_checkmark_small"
         android:drawablePadding="@dimen/base_margin_double"
         android:gravity="center_vertical"
-        android:lines="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/noLimit"
         tools:text="@string/OFFER_TERMS_MAX_COMPENSATION" />
 
     <TextView
         android:id="@+id/deductible"
-        style="@style/Body"
+        style="@style/Body.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin_triple"
@@ -61,7 +71,47 @@
         android:drawableStart="@drawable/ic_filled_checkmark_small"
         android:drawablePadding="@dimen/base_margin_double"
         android:gravity="center_vertical"
-        android:lines="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/maxCompensation"
         tools:text="@string/OFFER_TERMS_DEDUCTIBLE" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/presaleInformation"
+        style="@style/Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin_triple"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deductible"
+        tools:drawableTop="@drawable/ic_vandalism_red"
+        tools:text="Förköps-\ninformation" />
+
+    <TextView
+        android:id="@+id/terms"
+        style="@style/Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deductible"
+        tools:drawableTop="@drawable/ic_vandalism_red"
+        tools:text="Försäkrings-\nvillkor" />
+
+    <TextView
+        android:id="@+id/privacyPolicy"
+        style="@style/Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:layout_marginEnd="@dimen/base_margin_triple"
+        android:gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deductible"
+        tools:drawableTop="@drawable/ic_vandalism_red"
+        tools:text="Personuppgifts-\npolicy" />
+
+</android.support.constraint.ConstraintLayout>

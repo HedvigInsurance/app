@@ -22,6 +22,8 @@ query Offer {
     personsInHousehold
     insuredAtOtherCompany
     type
+    presaleInformationUrl
+    policyUrl
 
     perilCategories {
       ... PerilCategoryFragment

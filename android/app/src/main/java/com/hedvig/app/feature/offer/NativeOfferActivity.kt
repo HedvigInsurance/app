@@ -1,5 +1,7 @@
 package com.hedvig.app.feature.offer
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.LinearLayout
@@ -12,6 +14,7 @@ import com.hedvig.app.feature.dashboard.ui.PerilView
 import com.hedvig.app.util.extensions.displayMetrics
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.view.remove
+import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.isStudentInsurance
@@ -42,7 +45,6 @@ class NativeOfferActivity : AppCompatActivity() {
 
         stuffSection.hero.setImageDrawable(getDrawable(R.drawable.offer_stuff))
         stuffSection.title.text = getString(R.string.OFFER_STUFF_PROTECTION_TITLE)
-
 
         meSection.hero.setImageDrawable(getDrawable(R.drawable.offer_me))
         meSection.title.text = getString(R.string.OFFER_PERSONAL_PROTECTION_TITLE)
@@ -103,6 +105,16 @@ class NativeOfferActivity : AppCompatActivity() {
                 getString(R.string.OFFER_TERMS_DEDUCTIBLE),
                 "DEDUCTIBLE" to "1 500 kr"
             )
+        }
+        data.insurance.presaleInformationUrl?.let { piu ->
+            termsSection.presaleInformation.setHapticClickListener {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(piu)))
+            }
+        }
+        data.insurance.policyUrl?.let { pu ->
+            termsSection.terms.setHapticClickListener {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(pu)))
+            }
         }
     }
 
