@@ -35,15 +35,11 @@ android {
         applicationId 'com.hedvig'
 
         minSdkVersion 21
-        multiDexEnabled true
         versionCode 43
         versionName '2.9.1'
 
         resValue "string", "build_config_package", "com.hedvig.app"
         vectorDrawables.useSupportLibrary = true
-        ndk {
-            abiFilters 'armeabi-v7a', 'x86'
-        }
 
         buildConfigField("String", "DEFAULT_LANGUAGE", "\"${rootProject.ext.defaultLanguage}\"")
         buildConfigField("String[]", "EXCLUDED_LANGUAGES", "{\"${rootProject.ext.excludedLanguages.join("\",\"")}\"}")
