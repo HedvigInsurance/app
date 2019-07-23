@@ -1,13 +1,13 @@
 package com.hedvig.app.feature.offer
 
-import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.OfferQuery
+import com.hedvig.app.ApolloClientWrapper
 import io.reactivex.Observable
 
 class OfferRepository(
-    private val apolloClient: ApolloClient
+    private val apolloClientWrapper: ApolloClientWrapper
 ) {
     private lateinit var offerQuery: OfferQuery
 
@@ -16,6 +16,6 @@ class OfferRepository(
         offerQuery = OfferQuery()
 
         return Rx2Apollo
-            .from(apolloClient.query(offerQuery))
+            .from(apolloClientWrapper.apolloClient.query(offerQuery))
     }
 }

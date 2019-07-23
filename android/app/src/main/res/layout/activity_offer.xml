@@ -38,7 +38,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <include layout="@layout/offer_section_terms" />
+            <include
+                android:id="@+id/termsSection"
+                layout="@layout/offer_section_terms" />
 
         </LinearLayout>
 

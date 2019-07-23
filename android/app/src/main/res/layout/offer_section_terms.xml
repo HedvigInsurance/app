@@ -1,46 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="@layout/activity_offer">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
-        style="@style/Headline.Small"
+        style="@style/Headline.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/base_margin_double"
-        tools:text="Viktiga villkor" />
+        android:text="@string/OFFER_TERMS_TITLE" />
 
     <TextView
-        android:layout_width="match_parent"
+        style="@style/Body"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:drawableStart="@drawable/ic_filled_checkmark"
+        android:layout_marginStart="@dimen/base_margin_triple"
+        android:layout_marginTop="@dimen/base_margin"
+        android:layout_marginEnd="@dimen/base_margin_triple"
+        android:drawableStart="@drawable/ic_filled_checkmark_small"
+        android:drawablePadding="@dimen/base_margin_double"
+        android:gravity="center_vertical"
         android:lines="2"
-        tools:text="Sveriges enda försäkring helt utan bindningstid" />
+        android:text="@string/OFFER_TERMS_NO_BINDING_PERIOD" />
 
     <TextView
-        android:layout_width="match_parent"
+        style="@style/Body"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:drawableStart="@drawable/ic_filled_checkmark"
+        android:layout_marginStart="@dimen/base_margin_triple"
+        android:layout_marginEnd="@dimen/base_margin_triple"
+        android:drawableStart="@drawable/ic_filled_checkmark_small"
+        android:drawablePadding="@dimen/base_margin_double"
+        android:gravity="center_vertical"
         android:lines="2"
-        tools:text="Lägenheten är försäkrad utan begränsning" />
+        android:text="@string/OFFER_TERMS_NO_COVERAGE_LIMIT" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/maxCompensation"
+        style="@style/Body"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:drawableStart="@drawable/ic_filled_checkmark"
+        android:layout_marginStart="@dimen/base_margin_triple"
+        android:layout_marginEnd="@dimen/base_margin_triple"
+        android:drawableStart="@drawable/ic_filled_checkmark_small"
+        android:drawablePadding="@dimen/base_margin_double"
+        android:gravity="center_vertical"
         android:lines="2"
-        tools:text="Maxersättning för prylarna i ditt hem är 1 miljon kr" />
+        tools:text="@string/OFFER_TERMS_MAX_COMPENSATION" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/deductible"
+        style="@style/Body"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:drawableStart="@drawable/ic_filled_checkmark"
+        android:layout_marginStart="@dimen/base_margin_triple"
+        android:layout_marginEnd="@dimen/base_margin_triple"
+        android:drawableStart="@drawable/ic_filled_checkmark_small"
+        android:drawablePadding="@dimen/base_margin_double"
+        android:gravity="center_vertical"
         android:lines="2"
-        tools:text="Självrisken är 1 500 kr" />
+        tools:text="@string/OFFER_TERMS_DEDUCTIBLE" />
 
-</merge>
+</LinearLayout>
