@@ -8,6 +8,7 @@ import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.hedvig.app.data.analytics.AnalyticsRepository
 import com.hedvig.app.data.debit.DirectDebitRepository
 import com.hedvig.app.feature.chat.UserRepository
 import com.hedvig.app.feature.claims.data.ClaimsRepository
@@ -50,6 +51,7 @@ import com.hedvig.app.feature.chat.ChatRepository
 import com.hedvig.app.feature.chat.ChatViewModel
 import com.hedvig.app.feature.chat.UserViewModel
 import com.hedvig.app.util.extensions.getAuthenticationToken
+import com.hedvig.app.viewmodel.AnalyticsViewModel
 
 fun isDebug() = BuildConfig.DEBUG || BuildConfig.APP_ID == "com.hedvig.test.app"
 
@@ -113,6 +115,7 @@ val serviceModule = module {
     single { RemoteConfig() }
     single { TextKeys(get()) }
     single { TabNotificationService(get()) }
+    single { AnalyticsViewModel(get()) }
 }
 
 val repositoriesModule = module {
@@ -126,6 +129,7 @@ val repositoriesModule = module {
     single { UserRepository(get()) }
     single { WhatsNewRepository(get(), get()) }
     single { WelcomeRepository(get()) }
+    single { AnalyticsRepository(get()) }
 }
 
 val trackerModule = module {
