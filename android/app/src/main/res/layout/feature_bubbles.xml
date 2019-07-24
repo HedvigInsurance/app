@@ -6,9 +6,10 @@
     android:layout_height="wrap_content"
     android:background="@color/dark_purple"
     android:paddingTop="@dimen/base_margin_quadruple"
-    android:paddingBottom="@dimen/base_margin_quadruple">
+    android:paddingBottom="@dimen/base_margin_triple">
 
     <FrameLayout
+        android:id="@+id/deductibleBubble"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginTop="175dp"
@@ -171,5 +172,17 @@
             android:layout_marginTop="@dimen/base_margin"
             tools:text="2 personer" />
     </FrameLayout>
+
+    <Button
+        android:id="@+id/discountButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:text="Rabattkod"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deductibleBubble" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

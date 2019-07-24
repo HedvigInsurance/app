@@ -100,7 +100,8 @@ class PaymentFragment : androidx.fragment.app.Fragment() {
             resetViews()
             sphereContainer.show()
 
-            val monthlyCost = profileData?.insurance?.cost?.monthlyNet?.amount?.toBigDecimal()?.toInt()
+            val monthlyCost =
+                profileData?.insurance?.cost?.fragments?.costFragment?.monthlyNet?.amount?.toBigDecimal()?.toInt()
             val amountPartOne = SpannableString("$monthlyCost\n")
             val perMonthLabel = resources.getString(R.string.PROFILE_PAYMENT_PER_MONTH_LABEL)
             val amountPartTwo = SpannableString(perMonthLabel)
@@ -130,17 +131,17 @@ class PaymentFragment : androidx.fragment.app.Fragment() {
 
             grossPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_PRICE),
-                "PRICE" to profileData?.insurance?.cost?.monthlyGross?.amount?.toBigDecimal()?.toInt()
+                "PRICE" to profileData?.insurance?.cost?.fragments?.costFragment?.monthlyGross?.amount?.toBigDecimal()?.toInt()
             )
 
             discount.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_DISCOUNT),
-                "DISCOUNT" to (profileData?.insurance?.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt()?.unaryMinus())
+                "DISCOUNT" to (profileData?.insurance?.cost?.fragments?.costFragment?.monthlyDiscount?.amount?.toBigDecimal()?.toInt()?.unaryMinus())
             )
 
             netPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_FINAL_COST),
-                "FINAL_COST" to profileData?.insurance?.cost?.monthlyNet?.amount?.toBigDecimal()?.toInt()
+                "FINAL_COST" to profileData?.insurance?.cost?.fragments?.costFragment?.monthlyNet?.amount?.toBigDecimal()?.toInt()
             )
 
             bindBankAccountInformation()
@@ -227,7 +228,7 @@ class PaymentFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun showRedeemCodeOnNoDiscount(profileData: ProfileQuery.Data) {
-        if (profileData.insurance.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0) {
+        if (profileData.insurance.cost?.fragments?.costFragment?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0) {
             redeemCode.show()
         }
     }

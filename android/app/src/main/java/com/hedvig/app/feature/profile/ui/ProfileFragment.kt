@@ -130,7 +130,7 @@ class ProfileFragment : BaseTabFragment() {
     private fun setupPayment(profileData: ProfileQuery.Data) {
         paymentRow.description = interpolateTextKey(
             resources.getString(R.string.PROFILE_ROW_PAYMENT_DESCRIPTION),
-            "COST" to profileData.insurance.cost?.monthlyNet?.amount?.toBigDecimal()?.toInt()
+            "COST" to profileData.insurance.cost?.fragments?.costFragment?.monthlyNet?.amount?.toBigDecimal()?.toInt()
         )
         paymentRow.setOnClickListener {
             navController.proxyNavigate(R.id.action_loggedInFragment_to_paymentFragment)

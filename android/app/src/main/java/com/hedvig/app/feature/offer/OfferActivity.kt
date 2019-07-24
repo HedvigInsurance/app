@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.LinearLayout
+import com.hedvig.android.owldroid.fragment.IncentiveFragment
 import com.hedvig.android.owldroid.fragment.PerilCategoryFragment
 import com.hedvig.android.owldroid.graphql.OfferQuery
 import com.hedvig.app.R
@@ -15,6 +16,7 @@ import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.displayMetrics
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setStrikethrough
+import com.hedvig.app.util.extensions.showAlert
 import com.hedvig.app.util.extensions.view.hide
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
@@ -46,6 +48,24 @@ class OfferActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offer)
 
+        bindStaticData()
+
+        offerViewModel.data.observe(lifecycleOwner = this) { data ->
+            data?.let { d ->
+                loadingSpinner.remove()
+                container.show()
+                bindPriceBubbles(d)
+                bindFeatureBubbles(d)
+                bindDiscountButton(d)
+                bindHomeSection(d)
+                bindStuffSection(d)
+                bindMeSection(d)
+                bindTerms(d)
+            }
+        }
+    }
+
+    private fun bindStaticData() {
         homeSection.paragraph.text = getString(R.string.OFFER_APARTMENT_PROTECTION_DESCRIPTION)
         homeSection.hero.setImageDrawable(getDrawable(R.drawable.offer_house))
 
@@ -62,16 +82,22 @@ class OfferActivity : AppCompatActivity() {
 
         grossPremium.setStrikethrough(true)
 
-        offerViewModel.data.observe(lifecycleOwner = this) { data ->
-            data?.let { d ->
-                loadingSpinner.remove()
-                container.show()
-                bindPriceBubbles(d)
-                bindFeatureBubbles(d)
-                bindHomeSection(d)
-                bindStuffSection(d)
-                bindMeSection(d)
-                bindTerms(d)
+    }
+
+    private fun bindDiscountButton(data: OfferQuery.Data) {
+        discountButton.setHapticClickListener {
+            if (data.redeemedCampaigns.size > 0) {
+                showAlert(
+                    R.string.OFFER_REMOVE_DISCOUNT_ALERT_TITLE,
+                    R.string.OFFER_REMOVE_DISCOUNT_ALERT_DESCRIPTION,
+                    R.string.OFFER_REMOVE_DISCOUNT_ALERT_REMOVE,
+                    R.string.OFFER_REMOVE_DISCOUNT_ALERT_CANCEL,
+                    {
+                        offerViewModel.removeDiscount()
+                    }
+                )
+            } else {
+                OfferRedeemCodeDialog.newInstance().show(supportFragmentManager, OfferRedeemCodeDialog.TAG)
             }
         }
     }
@@ -82,21 +108,24 @@ class OfferActivity : AppCompatActivity() {
         discountTitle.hide()
 
         netPremium.setTextColor(compatColor(R.color.off_black_dark))
-        netPremium.text = data.insurance.cost?.monthlyNet?.amount?.toBigDecimal()?.toInt()?.toString()
+        netPremium.text =
+            data.insurance.cost?.fragments?.costFragment?.monthlyNet?.amount?.toBigDecimal()?.toInt()?.toString()
         if (data.redeemedCampaigns.size > 0) {
-            when (data.redeemedCampaigns[0].incentive) {
-                is OfferQuery.AsMonthlyCostDeduction -> {
+            when (data.redeemedCampaigns[0].fragments.incentiveFragment.incentive) {
+                is IncentiveFragment.AsMonthlyCostDeduction -> {
                     grossPremium.show()
-                    grossPremium.text = data.insurance.cost?.monthlyGross?.amount?.toBigDecimal()?.toInt()?.toString()
+                    grossPremium.text =
+                        data.insurance.cost?.fragments?.costFragment?.monthlyGross?.amount?.toBigDecimal()?.toInt()
+                            ?.toString()
                     discountBubble.show()
                     discount.text = getString(R.string.OFFER_SCREEN_INVITED_BUBBLE)
                     netPremium.setTextColor(compatColor(R.color.pink))
                 }
-                is OfferQuery.AsFreeMonths -> {
+                is IncentiveFragment.AsFreeMonths -> {
                     discountTitle.show()
                     discount.text = interpolateTextKey(
                         getString(R.string.OFFER_SCREEN_FREE_MONTHS_BUBBLE),
-                        "free_month" to (data.redeemedCampaigns[0].incentive as OfferQuery.AsFreeMonths).quantity
+                        "free_month" to (data.redeemedCampaigns[0].fragments.incentiveFragment.incentive as IncentiveFragment.AsFreeMonths).quantity
                     )
                 }
             }
