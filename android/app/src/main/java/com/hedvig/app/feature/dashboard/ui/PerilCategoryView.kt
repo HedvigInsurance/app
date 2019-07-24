@@ -3,7 +3,7 @@ package com.hedvig.app.feature.dashboard.ui
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup

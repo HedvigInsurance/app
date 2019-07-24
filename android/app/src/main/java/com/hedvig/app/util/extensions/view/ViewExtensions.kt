@@ -2,12 +2,12 @@ package com.hedvig.app.util.extensions.view
 
 import android.graphics.Rect
 import android.os.Build
-import android.support.annotation.ColorInt
-import android.support.annotation.Dimension
-import android.support.annotation.DrawableRes
-import android.support.annotation.FontRes
-import android.support.constraint.ConstraintLayout
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.ColorInt
+import androidx.annotation.Dimension
+import androidx.annotation.DrawableRes
+import androidx.annotation.FontRes
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.app.AppCompatActivity
 import android.view.HapticFeedbackConstants
 import android.view.TouchDelegate
 import android.view.View
@@ -104,7 +104,10 @@ fun View.updateMargin(
 ) {
     val prevLayoutParams = layoutParams as? ViewGroup.MarginLayoutParams
     when (parent) {
-        is ConstraintLayout -> ConstraintLayout.LayoutParams(layoutParams.width, layoutParams.height)
+        is ConstraintLayout -> ConstraintLayout.LayoutParams(
+            layoutParams.width,
+            layoutParams.height
+        )
         is RelativeLayout -> RelativeLayout.LayoutParams(layoutParams.width, layoutParams.height)
         else -> ViewGroup.MarginLayoutParams(layoutParams.width, layoutParams.height)
     }.apply {

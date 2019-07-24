@@ -1,7 +1,7 @@
 package com.hedvig.app.feature.marketing.ui
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import com.hedvig.app.feature.marketing.data.MarketingStoriesRepository
 import com.hedvig.app.util.LiveEvent

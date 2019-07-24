@@ -1,8 +1,8 @@
 package com.hedvig.app.util.extensions
 
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorInt
-import android.support.v4.graphics.drawable.DrawableCompat
+import androidx.annotation.ColorInt
+import androidx.core.graphics.drawable.DrawableCompat
 
 fun Drawable.compatSetTint(@ColorInt color: Int) {
     val drawableWrap = DrawableCompat.wrap(this).mutate()

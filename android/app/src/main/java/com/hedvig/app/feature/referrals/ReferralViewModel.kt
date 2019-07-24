@@ -1,7 +1,7 @@
 package com.hedvig.app.feature.referrals
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.hedvig.android.owldroid.graphql.RedeemReferralCodeMutation
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -19,7 +19,7 @@ class ReferralViewModel(
         disposables += referralRepository
             .redeemReferralCode(code)
             .subscribe({
-                if(it.hasErrors()) {
+                if (it.hasErrors()) {
                     redeemCodeStatus.postValue(null)
                 } else {
                     redeemCodeStatus.postValue(it.data())
