@@ -3,8 +3,8 @@ package com.hedvig.app.feature.claims.ui.commonclaim
 import android.graphics.drawable.PictureDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.v4.app.Fragment
+import androidx.annotation.CallSuper
+import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.navigation.findNavController
 import com.bumptech.glide.RequestBuilder
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.common_claim_first_message.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-abstract class BaseCommonClaimFragment : Fragment() {
+abstract class BaseCommonClaimFragment : androidx.fragment.app.Fragment() {
     val tracker: ClaimsTracker by inject()
     val claimsViewModel: ClaimsViewModel by sharedViewModel()
 

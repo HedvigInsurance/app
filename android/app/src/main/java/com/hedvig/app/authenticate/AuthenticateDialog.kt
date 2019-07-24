@@ -6,18 +6,15 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
+import androidx.fragment.app.DialogFragment
 import com.hedvig.android.owldroid.type.AuthState
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.chat.UserViewModel
 import com.hedvig.app.util.extensions.observe
-import com.hedvig.app.util.extensions.view.remove
-import com.hedvig.app.util.extensions.view.show
 import kotlinx.android.synthetic.main.dialog_authenticate.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class AuthenticateDialog : DialogFragment() {
 

@@ -2,7 +2,7 @@ package com.hedvig.app.feature.chat
 
 import android.content.Context
 import android.net.Uri
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +29,8 @@ import kotlinx.android.synthetic.main.chat_message_user.view.*
 import kotlinx.android.synthetic.main.chat_message_user_giphy.view.*
 import kotlinx.android.synthetic.main.chat_message_user_image.view.*
 
-class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) :
+    androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
 
     private val doubleMargin = context.resources.getDimensionPixelSize(R.dimen.base_margin_double)
     private val baseMargin = context.resources.getDimensionPixelSize(R.dimen.base_margin)
@@ -40,7 +41,10 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : Recyc
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): androidx.recyclerview.widget.RecyclerView.ViewHolder =
         when (viewType) {
             FROM_HEDVIG -> HedvigMessage(
                 LayoutInflater.from(parent.context).inflate(
@@ -102,7 +106,7 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : Recyc
             FROM_HEDVIG
         }
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         when (viewHolder.itemViewType) {
             FROM_HEDVIG -> {
                 (viewHolder as? HedvigMessage)?.apply { bind(messages[position].fragments.chatMessageFragment.body?.text) }
@@ -132,7 +136,7 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : Recyc
         }
     }
 
-    inner class HedvigMessage(view: View) : RecyclerView.ViewHolder(view) {
+    inner class HedvigMessage(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val message: TextView = view.hedvigMessage
 
         fun reset() {
@@ -149,7 +153,7 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : Recyc
         }
     }
 
-    inner class UserMessage(view: View) : RecyclerView.ViewHolder(view) {
+    inner class UserMessage(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val message: TextView = view.userMessage
         val edit: ImageButton = view.editMessage
         val status: TextView = view.statusMessage
@@ -174,7 +178,7 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : Recyc
         }
     }
 
-    inner class GiphyUserMessage(view: View) : RecyclerView.ViewHolder(view) {
+    inner class GiphyUserMessage(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val image: ImageView = view.messageImage
         val giphy: LinearLayout = view.giphy
 
@@ -191,7 +195,7 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : Recyc
         }
     }
 
-    inner class ImageUserMessage(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ImageUserMessage(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val image: ImageView = view.uploadedImage
 
         fun bind(url: String?) {
@@ -208,7 +212,7 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : Recyc
         }
     }
 
-    inner class ImageUploadUserMessage(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ImageUploadUserMessage(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val image: ImageView = view.uploadedImage
 
         fun bind(url: String?) {
@@ -224,7 +228,7 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) : Recyc
         }
     }
 
-    inner class FileUploadUserMessage(view: View) : RecyclerView.ViewHolder(view) {
+    inner class FileUploadUserMessage(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val label: TextView = view.fileUploadLabel
 
         fun bind(url: String?) {

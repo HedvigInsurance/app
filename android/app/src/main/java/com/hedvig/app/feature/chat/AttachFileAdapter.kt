@@ -1,7 +1,7 @@
 package com.hedvig.app.feature.chat
 
 import android.net.Uri
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -21,11 +21,13 @@ import kotlinx.android.synthetic.main.camera_and_misc_item.view.*
 import kotlinx.android.synthetic.main.loading_spinner.view.*
 import timber.log.Timber
 
-class AttachFileAdapter(private val attachImageData: List<AttachImageData>,
-                        private val pickerHeight: Int,
-                        private val takePhoto: () -> Unit,
-                        private val showUploadFileDialog: () -> Unit,
-                        private val uploadFile: (Uri) -> Unit) : RecyclerView.Adapter<AttachFileAdapter.ViewHolder>() {
+class AttachFileAdapter(
+    private val attachImageData: List<AttachImageData>,
+    private val pickerHeight: Int,
+    private val takePhoto: () -> Unit,
+    private val showUploadFileDialog: () -> Unit,
+    private val uploadFile: (Uri) -> Unit
+) : androidx.recyclerview.widget.RecyclerView.Adapter<AttachFileAdapter.ViewHolder>() {
 
     var isUploadingTakenPicture: Boolean = false
         set(value) {
@@ -76,7 +78,8 @@ class AttachFileAdapter(private val attachImageData: List<AttachImageData>,
                     val image = attachImageData[position - 1]
                     val params = attachFileImage.layoutParams
                     val margin = attachFileImage.context.resources.getDimensionPixelSize(R.dimen.base_margin_double) * 2
-                    val roundedCornersRadius = attachFileImage.context.resources.getDimensionPixelSize(R.dimen.attach_file_rounded_corners_radius)
+                    val roundedCornersRadius =
+                        attachFileImage.context.resources.getDimensionPixelSize(R.dimen.attach_file_rounded_corners_radius)
                     params.height = pickerHeight - margin
                     params.width = pickerHeight - margin
                     attachFileImage.layoutParams = params
@@ -100,8 +103,13 @@ class AttachFileAdapter(private val attachImageData: List<AttachImageData>,
                         loadingSpinner.remove()
                     }
                     val outValue = TypedValue()
-                    attachFileImageContainer.context.theme.resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true)
-                    attachFileImageContainer.foreground = attachFileImageContainer.context.getDrawable(outValue.resourceId)
+                    attachFileImageContainer.context.theme.resolveAttribute(
+                        android.R.attr.selectableItemBackgroundBorderless,
+                        outValue,
+                        true
+                    )
+                    attachFileImageContainer.foreground =
+                        attachFileImageContainer.context.getDrawable(outValue.resourceId)
 
                     attachFileImageContainer.setHapticClickListener {
 
@@ -133,7 +141,7 @@ class AttachFileAdapter(private val attachImageData: List<AttachImageData>,
     override fun getItemViewType(position: Int) =
         if (position == 0) CAMERA_AND_MISC_VIEW_TYPE else IMAGE_VIEW_TYPE
 
-    sealed class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    sealed class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         class CameraAndMiscViewHolder(itemView: View) : ViewHolder(itemView) {
             val cameraButton: FrameLayout = itemView.cameraButton
             val cameraIcon: ImageView = itemView.cameraIcon

@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_weight="0.2" />
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.8"
@@ -62,6 +62,6 @@
             tools:text="Hedvig svarar inom 15 min"
             tools:visibility="visible" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

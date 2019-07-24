@@ -1,17 +1,16 @@
 package com.hedvig.app.util.extensions
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.support.annotation.ColorInt
-import android.support.annotation.DrawableRes
-import android.support.annotation.FontRes
-import android.support.annotation.StringRes
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.annotation.FontRes
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
@@ -20,11 +19,11 @@ import com.hedvig.app.util.extensions.view.setupLargeTitle
 import com.hedvig.app.util.hasNotch
 import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.app_bar.*
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.ActivityOptionsCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import com.hedvig.app.authenticate.AuthenticateDialog
 import com.hedvig.app.feature.chat.ChatActivity
-import com.hedvig.app.feature.offer.NativeOfferActivity
+import com.hedvig.app.feature.offer.OfferActivity
 import timber.log.Timber
 
 fun Activity.setLightNavigationBar() {
@@ -117,7 +116,7 @@ fun AppCompatActivity.setupLargeTitle(
     )
 }
 
-val Activity.localBroadcastManager get() = android.support.v4.content.LocalBroadcastManager.getInstance(this)
+val Activity.localBroadcastManager get() = androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this)
 
 fun Activity.startClosableChat() {
     val intent = Intent(this, ChatActivity::class.java)
@@ -182,9 +181,9 @@ private fun Activity.openAppSettings() {
     startActivity(intent)
 }
 
-fun AppCompatActivity.handleSingleSelectLink(value: String) = when(value) {
+fun AppCompatActivity.handleSingleSelectLink(value: String) = when (value) {
     "message.forslag.dashboard" -> {
-        startActivity(Intent(this, NativeOfferActivity::class.java).also {
+        startActivity(Intent(this, OfferActivity::class.java).also {
             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         })

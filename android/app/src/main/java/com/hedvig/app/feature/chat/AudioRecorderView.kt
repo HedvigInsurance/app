@@ -4,7 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.media.MediaPlayer
 import android.media.MediaRecorder
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import android.widget.TextView

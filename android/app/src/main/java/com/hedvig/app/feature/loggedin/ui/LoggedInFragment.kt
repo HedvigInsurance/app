@@ -2,9 +2,9 @@ package com.hedvig.app.feature.loggedin.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.internal.BottomNavigationItemView
-import android.support.design.internal.BottomNavigationMenuView
-import android.support.v4.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -45,7 +45,7 @@ import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class LoggedInFragment : Fragment() {
+class LoggedInFragment : androidx.fragment.app.Fragment() {
 
     private val claimsViewModel: ClaimsViewModel by sharedViewModel()
     private val tabViewModel: BaseTabViewModel by sharedViewModel()
@@ -152,7 +152,9 @@ class LoggedInFragment : Fragment() {
                 when (tab) {
                     TabNotification.REFERRALS -> {
                         val itemView =
-                            (bottomTabs.getChildAt(0) as BottomNavigationMenuView).getChildAt(LoggedInTabs.REFERRALS.ordinal) as BottomNavigationItemView
+                            (bottomTabs.getChildAt(0) as BottomNavigationMenuView).getChildAt(
+                                LoggedInTabs.REFERRALS.ordinal
+                            ) as BottomNavigationItemView
 
                         badge = LayoutInflater
                             .from(requireContext())

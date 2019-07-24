@@ -1,7 +1,7 @@
 package com.hedvig.app.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.hedvig.android.owldroid.graphql.DirectDebitQuery
 import com.hedvig.app.data.debit.DirectDebitRepository
 import io.reactivex.disposables.CompositeDisposable

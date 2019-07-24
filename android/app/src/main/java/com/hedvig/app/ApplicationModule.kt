@@ -47,6 +47,9 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import timber.log.Timber
 import java.io.File
+import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport
+import com.hedvig.app.feature.offer.OfferRepository
+import com.hedvig.app.feature.offer.OfferViewModel
 import com.hedvig.app.feature.chat.ChatRepository
 import com.hedvig.app.feature.chat.ChatViewModel
 import com.hedvig.app.feature.chat.UserViewModel
@@ -106,6 +109,7 @@ val viewModelModule = module {
     viewModel { UserViewModel(get(), get()) }
     viewModel { ReferralViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
+    viewModel { OfferViewModel(get()) }
 }
 
 val serviceModule = module {
@@ -129,6 +133,7 @@ val repositoriesModule = module {
     single { UserRepository(get()) }
     single { WhatsNewRepository(get(), get()) }
     single { WelcomeRepository(get()) }
+    single { OfferRepository(get()) }
     single { AnalyticsRepository(get()) }
 }
 

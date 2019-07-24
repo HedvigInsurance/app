@@ -1,7 +1,7 @@
 package com.hedvig.app.feature.chat
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
 import com.hedvig.android.owldroid.graphql.AuthStatusSubscription
 import com.hedvig.android.owldroid.graphql.BankIdAuthMutation
 import com.hedvig.app.ApolloClientWrapper

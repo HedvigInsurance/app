@@ -3,7 +3,7 @@ package com.hedvig.app.feature.chat
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.showRestartDialog
@@ -13,7 +13,6 @@ import android.provider.MediaStore
 import android.provider.MediaStore.MediaColumns
 import android.net.Uri
 import com.hedvig.app.R
-import com.hedvig.app.util.extensions.getAuthenticationToken
 import com.hedvig.app.util.extensions.handleSingleSelectLink
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setAuthenticationToken
@@ -30,9 +29,8 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 import android.os.Environment
 import java.io.File
-import android.support.v4.content.FileProvider
+import androidx.core.content.FileProvider
 import com.hedvig.app.util.extensions.view.show
-import kotlinx.android.synthetic.main.fragment_dismissable_pager.*
 import java.io.IOException
 
 class ChatActivity : AppCompatActivity() {
@@ -142,7 +140,7 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        close.setHapticClickListener {
+        closeChatButton.setHapticClickListener {
             onBackPressed()
         }
 
@@ -151,7 +149,7 @@ class ChatActivity : AppCompatActivity() {
         }
 
         if (intent?.extras?.getBoolean(EXTRA_SHOW_CLOSE, false) == true) {
-            close.show()
+            closeChatButton.show()
         }
     }
 

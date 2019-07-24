@@ -1,11 +1,11 @@
 package com.hedvig.app.feature.profile.ui.referral
 
 import android.animation.ValueAnimator
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_old_referral.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class OldReferralFragment : Fragment() {
+class OldReferralFragment : androidx.fragment.app.Fragment() {
 
     private val tracker: ProfileTracker by inject()
 

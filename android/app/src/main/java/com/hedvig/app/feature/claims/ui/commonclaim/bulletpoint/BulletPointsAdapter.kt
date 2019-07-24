@@ -2,7 +2,7 @@ package com.hedvig.app.feature.claims.ui.commonclaim.bulletpoint
 
 import android.graphics.drawable.PictureDrawable
 import android.net.Uri
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +18,7 @@ class BulletPointsAdapter(
     private val bulletPoints: @NotNull MutableList<CommonClaimQuery.BulletPoint>,
     private val baseUrl: String,
     private val requestBuilder: RequestBuilder<PictureDrawable>
-) : RecyclerView.Adapter<BulletPointsAdapter.ViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<BulletPointsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(
@@ -39,7 +39,7 @@ class BulletPointsAdapter(
         }
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         val bulletPointIcon: ImageView = itemView.bulletPointIcon
         val bulletPointTitle: TextView = itemView.bulletPointTitle
         val bulletPointDescription: TextView = itemView.bulletPointDescription

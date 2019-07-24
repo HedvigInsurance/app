@@ -1,6 +1,6 @@
 package com.hedvig.app.feature.whatsnew
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import com.hedvig.android.owldroid.graphql.WhatsNewQuery
 import com.hedvig.app.util.LiveEvent
 import io.reactivex.disposables.CompositeDisposable

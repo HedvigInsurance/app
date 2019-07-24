@@ -1,6 +1,6 @@
 package com.hedvig.app.feature.dashboard.ui
 
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import com.hedvig.app.R
 
 object PerilIcon {

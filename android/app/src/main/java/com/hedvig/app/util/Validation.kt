@@ -1,6 +1,6 @@
 package com.hedvig.app.util
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.hedvig.app.R
 
 object Regexes {
