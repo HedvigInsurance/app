@@ -5,7 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.*
 import com.hedvig.app.R
 import com.hedvig.app.util.whenApiVersion
@@ -31,9 +31,11 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
     private var dismissMotionEvent: MotionEvent? = null
 
     init {
-        window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or
-            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
-            WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window?.addFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
+                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,10 +49,12 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
         setupRecyclerView()
     }
 
-    fun initialize(takePhotoCallback: () -> Unit,
-                   showUploadBottomSheetCallback: () -> Unit,
-                   dismissCallback: (MotionEvent?) -> Unit,
-                   uploadFileCallback: (Uri) -> Unit) {
+    fun initialize(
+        takePhotoCallback: () -> Unit,
+        showUploadBottomSheetCallback: () -> Unit,
+        dismissCallback: (MotionEvent?) -> Unit,
+        uploadFileCallback: (Uri) -> Unit
+    ) {
         this.takePhotoCallback = takePhotoCallback
         this.showUploadBottomSheetCallback = showUploadBottomSheetCallback
         this.dismissCallback = dismissCallback
@@ -124,7 +128,11 @@ class AttachPickerDialog(context: Context) : Dialog(context, R.style.Transparent
     }
 
     private fun setupRecyclerView() {
-        attachFileRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        attachFileRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+            context,
+            androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL,
+            false
+        )
     }
 
     fun setImages(images: List<String>) {

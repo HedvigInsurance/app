@@ -2,7 +2,7 @@ package com.hedvig.app.feature.dashboard.ui
 
 import android.content.res.Resources
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -322,7 +322,8 @@ class DashboardFragment : BaseTabFragment() {
         val viewBottomPos = position[1] + view.measuredHeight
 
         if (viewBottomPos > bottomBreakPoint) {
-            activity?.findViewById<AppBarLayout>(R.id.appBarLayout)?.setExpanded(false, true)
+            activity?.findViewById<AppBarLayout>(R.id.appBarLayout)
+                ?.setExpanded(false, true)
             val d = viewBottomPos - bottomBreakPoint
             dashboardNestedScrollView.scrollY += d
         }

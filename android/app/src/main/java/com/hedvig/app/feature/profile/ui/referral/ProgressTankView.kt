@@ -8,9 +8,9 @@ import android.view.View
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.compatColor
 import android.graphics.drawable.BitmapDrawable
-import android.support.animation.FloatValueHolder
-import android.support.animation.SpringAnimation
-import android.support.animation.SpringForce
+import androidx.dynamicanimation.animation.FloatValueHolder
+import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.dynamicanimation.animation.SpringForce
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.interpolateTextKey
 import kotlin.math.ceil
@@ -72,14 +72,15 @@ class ProgressTankView : View {
     private val currentPremiumPrice by lazy {
         interpolateTextKey(
             context.getString(R.string.REFERRAL_PROGRESS_CURRENT_PREMIUM_PRICE),
-            "CURRENT_PREMIUM_PRICE" to premium.toString())
+            "CURRENT_PREMIUM_PRICE" to premium.toString()
+        )
     }
     private val currentInvitedActiveValue by lazy {
         interpolateTextKey(
             context.getString(R.string.REFERRAL_INVITE_ACTIVE_VALUE),
-            "REFERRAL_VALUE" to (premium - discountedPremium).toString())
+            "REFERRAL_VALUE" to (premium - discountedPremium).toString()
+        )
     }
-
 
     //font
     val font = context.compatFont(R.font.circular_bold)
@@ -239,7 +240,8 @@ class ProgressTankView : View {
                 sectionBottom + roofHeightHalf + sectionSpacingHalf,
                 centerX,
                 sectionBottom + roofHeight + sectionSpacingHalf,
-                paint)
+                paint
+            )
         }
         if (index == 0) {
             canvas.drawLine(
@@ -390,7 +392,8 @@ class ProgressTankView : View {
 
         paint.getTextBounds(text, 0, text.length, rect)
 
-        val yPosition = roofHeightHalf + if (hasDiscount) (segmentHeight * discountedSegments) / 2 else segmentHeight / 2
+        val yPosition =
+            roofHeightHalf + if (hasDiscount) (segmentHeight * discountedSegments) / 2 else segmentHeight / 2
         val textHeight = rect.height().toFloat()
 
         val labelWidth = rect.width() + textPadding
@@ -450,7 +453,9 @@ class ProgressTankView : View {
     // Helpers
     private fun isSegmentDiscounted(index: Int) = (premium - (index * step)) > discountedPremium
 
-    private fun isLastDiscountedSegment(index: Int) = isSegmentDiscounted(index) && (premium - (index * step)) - step <= discountedPremium
+    private fun isLastDiscountedSegment(index: Int) =
+        isSegmentDiscounted(index) && (premium - (index * step)) - step <= discountedPremium
+
     private val discountedSegments: Int
         get() = ceil((premium - discountedPremium).toFloat() / step).toInt()
 

@@ -1,7 +1,7 @@
 package com.hedvig.app.feature.profile.ui.aboutapp
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.setupLargeTitle
 import kotlinx.android.synthetic.main.fragment_licenses.*

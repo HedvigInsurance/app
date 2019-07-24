@@ -3,7 +3,7 @@ package com.hedvig.app.feature.dashboard.ui
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import android.view.LayoutInflater
 import com.hedvig.app.R
 import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment

@@ -1,6 +1,6 @@
 package com.hedvig.app.feature.chat
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import com.hedvig.app.ApolloClientWrapper
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign

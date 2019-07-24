@@ -16,25 +16,25 @@ package com.hedvig.app.util
  * limitations under the License.
  */
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.Observer
-import android.support.annotation.MainThread
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
+import androidx.annotation.MainThread
 
 class LiveEvent<T> : MediatorLiveData<T>() {
 
-    private val observers = HashSet<ObserverWrapper<T>>()
+    private val observers = HashSet<ObserverWrapper<in T>>()
 
     @MainThread
-    override fun observe(owner: LifecycleOwner, observer: Observer<T>) {
+    override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
         val wrapper = ObserverWrapper(observer)
         observers.add(wrapper)
         super.observe(owner, wrapper)
     }
 
     @MainThread
-    override fun removeObserver(observer: Observer<T>) {
-        if (observers.remove(observer)) {
+    override fun removeObserver(observer: Observer<in T>) {
+        if (observers.remove<Observer<in T>>(observer)) {
             super.removeObserver(observer)
             return
         }

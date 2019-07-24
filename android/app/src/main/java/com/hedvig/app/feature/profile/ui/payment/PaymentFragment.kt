@@ -1,8 +1,8 @@
 package com.hedvig.app.feature.profile.ui.payment
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
@@ -37,7 +37,7 @@ import timber.log.Timber
 import org.threeten.bp.LocalDate
 import java.util.Calendar
 
-class PaymentFragment : Fragment() {
+class PaymentFragment : androidx.fragment.app.Fragment() {
 
     private val profileViewModel: ProfileViewModel by sharedViewModel()
     private val directDebitViewModel: DirectDebitViewModel by sharedViewModel()

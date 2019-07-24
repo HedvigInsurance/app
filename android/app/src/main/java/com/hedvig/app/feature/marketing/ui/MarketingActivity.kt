@@ -1,10 +1,10 @@
 package com.hedvig.app.feature.marketing.ui
 
 import android.animation.ValueAnimator
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.animation.FastOutSlowInInterpolator
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import android.view.GestureDetector
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
@@ -28,7 +28,7 @@ import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class MarketingActivity: BaseActivity() {
+class MarketingActivity : BaseActivity() {
 
     enum class MarketingResult {
         ONBOARD,

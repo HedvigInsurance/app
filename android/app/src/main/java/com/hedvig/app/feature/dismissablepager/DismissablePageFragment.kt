@@ -3,7 +3,7 @@ package com.hedvig.app.feature.dismissablepager
 import android.graphics.drawable.PictureDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import com.hedvig.app.R
 import com.hedvig.app.util.svg.buildRequestBuilder
 import kotlinx.android.synthetic.main.fragment_news.*
 
-class DismissablePageFragment : Fragment() {
+class DismissablePageFragment : androidx.fragment.app.Fragment() {
     private val requestBuilder: RequestBuilder<PictureDrawable> by lazy { buildRequestBuilder() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =

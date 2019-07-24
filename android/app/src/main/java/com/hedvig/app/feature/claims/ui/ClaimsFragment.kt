@@ -3,8 +3,8 @@ package com.hedvig.app.feature.claims.ui
 import android.graphics.Rect
 import android.graphics.drawable.PictureDrawable
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.bumptech.glide.RequestBuilder
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
@@ -54,8 +54,13 @@ class ClaimsFragment : BaseTabFragment() {
             }
         }
 
-        commonClaimsRecyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        commonClaimsRecyclerView.addItemDecoration(object : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: androidx.recyclerview.widget.RecyclerView,
+                state: androidx.recyclerview.widget.RecyclerView.State
+            ) {
                 val position = parent.getChildAdapterPosition(view)
                 val column = position % 2
 
@@ -92,7 +97,7 @@ class ClaimsFragment : BaseTabFragment() {
         }
 
         // setup common claims
-        commonClaimsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        commonClaimsRecyclerView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(requireContext(), 2)
         commonClaimsRecyclerView.adapter =
             CommonClaimsAdapter(
                 commonClaims = commonClaimsData.commonClaims,

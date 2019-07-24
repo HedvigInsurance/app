@@ -13,14 +13,14 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.provider.Settings
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.FontRes
-import android.support.annotation.StringRes
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.content.res.AppCompatResources
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.FontRes
+import androidx.annotation.StringRes
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.appcompat.content.res.AppCompatResources
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -132,7 +132,7 @@ fun Context.makeToast(
 
 fun Context.openUri(uri: Uri) = startActivity(Intent(Intent.ACTION_VIEW, uri))
 
-fun Context.handleSingleSelectLink(value: String) = when(value) {
+fun Context.handleSingleSelectLink(value: String) = when (value) {
     "message.forslag.dashboard" -> {
         startActivity(Intent(this, NativeOfferActivity::class.java).also {
             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

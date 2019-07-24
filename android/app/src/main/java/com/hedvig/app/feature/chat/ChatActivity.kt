@@ -3,7 +3,7 @@ package com.hedvig.app.feature.chat
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.showRestartDialog
@@ -30,7 +30,7 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 import android.os.Environment
 import java.io.File
-import android.support.v4.content.FileProvider
+import androidx.core.content.FileProvider
 import java.io.IOException
 
 class ChatActivity : AppCompatActivity() {

@@ -8,16 +8,16 @@
         android:id="@+id/attachPickerBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_attach_file_height"
-        android:background="@color/off_white"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:background="@color/off_white">
 
-        <include layout="@layout/loading_spinner"/>
+        <include layout="@layout/loading_spinner" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/attachFileRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </FrameLayout>
 </FrameLayout>
