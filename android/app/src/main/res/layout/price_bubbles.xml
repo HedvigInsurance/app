@@ -19,9 +19,10 @@
 
     <TextView
         android:id="@+id/grossPremium"
-        style="@style/Body.XSmall"
+        style="@style/Body.Regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/gray"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/netPremium"
         app:layout_constraintEnd_toEndOf="parent"
@@ -78,8 +79,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/base_margin_triple"
             android:text="@string/OFFER_SCREEN_FREE_MONTHS_BUBBLE_TITLE"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/discount"
@@ -87,10 +87,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/base_margin_half"
             android:gravity="center"
             android:lineSpacingExtra="0sp"
-            tools:text="3 månader\ngratis!" />
+            tools:text="Inbjuden!" />
     </FrameLayout>
 
 

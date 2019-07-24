@@ -3,8 +3,8 @@ package com.hedvig.app.feature.offer
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import com.hedvig.android.owldroid.fragment.IncentiveFragment
 import com.hedvig.android.owldroid.fragment.PerilCategoryFragment
 import com.hedvig.android.owldroid.graphql.OfferQuery
@@ -21,6 +21,7 @@ import com.hedvig.app.util.extensions.view.hide
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
+import com.hedvig.app.util.extensions.view.updateMargin
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.isApartmentOwner
 import com.hedvig.app.util.isStudentInsurance
@@ -28,9 +29,9 @@ import com.hedvig.app.util.safeLet
 import kotlinx.android.synthetic.main.activity_offer.*
 import kotlinx.android.synthetic.main.feature_bubbles.*
 import kotlinx.android.synthetic.main.loading_spinner.*
-import kotlinx.android.synthetic.main.price_bubbles.*
 import kotlinx.android.synthetic.main.offer_peril_section.view.*
 import kotlinx.android.synthetic.main.offer_section_terms.view.*
+import kotlinx.android.synthetic.main.price_bubbles.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.min
 
@@ -119,11 +120,15 @@ class OfferActivity : AppCompatActivity() {
             when (data.redeemedCampaigns[0].fragments.incentiveFragment.incentive) {
                 is IncentiveFragment.AsMonthlyCostDeduction -> {
                     grossPremium.show()
-                    grossPremium.text =
-                        data.insurance.cost?.fragments?.costFragment?.monthlyGross?.amount?.toBigDecimal()?.toInt()
-                            ?.toString()
+                    grossPremium.text = interpolateTextKey(
+                        getString(R.string.OFFER_GROSS_PREMIUM),
+                        "GROSS_PREMIUM" to data.insurance.cost?.fragments?.costFragment?.monthlyGross?.amount?.toBigDecimal()?.toInt()
+                    )
+
                     discountBubble.show()
                     discount.text = getString(R.string.OFFER_SCREEN_INVITED_BUBBLE)
+                    discount.updateMargin(top = 0)
+
                     netPremium.setTextColor(compatColor(R.color.pink))
                 }
                 is IncentiveFragment.AsFreeMonths -> {
@@ -132,6 +137,7 @@ class OfferActivity : AppCompatActivity() {
                         getString(R.string.OFFER_SCREEN_FREE_MONTHS_BUBBLE),
                         "free_month" to (data.redeemedCampaigns[0].fragments.incentiveFragment.incentive as IncentiveFragment.AsFreeMonths).quantity
                     )
+                    discount.updateMargin(top = resources.getDimensionPixelSize(R.dimen.base_margin_half))
                 }
             }
         }
