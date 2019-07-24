@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.offer_section_terms.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.min
 
-class NativeOfferActivity : AppCompatActivity() {
+class OfferActivity : AppCompatActivity() {
 
     private val offerViewModel: OfferViewModel by viewModel()
 
@@ -78,9 +78,9 @@ class NativeOfferActivity : AppCompatActivity() {
             stuffSection.paragraph.text = interpolateTextKey(
                 getString(R.string.OFFER_STUFF_PROTECTION_DESCRIPTION),
                 "protectionAmount" to if (isStudentInsurance(insuranceType)) {
-                    "25 000 kr"
+                    getString(R.string.STUFF_PROTECTION_AMOUNT_STUDENT)
                 } else {
-                    "50 000 kr"
+                    getString(R.string.STUFF_PROTECTION_AMOUNT)
                 }
             )
         }

@@ -12,7 +12,6 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.provider.Settings
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
@@ -25,9 +24,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.hedvig.app.SplashActivity
-import com.hedvig.app.authenticate.AuthenticateDialog
-import com.hedvig.app.feature.offer.NativeOfferActivity
-import timber.log.Timber
 import kotlin.system.exitProcess
 
 private const val SHARED_PREFERENCE_NAME = "hedvig_shared_preference"

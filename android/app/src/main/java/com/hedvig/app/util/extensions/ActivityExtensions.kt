@@ -1,7 +1,6 @@
 package com.hedvig.app.util.extensions
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -24,7 +23,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
 import com.hedvig.app.authenticate.AuthenticateDialog
 import com.hedvig.app.feature.chat.ChatActivity
-import com.hedvig.app.feature.offer.NativeOfferActivity
+import com.hedvig.app.feature.offer.OfferActivity
 import timber.log.Timber
 
 fun Activity.setLightNavigationBar() {
@@ -182,9 +181,9 @@ private fun Activity.openAppSettings() {
     startActivity(intent)
 }
 
-fun AppCompatActivity.handleSingleSelectLink(value: String) = when(value) {
+fun AppCompatActivity.handleSingleSelectLink(value: String) = when (value) {
     "message.forslag.dashboard" -> {
-        startActivity(Intent(this, NativeOfferActivity::class.java).also {
+        startActivity(Intent(this, OfferActivity::class.java).also {
             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         })
