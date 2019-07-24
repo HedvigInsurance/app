@@ -1,10 +1,9 @@
 package com.hedvig.app.viewmodel
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import com.hedvig.android.owldroid.type.CampaignInput
 import com.hedvig.app.data.analytics.AnalyticsRepository
 import com.hedvig.app.util.anyNotNull
-import com.hedvig.app.util.safeLet
 import org.json.JSONException
 import org.json.JSONObject
 
