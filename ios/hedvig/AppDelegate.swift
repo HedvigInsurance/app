@@ -255,11 +255,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         ApolloContainer.shared.deleteToken()
         RCTAsyncLocalStorage().clearAllData()
 
-        bag += RCTApolloClient.getClient().onValue { _ in
-            ReactNativeContainer.shared.bridge.reload()
-            self.bag.dispose()
-            ApplicationState.preserveState(.marketing)
-            self.bag += ApplicationState.presentRootViewController(self.rootWindow)
+        bag += Signal(after: 0.2).onValue {
+            self.bag += RCTApolloClient.getClient().onValue { _ in
+                ReactNativeContainer.shared.bridge.reload()
+                self.bag.dispose()
+                ApplicationState.preserveState(.marketing)
+                self.bag += ApplicationState.presentRootViewController(self.rootWindow)
+            }
         }
     }
 
