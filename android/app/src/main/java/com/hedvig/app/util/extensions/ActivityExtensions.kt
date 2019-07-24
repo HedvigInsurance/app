@@ -1,6 +1,7 @@
 package com.hedvig.app.util.extensions
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -21,7 +22,9 @@ import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.app_bar.*
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
+import com.hedvig.app.authenticate.AuthenticateDialog
 import com.hedvig.app.feature.chat.ChatActivity
+import com.hedvig.app.feature.offer.NativeOfferActivity
 import timber.log.Timber
 
 fun Activity.setLightNavigationBar() {
@@ -177,4 +180,19 @@ private fun Activity.openAppSettings() {
     val uri = Uri.fromParts("package", packageName, null)
     intent.data = uri
     startActivity(intent)
+}
+
+fun AppCompatActivity.handleSingleSelectLink(value: String) = when(value) {
+    "message.forslag.dashboard" -> {
+        startActivity(Intent(this, NativeOfferActivity::class.java).also {
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        })
+    }
+    "message.bankid.start" -> {
+        AuthenticateDialog().show(supportFragmentManager, AuthenticateDialog.TAG)
+    }
+    else -> {
+        Timber.e("Can't handle the link $value")
+    }
 }

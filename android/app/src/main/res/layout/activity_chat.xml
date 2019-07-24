@@ -8,6 +8,54 @@
     android:background="@color/off_white"
     tools:context=".feature.chat.ChatActivity">
 
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/chat_top_bar_height"
+        android:background="@color/off_white"
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/closeChatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="@dimen/base_margin"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/CHAT_CLOSE_DESCRIPTION"
+            android:padding="@dimen/base_margin"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_close"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/hedvig_logo_margin_top"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ic_hedvig_wordmark" />
+
+        <ImageView
+            android:id="@+id/resetChatButton"
+            android:layout_width="@dimen/chat_top_bar_button_size"
+            android:layout_height="@dimen/chat_top_bar_button_size"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="@dimen/base_margin_double"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/CHAT_RESTART_CONTENT_DESCRIPTION"
+            android:padding="@dimen/base_margin_half"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_restart_gray"
+            tools:visibility="visible" />
+
+    </FrameLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messages"
         android:layout_width="match_parent"
@@ -15,43 +63,11 @@
         android:background="@color/off_white"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/input"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
         app:layout_constraintVertical_weight="1"
         app:reverseLayout="true"
         tools:listItem=""
         tools:listitem="@layout/chat_message_hedvig" />
-
-    <ImageView
-        android:id="@+id/resetChatButton"
-        android:layout_width="@dimen/chat_top_bar_button_size"
-        android:layout_height="@dimen/chat_top_bar_button_size"
-        android:layout_gravity="center_vertical|end"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/CHAT_RESTART_CONTENT_DESCRIPTION"
-        android:padding="@dimen/base_margin_half"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_restart_gray"
-        tools:visibility="visible" />
-
-    <!-- Todo: Remove this -->
-    <ImageView
-        android:id="@+id/reload"
-        android:layout_width="@dimen/chat_top_bar_button_size"
-        android:layout_height="@dimen/chat_top_bar_button_size"
-        android:layout_gravity="center_vertical|end"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/CHAT_RESTART_CONTENT_DESCRIPTION"
-        android:padding="@dimen/base_margin_half"
-        android:rotation="180"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_chat_send_green" />
 
     <com.hedvig.app.feature.chat.ChatInputView
         android:id="@+id/input"

@@ -14,6 +14,7 @@ import com.hedvig.app.util.extensions.storeBoolean
 import com.hedvig.app.util.extensions.SHARED_PREFERENCE_TRIED_MIGRATION_OF_TOKEN
 import com.ice.restring.Restring
 import com.jakewharton.threetenabp.AndroidThreeTen
+import io.branch.referral.Branch
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import net.ypresto.timbertreeutils.CrashlyticsLogExceptionTree
@@ -67,6 +68,8 @@ class MainApplication : Application() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         setupRestring()
+
+        Branch.getAutoInstance(this)
     }
 
     private fun acquireHedvigToken() {

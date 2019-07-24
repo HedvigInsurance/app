@@ -12,6 +12,7 @@ import android.widget.ProgressBar
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import com.hedvig.app.BaseActivity
 import com.hedvig.app.R
+import com.hedvig.app.authenticate.AuthenticateDialog
 import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.marketing.service.MarketingTracker
 import com.hedvig.app.util.OnSwipeListener
@@ -281,14 +282,7 @@ class MarketingActivity : BaseActivity() {
         getHedvig.show()
 
         login.setHapticClickListener {
-            tracker.loginClick(
-                marketingStoriesViewModel.page.value,
-                marketingStoriesViewModel.blurred.value
-            )
-            val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("intent", "login")
-            intent.putExtra("show_restart", true)
-            startActivity(intent)
+            AuthenticateDialog().show(supportFragmentManager, AuthenticateDialog.TAG)
         }
 
         getHedvig.setHapticClickListener {

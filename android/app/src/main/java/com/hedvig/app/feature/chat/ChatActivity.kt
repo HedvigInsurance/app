@@ -31,6 +31,8 @@ import timber.log.Timber
 import android.os.Environment
 import java.io.File
 import androidx.core.content.FileProvider
+import com.hedvig.app.util.extensions.view.show
+import kotlinx.android.synthetic.main.fragment_dismissable_pager.*
 import java.io.IOException
 
 class ChatActivity : AppCompatActivity() {
@@ -126,9 +128,6 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        reload.setHapticClickListener {
-            chatViewModel.load()
-        }
         chatViewModel.loadAndSubscribe()
 
         chatRoot.viewTreeObserver.addOnGlobalLayoutListener {
@@ -141,6 +140,18 @@ class ChatActivity : AppCompatActivity() {
                 systemNavHeight = heightDiff
                 isKeyboardShown = false
             }
+        }
+
+        close.setHapticClickListener {
+            onBackPressed()
+        }
+
+        if (intent?.extras?.getBoolean(EXTRA_SHOW_RESTART, false) == true) {
+            resetChatButton.show()
+        }
+
+        if (intent?.extras?.getBoolean(EXTRA_SHOW_CLOSE, false) == true) {
+            close.show()
         }
     }
 
@@ -297,5 +308,6 @@ class ChatActivity : AppCompatActivity() {
         private const val TAKE_PICTURE_REQUEST_CODE = 2371
 
         const val EXTRA_SHOW_CLOSE = "extra_show_close"
+        const val EXTRA_SHOW_RESTART = "extra_show_restart"
     }
 }
