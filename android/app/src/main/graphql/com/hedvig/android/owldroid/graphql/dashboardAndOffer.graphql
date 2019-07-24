@@ -41,6 +41,20 @@ query Offer {
       }
     }
   }
+
+  redeemedCampaigns {
+    incentive {
+      ... on FreeMonths {
+        quantity
+      }
+      ... on MonthlyCostDeduction {
+        amount {
+          amount
+          currency
+        }
+      }
+    }
+  }
 }
 
 fragment PerilCategoryFragment on PerilCategory {

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dark_purple"
+    android:paddingTop="@dimen/base_margin_quadruple"
+    android:paddingBottom="@dimen/base_margin_quadruple">
+
+    <FrameLayout
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="175dp"
+        android:layout_marginEnd="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:tint="@color/green"
+            app:srcCompat="@drawable/sphere" />
+
+        <TextView
+            style="@style/Body.Small.Negative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/base_margin"
+            android:text="@string/OFFER_BUBBLES_DEDUCTIBLE_TITLE" />
+
+        <TextView
+            style="@style/Body.Small.Negative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/base_margin"
+            android:text="@string/OFFER_BUBBLES_DEDUCTIBLE_SUBTITLE" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="135dp"
+        android:layout_height="135dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="170dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:tint="@color/pink"
+            app:srcCompat="@drawable/sphere" />
+
+        <TextView
+            style="@style/Body.Small.Negative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/base_margin_double"
+            android:text="@string/OFFER_BUBBLES_BINDING_PERIOD_TITLE" />
+
+        <TextView
+            style="@style/Body.Small.Negative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/base_margin_double"
+            android:gravity="center"
+            android:lineSpacingExtra="0sp"
+            android:text="@string/OFFER_BUBBLES_BINDING_PERIOD_SUBTITLE" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="135dp"
+        android:layout_height="135dp"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="130dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:tint="@color/purple"
+            app:srcCompat="@drawable/sphere" />
+
+        <TextView
+            android:id="@+id/brfOrTravel"
+            style="@style/Body.Small.Negative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:lineSpacingExtra="0sp"
+            tools:text="Bostadsrätts-\ntillägg ingår" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="@dimen/base_margin_double"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:tint="@color/green"
+            app:srcCompat="@drawable/sphere" />
+
+        <TextView
+            style="@style/Body.Small.Negative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/base_margin"
+            android:text="@string/OFFER_BUBBLES_START_DATE_TITLE" />
+
+        <TextView
+            android:id="@+id/startDate"
+            style="@style/Body.Small.Negative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/base_margin"
+            tools:text="idag" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginEnd="@dimen/base_margin_quadruple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:tint="@color/purple"
+            app:srcCompat="@drawable/sphere" />
+
+        <TextView
+            style="@style/Body.Small.Negative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/base_margin"
+            android:text="@string/OFFER_BUBBLES_INSURED_TITLE" />
+
+        <TextView
+            android:id="@+id/amountInsured"
+            style="@style/Body.Small.Negative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/base_margin"
+            tools:text="2 personer" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
