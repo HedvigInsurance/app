@@ -20,6 +20,16 @@
             android:visibility="gone"
             tools:visibility="visible">
 
+            <TextView
+                style="@style/Headline.Medium.Negative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/purple"
+                android:gravity="center"
+                android:paddingTop="@dimen/base_margin_half"
+                android:paddingBottom="@dimen/base_margin_half"
+                android:text="@string/OFFER_SCROLL_HEADER" />
+
             <include
                 android:id="@+id/homeSection"
                 layout="@layout/offer_peril_section"
@@ -41,6 +51,26 @@
             <include
                 android:id="@+id/termsSection"
                 layout="@layout/offer_section_terms" />
+
+            <TextView
+                style="@style/Headline.Medium.Negative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_margin_triple"
+                android:background="@color/dark_purple"
+                android:gravity="center"
+                android:paddingTop="@dimen/base_margin_triple"
+                android:text="@string/OFFER_GET_HEDVIG_TITLE" />
+
+            <TextView
+                style="@style/Body.XSmall.Negative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/dark_purple"
+                android:gravity="center"
+                android:paddingTop="@dimen/base_margin"
+                android:paddingBottom="@dimen/offer_bottom_padding"
+                android:text="@string/OFFER_GET_HEDVIG_BODY" />
 
         </LinearLayout>
 

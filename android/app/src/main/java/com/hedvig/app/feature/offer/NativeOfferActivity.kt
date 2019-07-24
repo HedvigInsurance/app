@@ -50,6 +50,10 @@ class NativeOfferActivity : AppCompatActivity() {
         meSection.title.text = getString(R.string.OFFER_PERSONAL_PROTECTION_TITLE)
         meSection.paragraph.text = getString(R.string.OFFER_PERSONAL_PROTECTION_DESCRIPTION)
 
+        termsSection.privacyPolicy.setHapticClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, PRIVACY_POLICY_URL))
+        }
+
         offerViewModel.data.observe(lifecycleOwner = this) { data ->
             data?.let { d ->
                 loadingSpinner.remove()
@@ -152,4 +156,9 @@ class NativeOfferActivity : AppCompatActivity() {
             }
         }
     )
+
+    companion object {
+        private val PRIVACY_POLICY_URL =
+            Uri.parse("https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/Hedvig+-+integritetspolicy.pdf")
+    }
 }
