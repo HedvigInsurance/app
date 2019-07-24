@@ -6,6 +6,7 @@ import com.hedvig.android.owldroid.graphql.InsuranceStatusQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.app.ApolloClientWrapper
 import com.hedvig.app.util.extensions.getAuthenticationToken
+import com.hedvig.app.util.extensions.getStoredBoolean
 import com.hedvig.app.util.extensions.isLoggedIn
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import io.reactivex.Observable
@@ -19,11 +20,10 @@ class LoginStatusService(
             return Observable.just(LoginStatus.LOGGED_IN)
         }
 
-        // todo fix this
-//        val isViewingOffer = asyncStorageNative.getKey("@hedvig:isViewingOffer")
-//        if (isViewingOffer == "true") {
-//            return Observable.just(LoginStatus.IN_OFFER)
-//        }
+       val isViewingOffer = context.getStoredBoolean(IS_VIEWING_OFFER)
+       if (isViewingOffer) {
+           return Observable.just(LoginStatus.IN_OFFER)
+       }
 
 
         context.getAuthenticationToken() ?: return Observable.just(LoginStatus.ONBOARDING)
@@ -49,5 +49,9 @@ class LoginStatusService(
                     }
                 } ?: LoginStatus.ONBOARDING
             }
+    }
+
+    companion object {
+        const val IS_VIEWING_OFFER = "IS_VIEWING_OFFER"
     }
 }
