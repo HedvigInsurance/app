@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     let bag = DisposeBag()
     var rootWindow = UIWindow(frame: UIScreen.main.bounds)
     var splashWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
+    var toastWindow: UIWindow?
+    let toastSignal = ReadWriteSignal<Toast?>(nil)
 
     let hasFinishedLoading = ReadWriteSignal<Bool>(false)
     private let applicationWillTerminateCallbacker = Callbacker<Void>()
@@ -35,6 +37,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     override init() {
         applicationWillTerminateSignal = applicationWillTerminateCallbacker.signal()
         super.init()
+    }
+
+    func createToastWindow() -> UIWindow {
+        let window = PassTroughWindow(frame: UIScreen.main.bounds)
+        window.isOpaque = false
+        window.backgroundColor = UIColor.transparent
+
+        let toasts = Toasts(toastSignal: toastSignal)
+
+        bag += window.add(toasts) { toastsView in
+            toastsView.snp.makeConstraints { make in
+                let position: CGFloat = 69
+                if #available(iOS 11.0, *) {
+                    let hasModal = self.rootWindow.rootViewController?.presentedViewController != nil
+                    let safeAreaBottom = self.rootWindow.rootViewController?.view.safeAreaInsets.bottom ?? 0
+                    let extraPadding: CGFloat = hasModal ? 0 : position
+                    make.bottom.equalTo(-(safeAreaBottom + extraPadding))
+                } else {
+                    make.bottom.equalTo(-position)
+                }
+
+                make.centerX.equalToSuperview()
+            }
+        }
+
+        let innerBag = DisposeBag()
+        innerBag += toasts.idleSignal.onValue { _ in
+            innerBag.dispose()
+            self.toastSignal.value = nil
+            self.toastWindow = nil
+        }
+
+        return window
+    }
+
+    func createToast(
+        symbol: ToastSymbol,
+        body: String,
+        textColor: UIColor = UIColor.offBlack,
+        backgroundColor: UIColor = UIColor.white,
+        duration: TimeInterval = 5.0
+    ) {
+        DispatchQueue.main.async {
+            if self.toastWindow == nil {
+                self.toastWindow = self.createToastWindow()
+            }
+
+            self.toastWindow?.makeKeyAndVisible()
+
+            let toast = Toast(
+                symbol: symbol,
+                body: body,
+                textColor: textColor,
+                backgroundColor: backgroundColor,
+                duration: duration
+            )
+
+            if self.toastSignal.value != toast {
+                self.toastSignal.value = toast
+            }
+        }
     }
 
     func application(
