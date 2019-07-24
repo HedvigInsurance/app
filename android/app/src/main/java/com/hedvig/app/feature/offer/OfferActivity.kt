@@ -81,12 +81,17 @@ class OfferActivity : AppCompatActivity() {
         }
 
         grossPremium.setStrikethrough(true)
-
     }
 
     private fun bindDiscountButton(data: OfferQuery.Data) {
+        discountButton.text = if (hasActiveCampaign(data)) {
+            getString(R.string.OFFER_REMOVE_DISCOUNT_BUTTON)
+        } else {
+            getString(R.string.OFFER_ADD_DISCOUNT_BUTTON)
+        }
+
         discountButton.setHapticClickListener {
-            if (data.redeemedCampaigns.size > 0) {
+            if (hasActiveCampaign(data)) {
                 showAlert(
                     R.string.OFFER_REMOVE_DISCOUNT_ALERT_TITLE,
                     R.string.OFFER_REMOVE_DISCOUNT_ALERT_DESCRIPTION,
@@ -246,5 +251,7 @@ class OfferActivity : AppCompatActivity() {
     companion object {
         private val PRIVACY_POLICY_URL =
             Uri.parse("https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/Hedvig+-+integritetspolicy.pdf")
+
+        private fun hasActiveCampaign(data: OfferQuery.Data) = data.redeemedCampaigns.size > 0
     }
 }

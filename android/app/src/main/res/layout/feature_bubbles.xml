@@ -175,14 +175,17 @@
 
     <Button
         android:id="@+id/discountButton"
-        style="@style/Widget.AppCompat.Button.Borderless"
+        style="@style/SmallButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_margin_double"
-        android:text="Rabattkod"
+        android:layout_marginBottom="2dp"
+        android:backgroundTint="@color/dark_purple"
+        android:textColor="@color/off_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/deductibleBubble" />
+        app:layout_constraintTop_toBottomOf="@id/deductibleBubble"
+        tools:text="@string/OFFER_ADD_DISCOUNT_BUTTON" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
