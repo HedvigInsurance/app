@@ -13,14 +13,6 @@ import android.provider.MediaStore
 import android.provider.MediaStore.MediaColumns
 import android.net.Uri
 import com.hedvig.app.R
-import com.hedvig.app.util.extensions.handleSingleSelectLink
-import com.hedvig.app.util.extensions.observe
-import com.hedvig.app.util.extensions.setAuthenticationToken
-import com.hedvig.app.util.extensions.showAlert
-import com.hedvig.app.util.extensions.triggerRestartActivity
-import com.hedvig.app.util.extensions.calculateNonFullscreenHeightDiff
-import com.hedvig.app.util.extensions.hasPermissions
-import com.hedvig.app.util.extensions.askForPermissions
 import android.content.Intent
 import android.app.Activity
 import android.os.Handler
@@ -33,6 +25,7 @@ import android.support.v4.content.FileProvider
 import com.hedvig.app.util.extensions.view.show
 import java.io.IOException
 import android.support.v7.widget.LinearLayoutManager
+import com.hedvig.app.util.extensions.*
 
 class ChatActivity : AppCompatActivity() {
 
@@ -166,6 +159,16 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        storeBoolean(ACTIVITY_IS_IN_FOREGROUND, true)
+    }
+
+    override fun onPause() {
+        storeBoolean(ACTIVITY_IS_IN_FOREGROUND, false)
+        super.onPause()
+    }
+
     private fun scrollToBottom(smooth: Boolean) {
         if(smooth) {
             (messages.layoutManager as LinearLayoutManager).smoothScrollToPosition(messages, null, 0)
@@ -175,6 +178,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun bindData(data: ChatMessagesQuery.Data) {
+        (messages.layoutManager as LinearLayoutManager).reverseLayout = true
         input.message = data.messages.firstOrNull()?.let { ChatInputType.from(it) }
         (messages.adapter as? ChatAdapter)?.let {
             it.messages = data.messages
@@ -336,5 +340,7 @@ class ChatActivity : AppCompatActivity() {
         const val EXTRA_SHOW_CLOSE = "extra_show_close"
         const val EXTRA_SHOW_RESTART = "extra_show_restart"
         const val EXTRA_CHAT_INTENT = "extra_chat_intent"
+
+        const val ACTIVITY_IS_IN_FOREGROUND = "activity_is_in_foreground"
     }
 }

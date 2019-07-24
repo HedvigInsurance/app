@@ -19,6 +19,7 @@ import com.hedvig.app.R
 import com.hedvig.app.SplashActivity
 import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.referrals.ReferralsSuccessfulInviteActivity
+import com.hedvig.app.util.extensions.getStoredBoolean
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.safeLet
 import com.hedvig.app.util.whenApiVersion
@@ -44,7 +45,8 @@ class PushNotificationService : FirebaseMessagingService() {
             .enqueue()
     }
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) =
+    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+        Timber.i("onMessageReceived")
         when (remoteMessage?.data?.get(NOTIFICATION_TYPE_KEY)) {
             NOTIFICATION_TYPE_NEW_MESSAGE -> {
                 setupNotificationChannel(
@@ -75,6 +77,7 @@ class PushNotificationService : FirebaseMessagingService() {
                 sendDefaultNotification(title, body)
             }
         }
+    }
 
     private fun setupNotificationChannel(channelId: String, channelName: String, channelDescription: String) =
         whenApiVersion(Build.VERSION_CODES.O) {
@@ -89,6 +92,11 @@ class PushNotificationService : FirebaseMessagingService() {
         }
 
     private fun sendChatMessageNotification() {
+        Timber.i("sendChatMessageNotification")
+        if (getStoredBoolean(ChatActivity.ACTIVITY_IS_IN_FOREGROUND)) {
+            return
+        }
+
         val chatIntent = Intent(this, ChatActivity::class.java)
         chatIntent.putExtra(ChatActivity.EXTRA_SHOW_CLOSE, true)
 
@@ -114,6 +122,8 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     private fun sendReferralsNotification(remoteMessage: RemoteMessage?) {
+
+        Timber.i("sendReferralsNotification")
         val referralName = remoteMessage?.data?.get(DATA_MESSAGE_REFERRED_SUCCESS_NAME)
         val referralIncentive = remoteMessage?.data?.get(DATA_MESSAGE_REFERRED_SUCCESS_INCENTIVE_AMOUNT)
         val referralsIntent = safeLet(referralName, referralIncentive) { name, incentive ->
@@ -150,6 +160,7 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     private fun sendDefaultNotification(title: String, body: String) {
+        Timber.i("sendDefaultNotification")
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,
