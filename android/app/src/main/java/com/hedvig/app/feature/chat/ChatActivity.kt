@@ -76,7 +76,6 @@ class ChatActivity : AppCompatActivity() {
                 scrollToBottom(true)
                 handleSingleSelectLink(value)
             },
-            paragraphPullMessages = { chatViewModel.load() },
             openAttachFile = {
                 scrollToBottom(true)
                 if (!preventOpenAttachFile) {
@@ -115,17 +114,6 @@ class ChatActivity : AppCompatActivity() {
         chatViewModel.sendMessageResponse.observe(lifecycleOwner = this) { response ->
             if (response == true) {
                 input.clearInput()
-                chatViewModel.load()
-            }
-        }
-        chatViewModel.sendSingleSelectResponse.observe(lifecycleOwner = this) { response ->
-            if (response == true) {
-                chatViewModel.load()
-            }
-        }
-        chatViewModel.sendFileResponse.observe(lifecycleOwner = this) { response ->
-            if (response == true) {
-                chatViewModel.load()
             }
         }
         chatViewModel.takePictureUploadOutcome.observe(lifecycleOwner = this) {
@@ -136,11 +124,12 @@ class ChatActivity : AppCompatActivity() {
         resetChatButton.setOnClickListener {
             showRestartDialog {
                 setAuthenticationToken(null)
-                userViewModel.logout { triggerRestartActivity(ChatActivity::class.java) }
+                userViewModel.logout { triggerRestartActivity() }
             }
         }
 
-        chatViewModel.loadAndSubscribe()
+        chatViewModel.subscribe()
+        chatViewModel.load()
 
         chatRoot.viewTreeObserver.addOnGlobalLayoutListener {
             val heightDiff = chatRoot.calculateNonFullscreenHeightDiff()

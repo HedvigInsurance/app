@@ -27,7 +27,6 @@ class ChatInputView : FrameLayout {
     private lateinit var sendTextMessage: ((String) -> Unit)
     private lateinit var sendSingleSelect: ((String) -> Unit)
     private lateinit var singleSelectLink: ((String) -> Unit)
-    private lateinit var paragraphPullMessages: (() -> Unit)
     private lateinit var openAttachFile: (() -> Unit)
 
     private val layoutInflater: LayoutInflater by lazy {
@@ -62,7 +61,6 @@ class ChatInputView : FrameLayout {
         sendTextMessage: (String) -> Unit,
         sendSingleSelect: (String) -> Unit,
         sendSingleSelectLink: (String) -> Unit,
-        paragraphPullMessages: () -> Unit,
         openAttachFile: () -> Unit,
         requestAudioPermission: () -> Unit,
         uploadRecording: (String) -> Unit
@@ -70,7 +68,6 @@ class ChatInputView : FrameLayout {
         this.sendTextMessage = sendTextMessage
         this.sendSingleSelect = sendSingleSelect
         this.singleSelectLink = sendSingleSelectLink
-        this.paragraphPullMessages = paragraphPullMessages
         this.openAttachFile = openAttachFile
         audioRecorder.initialize(requestAudioPermission, uploadRecording)
     }
@@ -151,7 +148,6 @@ class ChatInputView : FrameLayout {
     private fun bindParagraphInput() {
         paragraphView.show()
         paragraphView.playAnimation()
-        paragraphPullMessages()
     }
 
     private fun bindAudio() {

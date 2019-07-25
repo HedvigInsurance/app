@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.chat_message_hedvig.view.*
 import kotlinx.android.synthetic.main.chat_message_user.view.*
 import kotlinx.android.synthetic.main.chat_message_user_giphy.view.*
 import kotlinx.android.synthetic.main.chat_message_user_image.view.*
+import timber.log.Timber
 
 class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) :
     androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
@@ -43,29 +44,21 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) :
 
             val diff =
                 DiffUtil.calculateDiff(object : DiffUtil.Callback() {
-                    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                        val r = oldMessages[oldItemPosition].fragments.chatMessageFragment.globalId ==
+                    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                        oldMessages[oldItemPosition].fragments.chatMessageFragment.globalId ==
                             value[newItemPosition].fragments.chatMessageFragment.globalId
-                        return r
-                    }
 
-                    override fun getOldListSize(): Int {
-                        val r = oldMessages.size
-                        return r
-                    }
+                    override fun getOldListSize(): Int = oldMessages.size
 
-                    override fun getNewListSize(): Int {
-                        val r = value.size
-                        return r
-                    }
+                    override fun getNewListSize(): Int = value.size
 
-                    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                        val r = oldMessages[oldItemPosition].fragments.chatMessageFragment ==
+
+                    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                        oldMessages[oldItemPosition].fragments.chatMessageFragment ==
                             value[newItemPosition].fragments.chatMessageFragment
-                        return r
-                    }
                 })
 
+            Timber.i("Incoming dispatch $messages")
             diff.dispatchUpdatesTo(this)
         }
 
