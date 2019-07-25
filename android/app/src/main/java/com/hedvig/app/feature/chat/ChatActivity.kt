@@ -3,7 +3,7 @@ package com.hedvig.app.feature.chat
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.showRestartDialog
@@ -13,6 +13,14 @@ import android.provider.MediaStore
 import android.provider.MediaStore.MediaColumns
 import android.net.Uri
 import com.hedvig.app.R
+import com.hedvig.app.util.extensions.handleSingleSelectLink
+import com.hedvig.app.util.extensions.observe
+import com.hedvig.app.util.extensions.setAuthenticationToken
+import com.hedvig.app.util.extensions.showAlert
+import com.hedvig.app.util.extensions.triggerRestartActivity
+import com.hedvig.app.util.extensions.calculateNonFullscreenHeightDiff
+import com.hedvig.app.util.extensions.hasPermissions
+import com.hedvig.app.util.extensions.askForPermissions
 import android.content.Intent
 import android.app.Activity
 import android.os.Handler
@@ -21,10 +29,10 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 import android.os.Environment
 import java.io.File
-import android.support.v4.content.FileProvider
+import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hedvig.app.util.extensions.view.show
 import java.io.IOException
-import android.support.v7.widget.LinearLayoutManager
 import com.hedvig.app.util.extensions.*
 
 class ChatActivity : AppCompatActivity() {

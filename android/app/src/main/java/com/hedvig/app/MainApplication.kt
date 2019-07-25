@@ -2,11 +2,8 @@ package com.hedvig.app
 
 import android.app.Application
 import android.content.Context
-import android.support.multidex.MultiDex
-import android.support.v7.app.AppCompatDelegate
-import com.apollographql.apollo.ApolloClient
+import androidx.appcompat.app.AppCompatDelegate
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.facebook.soloader.SoLoader
 import com.hedvig.android.owldroid.graphql.NewSessionMutation
 import com.hedvig.app.feature.whatsnew.WhatsNewRepository
 import com.hedvig.app.service.TextKeys
@@ -17,6 +14,7 @@ import com.hedvig.app.util.extensions.storeBoolean
 import com.hedvig.app.util.extensions.SHARED_PREFERENCE_TRIED_MIGRATION_OF_TOKEN
 import com.ice.restring.Restring
 import com.jakewharton.threetenabp.AndroidThreeTen
+import io.branch.referral.Branch
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import net.ypresto.timbertreeutils.CrashlyticsLogExceptionTree
@@ -24,7 +22,6 @@ import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-import org.koin.core.inject
 import timber.log.Timber
 
 class MainApplication : Application() {
@@ -34,13 +31,7 @@ class MainApplication : Application() {
 
     private val disposables = CompositeDisposable()
 
-    val textKeys: TextKeys by inject()
-
-
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
-    }
+    private val textKeys: TextKeys by inject()
 
     override fun onCreate() {
         super.onCreate()
@@ -67,7 +58,6 @@ class MainApplication : Application() {
             acquireHedvigToken()
         }
 
-        SoLoader.init(this, false)
         // TODO Remove this probably? Or figure out a better solve for the problem
         if (BuildConfig.DEBUG || BuildConfig.APP_ID == "com.hedvig.test.app") {
             Timber.plant(Timber.DebugTree())
@@ -78,6 +68,8 @@ class MainApplication : Application() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         setupRestring()
+
+        Branch.getAutoInstance(this)
     }
 
     private fun acquireHedvigToken() {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
 
     <include layout="@layout/app_bar" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/off_white"
@@ -21,13 +21,13 @@
 
             <include layout="@layout/loading_spinner" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@id/sphereContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="@dimen/base_margin_triple"
                 android:visibility="gone"
-                android:layout_gravity="center"
                 tools:visibility="visible">
 
                 <ImageView
@@ -59,7 +59,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="129" />
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -96,9 +96,9 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:id="@+id/freeUntilContainer"
@@ -107,9 +107,9 @@
                 android:layout_marginStart="@dimen/base_margin"
                 android:layout_marginTop="@dimen/base_margin_triple"
                 android:layout_marginEnd="@dimen/base_margin"
-                android:padding="@dimen/base_margin_double"
                 android:background="@drawable/background_rounded_corners_pink"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/base_margin_double">
 
                 <TextView
                     android:id="@+id/freeUntilText"
@@ -126,24 +126,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_marginTop="@dimen/base_margin_half"
+                    android:gravity="center"
                     tools:text="@string/PROFILE_PAYMENT_FREE_UNTIL_MESSAGE" />
 
             </LinearLayout>
 
-            <android.support.design.card.MaterialCardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@id/connectBankAccountContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
                 android:layout_marginTop="@dimen/base_margin_triple"
                 android:layout_marginEnd="@dimen/base_margin"
-                app:cardCornerRadius="@dimen/bottom_sheet_corner_radius_less"
                 android:visibility="gone"
+                app:cardCornerRadius="@dimen/bottom_sheet_corner_radius_less"
                 tools:visibility="visible">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -190,9 +190,9 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/cardSeparator" />
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </android.support.design.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
                 android:id="@id/paymentDetailsContainer"
@@ -204,8 +204,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sphereContainer"
-                tools:visibility="visible"
-                >
+                tools:visibility="visible">
 
                 <TextView
                     style="@style/Headline.Medium"
@@ -326,6 +325,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="@dimen/base_margin_triple"
                 android:text="@string/PROFILE_PAYMENT_CHANGE_BANK_ACCOUNT"
                 android:textAllCaps="false"
@@ -334,23 +334,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/separator"
-                tools:visibility="visible"
-                android:layout_gravity="center" />
+                tools:visibility="visible" />
 
             <Button
                 android:id="@+id/redeemCode"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/REFERRAL_ADDCOUPON_HEADLINE"
                 android:textAllCaps="false"
                 android:theme="@style/Body.Small.Link.Emphasized"
-                android:text="@string/REFERRAL_ADDCOUPON_HEADLINE"
                 android:visibility="gone"
-                tools:visibility="visible"
-                android:layout_gravity="center"/>
+                tools:visibility="visible" />
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 

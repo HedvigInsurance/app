@@ -3,7 +3,7 @@ package com.hedvig.app.feature.referrals
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
@@ -77,6 +77,7 @@ class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
             putExtra(EXTRA_REFERRAL_NAME, name)
             putExtra(EXTRA_REFERRAL_INCENTIVE, incentive)
         }
+
         fun newInstance(context: Context) = Intent(context, ReferralsSuccessfulInviteActivity::class.java)
     }
 }

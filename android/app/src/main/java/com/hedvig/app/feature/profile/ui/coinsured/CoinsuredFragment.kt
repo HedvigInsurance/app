@@ -1,8 +1,8 @@
 package com.hedvig.app.feature.profile.ui.coinsured
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_coinsured.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class CoinsuredFragment : Fragment() {
+class CoinsuredFragment : androidx.fragment.app.Fragment() {
 
     private val profileViewModel: ProfileViewModel by sharedViewModel()
 

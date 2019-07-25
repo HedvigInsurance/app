@@ -7,7 +7,7 @@
     tools:layout_height="188dp"
     tools:layout_width="280dp">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:minWidth="280dp"
@@ -19,9 +19,9 @@
             android:id="@id/dialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/Headline.Small"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
+            android:theme="@style/Headline.Small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Hoppsan!" />
@@ -31,9 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:theme="@style/Body.Small"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
+            android:theme="@style/Body.Small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dialogTitle"
             tools:text="Det där verkar inte vara en giltig e-postadress!" />
@@ -43,11 +43,11 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/DialogButton"
             android:layout_marginEnd="16dp"
+            android:theme="@style/DialogButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="Okej" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

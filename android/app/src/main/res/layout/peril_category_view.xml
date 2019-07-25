@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/base_margin_double"
@@ -38,8 +38,8 @@
                 style="@style/Headline.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
                 app:autoSizeMaxTextSize="@dimen/text_medium"
                 app:autoSizeMinTextSize="@dimen/text_small"
                 app:autoSizeStepGranularity="@dimen/sphere_text_step_granularity"
@@ -69,10 +69,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>

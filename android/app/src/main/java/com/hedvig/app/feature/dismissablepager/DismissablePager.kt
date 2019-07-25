@@ -1,10 +1,10 @@
 package com.hedvig.app.feature.dismissablepager
 
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.annotation.StyleRes
-import android.support.v4.app.DialogFragment
-import android.support.v4.view.ViewPager
+import androidx.annotation.StringRes
+import androidx.annotation.StyleRes
+import androidx.fragment.app.DialogFragment
+import androidx.viewpager.widget.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import kotlinx.android.synthetic.main.fragment_dismissable_pager.*
 
-abstract class DismissablePager : DialogFragment() {
+abstract class DismissablePager : androidx.fragment.app.DialogFragment() {
     abstract val items: List<DismissablePagerPage>
     abstract val tracker: DismissablePageTracker
 
@@ -73,7 +73,7 @@ abstract class DismissablePager : DialogFragment() {
         }
     }
 
-    inner class PageChangeListener : ViewPager.OnPageChangeListener {
+    inner class PageChangeListener : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(p0: Int) {}
 
         override fun onPageScrolled(position: Int, offsetPercentage: Float, offsetPixels: Int) {

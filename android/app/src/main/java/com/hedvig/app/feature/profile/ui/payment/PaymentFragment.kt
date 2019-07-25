@@ -1,8 +1,8 @@
 package com.hedvig.app.feature.profile.ui.payment
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
@@ -37,7 +37,7 @@ import timber.log.Timber
 import org.threeten.bp.LocalDate
 import java.util.Calendar
 
-class PaymentFragment : Fragment() {
+class PaymentFragment : androidx.fragment.app.Fragment() {
 
     private val profileViewModel: ProfileViewModel by sharedViewModel()
     private val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
@@ -100,7 +100,8 @@ class PaymentFragment : Fragment() {
             resetViews()
             sphereContainer.show()
 
-            val monthlyCost = profileData?.insurance?.cost?.monthlyNet?.amount?.toBigDecimal()?.toInt()
+            val monthlyCost =
+                profileData?.insurance?.cost?.fragments?.costFragment?.monthlyNet?.amount?.toBigDecimal()?.toInt()
             val amountPartOne = SpannableString("$monthlyCost\n")
             val perMonthLabel = resources.getString(R.string.PROFILE_PAYMENT_PER_MONTH_LABEL)
             val amountPartTwo = SpannableString(perMonthLabel)
@@ -130,17 +131,17 @@ class PaymentFragment : Fragment() {
 
             grossPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_PRICE),
-                "PRICE" to profileData?.insurance?.cost?.monthlyGross?.amount?.toBigDecimal()?.toInt()
+                "PRICE" to profileData?.insurance?.cost?.fragments?.costFragment?.monthlyGross?.amount?.toBigDecimal()?.toInt()
             )
 
             discount.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_DISCOUNT),
-                "DISCOUNT" to (profileData?.insurance?.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt()?.unaryMinus())
+                "DISCOUNT" to (profileData?.insurance?.cost?.fragments?.costFragment?.monthlyDiscount?.amount?.toBigDecimal()?.toInt()?.unaryMinus())
             )
 
             netPremium.text = interpolateTextKey(
                 resources.getString(R.string.PROFILE_PAYMENT_FINAL_COST),
-                "FINAL_COST" to profileData?.insurance?.cost?.monthlyNet?.amount?.toBigDecimal()?.toInt()
+                "FINAL_COST" to profileData?.insurance?.cost?.fragments?.costFragment?.monthlyNet?.amount?.toBigDecimal()?.toInt()
             )
 
             bindBankAccountInformation()
@@ -227,7 +228,7 @@ class PaymentFragment : Fragment() {
     }
 
     private fun showRedeemCodeOnNoDiscount(profileData: ProfileQuery.Data) {
-        if (profileData.insurance.cost?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0) {
+        if (profileData.insurance.cost?.fragments?.costFragment?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0) {
             redeemCode.show()
         }
     }

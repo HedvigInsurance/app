@@ -3,7 +3,7 @@ package com.hedvig.app.feature.dashboard.ui
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import android.view.LayoutInflater
 import com.hedvig.app.R
 import com.hedvig.app.ui.fragment.RoundedBottomSheetDialogFragment
@@ -36,6 +36,8 @@ class PerilBottomSheet : RoundedBottomSheetDialogFragment() {
         private const val PERIL_ICON = "peril_icon"
         private const val PERIL_TITLE = "peril_title"
         private const val PERIL_DESCRIPTION = "peril_description"
+
+        const val TAG = "perilBottomSheet"
 
         fun newInstance(subject: String, @DrawableRes icon: Int, title: String, description: String): PerilBottomSheet {
             val arguments = Bundle().apply {

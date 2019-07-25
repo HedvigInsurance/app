@@ -1,7 +1,7 @@
 package com.hedvig.app.feature.profile.ui.charity
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +16,7 @@ class CharityAdapter(
     val items: List<ProfileQuery.CashbackOption>,
     val context: Context,
     val clickListener: (String) -> Unit
-) : RecyclerView.Adapter<CharityAdapter.CashbackOptionViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<CharityAdapter.CashbackOptionViewHolder>() {
     override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CashbackOptionViewHolder =
@@ -44,7 +44,7 @@ class CharityAdapter(
         }
     }
 
-    class CashbackOptionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class CashbackOptionViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val title: TextView = view.cashbackOptionTitle
         val paragraph: TextView = view.cashbackOptionParagraph
         val button: Button = view.cashbackSelect

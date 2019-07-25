@@ -1,14 +1,20 @@
 package com.hedvig.app.feature.profile.data
 
-import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.hedvig.android.owldroid.graphql.*
+import com.hedvig.android.owldroid.graphql.BankAccountQuery
+import com.hedvig.android.owldroid.graphql.LogoutMutation
+import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.graphql.RedeemReferralCodeMutation
+import com.hedvig.android.owldroid.graphql.SelectCashbackMutation
+import com.hedvig.android.owldroid.graphql.StartDirectDebitRegistrationMutation
+import com.hedvig.android.owldroid.graphql.UpdateEmailMutation
+import com.hedvig.android.owldroid.graphql.UpdatePhoneNumberMutation
 import com.hedvig.app.ApolloClientWrapper
 import io.reactivex.Observable
 
-class ProfileRepository(private val apolloClientWrapper: ApolloClientWrapper ) {
+class ProfileRepository(private val apolloClientWrapper: ApolloClientWrapper) {
     private lateinit var profileQuery: ProfileQuery
     fun fetchProfile(): Observable<ProfileQuery.Data?> {
         profileQuery = ProfileQuery
@@ -109,38 +115,15 @@ class ProfileRepository(private val apolloClientWrapper: ApolloClientWrapper ) {
             .read(profileQuery)
             .execute()
 
-        val cost = data.redeemCode.cost
+        val costFragment = data.redeemCode.cost.fragments.costFragment
 
-        val monthlyDiscount = ProfileQuery.MonthlyDiscount
-            .builder()
-            .__typename(cost.monthlyDiscount.__typename)
-            .amount(cost.monthlyDiscount.amount)
-            .build()
-
-        val monthlyNet = ProfileQuery.MonthlyNet
-            .builder()
-            .__typename(cost.monthlyNet.__typename)
-            .amount(cost.monthlyNet.amount)
-            .build()
-
-        val monthlyGross = ProfileQuery.MonthlyGross
-            .builder()
-            .__typename(cost.monthlyGross.__typename)
-            .amount(cost.monthlyGross.amount)
-            .build()
-
-        val newCostData = ProfileQuery.Cost
-            .builder()
-            .__typename(cost.__typename)
-            .monthlyDiscount(monthlyDiscount)
-            .monthlyNet(monthlyNet)
-            .monthlyGross(monthlyGross)
-            .build()
+        val newCost = cachedData.insurance.cost?.toBuilder()
+            ?.fragments(ProfileQuery.Cost.Fragments.builder().costFragment(costFragment).build())?.build()
 
         val newData = cachedData
             .toBuilder()
             .insurance(
-                cachedData.insurance.toBuilder().cost(newCostData).build()
+                cachedData.insurance.toBuilder().cost(newCost).build()
             )
             .build()
 

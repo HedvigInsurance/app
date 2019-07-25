@@ -1,6 +1,6 @@
 package com.hedvig.app.feature.loggedin.ui
 
-import android.support.annotation.IdRes
+import androidx.annotation.IdRes
 import com.hedvig.app.R
 
 enum class LoggedInTabs {

@@ -1,19 +1,19 @@
 package com.hedvig.app.feature.dismissablepager
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 
 class DismissablePagerAdapter(
-    fragmentManager: FragmentManager,
+    fragmentManager: androidx.fragment.app.FragmentManager,
     private val data: List<DismissablePagerPage>
-) : FragmentPagerAdapter(fragmentManager) {
+) : androidx.fragment.app.FragmentPagerAdapter(fragmentManager) {
     override fun getItem(position: Int) = if (position < data.size) {
         data[position].let { page ->
             DismissablePageFragment.newInstance(page.imageUrl, page.title, page.paragraph)
         }
     } else {
-        Fragment()
+        androidx.fragment.app.Fragment()
     }
 
     override fun getCount() = data.size + 1

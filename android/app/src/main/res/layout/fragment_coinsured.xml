@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 tools:context="com.hedvig.app.feature.profile.ui.coinsured.CoinsuredFragment">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hedvig.app.feature.profile.ui.coinsured.CoinsuredFragment">
 
-    <include layout="@layout/app_bar"/>
+    <include layout="@layout/app_bar" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/off_white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_marginBottom="?attr/actionBarSize"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="?attr/actionBarSize">
 
-            <include layout="@layout/loading_spinner"/>
+            <include layout="@layout/loading_spinner" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@id/sphereContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,11 +37,11 @@
                     android:layout_width="160dp"
                     android:layout_height="160dp"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/sphere"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:tint="@color/purple"/>
+                    app:srcCompat="@drawable/sphere"
+                    tools:tint="@color/purple" />
 
                 <TextView
                     android:id="@id/sphereText"
@@ -58,9 +58,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="2\nmedförsäkrade"/>
+                    tools:text="2\nmedförsäkrade" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@id/loadingAnimation"
@@ -74,7 +74,7 @@
                 app:layout_constraintTop_toBottomOf="@id/sphereContainer"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/banner_loading_icons"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
 
             <LinearLayout
                 android:id="@id/textContainer"
@@ -96,7 +96,7 @@
                     android:fontFamily="@font/circular_bold"
                     android:text="@string/PROFILE_COINSURED_MORE_TO_COME_TITLE"
                     android:textColor="@color/off_black_dark"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -104,12 +104,12 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/circular_book"
                     android:text="@string/PROFILE_COINSURED_MORE_TO_COME_DESCRIPTION"
-                    android:theme="@style/Body.Small"/>
+                    android:theme="@style/Body.Small" />
 
             </LinearLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

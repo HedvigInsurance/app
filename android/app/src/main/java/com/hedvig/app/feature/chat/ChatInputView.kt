@@ -1,8 +1,8 @@
 package com.hedvig.app.feature.chat
 
 import android.content.Context
-import android.support.animation.DynamicAnimation
-import android.support.animation.SpringAnimation
+import androidx.dynamicanimation.animation.DynamicAnimation
+import androidx.dynamicanimation.animation.SpringAnimation
 import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -58,13 +58,15 @@ class ChatInputView : FrameLayout {
         }
     }
 
-    fun initialize(sendTextMessage: (String) -> Unit,
-                   sendSingleSelect: (String) -> Unit,
-                   sendSingleSelectLink: (String) -> Unit,
-                   paragraphPullMessages: () -> Unit,
-                   openAttachFile: () -> Unit,
-                   requestAudioPermission: () -> Unit,
-                   uploadRecording: (String) -> Unit) {
+    fun initialize(
+        sendTextMessage: (String) -> Unit,
+        sendSingleSelect: (String) -> Unit,
+        sendSingleSelectLink: (String) -> Unit,
+        paragraphPullMessages: () -> Unit,
+        openAttachFile: () -> Unit,
+        requestAudioPermission: () -> Unit,
+        uploadRecording: (String) -> Unit
+    ) {
         this.sendTextMessage = sendTextMessage
         this.sendSingleSelect = sendSingleSelect
         this.singleSelectLink = sendSingleSelectLink
@@ -163,6 +165,5 @@ class ChatInputView : FrameLayout {
     fun rotateFileUploadIcon(isOpening: Boolean) {
         SpringAnimation(uploadFile, DynamicAnimation.ROTATION).animateToFinalPosition(if (isOpening) 135f else 0f)
     }
-
 }
 

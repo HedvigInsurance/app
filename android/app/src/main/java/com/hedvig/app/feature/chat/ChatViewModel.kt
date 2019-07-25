@@ -1,7 +1,7 @@
 package com.hedvig.app.feature.chat
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import android.net.Uri
 import com.apollographql.apollo.api.Response
 import com.hedvig.android.owldroid.graphql.ChatMessagesQuery
@@ -81,7 +81,7 @@ class ChatViewModel(
         isUploading.value = true
         disposables += chatRepository
             .uploadFile(uri)
-            .subscribe( { data ->
+            .subscribe({ data ->
                 data.data()?.let {
                     respondWithFile(it.uploadFile.key, uri)
                 }
