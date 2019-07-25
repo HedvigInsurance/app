@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.promotion_code_dialog.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
-abstract class RedeemCodeDialog : androidx.fragment.app.DialogFragment() {
+abstract class RedeemCodeDialog : DialogFragment() {
 
     private val referralViewModel: ReferralViewModel by viewModel()
 

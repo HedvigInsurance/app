@@ -20,14 +20,18 @@
             android:visibility="gone"
             tools:visibility="visible">
 
+            <include layout="@layout/price_bubbles" />
+
+            <include layout="@layout/feature_bubbles" />
+
             <TextView
                 style="@style/Headline.Medium.Negative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/purple"
                 android:gravity="center"
-                android:paddingTop="@dimen/base_margin_half"
-                android:paddingBottom="@dimen/base_margin_half"
+                android:paddingTop="@dimen/base_margin_double"
+                android:paddingBottom="@dimen/base_margin_double"
                 android:text="@string/OFFER_SCROLL_HEADER" />
 
             <include
