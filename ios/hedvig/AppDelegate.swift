@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     let bag = DisposeBag()
     var rootWindow = UIWindow(frame: UIScreen.main.bounds)
     var splashWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
+    var toastWindow: UIWindow?
+    let toastSignal = ReadWriteSignal<Toast?>(nil)
 
     let hasFinishedLoading = ReadWriteSignal<Bool>(false)
     private let applicationWillTerminateCallbacker = Callbacker<Void>()
@@ -35,6 +37,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     override init() {
         applicationWillTerminateSignal = applicationWillTerminateCallbacker.signal()
         super.init()
+        toastWindow = createToastWindow()
+    }
+
+    func createToastWindow() -> UIWindow {
+        let window = PassTroughWindow(frame: UIScreen.main.bounds)
+        window.isOpaque = false
+        window.backgroundColor = UIColor.transparent
+
+        let toasts = Toasts(toastSignal: toastSignal)
+
+        bag += window.add(toasts) { toastsView in
+            bag += toastSignal.onValue { _ in
+                window.makeKeyAndVisible()
+
+                toastsView.snp.remakeConstraints { make in
+                    let position: CGFloat = 69
+                    if #available(iOS 11.0, *) {
+                        let hasModal = self.rootWindow.rootViewController?.presentedViewController != nil
+                        let safeAreaBottom = self.rootWindow.rootViewController?.view.safeAreaInsets.bottom ?? 0
+                        let extraPadding: CGFloat = hasModal ? 0 : position
+                        make.bottom.equalTo(-(safeAreaBottom + extraPadding))
+                    } else {
+                        make.bottom.equalTo(-position)
+                    }
+
+                    make.centerX.equalToSuperview()
+                }
+            }
+        }
+
+        bag += toasts.idleSignal.onValue { _ in
+            self.toastSignal.value = nil
+            self.rootWindow.makeKeyAndVisible()
+        }
+
+        return window
+    }
+
+    func createToast(
+        symbol: ToastSymbol,
+        body: String,
+        textColor: UIColor = UIColor.offBlack,
+        backgroundColor: UIColor = UIColor.white,
+        duration: TimeInterval = 5.0
+    ) {
+        bag += Signal(after: 0).withLatestFrom(toastSignal.atOnce().plain()).onValue(on: .main) { _, previousToast in
+            let toast = Toast(
+                symbol: symbol,
+                body: body,
+                textColor: textColor,
+                backgroundColor: backgroundColor,
+                duration: duration
+            )
+
+            if toast != previousToast {
+                self.toastSignal.value = toast
+            }
+        }
     }
 
     func application(
@@ -195,11 +255,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         ApolloContainer.shared.deleteToken()
         RCTAsyncLocalStorage().clearAllData()
 
-        bag += RCTApolloClient.getClient().onValue { _ in
-            ReactNativeContainer.shared.bridge.reload()
-            self.bag.dispose()
-            ApplicationState.preserveState(.marketing)
-            self.bag += ApplicationState.presentRootViewController(self.rootWindow)
+        bag += Signal(after: 0.2).onValue {
+            self.bag += RCTApolloClient.getClient().onValue { _ in
+                ReactNativeContainer.shared.bridge.reload()
+                self.bag.dispose()
+                ApplicationState.preserveState(.marketing)
+                self.bag += ApplicationState.presentRootViewController(self.rootWindow)
+            }
         }
     }
 
