@@ -42,7 +42,6 @@ class ChatInputView : FrameLayout {
                 is SingleSelect -> bindSingleSelect(value)
                 is ParagraphInput -> bindParagraphInput()
                 is Audio -> bindAudio()
-                is NullInput -> bindNullInput()
             }
         }
 
@@ -84,7 +83,6 @@ class ChatInputView : FrameLayout {
         paragraphView.remove()
         paragraphView.cancelAnimation()
         audioRecorder.remove()
-        nullView.remove()
     }
 
     private fun bindTextInput(input: TextInput) {
@@ -152,10 +150,6 @@ class ChatInputView : FrameLayout {
 
     private fun bindAudio() {
         audioRecorder.show()
-    }
-
-    private fun bindNullInput() {
-        nullView.show()
     }
 
     fun rotateFileUploadIcon(isOpening: Boolean) {

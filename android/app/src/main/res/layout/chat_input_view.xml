@@ -91,12 +91,4 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <!-- Todo remove this -->
-    <TextView
-        android:id="@+id/nullView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Null View"
-        android:visibility="gone" />
 </FrameLayout>
