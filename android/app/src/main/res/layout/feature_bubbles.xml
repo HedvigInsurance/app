@@ -10,10 +10,10 @@
 
     <FrameLayout
         android:id="@+id/deductibleBubble"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginTop="175dp"
-        android:layout_marginEnd="70dp"
+        android:layout_width="@dimen/deductible_bubble_size"
+        android:layout_height="@dimen/deductible_bubble_size"
+        android:layout_marginTop="@dimen/deductibe_bubble_top_offset"
+        android:layout_marginEnd="@dimen/deductible_bubble_end_offset"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -44,10 +44,10 @@
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="135dp"
-        android:layout_height="135dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="170dp"
+        android:layout_width="@dimen/binding_period_bubble_size"
+        android:layout_height="@dimen/binding_period_bubble_size"
+        android:layout_marginTop="@dimen/binding_period_bubble_top_offset"
+        android:layout_marginEnd="@dimen/binding_period_bubble_end_offset"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -80,10 +80,10 @@
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="135dp"
-        android:layout_height="135dp"
-        android:layout_marginStart="125dp"
-        android:layout_marginTop="130dp"
+        android:layout_width="@dimen/coverage_or_travel_bubble_size"
+        android:layout_height="@dimen/coverage_or_travel_bubble_size"
+        android:layout_marginStart="@dimen/coverage_or_travel_bubble_top_offset"
+        android:layout_marginTop="@dimen/coverage_or_travel_bubble_start_offset"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -107,9 +107,9 @@
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="130dp"
+        android:layout_width="@dimen/start_date_bubble_size"
+        android:layout_height="@dimen/start_date_bubble_size"
+        android:layout_marginStart="@dimen/start_date_bubble_start_offset"
         android:layout_marginTop="@dimen/base_margin_double"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -141,8 +141,8 @@
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="@dimen/number_insured_bubble_size"
+        android:layout_height="@dimen/number_insured_bubble_size"
         android:layout_marginEnd="@dimen/base_margin_quadruple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -179,7 +179,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_margin_double"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="@dimen/button_shadow_offset"
         android:backgroundTint="@color/dark_purple"
         android:textColor="@color/off_white"
         app:layout_constraintBottom_toBottomOf="parent"

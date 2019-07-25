@@ -8,8 +8,8 @@
     android:paddingTop="@dimen/base_margin_quadruple">
 
     <ImageView
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="@dimen/price_bubble_size"
+        android:layout_height="@dimen/price_bubble_size"
         android:contentDescription="@null"
         android:tint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,8 +56,8 @@
 
     <FrameLayout
         android:id="@+id/discountBubble"
-        android:layout_width="97dp"
-        android:layout_height="97dp"
+        android:layout_width="@dimen/discount_bubble_size"
+        android:layout_height="@dimen/discount_bubble_size"
         android:layout_marginStart="@dimen/base_margin_quadruple"
         android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/netPremium"
@@ -65,8 +65,8 @@
         tools:visibility="visible">
 
         <ImageView
-            android:layout_width="97dp"
-            android:layout_height="97dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:contentDescription="@null"
             android:tint="@color/pink"
             app:srcCompat="@drawable/sphere" />
