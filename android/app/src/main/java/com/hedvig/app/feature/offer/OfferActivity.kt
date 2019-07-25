@@ -82,6 +82,10 @@ class OfferActivity : AppCompatActivity() {
         }
 
         grossPremium.setStrikethrough(true)
+
+        signButton.setHapticClickListener {
+            OfferSignDialog.newInstance().show(supportFragmentManager, OfferSignDialog.TAG)
+        }
     }
 
     private fun bindDiscountButton(data: OfferQuery.Data) {
