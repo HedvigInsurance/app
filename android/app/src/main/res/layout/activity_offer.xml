@@ -1,83 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <FrameLayout
+    <Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <include
-            layout="@layout/loading_spinner"
-            tools:visibility="gone" />
+        android:layout_height="wrap_content"
+        android:background="@color/dark_purple">
 
         <LinearLayout
-            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
+            android:orientation="horizontal">
 
-            <include layout="@layout/price_bubbles" />
-
-            <include layout="@layout/feature_bubbles" />
-
-            <TextView
-                style="@style/Headline.Medium.Negative"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/purple"
-                android:gravity="center"
-                android:paddingTop="@dimen/base_margin_double"
-                android:paddingBottom="@dimen/base_margin_double"
-                android:text="@string/OFFER_SCROLL_HEADER" />
+                android:layout_marginStart="@dimen/base_margin_double"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin_double"
+                android:layout_marginBottom="@dimen/base_margin"
+                android:orientation="vertical">
 
-            <include
-                android:id="@+id/homeSection"
-                layout="@layout/offer_peril_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <TextView
+                    style="@style/Headline.Medium.Negative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/OFFER_TITLE" />
 
-            <include
-                android:id="@+id/stuffSection"
-                layout="@layout/offer_peril_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/offerToolbarAddress"
+                    style="@style/Headline.Small.Negative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Storgatan 32" />
+            </LinearLayout>
 
-            <include
-                android:id="@+id/meSection"
-                layout="@layout/offer_peril_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
-            <include
-                android:id="@+id/termsSection"
-                layout="@layout/offer_section_terms" />
-
-            <TextView
-                style="@style/Headline.Medium.Negative"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/offerChatButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/base_margin_triple"
-                android:background="@color/dark_purple"
-                android:gravity="center"
-                android:paddingTop="@dimen/base_margin_triple"
-                android:text="@string/OFFER_GET_HEDVIG_TITLE" />
-
-            <TextView
-                style="@style/Body.XSmall.Negative"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/dark_purple"
-                android:gravity="center"
-                android:paddingTop="@dimen/base_margin"
-                android:paddingBottom="@dimen/offer_bottom_padding"
-                android:text="@string/OFFER_GET_HEDVIG_BODY" />
-
+                android:layout_gravity="center_vertical"
+                android:background="?selectableItemBackgroundBorderless"
+                android:layout_marginStart="@dimen/base_margin_double"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin_double"
+                android:layout_marginBottom="@dimen/base_margin"
+                app:srcCompat="@drawable/ic_chat_white" />
         </LinearLayout>
 
-    </FrameLayout>
 
-</ScrollView>
+    </Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                layout="@layout/loading_spinner"
+                tools:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <include layout="@layout/price_bubbles" />
+
+                <include layout="@layout/feature_bubbles" />
+
+                <TextView
+                    style="@style/Headline.Medium.Negative"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/base_margin_double"
+                    android:paddingBottom="@dimen/base_margin_double"
+                    android:text="@string/OFFER_SCROLL_HEADER" />
+
+                <include
+                    android:id="@+id/homeSection"
+                    layout="@layout/offer_peril_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/stuffSection"
+                    layout="@layout/offer_peril_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/meSection"
+                    layout="@layout/offer_peril_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/termsSection"
+                    layout="@layout/offer_section_terms" />
+
+                <TextView
+                    style="@style/Headline.Medium.Negative"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin_triple"
+                    android:background="@color/dark_purple"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/base_margin_triple"
+                    android:text="@string/OFFER_GET_HEDVIG_TITLE" />
+
+                <TextView
+                    style="@style/Body.XSmall.Negative"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/dark_purple"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/base_margin"
+                    android:paddingBottom="@dimen/offer_bottom_padding"
+                    android:text="@string/OFFER_GET_HEDVIG_BODY" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </ScrollView>
+</LinearLayout>
