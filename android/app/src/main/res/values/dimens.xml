@@ -126,4 +126,5 @@
     <dimen name="start_date_bubble_start_offset">130dp</dimen>
     <dimen name="number_insured_bubble_size">90dp</dimen>
     <dimen name="button_shadow_offset">2dp</dimen>
+    <dimen name="medium_elevation">4dp</dimen>
 </resources>

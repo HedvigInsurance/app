@@ -6,10 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/dark_purple">
+        android:background="@color/dark_purple"
+        android:elevation="@dimen/medium_elevation">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +59,7 @@
         </LinearLayout>
 
 
-    </Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
