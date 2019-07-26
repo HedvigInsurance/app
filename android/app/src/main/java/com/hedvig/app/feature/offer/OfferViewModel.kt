@@ -47,7 +47,7 @@ class OfferViewModel(
                 }
 
                 removeDiscountFromCache()
-            }, { Timber.e(it)})
+            }, { Timber.e(it) })
     }
 
     private fun removeDiscountFromCache() {
@@ -55,4 +55,10 @@ class OfferViewModel(
     }
 
     fun writeDiscountToCache(data: RedeemReferralCodeMutation.Data) = offerRepository.writeDiscountToCache(data)
+
+    fun triggerOpenChat(done: () -> Unit) {
+        disposables += offerRepository
+            .triggerOpenChatFromOffer()
+            .subscribe({ done() }, { Timber.e(it) })
+    }
 }

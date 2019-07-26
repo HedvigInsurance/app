@@ -46,7 +46,9 @@ class OfferActivity : AppCompatActivity() {
         setContentView(R.layout.activity_offer)
 
         offerChatButton.setHapticClickListener {
-            startClosableChat(true)
+            offerViewModel.triggerOpenChat {
+                startClosableChat(true)
+            }
         }
 
         bindStaticData()
