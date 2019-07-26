@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hedvig.android.owldroid.graphql.OfferQuery
 import com.hedvig.android.owldroid.graphql.RedeemReferralCodeMutation
+import com.hedvig.android.owldroid.graphql.SignOfferMutation
+import com.hedvig.android.owldroid.graphql.SignStatusSubscription
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import timber.log.Timber
@@ -12,6 +14,8 @@ class OfferViewModel(
     private val offerRepository: OfferRepository
 ) : ViewModel() {
     val data = MutableLiveData<OfferQuery.Data>()
+    val autoStartToken = MutableLiveData<SignOfferMutation.Data>()
+    val signStatus = MutableLiveData<SignStatusSubscription.Data>()
 
     private val disposables = CompositeDisposable()
 
@@ -47,7 +51,7 @@ class OfferViewModel(
                 }
 
                 removeDiscountFromCache()
-            }, { Timber.e(it)})
+            }, { Timber.e(it) })
     }
 
     private fun removeDiscountFromCache() {
@@ -55,4 +59,23 @@ class OfferViewModel(
     }
 
     fun writeDiscountToCache(data: RedeemReferralCodeMutation.Data) = offerRepository.writeDiscountToCache(data)
+
+    fun startSign() {
+        disposables += offerRepository
+            .subscribeSignStatus()
+            .subscribe({ response ->
+                signStatus.postValue(response.data())
+            }, { Timber.e(it) })
+
+        disposables += offerRepository
+            .startSign()
+            .subscribe({ response ->
+                if (response.hasErrors()) {
+                    Timber.e(response.errors().toString())
+                    return@subscribe
+                }
+
+                autoStartToken.postValue(response.data())
+            }, { Timber.e(it) })
+    }
 }
