@@ -27,6 +27,7 @@ import android.widget.TextView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.ViewAction
+import timber.log.Timber
 
 
 @LargeTest
@@ -910,11 +911,15 @@ class ClickDrawableAction(@Location val drawableLocation: Int) : ViewAction {
             tv.compoundDrawables[drawableLocation].getPadding(drawablePadding)
 
             //calculate the drawable click location for left, top, right, bottom
+            Timber.i("drawableBounds $drawableBounds, drawablePadding $drawablePadding")
             val clickPoint = arrayOfNulls<Point>(4)
             clickPoint[LEFT] = Point(tv.left + drawableBounds.width() / 2, (tv.pivotY + drawableBounds.height() / 2).toInt())
             clickPoint[TOP] = Point((tv.pivotX + drawableBounds.width() / 2).toInt(), tv.top + drawableBounds.height() / 2)
-            clickPoint[RIGHT] = Point((tv.right + drawableBounds.width() / 2f).toInt() - drawablePadding.right, (tv.pivotY + drawableBounds.height() / 2).toInt())
+            clickPoint[RIGHT] = Point((tv.right + (drawableBounds.width() / 2f)).toInt() - drawablePadding.right, (tv.y + drawableBounds.height() / 2f).toInt())
             clickPoint[BOTTOM] = Point((tv.pivotX + drawableBounds.width() / 2).toInt(), tv.bottom + drawableBounds.height() / 2)
+
+
+            Timber.i("clickPoint ${clickPoint[RIGHT]}")
 
             if (tv.dispatchTouchEvent(MotionEvent.obtain(android.os.SystemClock.uptimeMillis(), android.os.SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, clickPoint[drawableLocation]!!.x.toFloat(), clickPoint[drawableLocation]!!.y.toFloat(), 0)))
                 tv.dispatchTouchEvent(MotionEvent.obtain(android.os.SystemClock.uptimeMillis(), android.os.SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, clickPoint[drawableLocation]!!.x.toFloat(), clickPoint[drawableLocation]!!.y.toFloat(), 0))
