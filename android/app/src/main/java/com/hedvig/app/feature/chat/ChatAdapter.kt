@@ -2,7 +2,6 @@ package com.hedvig.app.feature.chat
 
 import android.content.Context
 import android.net.Uri
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
@@ -37,8 +37,26 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) :
 
     var messages: List<ChatMessagesQuery.Message> = listOf()
         set(value) {
+            val oldMessages = messages.toList()
+
             field = value
-            notifyDataSetChanged()
+
+            val diff =
+                DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+                    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                        oldMessages[oldItemPosition].fragments.chatMessageFragment.globalId ==
+                            value[newItemPosition].fragments.chatMessageFragment.globalId
+
+                    override fun getOldListSize(): Int = oldMessages.size
+
+                    override fun getNewListSize(): Int = value.size
+
+
+                    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                        oldMessages[oldItemPosition].fragments.chatMessageFragment ==
+                            value[newItemPosition].fragments.chatMessageFragment
+                })
+            diff.dispatchUpdatesTo(this)
         }
 
     override fun onCreateViewHolder(
@@ -224,6 +242,7 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) :
                     convertDpToPixel(280f),
                     convertDpToPixel(200f)
                 )
+                .fitCenter()
                 .into(image)
         }
     }

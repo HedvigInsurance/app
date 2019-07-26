@@ -17,6 +17,7 @@ fragment ChatMessageFragment on Message {
     fromMyself
     statusMessage
     editAllowed
+    pollingInterval
   }
   body {
     ... on MessageBodySingleSelect {

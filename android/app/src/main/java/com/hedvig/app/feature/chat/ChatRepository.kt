@@ -2,7 +2,6 @@ package com.hedvig.app.feature.chat
 
 import android.content.Context
 import android.net.Uri
-import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.FileUpload
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.api.cache.http.HttpCachePolicy
@@ -40,6 +39,7 @@ class ChatRepository(
                 .query(messagesQuery)
                 .httpCachePolicy(HttpCachePolicy.NETWORK_ONLY)
                 .responseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
+                .watcher()
         )
     }
 
@@ -148,10 +148,10 @@ class ChatRepository(
             .builder()
             .body(
                 ChatResponseBodyFileInput
-                .builder()
-                .key(key)
-                .mimeType(mimeType)
-                .build()
+                    .builder()
+                    .key(key)
+                    .mimeType(mimeType)
+                    .build()
             )
             .globalId(id)
             .build()
@@ -163,7 +163,7 @@ class ChatRepository(
         return Rx2Apollo.from(
             apolloClientWrapper.apolloClient.mutate(chatFileResponse))
     }
-  
+
     fun editLastResponse() = Rx2Apollo.from(apolloClientWrapper.apolloClient.mutate(EditLastResponseMutation()))
 
     fun triggerFreeTextChat(): Observable<Response<TriggerFreeTextChatMutation.Data>> {
