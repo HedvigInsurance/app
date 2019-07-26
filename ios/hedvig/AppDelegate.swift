@@ -226,9 +226,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
 
-        if #available(iOS 10, *) {
-            UNUserNotificationCenter.current().delegate = self
-        }
+        UNUserNotificationCenter.current().delegate = self
 
         // Set the last seen news version to current if we dont have a previous state indicating this is a first launch
         if !ApplicationState.hasPreviousState() {
