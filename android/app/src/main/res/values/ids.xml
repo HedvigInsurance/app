@@ -107,5 +107,4 @@
     <item name="iconNavigateNext" type="id" />
     <item name="spring_scale_x" type="id" />
     <item name="spring_scale_y" type="id" />
-    <item name="spring_scale_xy" type="id" />
 </resources>
