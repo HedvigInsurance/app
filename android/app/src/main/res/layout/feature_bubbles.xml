@@ -14,9 +14,13 @@
         android:layout_height="@dimen/deductible_bubble_size"
         android:layout_marginTop="@dimen/deductibe_bubble_top_offset"
         android:layout_marginEnd="@dimen/deductible_bubble_end_offset"
+        android:scaleX="0"
+        android:scaleY="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:scaleX="1"
+        tools:scaleY="1">
 
         <ImageView
             android:layout_width="match_parent"
@@ -44,13 +48,18 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/bindingPeriodBubble"
         android:layout_width="@dimen/binding_period_bubble_size"
         android:layout_height="@dimen/binding_period_bubble_size"
         android:layout_marginTop="@dimen/binding_period_bubble_top_offset"
         android:layout_marginEnd="@dimen/binding_period_bubble_end_offset"
+        android:scaleX="0"
+        android:scaleY="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:scaleX="1"
+        tools:scaleY="1">
 
         <ImageView
             android:layout_width="match_parent"
@@ -80,13 +89,18 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/brfOrTravelBubble"
         android:layout_width="@dimen/coverage_or_travel_bubble_size"
         android:layout_height="@dimen/coverage_or_travel_bubble_size"
         android:layout_marginStart="@dimen/coverage_or_travel_bubble_top_offset"
         android:layout_marginTop="@dimen/coverage_or_travel_bubble_start_offset"
+        android:scaleX="0"
+        android:scaleY="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:scaleX="1"
+        tools:scaleY="1">
 
         <ImageView
             android:layout_width="match_parent"
@@ -107,13 +121,18 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/startDateBubble"
         android:layout_width="@dimen/start_date_bubble_size"
         android:layout_height="@dimen/start_date_bubble_size"
         android:layout_marginStart="@dimen/start_date_bubble_start_offset"
         android:layout_marginTop="@dimen/base_margin_double"
+        android:scaleX="0"
+        android:scaleY="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:scaleX="1"
+        tools:scaleY="1">
 
         <ImageView
             android:layout_width="match_parent"
@@ -141,12 +160,17 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/amountInsuredBubble"
         android:layout_width="@dimen/number_insured_bubble_size"
         android:layout_height="@dimen/number_insured_bubble_size"
         android:layout_marginEnd="@dimen/base_margin_quadruple"
+        android:scaleX="0"
+        android:scaleY="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:scaleX="1"
+        tools:scaleY="1">
 
         <ImageView
             android:layout_width="match_parent"

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
@@ -85,7 +86,7 @@ class OfferActivity : AppCompatActivity() {
                 bindStuffSection(d)
                 bindMeSection(d)
                 bindTerms(d)
-                animateBubbles()
+                animateBubbles(d)
             }
         }
     }
@@ -207,38 +208,44 @@ class OfferActivity : AppCompatActivity() {
         }
     }
 
-    private fun animateBubbles() {
+    private fun animateBubbles(data: OfferQuery.Data) {
         if (hasTriggeredAnimations) {
             return
         }
         hasTriggeredAnimations = true
         animationHandler.postDelayed({
-            netPremiumBubble
-                .spring(SpringAnimation.SCALE_X, stiffness = 1200f)
-                .animateToFinalPosition(1f)
-            netPremiumBubble
-                .spring(SpringAnimation.SCALE_Y, stiffness = 1200f)
-                .animateToFinalPosition(1f)
-            netPremiumBubble
-                .animate()
-                .alpha(1f)
-                .setDuration(300)
-                .start()
+            performBubbleAnimation(netPremiumBubble)
 
         }, 650)
+        if (hasActiveCampaign(data)) {
+            animateDiscountBubble(950)
+        }
         animationHandler.postDelayed({
-            discountBubble
-                .spring(SpringAnimation.SCALE_X, stiffness = 1200f)
-                .animateToFinalPosition(1f)
-            discountBubble
-                .spring(SpringAnimation.SCALE_Y, stiffness = 1200f)
-                .animateToFinalPosition(1f)
-            discountBubble
-                .animate()
-                .alpha(1f)
-                .setDuration(300)
-                .start()
+            performBubbleAnimation(amountInsuredBubble)
+        }, 750)
+        animationHandler.postDelayed({
+            performBubbleAnimation(startDateBubble)
+        }, 850)
+        animationHandler.postDelayed({
+            performBubbleAnimation(bindingPeriodBubble)
         }, 950)
+        animationHandler.postDelayed({
+            performBubbleAnimation(brfOrTravelBubble)
+        }, 1050)
+        animationHandler.postDelayed({
+            performBubbleAnimation(deductibleBubble)
+        }, 1150)
+    }
+
+    private fun animateDiscountBubble(withDelay: Long = 0) {
+        val action = {
+            performBubbleAnimation(discountBubble)
+        }
+        if (withDelay > 0) {
+            animationHandler.postDelayed({ action() }, withDelay)
+        } else {
+            action()
+        }
     }
 
     private fun bindFeatureBubbles(data: OfferQuery.Data) {
@@ -362,5 +369,14 @@ class OfferActivity : AppCompatActivity() {
             Uri.parse("https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/Hedvig+-+integritetspolicy.pdf")
 
         private fun hasActiveCampaign(data: OfferQuery.Data) = data.redeemedCampaigns.size > 0
+
+        private fun performBubbleAnimation(view: View) {
+            view
+                .spring(SpringAnimation.SCALE_X, stiffness = 1200f)
+                .animateToFinalPosition(1f)
+            view
+                .spring(SpringAnimation.SCALE_Y, stiffness = 1200f)
+                .animateToFinalPosition(1f)
+        }
     }
 }
