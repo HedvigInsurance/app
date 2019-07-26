@@ -52,7 +52,6 @@ class OfferSignDialog : DialogFragment() {
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW, bankIdUri
-
                 )
             )
         } else {
@@ -61,7 +60,6 @@ class OfferSignDialog : DialogFragment() {
     }
 
     private fun bindStatus(d: SignStatusSubscription.Data) {
-        Timber.i("Received update from bankid subscription: $d")
         when (d.signStatus?.status?.collectStatus?.status) {
             BankIdStatus.PENDING -> {
                 when (d.signStatus?.status?.collectStatus?.code) {
