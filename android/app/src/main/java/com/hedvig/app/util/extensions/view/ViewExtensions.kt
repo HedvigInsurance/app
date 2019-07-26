@@ -176,11 +176,11 @@ fun View.fadeOut(endAction: (() -> Unit)? = null, removeOnEnd: Boolean = true) {
     alpha = 1f
     show()
     val animation = animate().setDuration(225).alpha(0f)
-    endAction?.let {
+    animation.withEndAction {
         if (removeOnEnd) {
             this.remove()
         }
-        animation.withEndAction(it)
+        endAction?.invoke()
     }
     animation.start()
 }

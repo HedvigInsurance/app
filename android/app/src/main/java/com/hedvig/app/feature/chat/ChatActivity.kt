@@ -345,7 +345,6 @@ class ChatActivity : AppCompatActivity() {
 
         const val EXTRA_SHOW_CLOSE = "extra_show_close"
         const val EXTRA_SHOW_RESTART = "extra_show_restart"
-        const val EXTRA_CHAT_INTENT = "extra_chat_intent"
 
         const val ACTIVITY_IS_IN_FOREGROUND = "chat_activity_is_in_foreground"
     }
