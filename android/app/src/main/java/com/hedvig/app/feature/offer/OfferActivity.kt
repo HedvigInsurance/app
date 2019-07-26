@@ -18,6 +18,7 @@ import com.hedvig.app.util.extensions.displayMetrics
 import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.setStrikethrough
 import com.hedvig.app.util.extensions.showAlert
+import com.hedvig.app.util.extensions.startClosableChat
 import com.hedvig.app.util.extensions.view.fadeIn
 import com.hedvig.app.util.extensions.view.fadeOut
 import com.hedvig.app.util.extensions.view.hide
@@ -26,8 +27,8 @@ import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.extensions.view.updateMargin
 import com.hedvig.app.util.interpolateTextKey
-import com.hedvig.app.util.isApartmentOwner
 import com.hedvig.app.util.isStudentInsurance
+import com.hedvig.app.util.isApartmentOwner
 import com.hedvig.app.util.safeLet
 import kotlinx.android.synthetic.main.activity_offer.*
 import kotlinx.android.synthetic.main.feature_bubbles.*
@@ -36,7 +37,6 @@ import kotlinx.android.synthetic.main.offer_peril_section.view.*
 import kotlinx.android.synthetic.main.offer_section_terms.view.*
 import kotlinx.android.synthetic.main.price_bubbles.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import timber.log.Timber
 import kotlin.math.min
 
 class OfferActivity : AppCompatActivity() {
@@ -59,6 +59,12 @@ class OfferActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offer)
 
+        offerChatButton.setHapticClickListener {
+            offerViewModel.triggerOpenChat {
+                startClosableChat(true)
+            }
+        }
+
         bindStaticData()
 
         offerViewModel.data.observe(lifecycleOwner = this) { data ->
@@ -78,6 +84,7 @@ class OfferActivity : AppCompatActivity() {
     }
 
     private fun bindToolbar(data: OfferQuery.Data) {
+        offerToolbarAddress.text = data.insurance.address
     }
 
     private fun bindStaticData() {
@@ -214,7 +221,7 @@ class OfferActivity : AppCompatActivity() {
 
     private fun bindHomeSection(data: OfferQuery.Data) {
         homeSection.title.text = data.insurance.address
-        data.insurance.perilCategories?.get(0)?.let { perils ->
+        data.insurance.perilCategories?.getOrNull(0)?.let { perils ->
             addPerils(homeSection.perilsContainer, perils.fragments.perilCategoryFragment)
         }
     }
@@ -230,13 +237,13 @@ class OfferActivity : AppCompatActivity() {
                 }
             )
         }
-        data.insurance.perilCategories?.get(1)?.let { perils ->
+        data.insurance.perilCategories?.getOrNull(1)?.let { perils ->
             addPerils(stuffSection.perilsContainer, perils.fragments.perilCategoryFragment)
         }
     }
 
     private fun bindMeSection(data: OfferQuery.Data) {
-        data.insurance.perilCategories?.get(2)?.let { perils ->
+        data.insurance.perilCategories?.getOrNull(2)?.let { perils ->
             addPerils(meSection.perilsContainer, perils.fragments.perilCategoryFragment)
         }
     }

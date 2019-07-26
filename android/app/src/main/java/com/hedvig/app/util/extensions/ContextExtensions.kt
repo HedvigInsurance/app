@@ -46,9 +46,10 @@ fun Context.hideKeyboard(view: View) {
 
 fun Context.triggerRestartActivity(activity: Class<*> = SplashActivity::class.java) {
     val startActivity = Intent(this, activity)
+    startActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
     val pendingIntentId = 56665 // Randomly chosen identifier, this number has no significance.
     val pendingIntent =
-        PendingIntent.getActivity(this, pendingIntentId, startActivity, PendingIntent.FLAG_CANCEL_CURRENT)
+        PendingIntent.getActivity(this.applicationContext, pendingIntentId, startActivity, PendingIntent.FLAG_CANCEL_CURRENT)
     val mgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, pendingIntent)
     exitProcess(0)
