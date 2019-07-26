@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Theme.Exponent.Light.V21" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Hedvig.Theme.V21" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccentLight</item>
@@ -9,7 +9,7 @@
         <item name="android:alertDialogTheme">@style/AlertDialog</item>
     </style>
 
-    <style name="Hedvig.Theme" parent="Theme.Exponent.Light.V21" />
+    <style name="Hedvig.Theme" parent="Hedvig.Theme.V21" />
 
     <style name="Hedvig.Theme.Offer" />
 
