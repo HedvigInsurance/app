@@ -121,7 +121,6 @@ class PushNotificationService : FirebaseMessagingService() {
 
     private fun sendReferralsNotification(remoteMessage: RemoteMessage?) {
 
-        Timber.i("sendReferralsNotification")
         val referralName = remoteMessage?.data?.get(DATA_MESSAGE_REFERRED_SUCCESS_NAME)
         val referralIncentive = remoteMessage?.data?.get(DATA_MESSAGE_REFERRED_SUCCESS_INCENTIVE_AMOUNT)
         val referralsIntent = safeLet(referralName, referralIncentive) { name, incentive ->
