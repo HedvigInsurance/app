@@ -91,7 +91,6 @@ class PushNotificationService : FirebaseMessagingService() {
         }
 
     private fun sendChatMessageNotification() {
-        Timber.i("sendChatMessageNotification")
         if (getStoredBoolean(ChatActivity.ACTIVITY_IS_IN_FOREGROUND)) {
             return
         }
