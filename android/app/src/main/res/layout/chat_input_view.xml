@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:minHeight="60dp">
 
     <LinearLayout
         android:id="@+id/textInputContainer"
@@ -30,7 +31,7 @@
         <TextView
             android:id="@+id/sendGif"
             android:layout_width="@dimen/chat_attach_icon_size"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/chat_attach_icon_size"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginStart="@dimen/base_margin_half"
             android:layout_marginEnd="@dimen/base_margin_half"
@@ -70,7 +71,8 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:orientation="vertical"
-        android:padding="@dimen/base_margin_double" />
+        android:padding="@dimen/base_margin_double"
+        android:visibility="gone" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/paragraphView"

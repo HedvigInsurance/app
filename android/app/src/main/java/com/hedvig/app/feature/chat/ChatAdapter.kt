@@ -28,7 +28,6 @@ import kotlinx.android.synthetic.main.chat_message_hedvig.view.*
 import kotlinx.android.synthetic.main.chat_message_user.view.*
 import kotlinx.android.synthetic.main.chat_message_user_giphy.view.*
 import kotlinx.android.synthetic.main.chat_message_user_image.view.*
-import timber.log.Timber
 
 class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) :
     androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
@@ -57,8 +56,6 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) :
                         oldMessages[oldItemPosition].fragments.chatMessageFragment ==
                             value[newItemPosition].fragments.chatMessageFragment
                 })
-
-            Timber.i("Incoming dispatch $messages")
             diff.dispatchUpdatesTo(this)
         }
 

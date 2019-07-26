@@ -137,6 +137,7 @@ class ChatActivity : AppCompatActivity() {
                 if (systemNavHeight > 0) systemNavHeight -= navHeightDiff
                 this.keyboardHeight = heightDiff - systemNavHeight
                 isKeyboardShown = true
+                scrollToBottom(true)
             } else {
                 systemNavHeight = heightDiff
                 isKeyboardShown = false
@@ -167,7 +168,8 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun scrollToBottom(smooth: Boolean) {
-        if(smooth) {
+        Timber.i("Scroll to bottom $smooth")
+        if (smooth) {
             (messages.layoutManager as LinearLayoutManager).smoothScrollToPosition(messages, null, 0)
         } else {
             (messages.layoutManager as LinearLayoutManager).scrollToPosition(0)
@@ -175,15 +177,22 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun bindData(data: ChatMessagesQuery.Data) {
-        (messages.layoutManager as LinearLayoutManager).reverseLayout = true
-        input.message = data.messages.firstOrNull()?.let { ChatInputType.from(it) }
+        var triggerScrollToBottom = false
+        val firstMessage = data.messages.firstOrNull()?.let { ChatInputType.from(it) }
+        input.message = firstMessage
+        if (firstMessage is ParagraphInput) {
+            triggerScrollToBottom = true
+        }
         (messages.adapter as? ChatAdapter)?.let {
             it.messages = data.messages
             val layoutManager = messages.layoutManager as LinearLayoutManager
             val pos = layoutManager.findFirstCompletelyVisibleItemPosition()
             if (pos == 0) {
-                scrollToBottom(false)
+                triggerScrollToBottom = true
             }
+        }
+        if (triggerScrollToBottom) {
+            scrollToBottom(false)
         }
     }
 
