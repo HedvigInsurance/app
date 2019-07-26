@@ -34,7 +34,7 @@
 
                 <TextView
                     android:id="@+id/offerToolbarAddress"
-                    style="@style/Headline.Small.Negative"
+                    style="@style/Body.Small.Negative"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Storgatan 32" />

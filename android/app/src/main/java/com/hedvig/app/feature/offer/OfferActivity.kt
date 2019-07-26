@@ -2,30 +2,26 @@ package com.hedvig.app.feature.offer
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.hedvig.android.owldroid.fragment.IncentiveFragment
 import com.hedvig.android.owldroid.fragment.PerilCategoryFragment
 import com.hedvig.android.owldroid.graphql.OfferQuery
 import com.hedvig.app.R
+import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.dashboard.ui.PerilView
-import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.displayMetrics
-import com.hedvig.app.util.extensions.observe
-import com.hedvig.app.util.extensions.setStrikethrough
-import com.hedvig.app.util.extensions.showAlert
+import com.hedvig.app.util.*
+import com.hedvig.app.util.extensions.*
 import com.hedvig.app.util.extensions.view.hide
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.extensions.view.updateMargin
-import com.hedvig.app.util.interpolateTextKey
-import com.hedvig.app.util.isApartmentOwner
-import com.hedvig.app.util.isStudentInsurance
-import com.hedvig.app.util.safeLet
 import kotlinx.android.synthetic.main.activity_offer.*
 import kotlinx.android.synthetic.main.feature_bubbles.*
 import kotlinx.android.synthetic.main.loading_spinner.*
@@ -49,12 +45,17 @@ class OfferActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offer)
 
+        offerChatButton.setHapticClickListener {
+            startClosableChat(true)
+        }
+
         bindStaticData()
 
         offerViewModel.data.observe(lifecycleOwner = this) { data ->
             data?.let { d ->
                 loadingSpinner.remove()
                 container.show()
+                offerToolbarAddress.text = d.insurance.address
                 bindPriceBubbles(d)
                 bindFeatureBubbles(d)
                 bindDiscountButton(d)
