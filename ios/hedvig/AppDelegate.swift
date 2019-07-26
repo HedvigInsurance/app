@@ -230,8 +230,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UNUserNotificationCenter.current().delegate = self
         }
 
-        // Set the last seen news version to current if we dont have a token indicating this is a first launch
-        bag += RCTApolloClient.getToken().valueSignal.filter { $0 == nil }.onValue { _ in
+        // Set the last seen news version to current if we dont have a previous state indicating this is a first launch
+        if !ApplicationState.hasPreviousState() {
             ApplicationState.setLastNewsSeen()
         }
 
