@@ -46,7 +46,6 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
-        Timber.i("onMessageReceived")
         when (remoteMessage?.data?.get(NOTIFICATION_TYPE_KEY)) {
             NOTIFICATION_TYPE_NEW_MESSAGE -> {
                 setupNotificationChannel(
