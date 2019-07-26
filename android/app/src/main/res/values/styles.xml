@@ -96,6 +96,21 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="HedvigButton.Negative">
+        <item name="android:textColor">@color/off_black_dark</item>
+    </style>
+
+    <style name="HedvigButton.Small">
+        <item name="android:textSize">12sp</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+    </style>
+
+    <style name="HedvigButton.Small.Negative">
+        <item name="android:textColor">@color/off_black_dark</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:background">@color/off_white</item>
         <item name="android:textColor">@color/off_black_dark</item>

@@ -1,21 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/dark_purple">
 
     <include
         layout="@layout/loading_spinner"
         tools:visibility="gone" />
 
-    <ScrollView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/offerToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="top"
+        android:background="@color/dark_purple"
+        android:elevation="@dimen/toolbar_elevation"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        tools:layout_height="56dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin_double"
+                android:layout_marginBottom="@dimen/base_margin"
+                android:orientation="vertical"
+                tools:layout_marginStart="@dimen/base_margin_double">
+
+                <TextView
+                    style="@style/Headline.Medium.Negative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/OFFER_TITLE" />
+
+                <TextView
+                    android:id="@+id/offerToolbarAddress"
+                    style="@style/Body.Small.Negative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Storgatan 32" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/offerToolbarSign"
+                style="@style/HedvigButton.Small.Negative"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawableEnd="@drawable/ic_bank_id_small"
+                android:text="@string/OFFER_BANKID_SIGN_BUTTON" />
+
+            <!-- TODO: Add a content description to this button, and switch to the correct icon -->
+            <ImageView
+                android:id="@+id/offerChatButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/base_margin_double"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin_double"
+                android:layout_marginBottom="@dimen/base_margin"
+                android:background="?selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_chat" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/offerScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="?attr/actionBarSize"
+        tools:paddingTop="56dp">
 
         <LinearLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/off_white"
             android:orientation="vertical"
             android:visibility="gone"
             tools:visibility="visible">
@@ -78,11 +152,11 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <Button
         android:id="@+id/signButton"
-        style="@style/HedvigButton"
+        style="@style/HedvigButton.Negative"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
@@ -90,7 +164,8 @@
         android:drawableEnd="@drawable/ic_bank_id"
         android:drawablePadding="@dimen/base_margin"
         android:text="@string/OFFER_SIGN_BUTTON"
-        android:textColor="@color/off_black" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </FrameLayout>
 

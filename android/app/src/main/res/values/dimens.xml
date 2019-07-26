@@ -110,7 +110,7 @@
     <dimen name="attach_file_rounded_corners_radius">20dp</dimen>
     <dimen name="audio_recorder_button_size">56dp</dimen>
     <dimen name="terms_icon_size">100dp</dimen>
-    <dimen name="offer_bottom_padding">80dp</dimen>
+    <dimen name="offer_bottom_padding">90dp</dimen>
     <dimen name="price_bubble_size">180dp</dimen>
     <dimen name="discount_bubble_size">97dp</dimen>
     <dimen name="deductible_bubble_size">90dp</dimen>
@@ -126,4 +126,5 @@
     <dimen name="start_date_bubble_start_offset">130dp</dimen>
     <dimen name="number_insured_bubble_size">90dp</dimen>
     <dimen name="button_shadow_offset">2dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
 </resources>
