@@ -221,7 +221,7 @@ class OfferActivity : AppCompatActivity() {
 
     private fun bindHomeSection(data: OfferQuery.Data) {
         homeSection.title.text = data.insurance.address
-        data.insurance.perilCategories?.get(0)?.let { perils ->
+        data.insurance.perilCategories?.getOrNull(0)?.let { perils ->
             addPerils(homeSection.perilsContainer, perils.fragments.perilCategoryFragment)
         }
     }
@@ -237,13 +237,13 @@ class OfferActivity : AppCompatActivity() {
                 }
             )
         }
-        data.insurance.perilCategories?.get(1)?.let { perils ->
+        data.insurance.perilCategories?.getOrNull(1)?.let { perils ->
             addPerils(stuffSection.perilsContainer, perils.fragments.perilCategoryFragment)
         }
     }
 
     private fun bindMeSection(data: OfferQuery.Data) {
-        data.insurance.perilCategories?.get(2)?.let { perils ->
+        data.insurance.perilCategories?.getOrNull(2)?.let { perils ->
             addPerils(meSection.perilsContainer, perils.fragments.perilCategoryFragment)
         }
     }
