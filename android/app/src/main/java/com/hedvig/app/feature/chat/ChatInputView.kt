@@ -13,9 +13,7 @@ import com.hedvig.android.owldroid.type.KeyboardType
 import com.hedvig.app.R
 import com.hedvig.app.util.extensions.children
 import com.hedvig.app.util.extensions.compatColor
-import com.hedvig.app.util.extensions.view.remove
-import com.hedvig.app.util.extensions.view.setHapticClickListener
-import com.hedvig.app.util.extensions.view.show
+import com.hedvig.app.util.extensions.view.*
 import kotlinx.android.synthetic.main.chat_input_view.view.*
 
 class ChatInputView : FrameLayout {
@@ -27,8 +25,9 @@ class ChatInputView : FrameLayout {
     private lateinit var sendTextMessage: ((String) -> Unit)
     private lateinit var sendSingleSelect: ((String) -> Unit)
     private lateinit var singleSelectLink: ((String) -> Unit)
-    private lateinit var paragraphPullMessages: (() -> Unit)
     private lateinit var openAttachFile: (() -> Unit)
+
+    private var currentlyDisplaying: ChatInputType = NullInput
 
     private val layoutInflater: LayoutInflater by lazy {
         LayoutInflater.from(context)
@@ -37,13 +36,11 @@ class ChatInputView : FrameLayout {
     var message: ChatInputType? = null
         set(value) {
             field = value
-            hideInputContainers()
+            value?.let { show(it) }
             when (value) {
                 is TextInput -> bindTextInput(value)
                 is SingleSelect -> bindSingleSelect(value)
                 is ParagraphInput -> bindParagraphInput()
-                is Audio -> bindAudio()
-                is NullInput -> bindNullInput()
             }
         }
 
@@ -56,13 +53,21 @@ class ChatInputView : FrameLayout {
             inputText.clearFocus()
             openAttachFile()
         }
+
+        hideAllViews()
+    }
+
+    private fun hideAllViews() {
+        textInputContainer.remove()
+        singleSelectContainer.remove()
+        paragraphView.remove()
+        audioRecorder.remove()
     }
 
     fun initialize(
         sendTextMessage: (String) -> Unit,
         sendSingleSelect: (String) -> Unit,
         sendSingleSelectLink: (String) -> Unit,
-        paragraphPullMessages: () -> Unit,
         openAttachFile: () -> Unit,
         requestAudioPermission: () -> Unit,
         uploadRecording: (String) -> Unit
@@ -70,7 +75,6 @@ class ChatInputView : FrameLayout {
         this.sendTextMessage = sendTextMessage
         this.sendSingleSelect = sendSingleSelect
         this.singleSelectLink = sendSingleSelectLink
-        this.paragraphPullMessages = paragraphPullMessages
         this.openAttachFile = openAttachFile
         audioRecorder.initialize(requestAudioPermission, uploadRecording)
     }
@@ -81,17 +85,31 @@ class ChatInputView : FrameLayout {
 
     fun audioRecorderPermissionGranted() = audioRecorder.permissionGranted()
 
-    private fun hideInputContainers() {
-        textInputContainer.remove()
-        singleSelectContainer.remove()
-        paragraphView.remove()
-        paragraphView.cancelAnimation()
-        audioRecorder.remove()
-        nullView.remove()
+    private fun fadOutCurrent(fadeIn: () -> Unit) {
+        when (currentlyDisplaying) {
+            is TextInput -> textInputContainer.fadeOut(fadeIn)
+            is SingleSelect -> singleSelectContainer.fadeOut(fadeIn)
+            is ParagraphInput -> paragraphView.fadeOut(fadeIn)
+            is Audio -> audioRecorder.fadeOut(fadeIn)
+            is NullInput -> fadeIn()
+        }
+    }
+
+    private fun show(value: ChatInputType) {
+        if (value::class != currentlyDisplaying::class) {
+            fadOutCurrent {
+                when (value) {
+                    is TextInput -> textInputContainer.fadeIn()
+                    is SingleSelect -> singleSelectContainer.fadeIn()
+                    is ParagraphInput -> paragraphView.fadeIn()
+                    is Audio -> audioRecorder.fadeIn()
+                }
+            }
+            currentlyDisplaying = value
+        }
     }
 
     private fun bindTextInput(input: TextInput) {
-        textInputContainer.show()
         if (input.richTextSupport) {
             uploadFile.show()
             sendGif.show()
@@ -111,7 +129,6 @@ class ChatInputView : FrameLayout {
     }
 
     private fun bindSingleSelect(input: SingleSelect) {
-        singleSelectContainer.show()
         singleSelectContainer.removeAllViews()
         input.options.forEach {
             when (it) {
@@ -149,17 +166,7 @@ class ChatInputView : FrameLayout {
     }
 
     private fun bindParagraphInput() {
-        paragraphView.show()
         paragraphView.playAnimation()
-        paragraphPullMessages()
-    }
-
-    private fun bindAudio() {
-        audioRecorder.show()
-    }
-
-    private fun bindNullInput() {
-        nullView.show()
     }
 
     fun rotateFileUploadIcon(isOpening: Boolean) {

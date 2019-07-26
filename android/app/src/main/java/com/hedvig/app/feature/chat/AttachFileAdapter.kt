@@ -92,9 +92,7 @@ class AttachFileAdapter(
                     attachFileSendButton.setHapticClickListener {
                         image.isLoading = true
                         uploadFile(Uri.parse(image.path))
-                        attachFileSendButton.fadeOut(endAction = {
-                            attachFileSendButton.remove()
-                        })
+                        attachFileSendButton.fadeOut()
                         loadingSpinner.fadeIn()
                     }
                     if (image.isLoading) {
