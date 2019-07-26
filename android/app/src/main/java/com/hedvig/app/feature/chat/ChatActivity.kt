@@ -31,6 +31,8 @@ import android.os.Environment
 import java.io.File
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hedvig.app.SplashActivity
+import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.util.extensions.view.show
 import java.io.IOException
 import com.hedvig.app.util.extensions.*
@@ -54,6 +56,8 @@ class ChatActivity : AppCompatActivity() {
     private var attachPickerDialog: AttachPickerDialog? = null
 
     private var currentPhotoPath: String? = null
+
+    private var forceScrollToBottom = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,7 +112,7 @@ class ChatActivity : AppCompatActivity() {
         })
 
         chatViewModel.messages.observe(lifecycleOwner = this) { data ->
-            data?.let { bindData(it) }
+            data?.let { bindData(it, forceScrollToBottom) }
         }
         // Maybe we should move the loading into the chatViewModel instead
         chatViewModel.sendMessageResponse.observe(lifecycleOwner = this) { response ->
@@ -123,6 +127,7 @@ class ChatActivity : AppCompatActivity() {
 
         resetChatButton.setOnClickListener {
             showRestartDialog {
+                storeBoolean(LoginStatusService.IS_VIEWING_OFFER, false)
                 setAuthenticationToken(null)
                 userViewModel.logout { triggerRestartActivity() }
             }
@@ -160,6 +165,7 @@ class ChatActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         storeBoolean(ACTIVITY_IS_IN_FOREGROUND, true)
+        forceScrollToBottom = true
     }
 
     override fun onPause() {
@@ -176,7 +182,7 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun bindData(data: ChatMessagesQuery.Data) {
+    private fun bindData(data: ChatMessagesQuery.Data, forceScrollToBottom: Boolean) {
         var triggerScrollToBottom = false
         val firstMessage = data.messages.firstOrNull()?.let { ChatInputType.from(it) }
         input.message = firstMessage
@@ -191,7 +197,7 @@ class ChatActivity : AppCompatActivity() {
                 triggerScrollToBottom = true
             }
         }
-        if (triggerScrollToBottom) {
+        if (triggerScrollToBottom || forceScrollToBottom) {
             scrollToBottom(false)
         }
     }
