@@ -216,21 +216,21 @@ class OfferActivity : AppCompatActivity() {
         animationHandler.postDelayed({
             performBubbleAnimation(netPremiumBubble)
 
-        }, 650)
+        }, BASE_BUBBLE_ANIMATION_DELAY)
         if (hasActiveCampaign(data)) {
-            animateDiscountBubble(650)
+            animateDiscountBubble(BASE_BUBBLE_ANIMATION_DELAY)
         }
         animationHandler.postDelayed({
             performBubbleAnimation(amountInsuredBubble)
             performBubbleAnimation(startDateBubble)
-        }, 750)
+        }, BASE_BUBBLE_ANIMATION_DELAY + 100)
         animationHandler.postDelayed({
             performBubbleAnimation(bindingPeriodBubble)
-        }, 800)
+        }, BASE_BUBBLE_ANIMATION_DELAY + 150)
         animationHandler.postDelayed({
             performBubbleAnimation(brfOrTravelBubble)
             performBubbleAnimation(deductibleBubble)
-        }, 850)
+        }, BASE_BUBBLE_ANIMATION_DELAY + 200)
     }
 
     private fun animateDiscountBubble(withDelay: Long = 0) {
@@ -361,6 +361,8 @@ class OfferActivity : AppCompatActivity() {
     )
 
     companion object {
+        private const val BASE_BUBBLE_ANIMATION_DELAY = 650L
+
         private val PRIVACY_POLICY_URL =
             Uri.parse("https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/Hedvig+-+integritetspolicy.pdf")
 
