@@ -7,6 +7,8 @@
     <dimen name="base_margin_double">16dp</dimen>
     <dimen name="base_margin_triple">24dp</dimen>
     <dimen name="base_margin_quadruple">32dp</dimen>
+    <dimen name="base_margin_quintuple">40dp</dimen>
+    <dimen name="base_margin_sextuple">48dp</dimen>
 
     <dimen name="background_rounded_corners_radius">20dp</dimen>
 

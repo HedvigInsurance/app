@@ -3,9 +3,11 @@ package com.hedvig.app.feature.offer
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
+import androidx.dynamicanimation.animation.SpringAnimation
 import com.hedvig.android.owldroid.fragment.IncentiveFragment
 import com.hedvig.android.owldroid.fragment.PerilCategoryFragment
 import com.hedvig.android.owldroid.graphql.OfferQuery
@@ -24,6 +26,7 @@ import com.hedvig.app.util.extensions.view.hide
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
+import com.hedvig.app.util.extensions.view.spring
 import com.hedvig.app.util.extensions.view.updateMargin
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.isApartmentOwner
@@ -36,7 +39,6 @@ import kotlinx.android.synthetic.main.offer_peril_section.view.*
 import kotlinx.android.synthetic.main.offer_section_terms.view.*
 import kotlinx.android.synthetic.main.price_bubbles.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import timber.log.Timber
 import kotlin.math.min
 
 class OfferActivity : AppCompatActivity() {
@@ -54,6 +56,9 @@ class OfferActivity : AppCompatActivity() {
 
     private var isShowingToolbarSign = true
     private var isShowingFloatingSign = false
+
+    private val animationHandler = Handler()
+    private var hasTriggeredAnimations = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +78,7 @@ class OfferActivity : AppCompatActivity() {
                 bindStuffSection(d)
                 bindMeSection(d)
                 bindTerms(d)
+                animateBubbles()
             }
         }
     }
@@ -165,6 +171,7 @@ class OfferActivity : AppCompatActivity() {
         netPremium.setTextColor(compatColor(R.color.off_black_dark))
         netPremium.text =
             data.insurance.cost?.fragments?.costFragment?.monthlyNet?.amount?.toBigDecimal()?.toInt()?.toString()
+
         if (data.redeemedCampaigns.size > 0) {
             when (data.redeemedCampaigns[0].fragments.incentiveFragment.incentive) {
                 is IncentiveFragment.AsMonthlyCostDeduction -> {
@@ -190,6 +197,40 @@ class OfferActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun animateBubbles() {
+        if (hasTriggeredAnimations) {
+            return
+        }
+        hasTriggeredAnimations = true
+        animationHandler.postDelayed({
+            netPremiumBubble
+                .spring(SpringAnimation.SCALE_X, stiffness = 1200f)
+                .animateToFinalPosition(1f)
+            netPremiumBubble
+                .spring(SpringAnimation.SCALE_Y, stiffness = 1200f)
+                .animateToFinalPosition(1f)
+            netPremiumBubble
+                .animate()
+                .alpha(1f)
+                .setDuration(300)
+                .start()
+
+        }, 650)
+        animationHandler.postDelayed({
+            discountBubble
+                .spring(SpringAnimation.SCALE_X, stiffness = 1200f)
+                .animateToFinalPosition(1f)
+            discountBubble
+                .spring(SpringAnimation.SCALE_Y, stiffness = 1200f)
+                .animateToFinalPosition(1f)
+            discountBubble
+                .animate()
+                .alpha(1f)
+                .setDuration(300)
+                .start()
+        }, 950)
     }
 
     private fun bindFeatureBubbles(data: OfferQuery.Data) {
@@ -289,6 +330,11 @@ class OfferActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        animationHandler.removeCallbacksAndMessages(null)
+        super.onPause()
     }
 
     private fun makePeril(peril: PerilCategoryFragment.Peril, category: PerilCategoryFragment) = PerilView.build(
