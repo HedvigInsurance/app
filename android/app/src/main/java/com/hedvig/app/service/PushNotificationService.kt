@@ -157,7 +157,6 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     private fun sendDefaultNotification(title: String, body: String) {
-        Timber.i("sendDefaultNotification")
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,
