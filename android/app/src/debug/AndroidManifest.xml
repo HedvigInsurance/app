@@ -15,7 +15,7 @@
 
         <activity
             android:name=".feature.chat.ChatActivity"
-            android:theme="@style/Theme.Exponent.Light">
+            android:theme="@style/Hedvig.Theme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -24,7 +24,7 @@
         <activity
             android:name=".DevelopmentActivity"
             android:label="Hedvig Development Screen"
-            android:theme="@style/Theme.Exponent.Light">
+            android:theme="@style/Hedvig.Theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
