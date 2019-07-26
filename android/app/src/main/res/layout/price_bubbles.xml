@@ -7,61 +7,65 @@
     android:background="@color/dark_purple"
     android:paddingTop="@dimen/base_margin_quadruple">
 
-    <ImageView
+    <FrameLayout
+        android:id="@+id/netPremiumBubble"
         android:layout_width="@dimen/price_bubble_size"
         android:layout_height="@dimen/price_bubble_size"
-        android:contentDescription="@null"
-        android:tint="@color/white"
+        android:background="@drawable/sphere"
+        android:backgroundTint="@color/white"
+        android:scaleX="0"
+        android:scaleY="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/sphere" />
+        tools:scaleX="1"
+        tools:scaleY="1">
 
-    <TextView
-        android:id="@+id/grossPremium"
-        style="@style/Body.Regular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gray"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/netPremium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="109 kr/mån"
-        tools:visibility="visible" />
+        <TextView
+            android:id="@+id/grossPremium"
+            style="@style/Body.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/base_margin_sextuple"
+            android:textColor="@color/gray"
+            android:visibility="gone"
+            tools:text="109 kr/mån"
+            tools:visibility="visible" />
 
-    <TextView
-        android:id="@+id/netPremium"
-        style="@style/Body.Regular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="60sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="99"
-        tools:textColor="@color/pink" />
+        <TextView
+            android:id="@+id/netPremium"
+            style="@style/Body.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/base_margin"
+            android:textSize="60sp"
+            tools:text="99"
+            tools:textColor="@color/pink" />
 
-    <TextView
-        style="@style/Body.Regular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/OFFER_PRICE_PER_MONTH"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/netPremium" />
+        <TextView
+            style="@style/Body.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/base_margin_quintuple"
+            android:text="@string/OFFER_PRICE_PER_MONTH" />
+    </FrameLayout>
+
 
     <FrameLayout
         android:id="@+id/discountBubble"
         android:layout_width="@dimen/discount_bubble_size"
         android:layout_height="@dimen/discount_bubble_size"
-        android:layout_marginStart="@dimen/base_margin_quadruple"
+        android:scaleX="0"
+        android:scaleY="0"
+        android:translationX="-40dp"
         android:visibility="gone"
-        app:layout_constraintStart_toEndOf="@id/netPremium"
+        app:layout_constraintStart_toEndOf="@id/netPremiumBubble"
         app:layout_constraintTop_toTopOf="parent"
+        tools:scaleX="1"
+        tools:scaleY="1"
         tools:visibility="visible">
 
         <ImageView

@@ -3,9 +3,12 @@ package com.hedvig.app.feature.offer
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
+import androidx.dynamicanimation.animation.SpringAnimation
 import com.hedvig.android.owldroid.fragment.IncentiveFragment
 import com.hedvig.android.owldroid.fragment.PerilCategoryFragment
 import com.hedvig.android.owldroid.graphql.OfferQuery
@@ -25,6 +28,7 @@ import com.hedvig.app.util.extensions.view.hide
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
+import com.hedvig.app.util.extensions.view.spring
 import com.hedvig.app.util.extensions.view.updateMargin
 import com.hedvig.app.util.interpolateTextKey
 import com.hedvig.app.util.isStudentInsurance
@@ -55,6 +59,9 @@ class OfferActivity : AppCompatActivity() {
     private var isShowingToolbarSign = true
     private var isShowingFloatingSign = false
 
+    private val animationHandler = Handler()
+    private var hasTriggeredAnimations = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offer)
@@ -79,6 +86,7 @@ class OfferActivity : AppCompatActivity() {
                 bindStuffSection(d)
                 bindMeSection(d)
                 bindTerms(d)
+                animateBubbles(d)
             }
         }
     }
@@ -172,6 +180,7 @@ class OfferActivity : AppCompatActivity() {
         netPremium.setTextColor(compatColor(R.color.off_black_dark))
         netPremium.text =
             data.insurance.cost?.fragments?.costFragment?.monthlyNet?.amount?.toBigDecimal()?.toInt()?.toString()
+
         if (data.redeemedCampaigns.size > 0) {
             when (data.redeemedCampaigns[0].fragments.incentiveFragment.incentive) {
                 is IncentiveFragment.AsMonthlyCostDeduction -> {
@@ -196,6 +205,41 @@ class OfferActivity : AppCompatActivity() {
                     discount.updateMargin(top = resources.getDimensionPixelSize(R.dimen.base_margin_half))
                 }
             }
+        }
+    }
+
+    private fun animateBubbles(data: OfferQuery.Data) {
+        if (hasTriggeredAnimations) {
+            return
+        }
+        hasTriggeredAnimations = true
+        animationHandler.postDelayed({
+            performBubbleAnimation(netPremiumBubble)
+        }, BASE_BUBBLE_ANIMATION_DELAY)
+        if (hasActiveCampaign(data)) {
+            animateDiscountBubble(BASE_BUBBLE_ANIMATION_DELAY)
+        }
+        animationHandler.postDelayed({
+            performBubbleAnimation(amountInsuredBubble)
+            performBubbleAnimation(startDateBubble)
+        }, BASE_BUBBLE_ANIMATION_DELAY + 100)
+        animationHandler.postDelayed({
+            performBubbleAnimation(bindingPeriodBubble)
+        }, BASE_BUBBLE_ANIMATION_DELAY + 150)
+        animationHandler.postDelayed({
+            performBubbleAnimation(brfOrTravelBubble)
+            performBubbleAnimation(deductibleBubble)
+        }, BASE_BUBBLE_ANIMATION_DELAY + 200)
+    }
+
+    private fun animateDiscountBubble(withDelay: Long = 0) {
+        val action = {
+            performBubbleAnimation(discountBubble)
+        }
+        if (withDelay > 0) {
+            animationHandler.postDelayed({ action() }, withDelay)
+        } else {
+            action()
         }
     }
 
@@ -298,6 +342,11 @@ class OfferActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        animationHandler.removeCallbacksAndMessages(null)
+        super.onPause()
+    }
+
     private fun makePeril(peril: PerilCategoryFragment.Peril, category: PerilCategoryFragment) = PerilView.build(
         this,
         name = peril.title,
@@ -311,9 +360,20 @@ class OfferActivity : AppCompatActivity() {
     )
 
     companion object {
+        private const val BASE_BUBBLE_ANIMATION_DELAY = 650L
+
         private val PRIVACY_POLICY_URL =
             Uri.parse("https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/Hedvig+-+integritetspolicy.pdf")
 
         private fun hasActiveCampaign(data: OfferQuery.Data) = data.redeemedCampaigns.size > 0
+
+        private fun performBubbleAnimation(view: View) {
+            view
+                .spring(SpringAnimation.SCALE_X, stiffness = 1200f)
+                .animateToFinalPosition(1f)
+            view
+                .spring(SpringAnimation.SCALE_Y, stiffness = 1200f)
+                .animateToFinalPosition(1f)
+        }
     }
 }
