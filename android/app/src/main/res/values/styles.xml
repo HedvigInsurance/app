@@ -9,9 +9,11 @@
         <item name="android:alertDialogTheme">@style/AlertDialog</item>
     </style>
 
-    <style name="Theme.Exponent.Light" parent="Theme.Exponent.Light.V21" />
+    <style name="Hedvig.Theme" parent="Theme.Exponent.Light.V21" />
 
-    <style name="Theme.Exponent.Splash" parent="Theme.Exponent.Light">
+    <style name="Hedvig.Theme.Offer" />
+
+    <style name="Theme.Exponent.Splash" parent="Hedvig.Theme">
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
@@ -22,7 +24,7 @@
         <item name="android:padding">0dp</item>
     </style>
 
-    <style name="FullScreenDialog" parent="Theme.Exponent.Light">
+    <style name="FullScreenDialog" parent="Hedvig.Theme">
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
@@ -234,7 +236,7 @@
 
     <style name="TransparentDialog" parent="TransparentDialog.V21" />
 
-    <style name="TransparentDialog.V21" parent="Theme.Exponent.Light">
+    <style name="TransparentDialog.V21" parent="Hedvig.Theme">
         <item name="android:background">@null</item>
         <item name="android:windowContentOverlay">@null</item>
 

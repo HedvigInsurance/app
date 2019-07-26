@@ -6,6 +6,11 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="Theme.Exponent.Light" parent="Theme.Exponent.Light.V23"/>
+    <style name="Hedvig.Theme" parent="Theme.Exponent.Light.V23" />
+
+    <style name="Hedvig.Theme.Offer">
+        <item name="android:statusBarColor">@color/dark_purple</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 
 </resources>
