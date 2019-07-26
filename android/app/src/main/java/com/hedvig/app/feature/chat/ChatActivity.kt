@@ -293,6 +293,14 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    override fun finish() {
+        super.finish()
+        if (intent.getBooleanExtra(EXTRA_SHOW_CLOSE, false)) {
+            overridePendingTransition(R.anim.stay_in_place, R.anim.activity_slide_down_out)
+        }
+    }
+
+
     override fun onDestroy() {
         preventOpenAttachFileHandler.removeCallbacks(resetPreventOpenAttachFile)
         super.onDestroy()
