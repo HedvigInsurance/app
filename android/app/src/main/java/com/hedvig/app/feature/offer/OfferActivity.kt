@@ -215,7 +215,6 @@ class OfferActivity : AppCompatActivity() {
         hasTriggeredAnimations = true
         animationHandler.postDelayed({
             performBubbleAnimation(netPremiumBubble)
-
         }, 650)
         if (hasActiveCampaign(data)) {
             animateDiscountBubble(650)
