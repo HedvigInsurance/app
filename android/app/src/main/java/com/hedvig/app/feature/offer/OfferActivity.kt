@@ -218,23 +218,19 @@ class OfferActivity : AppCompatActivity() {
 
         }, 650)
         if (hasActiveCampaign(data)) {
-            animateDiscountBubble(950)
+            animateDiscountBubble(650)
         }
         animationHandler.postDelayed({
             performBubbleAnimation(amountInsuredBubble)
+            performBubbleAnimation(startDateBubble)
         }, 750)
         animationHandler.postDelayed({
-            performBubbleAnimation(startDateBubble)
-        }, 850)
-        animationHandler.postDelayed({
             performBubbleAnimation(bindingPeriodBubble)
-        }, 950)
+        }, 800)
         animationHandler.postDelayed({
             performBubbleAnimation(brfOrTravelBubble)
-        }, 1050)
-        animationHandler.postDelayed({
             performBubbleAnimation(deductibleBubble)
-        }, 1150)
+        }, 850)
     }
 
     private fun animateDiscountBubble(withDelay: Long = 0) {
