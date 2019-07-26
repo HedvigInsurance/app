@@ -21,8 +21,6 @@ class ChatViewModel(
 
     val messages = MutableLiveData<ChatMessagesQuery.Data>()
     val sendMessageResponse = MutableLiveData<Boolean>()
-    val sendSingleSelectResponse = MutableLiveData<Boolean>()
-    val sendFileResponse = MutableLiveData<Boolean>()
     val isUploading = LiveEvent<Boolean>()
     val uploadBottomSheetResponse = LiveEvent<UploadFileMutation.Data>()
     val fileUploadOutcome = LiveEvent<FileUploadOutcome>()
@@ -30,18 +28,21 @@ class ChatViewModel(
 
     private val disposables = CompositeDisposable()
 
-    fun loadAndSubscribe() {
-        load()
+    private var isSubscriptionAllowedToWrite = true
+    private var isWaitingForParagraph = false
 
+    fun subscribe() {
         disposables += chatRepository.subscribeToChatMessages()
             .subscribe({ response ->
                 Timber.e("onNext")
                 response.data()?.message?.let {
                     Timber.e("Incoming message on subscription: %s", it.toString())
-                    chatRepository
-                        .writeNewMessage(
-                            it.fragments.chatMessageFragment
-                        )
+                    if (isSubscriptionAllowedToWrite) {
+                        chatRepository
+                            .writeNewMessage(
+                                it.fragments.chatMessageFragment
+                            )
+                    }
                 }
             }, {
                 Timber.e(it)
@@ -52,17 +53,43 @@ class ChatViewModel(
     }
 
     fun load() {
+        isSubscriptionAllowedToWrite = false
         disposables += chatRepository
             .fetchChatMessages()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response ->
-                if (shouldBeDelayed(response)) {
-                    postWithDelay(response)
-                } else {
-                    postResponseValue(response)
+                postResponseValue(response)
+                if (isFirstParagraph(response)) {
+                    waitForParagraph(getFirstParagraphDelay(response))
                 }
-            }, { Timber.e(it) })
+                isSubscriptionAllowedToWrite = true
+            }, {
+                Timber.e(it)
+            })
+    }
+
+    private fun isFirstParagraph(response: Response<ChatMessagesQuery.Data>) =
+        response.data()?.messages?.firstOrNull()?.fragments?.chatMessageFragment?.body?.type == "paragraph"
+
+    private fun getFirstParagraphDelay(response: Response<ChatMessagesQuery.Data>) =
+        response.data()?.messages?.firstOrNull()?.fragments?.chatMessageFragment?.header?.pollingInterval?.toLong()
+            ?: 0L
+
+
+    private fun waitForParagraph(delay: Long) {
+        if (isWaitingForParagraph)
+            return
+
+        isWaitingForParagraph = true
+        disposables += Observable
+            .timer(delay, TimeUnit.MILLISECONDS, Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                load()
+                isWaitingForParagraph = false
+            }, {})
+
     }
 
     fun uploadFile(uri: Uri) {
@@ -78,6 +105,7 @@ class ChatViewModel(
     }
 
     private fun uploadFile(uri: Uri, onNext: (Response<UploadFileMutation.Data>) -> Unit) {
+        isSubscriptionAllowedToWrite = false
         isUploading.value = true
         disposables += chatRepository
             .uploadFile(uri)
@@ -90,6 +118,7 @@ class ChatViewModel(
     }
 
     fun uploadFileFromProvider(uri: Uri) {
+        isSubscriptionAllowedToWrite = false
         isUploading.value = true
         disposables += chatRepository
             .uploadFileFromProvider(uri)
@@ -101,48 +130,30 @@ class ChatViewModel(
             }, { Timber.e(it) })
     }
 
-    private fun calculateDelay(response: Response<ChatMessagesQuery.Data>): Long =
-        response.data()?.messages?.firstOrNull()?.fragments?.chatMessageFragment?.body?.text?.length?.times(
-            PARAGRAPH_DELAY_MULTIPLIER_MS
-        )?.toLong()
-            ?: 0L
-
-    //Todo: I will need help with the logic of this
-    private fun shouldBeDelayed(response: Response<ChatMessagesQuery.Data>) =
-        response.data()?.messages?.firstOrNull()?.fragments?.chatMessageFragment?.body?.type == "paragraph" ||
-            response.data()?.messages?.getOrNull(1)?.fragments?.chatMessageFragment?.body?.type == "paragraph" ||
-            response.data()?.messages?.getOrNull(2)?.fragments?.chatMessageFragment?.body?.type == "paragraph"
-
-    private fun postWithDelay(response: Response<ChatMessagesQuery.Data>) {
-        val delay = calculateDelay(response)
-        disposables += Observable
-            .timer(delay, TimeUnit.MILLISECONDS, Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                postResponseValue(response)
-            }, {
-                Timber.e(it, "Timer failed!")
-                postResponseValue(response)
-            })
-    }
-
     private fun postResponseValue(response: Response<ChatMessagesQuery.Data>) {
         val data = response.data()
         messages.postValue(data)
     }
 
     fun respondToLastMessage(message: String) {
+        isSubscriptionAllowedToWrite = false
         disposables += chatRepository
             .sendChatMessage(getLastId(), message)
-            .subscribe({ sendMessageResponse.postValue(it.data()?.isSendChatTextResponse) }, { Timber.e(it) })
+            .subscribe({ response ->
+                if (response.data()?.isSendChatTextResponse == true) {
+                    load()
+                }
+                sendMessageResponse.postValue(response.data()?.isSendChatTextResponse)
+            }, { Timber.e(it) })
     }
 
     private fun respondWithFile(key: String, uri: Uri) {
+        isSubscriptionAllowedToWrite = false
         disposables += chatRepository
             .sendFileResponse(getLastId(), key, uri)
-            .subscribe({
-                it.data()?.let { data ->
-                    sendFileResponse.postValue(data.isSendChatFileResponse)
+            .subscribe({ response ->
+                if (response.data()?.isSendChatFileResponse == true) {
+                    load()
                 }
             }, {
                 Timber.e(it)
@@ -150,11 +161,16 @@ class ChatViewModel(
     }
 
     fun respondWithSingleSelect(value: String) {
+        isSubscriptionAllowedToWrite = false
         disposables += chatRepository
             .sendSingleSelect(getLastId(), value)
-            .subscribe(
-                { sendSingleSelectResponse.postValue(it.data()?.isSendChatSingleSelectResponse) },
-                { Timber.e(it) })
+            .subscribe({ response ->
+                if (response.data()?.isSendChatSingleSelectResponse == true) {
+                    load()
+                }
+            }, {
+                Timber.e(it)
+            })
     }
 
     private fun getLastId(): String =
@@ -174,9 +190,6 @@ class ChatViewModel(
                     Timber.e(response.errors().toString())
                     return@subscribe
                 }
-
-                load()
-
             }, { Timber.e(it) })
     }
 
@@ -188,12 +201,7 @@ class ChatViewModel(
                     Timber.e(response.errors().toString())
                     return@subscribe
                 }
-                load()
             }, { Timber.e(it) })
-    }
-
-    companion object {
-        private const val PARAGRAPH_DELAY_MULTIPLIER_MS = 30
     }
 }
 

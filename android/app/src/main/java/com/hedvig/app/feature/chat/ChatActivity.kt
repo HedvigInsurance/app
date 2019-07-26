@@ -30,8 +30,10 @@ import timber.log.Timber
 import android.os.Environment
 import java.io.File
 import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hedvig.app.util.extensions.view.show
 import java.io.IOException
+import com.hedvig.app.util.extensions.*
 
 class ChatActivity : AppCompatActivity() {
 
@@ -62,11 +64,20 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
 
         input.initialize(
-            sendTextMessage = { message -> chatViewModel.respondToLastMessage(message) },
-            sendSingleSelect = { value -> chatViewModel.respondWithSingleSelect(value) },
-            sendSingleSelectLink = { value -> handleSingleSelectLink(value) },
-            paragraphPullMessages = { chatViewModel.load() },
+            sendTextMessage = { message ->
+                scrollToBottom(true)
+                chatViewModel.respondToLastMessage(message)
+            },
+            sendSingleSelect = { value ->
+                scrollToBottom(true)
+                chatViewModel.respondWithSingleSelect(value)
+            },
+            sendSingleSelectLink = { value ->
+                scrollToBottom(true)
+                handleSingleSelectLink(value)
+            },
             openAttachFile = {
+                scrollToBottom(true)
                 if (!preventOpenAttachFile) {
                     if (hasPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         openAttachPicker()
@@ -79,10 +90,12 @@ class ChatActivity : AppCompatActivity() {
                 askForPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_AUDIO_PERMISSION)
             },
             uploadRecording = { path ->
+                scrollToBottom(true)
                 chatViewModel.uploadClaim(path)
             }
         )
 
+        messages.setHasFixedSize(false)
         messages.adapter = ChatAdapter(this, onPressEdit = {
             showAlert(
                 R.string.CHAT_EDIT_MESSAGE_TITLE,
@@ -101,17 +114,6 @@ class ChatActivity : AppCompatActivity() {
         chatViewModel.sendMessageResponse.observe(lifecycleOwner = this) { response ->
             if (response == true) {
                 input.clearInput()
-                chatViewModel.load()
-            }
-        }
-        chatViewModel.sendSingleSelectResponse.observe(lifecycleOwner = this) { response ->
-            if (response == true) {
-                chatViewModel.load()
-            }
-        }
-        chatViewModel.sendFileResponse.observe(lifecycleOwner = this) { response ->
-            if (response == true) {
-                chatViewModel.load()
             }
         }
         chatViewModel.takePictureUploadOutcome.observe(lifecycleOwner = this) {
@@ -122,11 +124,12 @@ class ChatActivity : AppCompatActivity() {
         resetChatButton.setOnClickListener {
             showRestartDialog {
                 setAuthenticationToken(null)
-                userViewModel.logout { triggerRestartActivity(ChatActivity::class.java) }
+                userViewModel.logout { triggerRestartActivity() }
             }
         }
 
-        chatViewModel.loadAndSubscribe()
+        chatViewModel.subscribe()
+        chatViewModel.load()
 
         chatRoot.viewTreeObserver.addOnGlobalLayoutListener {
             val heightDiff = chatRoot.calculateNonFullscreenHeightDiff()
@@ -134,6 +137,7 @@ class ChatActivity : AppCompatActivity() {
                 if (systemNavHeight > 0) systemNavHeight -= navHeightDiff
                 this.keyboardHeight = heightDiff - systemNavHeight
                 isKeyboardShown = true
+                scrollToBottom(true)
             } else {
                 systemNavHeight = heightDiff
                 isKeyboardShown = false
@@ -153,9 +157,43 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        storeBoolean(ACTIVITY_IS_IN_FOREGROUND, true)
+    }
+
+    override fun onPause() {
+        storeBoolean(ACTIVITY_IS_IN_FOREGROUND, false)
+        super.onPause()
+    }
+
+    private fun scrollToBottom(smooth: Boolean) {
+        Timber.i("Scroll to bottom $smooth")
+        if (smooth) {
+            (messages.layoutManager as LinearLayoutManager).smoothScrollToPosition(messages, null, 0)
+        } else {
+            (messages.layoutManager as LinearLayoutManager).scrollToPosition(0)
+        }
+    }
+
     private fun bindData(data: ChatMessagesQuery.Data) {
-        (messages.adapter as? ChatAdapter)?.messages = data.messages
-        input.message = data.messages.firstOrNull()?.let { ChatInputType.from(it) }
+        var triggerScrollToBottom = false
+        val firstMessage = data.messages.firstOrNull()?.let { ChatInputType.from(it) }
+        input.message = firstMessage
+        if (firstMessage is ParagraphInput) {
+            triggerScrollToBottom = true
+        }
+        (messages.adapter as? ChatAdapter)?.let {
+            it.messages = data.messages
+            val layoutManager = messages.layoutManager as LinearLayoutManager
+            val pos = layoutManager.findFirstCompletelyVisibleItemPosition()
+            if (pos == 0) {
+                triggerScrollToBottom = true
+            }
+        }
+        if (triggerScrollToBottom) {
+            scrollToBottom(false)
+        }
     }
 
     private fun openAttachPicker() {
@@ -315,5 +353,7 @@ class ChatActivity : AppCompatActivity() {
 
         const val EXTRA_SHOW_CLOSE = "extra_show_close"
         const val EXTRA_SHOW_RESTART = "extra_show_restart"
+
+        const val ACTIVITY_IS_IN_FOREGROUND = "chat_activity_is_in_foreground"
     }
 }

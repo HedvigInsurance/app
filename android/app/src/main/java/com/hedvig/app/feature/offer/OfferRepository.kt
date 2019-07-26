@@ -6,6 +6,8 @@ import com.hedvig.android.owldroid.graphql.OfferClosedMutation
 import com.hedvig.android.owldroid.graphql.OfferQuery
 import com.hedvig.android.owldroid.graphql.RedeemReferralCodeMutation
 import com.hedvig.android.owldroid.graphql.RemoveDiscountCodeMutation
+import com.hedvig.android.owldroid.graphql.SignOfferMutation
+import com.hedvig.android.owldroid.graphql.SignStatusSubscription
 import com.hedvig.app.ApolloClientWrapper
 import io.reactivex.Observable
 
@@ -97,4 +99,18 @@ class OfferRepository(
 
     fun triggerOpenChatFromOffer() =
         Rx2Apollo.from(apolloClientWrapper.apolloClient.mutate(OfferClosedMutation()))
+
+    fun startSign() = Rx2Apollo
+        .from(
+            apolloClientWrapper
+                .apolloClient
+                .mutate(SignOfferMutation())
+        )
+
+    fun subscribeSignStatus() = Rx2Apollo
+        .from(
+            apolloClientWrapper
+                .apolloClient
+                .subscribe(SignStatusSubscription())
+        )
 }

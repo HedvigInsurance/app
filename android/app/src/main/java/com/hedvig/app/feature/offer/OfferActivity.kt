@@ -2,26 +2,34 @@ package com.hedvig.app.feature.offer
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.NestedScrollView
 import com.hedvig.android.owldroid.fragment.IncentiveFragment
 import com.hedvig.android.owldroid.fragment.PerilCategoryFragment
 import com.hedvig.android.owldroid.graphql.OfferQuery
 import com.hedvig.app.R
-import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.dashboard.ui.PerilView
-import com.hedvig.app.util.*
-import com.hedvig.app.util.extensions.*
+import com.hedvig.app.util.extensions.compatColor
+import com.hedvig.app.util.extensions.displayMetrics
+import com.hedvig.app.util.extensions.observe
+import com.hedvig.app.util.extensions.setStrikethrough
+import com.hedvig.app.util.extensions.showAlert
+import com.hedvig.app.util.extensions.startClosableChat
+import com.hedvig.app.util.extensions.view.fadeIn
+import com.hedvig.app.util.extensions.view.fadeOut
 import com.hedvig.app.util.extensions.view.hide
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.extensions.view.updateMargin
+import com.hedvig.app.util.interpolateTextKey
+import com.hedvig.app.util.isStudentInsurance
+import com.hedvig.app.util.isApartmentOwner
+import com.hedvig.app.util.safeLet
 import kotlinx.android.synthetic.main.activity_offer.*
 import kotlinx.android.synthetic.main.feature_bubbles.*
 import kotlinx.android.synthetic.main.loading_spinner.*
@@ -40,6 +48,12 @@ class OfferActivity : AppCompatActivity() {
     private val rowWidth: Int by lazy {
         displayMetrics.widthPixels - (doubleMargin * 2)
     }
+    private val halfScreenHeight by lazy {
+        displayMetrics.heightPixels / 2
+    }
+
+    private var isShowingToolbarSign = true
+    private var isShowingFloatingSign = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +71,7 @@ class OfferActivity : AppCompatActivity() {
             data?.let { d ->
                 loadingSpinner.remove()
                 container.show()
-                offerToolbarAddress.text = d.insurance.address
+                bindToolbar(d)
                 bindPriceBubbles(d)
                 bindFeatureBubbles(d)
                 bindDiscountButton(d)
@@ -69,7 +83,13 @@ class OfferActivity : AppCompatActivity() {
         }
     }
 
+    private fun bindToolbar(data: OfferQuery.Data) {
+        offerToolbarAddress.text = data.insurance.address
+    }
+
     private fun bindStaticData() {
+        setSupportActionBar(offerToolbar)
+
         homeSection.paragraph.text = getString(R.string.OFFER_APARTMENT_PROTECTION_DESCRIPTION)
         homeSection.hero.setImageDrawable(getDrawable(R.drawable.offer_house))
 
@@ -85,6 +105,39 @@ class OfferActivity : AppCompatActivity() {
         }
 
         grossPremium.setStrikethrough(true)
+
+        setupButtons()
+    }
+
+    private fun setupButtons() {
+        signButton.setHapticClickListener {
+            OfferSignDialog.newInstance().show(supportFragmentManager, OfferSignDialog.TAG)
+        }
+        offerToolbarSign.setHapticClickListener {
+            OfferSignDialog.newInstance().show(supportFragmentManager, OfferSignDialog.TAG)
+        }
+
+        offerScroll.setOnScrollChangeListener { _: NestedScrollView, _, scrollY, _, _ ->
+            if (scrollY > halfScreenHeight) {
+                if (isShowingToolbarSign) {
+                    isShowingToolbarSign = false
+                    offerToolbarSign.fadeOut()
+                }
+                if (!isShowingFloatingSign) {
+                    isShowingFloatingSign = true
+                    signButton.fadeIn()
+                }
+            } else {
+                if (!isShowingToolbarSign) {
+                    isShowingToolbarSign = true
+                    offerToolbarSign.fadeIn()
+                }
+                if (isShowingFloatingSign) {
+                    isShowingFloatingSign = false
+                    signButton.fadeOut()
+                }
+            }
+        }
     }
 
     private fun bindDiscountButton(data: OfferQuery.Data) {

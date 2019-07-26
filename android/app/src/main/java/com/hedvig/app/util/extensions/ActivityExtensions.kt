@@ -6,25 +6,25 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.util.DisplayMetrics
+import android.view.View
+import android.view.WindowManager
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import android.util.DisplayMetrics
-import android.view.View
-import android.view.WindowManager
-import com.hedvig.app.R
-import com.hedvig.app.util.extensions.view.setupLargeTitle
-import com.hedvig.app.util.hasNotch
-import com.hedvig.app.util.whenApiVersion
-import kotlinx.android.synthetic.main.app_bar.*
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
+import com.hedvig.app.R
 import com.hedvig.app.authenticate.AuthenticateDialog
 import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.service.LoginStatusService.Companion.IS_VIEWING_OFFER
+import com.hedvig.app.util.extensions.view.setupLargeTitle
+import com.hedvig.app.util.hasNotch
+import com.hedvig.app.util.whenApiVersion
+import kotlinx.android.synthetic.main.app_bar.*
 import timber.log.Timber
 
 fun Activity.setLightNavigationBar() {
@@ -201,3 +201,5 @@ fun AppCompatActivity.handleSingleSelectLink(value: String) = when (value) {
         Timber.e("Can't handle the link $value")
     }
 }
+
+fun Activity.canOpenUri(uri: Uri) = Intent(Intent.ACTION_VIEW, uri).resolveActivity(packageManager) != null
