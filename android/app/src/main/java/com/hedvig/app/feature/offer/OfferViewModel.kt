@@ -60,6 +60,11 @@ class OfferViewModel(
 
     fun writeDiscountToCache(data: RedeemReferralCodeMutation.Data) = offerRepository.writeDiscountToCache(data)
 
+    fun triggerOpenChat(done: () -> Unit) {
+        disposables += offerRepository
+            .triggerOpenChatFromOffer()
+            .subscribe({ done() }, { Timber.e(it) })
+    }
     fun startSign() {
         disposables += offerRepository
             .subscribeSignStatus()

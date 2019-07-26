@@ -10,6 +10,7 @@ import com.hedvig.app.util.extensions.getStoredBoolean
 import com.hedvig.app.util.extensions.isLoggedIn
 import com.hedvig.app.util.extensions.setIsLoggedIn
 import io.reactivex.Observable
+import timber.log.Timber
 
 class LoginStatusService(
     private val apolloClientWrapper: ApolloClientWrapper,
@@ -20,10 +21,10 @@ class LoginStatusService(
             return Observable.just(LoginStatus.LOGGED_IN)
         }
 
-       val isViewingOffer = context.getStoredBoolean(IS_VIEWING_OFFER)
-       if (isViewingOffer) {
-           return Observable.just(LoginStatus.IN_OFFER)
-       }
+        val isViewingOffer = context.getStoredBoolean(IS_VIEWING_OFFER)
+        if (isViewingOffer) {
+            return Observable.just(LoginStatus.IN_OFFER)
+        }
 
 
         context.getAuthenticationToken() ?: return Observable.just(LoginStatus.ONBOARDING)

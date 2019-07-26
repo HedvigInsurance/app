@@ -119,9 +119,13 @@ fun AppCompatActivity.setupLargeTitle(
 
 val Activity.localBroadcastManager get() = androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this)
 
-fun Activity.startClosableChat() {
+fun Activity.startClosableChat(restartable: Boolean = false) {
     val intent = Intent(this, ChatActivity::class.java)
     intent.putExtra(ChatActivity.EXTRA_SHOW_CLOSE, true)
+
+    if (restartable) {
+        intent.putExtra(ChatActivity.EXTRA_SHOW_RESTART, true)
+    }
 
     val options =
         ActivityOptionsCompat.makeCustomAnimation(this, R.anim.activity_slide_up_in, R.anim.stay_in_place)
