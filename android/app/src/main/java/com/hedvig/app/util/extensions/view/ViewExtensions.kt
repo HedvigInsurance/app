@@ -172,13 +172,10 @@ fun View.fadeIn(endAction: (() -> Unit)? = null) {
     animation.start()
 }
 
-fun View.fadeOut(endAction: (() -> Unit)? = null) {
+fun View.fadeOut(endAction: (() -> Unit)? = { this.remove() }) {
     alpha = 1f
     show()
     val animation = animate().setDuration(225).alpha(0f)
-    endAction?.let {
-        this.remove()
-        animation.withEndAction(it)
-    }
+    endAction?.let { animation.withEndAction(it) }
     animation.start()
 }
