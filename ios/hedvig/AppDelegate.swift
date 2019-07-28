@@ -53,15 +53,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
                 toastsView.snp.remakeConstraints { make in
                     let position: CGFloat = 69
-                    if #available(iOS 11.0, *) {
-                        let hasModal = self.rootWindow.rootViewController?.presentedViewController != nil
-                        let safeAreaBottom = self.rootWindow.rootViewController?.view.safeAreaInsets.bottom ?? 0
-                        let extraPadding: CGFloat = hasModal ? 0 : position
-                        make.bottom.equalTo(-(safeAreaBottom + extraPadding))
-                    } else {
-                        make.bottom.equalTo(-position)
-                    }
+                    let hasModal = self.rootWindow.rootViewController?.presentedViewController != nil
+                    let safeAreaBottom = self.rootWindow.rootViewController?.view.safeAreaInsets.bottom ?? 0
+                    let extraPadding: CGFloat = hasModal ? 0 : position
 
+                    make.bottom.equalTo(-(safeAreaBottom + extraPadding))
                     make.centerX.equalToSuperview()
                 }
             }

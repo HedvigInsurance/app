@@ -92,15 +92,9 @@ extension Offer {
         view.addSubview(navigationBar)
 
         navigationBar.snp.makeConstraints { make in
-            if #available(iOS 11.0, *) {
-                make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
-                make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailingMargin)
-                make.leading.equalTo(view.safeAreaLayoutGuide.snp.leadingMargin)
-            } else {
-                make.top.equalToSuperview()
-                make.trailing.equalToSuperview()
-                make.leading.equalToSuperview()
-            }
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailingMargin)
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leadingMargin)
         }
 
         return (bag, navigationBar)
@@ -133,12 +127,8 @@ extension Offer: Presentable {
             reactView.backgroundColor = .darkPurple
             view.addSubview(reactView)
             reactView.snp.makeConstraints { make in
-                if #available(iOS 11.0, *) {
-                    make.top.equalTo(navigationBar.snp.bottom)
-                    make.trailing.leading.bottom.equalToSuperview()
-                } else {
-                    // Fallback on earlier versions
-                }
+                make.top.equalTo(navigationBar.snp.bottom)
+                make.trailing.leading.bottom.equalToSuperview()
             }
         }
 
