@@ -18,6 +18,7 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.dashboard.ui.PerilView
+import com.hedvig.app.util.extensions.children
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.displayMetrics
 import com.hedvig.app.util.extensions.observe
@@ -40,6 +41,7 @@ import kotlinx.android.synthetic.main.activity_offer.*
 import kotlinx.android.synthetic.main.feature_bubbles.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import kotlinx.android.synthetic.main.offer_peril_section.view.*
+import kotlinx.android.synthetic.main.offer_section_switch.*
 import kotlinx.android.synthetic.main.offer_section_terms.view.*
 import kotlinx.android.synthetic.main.price_bubbles.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -49,6 +51,7 @@ class OfferActivity : AppCompatActivity() {
 
     private val offerViewModel: OfferViewModel by viewModel()
 
+    private val baseMargin by lazy { resources.getDimensionPixelSize(R.dimen.base_margin) }
     private val doubleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_double) }
     private val perilTotalWidth: Int by lazy { resources.getDimensionPixelSize(R.dimen.peril_width) + (doubleMargin * 2) }
     private val rowWidth: Int by lazy {
@@ -91,6 +94,7 @@ class OfferActivity : AppCompatActivity() {
                 bindStuffSection(d)
                 bindMeSection(d)
                 bindTerms(d)
+                bindSwitchSection(d)
                 animateBubbles(d)
             }
         }
@@ -268,10 +272,12 @@ class OfferActivity : AppCompatActivity() {
             getString(R.string.OFFER_BUBBLES_INSURED_SUBTITLE),
             "personsInHousehold" to data.insurance.personsInHousehold
         )
-        startDate.text = if (data.insurance.insuredAtOtherCompany == true) {
-            getString(R.string.OFFER_BUBBLES_START_DATE_SUBTITLE_SWITCHER)
+        if (data.insurance.insuredAtOtherCompany == true) {
+            startDate.text = getString(R.string.OFFER_BUBBLES_START_DATE_SUBTITLE_SWITCHER)
+            startDateTitle.updateMargin(bottom = doubleMargin)
         } else {
-            getString(R.string.OFFER_BUBBLES_START_DATE_SUBTITLE_NEW)
+            startDate.text = getString(R.string.OFFER_BUBBLES_START_DATE_SUBTITLE_NEW)
+            startDateTitle.updateMargin(bottom = baseMargin)
         }
 
         data.insurance.type?.let { t ->
@@ -339,6 +345,70 @@ class OfferActivity : AppCompatActivity() {
         }
     }
 
+    private fun bindSwitchSection(data: OfferQuery.Data) {
+        if (data.insurance.insuredAtOtherCompany == true) {
+            switchSection.show()
+
+            val insurerDisplayName = when (data.insurance.currentInsurerName) {
+                "LANSFORSAKRINGAR" -> {
+                    "Länsförsäkringar"
+                }
+                "IF" -> {
+                    "If"
+                }
+                "FOLKSAM" -> {
+                    "Folksam"
+                }
+                "TRYGG_HANSA" -> {
+                    "Trygg-Hansa"
+                }
+                "MODERNA" -> {
+                    getString(R.string.MODERNA_FORSAKRING_APP)
+                }
+                "ICA" -> {
+                    getString(R.string.ICA_FORSAKRING_APP)
+                }
+                "GJENSIDIGE" -> {
+                    "Gjensidige"
+                }
+                "VARDIA" -> {
+                    "Vardia"
+                }
+                "TRE_KRONOR" -> {
+                    "Tre Kronor"
+                }
+                "OTHER" -> {
+                    getString(R.string.OTHER_INSURER_OPTION_APP)
+                }
+                else -> {
+                    getString(R.string.OTHER_INSURER_OPTION_APP)
+                }
+            }
+            if (isSwitchableInsurer(data.insurance.currentInsurerName)) {
+                switchTitle.text = interpolateTextKey(
+                    getString(R.string.OFFER_SWITCH_TITLE_APP),
+                    "INSURER" to insurerDisplayName
+                )
+                switchTitle.post {
+                    switchTitle?.apply {
+                        setLines(lineCount)
+                    }
+                }
+                switchParagraphTwo.text = getString(R.string.OFFER_SWITCH_COL_PARAGRAPH_ONE_APP)
+                switchParagraphTwo.post {
+                    switchParagraphTwo?.apply {
+                        setLines(lineCount)
+                    }
+                }
+            } else {
+                switchTitle.text = getString(R.string.OFFER_SWITCH_TITLE_NON_SWITCHABLE_APP)
+                switchParagraphTwo.text = getString(R.string.OFFER_NON_SWITCHABLE_PARAGRAPH_ONE_APP)
+            }
+        } else {
+            switchSection.remove()
+        }
+    }
+
     private fun addPerils(container: LinearLayout, category: PerilCategoryFragment) {
         container.removeAllViews()
         category.perils?.let { perils ->
@@ -394,6 +464,11 @@ class OfferActivity : AppCompatActivity() {
             view
                 .spring(SpringAnimation.SCALE_Y, stiffness = 1200f)
                 .animateToFinalPosition(1f)
+        }
+
+        private fun isSwitchableInsurer(insurerName: String?) = when (insurerName) {
+            "ICA", "FOLKSAM", "TRYGG_HANSA", "TRE_KRONOR" -> true
+            else -> false
         }
     }
 }

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/switchSection"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/off_white"
+    android:orientation="vertical"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <ImageView
+        android:id="@+id/switchImage"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/offer_switch" />
+
+    <TextView
+        android:id="@+id/switchTitle"
+        style="@style/Headline.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/base_margin_double"
+        tools:text="@string/OFFER_SWITCH_TITLE_APP" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin_triple"
+        android:layout_marginTop="@dimen/base_margin_triple"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Headline.Medium.Negative"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/circle_background"
+            android:backgroundTint="@color/purple"
+            android:gravity="center"
+            android:text="@string/numeric_one" />
+
+        <TextView
+            style="@style/Body.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/base_margin_double"
+            android:text="@string/SIGN_MOBILE_BANK_ID" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin_triple"
+        android:layout_marginTop="@dimen/base_margin_triple"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Headline.Medium.Negative"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/circle_background"
+            android:backgroundTint="@color/purple"
+            android:gravity="center"
+            android:text="@string/numeric_two" />
+
+        <TextView
+            android:id="@+id/switchParagraphTwo"
+            style="@style/Body.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/base_margin_double"
+            android:gravity="center_vertical"
+            tools:text="@string/OFFER_SWITCH_COL_PARAGRAPH_ONE_APP" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin_triple"
+        android:layout_marginTop="@dimen/base_margin_triple"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Headline.Medium.Negative"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/circle_background"
+            android:backgroundTint="@color/purple"
+            android:gravity="center"
+            android:text="@string/numeric_three" />
+
+        <TextView
+            style="@style/Body.Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/base_margin_double"
+            android:text="@string/OFFER_SWITCH_COL_THREE_PARAGRAPH_APP" />
+
+    </LinearLayout>
+
+</LinearLayout>

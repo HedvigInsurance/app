@@ -142,11 +142,12 @@
             app:srcCompat="@drawable/sphere" />
 
         <TextView
+            android:id="@+id/startDateTitle"
             style="@style/Body.Small.Negative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/base_margin"
+            android:layout_marginBottom="@dimen/base_margin_triple"
             android:text="@string/OFFER_BUBBLES_START_DATE_TITLE" />
 
         <TextView
@@ -156,7 +157,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/base_margin"
-            tools:text="idag" />
+            android:gravity="center"
+            android:lineSpacingExtra="0sp"
+            tools:text="@string/OFFER_BUBBLES_START_DATE_SUBTITLE_SWITCHER" />
     </FrameLayout>
 
     <FrameLayout

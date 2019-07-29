@@ -146,6 +146,8 @@
                 android:id="@+id/termsSection"
                 layout="@layout/offer_section_terms" />
 
+            <include layout="@layout/offer_section_switch" />
+
             <TextView
                 style="@style/Headline.Medium.Negative"
                 android:layout_width="match_parent"
