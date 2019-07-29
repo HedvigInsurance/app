@@ -106,6 +106,15 @@ class OfferActivity : AppCompatActivity() {
     private fun bindStaticData() {
         setSupportActionBar(offerToolbar)
 
+        val deductibleText =
+            "${getString(R.string.OFFER_BUBBLES_DEDUCTIBLE_TITLE)}\n${getString(R.string.OFFER_BUBBLES_DEDUCTIBLE_SUBTITLE)}"
+        deductibleBubbleText.text = deductibleText
+
+        val bindingPeriodText =
+            "${getString(R.string.OFFER_BUBBLES_BINDING_PERIOD_TITLE)}\n${getString(R.string.OFFER_BUBBLES_BINDING_PERIOD_SUBTITLE)}"
+        bindingPeriodBubbleText.text = bindingPeriodText
+
+
         homeSection.paragraph.text = getString(R.string.OFFER_APARTMENT_PROTECTION_DESCRIPTION)
         homeSection.hero.setImageDrawable(getDrawable(R.drawable.offer_house))
 
@@ -267,16 +276,21 @@ class OfferActivity : AppCompatActivity() {
     }
 
     private fun bindFeatureBubbles(data: OfferQuery.Data) {
-        amountInsured.text = interpolateTextKey(
+        val amountInsuredInterpolated = interpolateTextKey(
             getString(R.string.OFFER_BUBBLES_INSURED_SUBTITLE),
             "personsInHousehold" to data.insurance.personsInHousehold
         )
+        val amountInsuredText = "${getString(R.string.OFFER_BUBBLES_INSURED_TITLE)}\n$amountInsuredInterpolated"
+        amountInsuredBubbleText.text = amountInsuredText
+
         if (data.insurance.insuredAtOtherCompany == true) {
-            startDate.text = getString(R.string.OFFER_BUBBLES_START_DATE_SUBTITLE_SWITCHER)
-            startDateTitle.updateMargin(bottom = doubleMargin)
+            val startDateText =
+                "${getString(R.string.OFFER_BUBBLES_START_DATE_TITLE)}\n${getString(R.string.OFFER_BUBBLES_START_DATE_SUBTITLE_SWITCHER)}"
+            startDateBubbleText.text = startDateText
         } else {
-            startDate.text = getString(R.string.OFFER_BUBBLES_START_DATE_SUBTITLE_NEW)
-            startDateTitle.updateMargin(bottom = baseMargin)
+            val startDateText =
+                "${getString(R.string.OFFER_BUBBLES_START_DATE_TITLE)}\n${getString(R.string.OFFER_BUBBLES_START_DATE_SUBTITLE_NEW)}"
+            startDateBubbleText.text = startDateText
         }
 
         data.insurance.type?.let { t ->
