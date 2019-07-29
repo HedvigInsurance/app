@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/off_white"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/hero"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@color/off_white"
         android:contentDescription="@null"
         tools:src="@drawable/offer_house" />
 

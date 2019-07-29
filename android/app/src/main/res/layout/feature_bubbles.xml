@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/dark_purple"
     android:paddingTop="@dimen/base_margin_quadruple"
-    android:paddingBottom="@dimen/base_margin_triple">
+    android:paddingBottom="@dimen/base_margin_triple"
+    tools:background="@color/dark_purple">
 
     <FrameLayout
         android:id="@+id/deductibleBubble"
