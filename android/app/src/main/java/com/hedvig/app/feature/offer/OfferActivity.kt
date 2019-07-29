@@ -18,6 +18,7 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.dashboard.ui.PerilView
+import com.hedvig.app.util.boundedLerp
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.displayMetrics
 import com.hedvig.app.util.extensions.observe
@@ -177,6 +178,7 @@ class OfferActivity : AppCompatActivity() {
             }
 
             parallaxContainer.translationY = scrollY / 1.25f
+            arrow.alpha = boundedLerp(1f, 0f, scrollY / 200f)
         }
     }
 
