@@ -115,6 +115,7 @@ class OfferActivity : AppCompatActivity() {
         grossPremium.setStrikethrough(true)
 
         setupButtons()
+        setupScrollListeners()
     }
 
     private fun setupButtons() {
@@ -124,7 +125,9 @@ class OfferActivity : AppCompatActivity() {
         offerToolbarSign.setHapticClickListener {
             OfferSignDialog.newInstance().show(supportFragmentManager, OfferSignDialog.TAG)
         }
+    }
 
+    private fun setupScrollListeners() {
         offerScroll.setOnScrollChangeListener { _: NestedScrollView, _, scrollY, _, _ ->
             if (scrollY > halfScreenHeight) {
                 if (isShowingToolbarSign) {
@@ -145,6 +148,8 @@ class OfferActivity : AppCompatActivity() {
                     signButton.fadeOut()
                 }
             }
+
+            parallaxContainer.translationY = scrollY / 1.25f
         }
     }
 
