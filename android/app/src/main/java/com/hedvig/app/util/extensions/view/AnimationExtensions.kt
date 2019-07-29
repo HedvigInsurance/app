@@ -86,6 +86,7 @@ fun View.spring(
 private fun getKey(property: FloatPropertyCompat<View>) = when (property) {
     SpringAnimation.SCALE_X -> R.id.spring_scale_x
     SpringAnimation.SCALE_Y -> R.id.spring_scale_y
+    SpringAnimation.TRANSLATION_Y -> R.id.spring_translation_y
     else -> {
         throw RuntimeException("No key for ViewProperty $property")
     }

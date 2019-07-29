@@ -8,7 +8,9 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
+import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.dynamicanimation.animation.SpringForce
 import com.hedvig.android.owldroid.fragment.IncentiveFragment
 import com.hedvig.android.owldroid.fragment.PerilCategoryFragment
 import com.hedvig.android.owldroid.graphql.OfferQuery
@@ -54,6 +56,9 @@ class OfferActivity : AppCompatActivity() {
     }
     private val halfScreenHeight by lazy {
         displayMetrics.heightPixels / 2
+    }
+    private val signButtonOffScreenTranslation by lazy {
+        resources.getDimension(R.dimen.offer_sign_button_off_screen_translation)
     }
 
     private var isShowingToolbarSign = true
@@ -136,7 +141,12 @@ class OfferActivity : AppCompatActivity() {
                 }
                 if (!isShowingFloatingSign) {
                     isShowingFloatingSign = true
-                    signButton.fadeIn()
+                    signButton
+                        .spring(
+                            DynamicAnimation.TRANSLATION_Y,
+                            damping = SpringForce.DAMPING_RATIO_LOW_BOUNCY
+                        )
+                        .animateToFinalPosition(0f)
                 }
             } else {
                 if (!isShowingToolbarSign) {
@@ -145,7 +155,12 @@ class OfferActivity : AppCompatActivity() {
                 }
                 if (isShowingFloatingSign) {
                     isShowingFloatingSign = false
-                    signButton.fadeOut()
+                    signButton
+                        .spring(
+                            DynamicAnimation.TRANSLATION_Y,
+                            damping = SpringForce.DAMPING_RATIO_MEDIUM_BOUNCY
+                        )
+                        .animateToFinalPosition(signButtonOffScreenTranslation)
                 }
             }
 
