@@ -389,17 +389,7 @@ class OfferActivity : AppCompatActivity() {
                     getString(R.string.OFFER_SWITCH_TITLE_APP),
                     "INSURER" to insurerDisplayName
                 )
-                switchTitle.post {
-                    switchTitle?.apply {
-                        setLines(lineCount)
-                    }
-                }
                 switchParagraphTwo.text = getString(R.string.OFFER_SWITCH_COL_PARAGRAPH_ONE_APP)
-                switchParagraphTwo.post {
-                    switchParagraphTwo?.apply {
-                        setLines(lineCount)
-                    }
-                }
             } else {
                 switchTitle.text = getString(R.string.OFFER_SWITCH_TITLE_NON_SWITCHABLE_APP)
                 switchParagraphTwo.text = getString(R.string.OFFER_NON_SWITCHABLE_PARAGRAPH_ONE_APP)
