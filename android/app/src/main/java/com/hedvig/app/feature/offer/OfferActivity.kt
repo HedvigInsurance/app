@@ -18,7 +18,6 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.dashboard.ui.PerilView
-import com.hedvig.app.util.extensions.children
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.displayMetrics
 import com.hedvig.app.util.extensions.observe
