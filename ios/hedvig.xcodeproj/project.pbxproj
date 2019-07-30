@@ -163,7 +163,6 @@
 		EB11EADD2277047800D95365 /* SharedElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11EA162277047700D95365 /* SharedElement.swift */; };
 		EB11EADE2277047800D95365 /* SpringAnimationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11EA172277047700D95365 /* SpringAnimationStyle.swift */; };
 		EB11EAE02277047800D95365 /* RemoteConfigContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11EA1A2277047700D95365 /* RemoteConfigContainer.swift */; };
-		EB11EAE12277047800D95365 /* ApolloContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11EA1B2277047700D95365 /* ApolloContainer.swift */; };
 		EB11EAE22277047800D95365 /* AuthorizationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11EA1C2277047700D95365 /* AuthorizationToken.swift */; };
 		EB11EAE32277047800D95365 /* UpdateEmail.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EB11EA1E2277047700D95365 /* UpdateEmail.graphql */; };
 		EB11EAE42277047800D95365 /* SelectCharity.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EB11EA1F2277047700D95365 /* SelectCharity.graphql */; };
@@ -310,6 +309,10 @@
 		EBE8B8D122B9202300E32499 /* DiscountTerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8B8CF22B9202300E32499 /* DiscountTerms.swift */; };
 		EBECC26621B9230000716BEA /* NativeRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBECC26521B9230000716BEA /* NativeRouting.swift */; };
 		EBECC26821B92E4800716BEA /* NativeRouting.m in Sources */ = {isa = PBXBuildFile; fileRef = EBECC26721B92E4800716BEA /* NativeRouting.m */; };
+		EBF7ED9922E84769000469D2 /* UIViewController+PresentOptionalMatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF7ED9822E84769000469D2 /* UIViewController+PresentOptionalMatter.swift */; };
+		EBF7ED9B22E84781000469D2 /* PassThroughWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF7ED9A22E84781000469D2 /* PassThroughWindow.swift */; };
+		EBF7ED9D22E84794000469D2 /* Toasts.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF7ED9C22E84794000469D2 /* Toasts.swift */; };
+		EBF7EDA122E84819000469D2 /* ApolloContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF7EDA022E84819000469D2 /* ApolloContainer.swift */; };
 		EBFA05E722B0DF86009D3FAE /* RegisterPushToken.graphql in Resources */ = {isa = PBXBuildFile; fileRef = EBFA05E622B0DF86009D3FAE /* RegisterPushToken.graphql */; };
 		EBFA05EB22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA05EA22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift */; };
 		EBFA061222B13515009D3FAE /* ActivityBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA061122B13515009D3FAE /* ActivityBarButton.swift */; };
@@ -485,7 +488,6 @@
 		EB11EA162277047700D95365 /* SharedElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedElement.swift; sourceTree = "<group>"; };
 		EB11EA172277047700D95365 /* SpringAnimationStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpringAnimationStyle.swift; sourceTree = "<group>"; };
 		EB11EA1A2277047700D95365 /* RemoteConfigContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteConfigContainer.swift; sourceTree = "<group>"; };
-		EB11EA1B2277047700D95365 /* ApolloContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApolloContainer.swift; sourceTree = "<group>"; };
 		EB11EA1C2277047700D95365 /* AuthorizationToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationToken.swift; sourceTree = "<group>"; };
 		EB11EA1E2277047700D95365 /* UpdateEmail.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UpdateEmail.graphql; sourceTree = "<group>"; };
 		EB11EA1F2277047700D95365 /* SelectCharity.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SelectCharity.graphql; sourceTree = "<group>"; };
@@ -635,6 +637,10 @@
 		EBE8B8CF22B9202300E32499 /* DiscountTerms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscountTerms.swift; sourceTree = "<group>"; };
 		EBECC26521B9230000716BEA /* NativeRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeRouting.swift; sourceTree = "<group>"; };
 		EBECC26721B92E4800716BEA /* NativeRouting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NativeRouting.m; sourceTree = "<group>"; };
+		EBF7ED9822E84769000469D2 /* UIViewController+PresentOptionalMatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+PresentOptionalMatter.swift"; sourceTree = "<group>"; };
+		EBF7ED9A22E84781000469D2 /* PassThroughWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassThroughWindow.swift; sourceTree = "<group>"; };
+		EBF7ED9C22E84794000469D2 /* Toasts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toasts.swift; sourceTree = "<group>"; };
+		EBF7EDA022E84819000469D2 /* ApolloContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApolloContainer.swift; sourceTree = "<group>"; };
 		EBFA05E622B0DF86009D3FAE /* RegisterPushToken.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RegisterPushToken.graphql; sourceTree = "<group>"; };
 		EBFA05EA22B0F6E5009D3FAE /* UIControl+DelayedTouchCancel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+DelayedTouchCancel.swift"; sourceTree = "<group>"; };
 		EBFA061122B13515009D3FAE /* ActivityBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityBarButton.swift; sourceTree = "<group>"; };
@@ -1136,6 +1142,8 @@
 		EB11E9CC2277047700D95365 /* Generic */ = {
 			isa = PBXGroup;
 			children = (
+				EBF7ED9C22E84794000469D2 /* Toasts.swift */,
+				EBF7ED9A22E84781000469D2 /* PassThroughWindow.swift */,
 				EB48685022C6283100688463 /* DummyPagerScreen.swift */,
 				EB11E9CD2277047700D95365 /* DelayedDisposer.swift */,
 				EB384A3D228C407100D226D1 /* Logger.swift */,
@@ -1195,6 +1203,7 @@
 		EB11E9E32277047700D95365 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EBF7ED9822E84769000469D2 /* UIViewController+PresentOptionalMatter.swift */,
 				EB8E2A9F22C3BF50009F6180 /* UIModalPresentationStyle+FormSheetOrModal.swift */,
 				EB8E2A9122C3BC77009F6180 /* Bundle+Version.swift */,
 				EB8E2A8D22C22AAA009F6180 /* CoreSignal+StringToNumber.swift */,
@@ -1303,7 +1312,6 @@
 			isa = PBXGroup;
 			children = (
 				EB11EA1A2277047700D95365 /* RemoteConfigContainer.swift */,
-				EB11EA1B2277047700D95365 /* ApolloContainer.swift */,
 				EB11EA1C2277047700D95365 /* AuthorizationToken.swift */,
 				EB11EA1D2277047700D95365 /* GraphQL */,
 				EB11EA302277047700D95365 /* schema.json */,
@@ -1621,9 +1629,26 @@
 		EBECC1A621B811F400716BEA /* ugglan */ = {
 			isa = PBXGroup;
 			children = (
+				EBF7ED9E22E84819000469D2 /* AppSpecific */,
 				EB11E94C2277047700D95365 /* Src */,
 			);
 			path = ugglan;
+			sourceTree = "<group>";
+		};
+		EBF7ED9E22E84819000469D2 /* AppSpecific */ = {
+			isa = PBXGroup;
+			children = (
+				EBF7ED9F22E84819000469D2 /* Data */,
+			);
+			path = AppSpecific;
+			sourceTree = "<group>";
+		};
+		EBF7ED9F22E84819000469D2 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				EBF7EDA022E84819000469D2 /* ApolloContainer.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1849,7 +1874,6 @@
 				EB11EA892277047700D95365 /* CharityLogo.swift in Sources */,
 				A70345C322D47666005750BB /* PushNotificationsState.swift in Sources */,
 				EB11EB2C2277360900D95365 /* MultilineLabelIcon.swift in Sources */,
-				EB11EAE12277047800D95365 /* ApolloContainer.swift in Sources */,
 				EB11EAFB2277047800D95365 /* Icon.swift in Sources */,
 				EB11ED2C227ADBDE00D95365 /* ClaimsHeader.swift in Sources */,
 				EB8E2A9E22C3BD9E009F6180 /* WhatsNew.swift in Sources */,
@@ -1865,6 +1889,7 @@
 				EB8E2A8422C229C5009F6180 /* ReferralsInvitationOnboardingIcon.swift in Sources */,
 				EB11EACD2277047700D95365 /* UIColor+Image.swift in Sources */,
 				EB11EA972277047700D95365 /* CoinsuredComingSoonText.swift in Sources */,
+				EBF7ED9B22E84781000469D2 /* PassThroughWindow.swift in Sources */,
 				EB8E2A9B22C3BD9E009F6180 /* WhatsNewPagerScreen.swift in Sources */,
 				EB8E2A8322C229C5009F6180 /* ReferralsCode.swift in Sources */,
 				EBCAA8A82281C28E003C4833 /* PerilInformation.swift in Sources */,
@@ -1975,7 +2000,9 @@
 				EBCAA8A42281C28E003C4833 /* PendingInsuranceMoreInfo.swift in Sources */,
 				EB11EABE2277047700D95365 /* LocalizationKey+String.swift in Sources */,
 				EBECC26621B9230000716BEA /* NativeRouting.swift in Sources */,
+				EBF7ED9D22E84794000469D2 /* Toasts.swift in Sources */,
 				EB11ED2D227ADBDE00D95365 /* EmergencyActions.swift in Sources */,
+				EBF7ED9922E84769000469D2 /* UIViewController+PresentOptionalMatter.swift in Sources */,
 				EBCAA8A62281C28E003C4833 /* PendingInsurance.swift in Sources */,
 				EB8E2A7C22C229C5009F6180 /* ReferralsInvitationAnonymous.swift in Sources */,
 				EB11EAB12277047700D95365 /* Callbacker+Signal.swift in Sources */,
@@ -2011,6 +2038,7 @@
 				EB11EAB02277047700D95365 /* UIWebView+Signal.swift in Sources */,
 				EBCAA8A32281C28E003C4833 /* PerilCollection.swift in Sources */,
 				EB11EA7A2277047700D95365 /* DeductibleCircle.swift in Sources */,
+				EBF7EDA122E84819000469D2 /* ApolloContainer.swift in Sources */,
 				EBE8B8C722B91FEC00E32499 /* LoadableView.swift in Sources */,
 				EBCAA816228086BC003C4833 /* DashboardRouting.swift in Sources */,
 				EB11ED28227ADBDE00D95365 /* Claims.swift in Sources */,
@@ -2292,7 +2320,7 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
 				INFOPLIST_PREFIX_HEADER = "${BUILD_DIR}/GeneratedInfoPlistDotEnv.h";
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2330,7 +2358,7 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
 				INFOPLIST_PREFIX_HEADER = "${BUILD_DIR}/GeneratedInfoPlistDotEnv.h";
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2458,7 +2486,7 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
 				INFOPLIST_PREFIX_HEADER = "${BUILD_DIR}/GeneratedInfoPlistDotEnv.h";
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2589,7 +2617,7 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
 				INFOPLIST_PREFIX_HEADER = "${BUILD_DIR}/GeneratedInfoPlistDotEnv.h";
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2679,7 +2707,7 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
 				INFOPLIST_PREFIX_HEADER = "${BUILD_DIR}/GeneratedInfoPlistDotEnv.h";
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2767,7 +2795,7 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
 				INFOPLIST_PREFIX_HEADER = "${BUILD_DIR}/GeneratedInfoPlistDotEnv.h";
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

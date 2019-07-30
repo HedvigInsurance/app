@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     let bag = DisposeBag()
     var rootWindow = UIWindow(frame: UIScreen.main.bounds)
     var splashWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
+    var toastWindow: UIWindow?
+    let toastSignal = ReadWriteSignal<Toast?>(nil)
 
     let hasFinishedLoading = ReadWriteSignal<Bool>(false)
     private let applicationWillTerminateCallbacker = Callbacker<Void>()
@@ -35,6 +37,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     override init() {
         applicationWillTerminateSignal = applicationWillTerminateCallbacker.signal()
         super.init()
+        toastWindow = createToastWindow()
+    }
+
+    func createToastWindow() -> UIWindow {
+        let window = PassTroughWindow(frame: UIScreen.main.bounds)
+        window.isOpaque = false
+        window.backgroundColor = UIColor.transparent
+
+        let toasts = Toasts(toastSignal: toastSignal)
+
+        bag += window.add(toasts) { toastsView in
+            bag += toastSignal.onValue { _ in
+                window.makeKeyAndVisible()
+
+                toastsView.snp.remakeConstraints { make in
+                    let position: CGFloat = 69
+                    let hasModal = self.rootWindow.rootViewController?.presentedViewController != nil
+                    let safeAreaBottom = self.rootWindow.rootViewController?.view.safeAreaInsets.bottom ?? 0
+                    let extraPadding: CGFloat = hasModal ? 0 : position
+
+                    make.bottom.equalTo(-(safeAreaBottom + extraPadding))
+                    make.centerX.equalToSuperview()
+                }
+            }
+        }
+
+        bag += toasts.idleSignal.onValue { _ in
+            self.toastSignal.value = nil
+            self.rootWindow.makeKeyAndVisible()
+        }
+
+        return window
+    }
+
+    func createToast(
+        symbol: ToastSymbol,
+        body: String,
+        textColor: UIColor = UIColor.offBlack,
+        backgroundColor: UIColor = UIColor.white,
+        duration: TimeInterval = 5.0
+    ) {
+        bag += Signal(after: 0).withLatestFrom(toastSignal.atOnce().plain()).onValue(on: .main) { _, previousToast in
+            let toast = Toast(
+                symbol: symbol,
+                body: body,
+                textColor: textColor,
+                backgroundColor: backgroundColor,
+                duration: duration
+            )
+
+            if toast != previousToast {
+                self.toastSignal.value = toast
+            }
+        }
     }
 
     func application(
@@ -118,7 +174,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
 
         alertActionWasPressed = { _, title in
-            if let localizationKey = title.localizationKey?.toString() {
+            if let localizationKey = title.localizationKey?.description {
                 Analytics.logEvent("tap_\(localizationKey)", parameters: nil)
             }
         }
@@ -166,12 +222,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
 
-        if #available(iOS 10, *) {
-            UNUserNotificationCenter.current().delegate = self
-        }
+        UNUserNotificationCenter.current().delegate = self
 
-        // Set the last seen news version to current if we dont have a token indicating this is a first launch
-        bag += RCTApolloClient.getToken().valueSignal.filter { $0 == nil }.onValue { _ in
+        // Set the last seen news version to current if we dont have a previous state indicating this is a first launch
+        if !ApplicationState.hasPreviousState() {
             ApplicationState.setLastNewsSeen()
         }
 
@@ -195,11 +249,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         ApolloContainer.shared.deleteToken()
         RCTAsyncLocalStorage().clearAllData()
 
-        bag += RCTApolloClient.getClient().onValue { _ in
-            ReactNativeContainer.shared.bridge.reload()
-            self.bag.dispose()
-            ApplicationState.preserveState(.marketing)
-            self.bag += ApplicationState.presentRootViewController(self.rootWindow)
+        bag += Signal(after: 0.2).onValue {
+            self.bag += RCTApolloClient.getClient().onValue { _ in
+                ReactNativeContainer.shared.bridge.reload()
+                self.bag.dispose()
+                ApplicationState.preserveState(.marketing)
+                self.bag += ApplicationState.presentRootViewController(self.rootWindow)
+            }
         }
     }
 
@@ -228,17 +284,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func registerForPushNotifications() {
-        if #available(iOS 10.0, *) {
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: { _, _ in }
-            )
-        } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            UIApplication.shared.registerUserNotificationSettings(settings)
-        }
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { _, _ in }
+        )
 
         UIApplication.shared.registerForRemoteNotifications()
     }

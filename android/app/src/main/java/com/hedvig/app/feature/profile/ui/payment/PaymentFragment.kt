@@ -20,24 +20,21 @@ import com.hedvig.app.feature.referrals.RefetchingRedeemCodeDialog
 import com.hedvig.app.util.CustomTypefaceSpan
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.extensions.concat
-import com.hedvig.app.util.extensions.observe
 import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.extensions.view.remove
 import com.hedvig.app.util.extensions.view.setHapticClickListener
 import com.hedvig.app.util.extensions.view.show
 import com.hedvig.app.util.interpolateTextKey
-import com.hedvig.app.util.safeLet
 import com.hedvig.app.viewmodel.DirectDebitViewModel
 import kotlinx.android.synthetic.main.fragment_payment.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
-import org.threeten.bp.LocalDate
 import java.util.Calendar
 
-class PaymentFragment : androidx.fragment.app.Fragment() {
+class PaymentFragment : Fragment() {
 
     private val profileViewModel: ProfileViewModel by sharedViewModel()
     private val directDebitViewModel: DirectDebitViewModel by sharedViewModel()
@@ -123,7 +120,7 @@ class PaymentFragment : androidx.fragment.app.Fragment() {
                 freeUntilContainer.show()
                 freeUntilMessage.text = interpolateTextKey(
                     getString(R.string.PROFILE_PAYMENT_FREE_UNTIL_MESSAGE),
-                    "FREE_UNTIL" to it.toString()
+                    "FREE_UNTIL" to it
                 )
             } ?: run {
                 freeUntilContainer.remove()
@@ -228,7 +225,7 @@ class PaymentFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun showRedeemCodeOnNoDiscount(profileData: ProfileQuery.Data) {
-        if (profileData.insurance.cost?.fragments?.costFragment?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0) {
+        if (profileData.insurance.cost?.fragments?.costFragment?.monthlyDiscount?.amount?.toBigDecimal()?.toInt() == 0 && profileData.insurance.cost?.freeUntil == null) {
             redeemCode.show()
         }
     }

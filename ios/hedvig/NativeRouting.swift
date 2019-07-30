@@ -6,12 +6,12 @@
 //  Copyright © 2018 Hedvig AB. All rights reserved.
 //
 
+import AVFoundation
 import Firebase
 import Flow
 import Foundation
 import Photos
 import Presentation
-import AVFoundation
 
 struct MarketingResultEventBody: Encodable {
     var marketingResult: String?
@@ -376,7 +376,7 @@ class NativeRouting: RCTEventEmitter {
             bag += applyDiscount.didRedeemValidCodeSignal.onValue { redeemCode in
                 bag.dispose()
 
-                guard let serialized = try? JSONSerialization.data(withJSONObject: redeemCode.cost.jsonObject, options: []) else {
+                guard let serialized = try? JSONSerialization.data(withJSONObject: redeemCode.jsonObject, options: []) else {
                     return
                 }
 
