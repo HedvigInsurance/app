@@ -28,20 +28,22 @@
             android:contentDescription="@string/UPLOAD_FILE_BUTTON_HINT"
             android:src="@drawable/ic_chat_attach_file" />
 
-        <TextView
-            android:id="@+id/sendGif"
-            android:layout_width="@dimen/chat_attach_icon_size"
-            android:layout_height="@dimen/chat_attach_icon_size"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginStart="@dimen/base_margin_half"
-            android:layout_marginEnd="@dimen/base_margin_half"
-            android:layout_marginBottom="@dimen/base_margin_half"
-            android:background="@drawable/circle_background"
-            android:backgroundTint="@color/purple"
-            android:fontFamily="@font/circular_book"
-            android:gravity="center"
-            android:text="@string/GIF_BUTTON_TITLE"
-            android:textColor="@color/white" />
+        <!--
+                <TextView
+                    android:id="@+id/sendGif"
+                    android:layout_width="@dimen/chat_attach_icon_size"
+                    android:layout_height="@dimen/chat_attach_icon_size"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginStart="@dimen/base_margin_half"
+                    android:layout_marginEnd="@dimen/base_margin_half"
+                    android:layout_marginBottom="@dimen/base_margin_half"
+                    android:background="@drawable/circle_background"
+                    android:backgroundTint="@color/purple"
+                    android:fontFamily="@font/circular_book"
+                    android:gravity="center"
+                    android:text="@string/GIF_BUTTON_TITLE"
+                    android:textColor="@color/white" />
+        -->
 
         <!--
         Ignore RtlHardcoded
@@ -57,6 +59,7 @@
             android:drawableRight="@drawable/ic_chat_send"
             android:drawablePadding="@dimen/base_margin_half"
             android:hint="@string/CHAT_TEXT_INPUT_HINT"
+            android:imeOptions="actionSend"
             android:paddingStart="@dimen/base_margin_triple"
             android:paddingTop="@dimen/base_margin"
             android:paddingEnd="@dimen/base_margin_double"
@@ -80,6 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginStart="@dimen/base_margin_double"
+        android:layout_marginTop="@dimen/base_margin"
         android:visibility="gone"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/hedvig_typing_animation_2"

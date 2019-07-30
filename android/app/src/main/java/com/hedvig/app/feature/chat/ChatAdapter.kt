@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.hedvig.android.owldroid.fragment.ChatMessageFragment
@@ -34,6 +35,7 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) :
 
     private val doubleMargin = context.resources.getDimensionPixelSize(R.dimen.base_margin_double)
     private val baseMargin = context.resources.getDimensionPixelSize(R.dimen.base_margin)
+    private val roundingRadius = context.resources.getDimensionPixelSize(R.dimen.image_upload_corner_radius)
 
     var messages: List<ChatMessagesQuery.Message> = listOf()
         set(value) {
@@ -50,7 +52,6 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) :
                     override fun getOldListSize(): Int = oldMessages.size
 
                     override fun getNewListSize(): Int = value.size
-
 
                     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
                         oldMessages[oldItemPosition].fragments.chatMessageFragment ==
@@ -198,7 +199,6 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) :
 
     inner class GiphyUserMessage(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val image: ImageView = view.messageImage
-        val giphy: LinearLayout = view.giphy
 
         fun bind(url: String?) {
             Glide
@@ -237,12 +237,11 @@ class ChatAdapter(context: Context, private val onPressEdit: () -> Unit) :
             Glide
                 .with(image)
                 .load(url)
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                .transform(RoundedCorners(roundingRadius), FitCenter())
                 .override(
                     convertDpToPixel(280f),
                     convertDpToPixel(200f)
                 )
-                .fitCenter()
                 .into(image)
         }
     }
