@@ -14,6 +14,7 @@ import androidx.dynamicanimation.animation.SpringForce
 import com.hedvig.android.owldroid.fragment.IncentiveFragment
 import com.hedvig.android.owldroid.fragment.PerilCategoryFragment
 import com.hedvig.android.owldroid.graphql.OfferQuery
+import com.hedvig.app.BaseActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
@@ -47,7 +48,7 @@ import kotlinx.android.synthetic.main.price_bubbles.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.min
 
-class OfferActivity : AppCompatActivity() {
+class OfferActivity : BaseActivity() {
 
     private val offerViewModel: OfferViewModel by viewModel()
 

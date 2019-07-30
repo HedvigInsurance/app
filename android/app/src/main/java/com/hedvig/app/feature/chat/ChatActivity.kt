@@ -31,12 +31,13 @@ import android.os.Environment
 import java.io.File
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hedvig.app.BaseActivity
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.util.extensions.view.show
 import java.io.IOException
 import com.hedvig.app.util.extensions.*
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : BaseActivity() {
 
     private val chatViewModel: ChatViewModel by viewModel()
     private val userViewModel: UserViewModel by viewModel()
