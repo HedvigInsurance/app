@@ -34,9 +34,7 @@ class ChatViewModel(
     fun subscribe() {
         disposables += chatRepository.subscribeToChatMessages()
             .subscribe({ response ->
-                Timber.e("onNext")
                 response.data()?.message?.let {
-                    Timber.e("Incoming message on subscription: %s", it.toString())
                     if (isSubscriptionAllowedToWrite) {
                         chatRepository
                             .writeNewMessage(
@@ -76,7 +74,6 @@ class ChatViewModel(
         response.data()?.messages?.firstOrNull()?.fragments?.chatMessageFragment?.header?.pollingInterval?.toLong()
             ?: 0L
 
-
     private fun waitForParagraph(delay: Long) {
         if (isWaitingForParagraph)
             return
@@ -89,7 +86,6 @@ class ChatViewModel(
                 load()
                 isWaitingForParagraph = false
             }, {})
-
     }
 
     fun uploadFile(uri: Uri) {
