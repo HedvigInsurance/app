@@ -9,7 +9,8 @@
     <ImageView
         android:id="@+id/hero"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
         android:contentDescription="@null"
         tools:src="@drawable/offer_house" />
 

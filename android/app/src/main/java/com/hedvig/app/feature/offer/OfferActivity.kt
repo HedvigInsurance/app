@@ -8,7 +8,9 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
+import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.dynamicanimation.animation.SpringForce
 import com.hedvig.android.owldroid.fragment.IncentiveFragment
 import com.hedvig.android.owldroid.fragment.PerilCategoryFragment
 import com.hedvig.android.owldroid.graphql.OfferQuery
@@ -16,6 +18,7 @@ import com.hedvig.app.R
 import com.hedvig.app.feature.dashboard.ui.PerilBottomSheet
 import com.hedvig.app.feature.dashboard.ui.PerilIcon
 import com.hedvig.app.feature.dashboard.ui.PerilView
+import com.hedvig.app.util.boundedLerp
 import com.hedvig.app.util.extensions.compatColor
 import com.hedvig.app.util.extensions.displayMetrics
 import com.hedvig.app.util.extensions.observe
@@ -38,6 +41,7 @@ import kotlinx.android.synthetic.main.activity_offer.*
 import kotlinx.android.synthetic.main.feature_bubbles.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import kotlinx.android.synthetic.main.offer_peril_section.view.*
+import kotlinx.android.synthetic.main.offer_section_switch.*
 import kotlinx.android.synthetic.main.offer_section_terms.view.*
 import kotlinx.android.synthetic.main.price_bubbles.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -54,6 +58,9 @@ class OfferActivity : AppCompatActivity() {
     }
     private val halfScreenHeight by lazy {
         displayMetrics.heightPixels / 2
+    }
+    private val signButtonOffScreenTranslation by lazy {
+        resources.getDimension(R.dimen.offer_sign_button_off_screen_translation)
     }
 
     private var isShowingToolbarSign = true
@@ -86,6 +93,7 @@ class OfferActivity : AppCompatActivity() {
                 bindStuffSection(d)
                 bindMeSection(d)
                 bindTerms(d)
+                bindSwitchSection(d)
                 animateBubbles(d)
             }
         }
@@ -97,6 +105,15 @@ class OfferActivity : AppCompatActivity() {
 
     private fun bindStaticData() {
         setSupportActionBar(offerToolbar)
+
+        val deductibleText =
+            "${getString(R.string.OFFER_BUBBLES_DEDUCTIBLE_TITLE)}\n${getString(R.string.OFFER_BUBBLES_DEDUCTIBLE_SUBTITLE)}"
+        deductibleBubbleText.text = deductibleText
+
+        val bindingPeriodText =
+            "${getString(R.string.OFFER_BUBBLES_BINDING_PERIOD_TITLE)}\n${getString(R.string.OFFER_BUBBLES_BINDING_PERIOD_SUBTITLE)}"
+        bindingPeriodBubbleText.text = bindingPeriodText
+
 
         homeSection.paragraph.text = getString(R.string.OFFER_APARTMENT_PROTECTION_DESCRIPTION)
         homeSection.hero.setImageDrawable(getDrawable(R.drawable.offer_house))
@@ -136,7 +153,12 @@ class OfferActivity : AppCompatActivity() {
                 }
                 if (!isShowingFloatingSign) {
                     isShowingFloatingSign = true
-                    signButton.fadeIn()
+                    signButton
+                        .spring(
+                            DynamicAnimation.TRANSLATION_Y,
+                            damping = SpringForce.DAMPING_RATIO_LOW_BOUNCY
+                        )
+                        .animateToFinalPosition(0f)
                 }
             } else {
                 if (!isShowingToolbarSign) {
@@ -145,11 +167,17 @@ class OfferActivity : AppCompatActivity() {
                 }
                 if (isShowingFloatingSign) {
                     isShowingFloatingSign = false
-                    signButton.fadeOut()
+                    signButton
+                        .spring(
+                            DynamicAnimation.TRANSLATION_Y,
+                            damping = SpringForce.DAMPING_RATIO_MEDIUM_BOUNCY
+                        )
+                        .animateToFinalPosition(signButtonOffScreenTranslation)
                 }
             }
 
             parallaxContainer.translationY = scrollY / 1.25f
+            arrow.alpha = boundedLerp(1f, 0f, scrollY / 200f)
         }
     }
 
@@ -249,14 +277,21 @@ class OfferActivity : AppCompatActivity() {
     }
 
     private fun bindFeatureBubbles(data: OfferQuery.Data) {
-        amountInsured.text = interpolateTextKey(
+        val amountInsuredInterpolated = interpolateTextKey(
             getString(R.string.OFFER_BUBBLES_INSURED_SUBTITLE),
             "personsInHousehold" to data.insurance.personsInHousehold
         )
-        startDate.text = if (data.insurance.insuredAtOtherCompany == true) {
-            getString(R.string.OFFER_BUBBLES_START_DATE_SUBTITLE_SWITCHER)
+        val amountInsuredText = "${getString(R.string.OFFER_BUBBLES_INSURED_TITLE)}\n$amountInsuredInterpolated"
+        amountInsuredBubbleText.text = amountInsuredText
+
+        if (data.insurance.insuredAtOtherCompany == true) {
+            val startDateText =
+                "${getString(R.string.OFFER_BUBBLES_START_DATE_TITLE)}\n${getString(R.string.OFFER_BUBBLES_START_DATE_SUBTITLE_SWITCHER)}"
+            startDateBubbleText.text = startDateText
         } else {
-            getString(R.string.OFFER_BUBBLES_START_DATE_SUBTITLE_NEW)
+            val startDateText =
+                "${getString(R.string.OFFER_BUBBLES_START_DATE_TITLE)}\n${getString(R.string.OFFER_BUBBLES_START_DATE_SUBTITLE_NEW)}"
+            startDateBubbleText.text = startDateText
         }
 
         data.insurance.type?.let { t ->
@@ -324,6 +359,60 @@ class OfferActivity : AppCompatActivity() {
         }
     }
 
+    private fun bindSwitchSection(data: OfferQuery.Data) {
+        if (data.insurance.insuredAtOtherCompany == true) {
+            switchSection.show()
+
+            val insurerDisplayName = when (data.insurance.currentInsurerName) {
+                "LANSFORSAKRINGAR" -> {
+                    "Länsförsäkringar"
+                }
+                "IF" -> {
+                    "If"
+                }
+                "FOLKSAM" -> {
+                    "Folksam"
+                }
+                "TRYGG_HANSA" -> {
+                    "Trygg-Hansa"
+                }
+                "MODERNA" -> {
+                    getString(R.string.MODERNA_FORSAKRING_APP)
+                }
+                "ICA" -> {
+                    getString(R.string.ICA_FORSAKRING_APP)
+                }
+                "GJENSIDIGE" -> {
+                    "Gjensidige"
+                }
+                "VARDIA" -> {
+                    "Vardia"
+                }
+                "TRE_KRONOR" -> {
+                    "Tre Kronor"
+                }
+                "OTHER" -> {
+                    getString(R.string.OTHER_INSURER_OPTION_APP)
+                }
+                else -> {
+                    getString(R.string.OTHER_INSURER_OPTION_APP)
+                }
+            }
+            if (isSwitchableInsurer(data.insurance.currentInsurerName)) {
+                switchTitle.text = interpolateTextKey(
+                    getString(R.string.OFFER_SWITCH_TITLE_APP),
+                    "INSURER" to insurerDisplayName
+                )
+                switchParagraphTwo.text = getString(R.string.OFFER_SWITCH_COL_PARAGRAPH_ONE_APP)
+            } else {
+                switchTitle.text = getString(R.string.OFFER_SWITCH_TITLE_NON_SWITCHABLE_APP)
+                switchParagraphTwo.text = getString(R.string.OFFER_NON_SWITCHABLE_PARAGRAPH_ONE_APP)
+            }
+        } else {
+            switchSection.remove()
+        }
+    }
+
     private fun addPerils(container: LinearLayout, category: PerilCategoryFragment) {
         container.removeAllViews()
         category.perils?.let { perils ->
@@ -379,6 +468,11 @@ class OfferActivity : AppCompatActivity() {
             view
                 .spring(SpringAnimation.SCALE_Y, stiffness = 1200f)
                 .animateToFinalPosition(1f)
+        }
+
+        private fun isSwitchableInsurer(insurerName: String?) = when (insurerName) {
+            "ICA", "FOLKSAM", "TRYGG_HANSA", "TRE_KRONOR" -> true
+            else -> false
         }
     }
 }

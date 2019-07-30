@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/base_margin_quadruple"
-    android:paddingBottom="@dimen/base_margin_triple"
-    tools:background="@color/dark_purple">
+    android:layout_marginTop="@dimen/base_margin"
+    tools:background="@color/dark_purple"
+    tools:layout_marginTop="0dp">
 
     <FrameLayout
         android:id="@+id/deductibleBubble"
@@ -14,6 +14,8 @@
         android:layout_height="@dimen/deductible_bubble_size"
         android:layout_marginTop="@dimen/deductibe_bubble_top_offset"
         android:layout_marginEnd="@dimen/deductible_bubble_end_offset"
+        android:background="@drawable/sphere"
+        android:backgroundTint="@color/green"
         android:scaleX="0"
         android:scaleY="0"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,28 +24,15 @@
         tools:scaleX="1"
         tools:scaleY="1">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@null"
-            android:tint="@color/green"
-            app:srcCompat="@drawable/sphere" />
-
         <TextView
+            android:id="@+id/deductibleBubbleText"
             style="@style/Body.Small.Negative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/base_margin"
-            android:text="@string/OFFER_BUBBLES_DEDUCTIBLE_TITLE" />
-
-        <TextView
-            style="@style/Body.Small.Negative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/base_margin"
-            android:text="@string/OFFER_BUBBLES_DEDUCTIBLE_SUBTITLE" />
+            android:gravity="center"
+            android:lineSpacingExtra="0sp"
+            tools:text="Självrisk\n1 500 kr" />
 
     </FrameLayout>
 
@@ -53,6 +42,8 @@
         android:layout_height="@dimen/binding_period_bubble_size"
         android:layout_marginTop="@dimen/binding_period_bubble_top_offset"
         android:layout_marginEnd="@dimen/binding_period_bubble_end_offset"
+        android:background="@drawable/sphere"
+        android:backgroundTint="@color/pink"
         android:scaleX="0"
         android:scaleY="0"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,30 +52,15 @@
         tools:scaleX="1"
         tools:scaleY="1">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@null"
-            android:tint="@color/pink"
-            app:srcCompat="@drawable/sphere" />
-
         <TextView
+            android:id="@+id/bindingPeriodBubbleText"
             style="@style/Body.Small.Negative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/base_margin_double"
-            android:text="@string/OFFER_BUBBLES_BINDING_PERIOD_TITLE" />
-
-        <TextView
-            style="@style/Body.Small.Negative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/base_margin_double"
             android:gravity="center"
             android:lineSpacingExtra="0sp"
-            android:text="@string/OFFER_BUBBLES_BINDING_PERIOD_SUBTITLE" />
+            tools:text="Bindingstid\nNope, så jobbar inte Hedvig" />
 
     </FrameLayout>
 
@@ -94,6 +70,8 @@
         android:layout_height="@dimen/coverage_or_travel_bubble_size"
         android:layout_marginStart="@dimen/coverage_or_travel_bubble_top_offset"
         android:layout_marginTop="@dimen/coverage_or_travel_bubble_start_offset"
+        android:background="@drawable/sphere"
+        android:backgroundTint="@color/purple"
         android:scaleX="0"
         android:scaleY="0"
         app:layout_constraintEnd_toEndOf="parent"
@@ -101,13 +79,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:scaleX="1"
         tools:scaleY="1">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@null"
-            android:tint="@color/purple"
-            app:srcCompat="@drawable/sphere" />
 
         <TextView
             android:id="@+id/brfOrTravel"
@@ -126,6 +97,8 @@
         android:layout_height="@dimen/start_date_bubble_size"
         android:layout_marginStart="@dimen/start_date_bubble_start_offset"
         android:layout_marginTop="@dimen/base_margin_double"
+        android:background="@drawable/sphere"
+        android:backgroundTint="@color/green"
         android:scaleX="0"
         android:scaleY="0"
         app:layout_constraintEnd_toEndOf="parent"
@@ -134,29 +107,16 @@
         tools:scaleX="1"
         tools:scaleY="1">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@null"
-            android:tint="@color/green"
-            app:srcCompat="@drawable/sphere" />
-
         <TextView
+            android:id="@+id/startDateBubbleText"
             style="@style/Body.Small.Negative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/base_margin"
-            android:text="@string/OFFER_BUBBLES_START_DATE_TITLE" />
+            android:gravity="center"
+            android:lineSpacingExtra="0sp"
+            tools:text="Startdatum\nSå fort din bindingstid går ut" />
 
-        <TextView
-            android:id="@+id/startDate"
-            style="@style/Body.Small.Negative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/base_margin"
-            tools:text="idag" />
     </FrameLayout>
 
     <FrameLayout
@@ -164,6 +124,8 @@
         android:layout_width="@dimen/number_insured_bubble_size"
         android:layout_height="@dimen/number_insured_bubble_size"
         android:layout_marginEnd="@dimen/base_margin_quadruple"
+        android:background="@drawable/sphere"
+        android:backgroundTint="@color/purple"
         android:scaleX="0"
         android:scaleY="0"
         app:layout_constraintEnd_toEndOf="parent"
@@ -172,29 +134,16 @@
         tools:scaleX="1"
         tools:scaleY="1">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@null"
-            android:tint="@color/purple"
-            app:srcCompat="@drawable/sphere" />
-
         <TextView
+            android:id="@+id/amountInsuredBubbleText"
             style="@style/Body.Small.Negative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/base_margin"
-            android:text="@string/OFFER_BUBBLES_INSURED_TITLE" />
+            android:gravity="center"
+            android:lineSpacingExtra="0sp"
+            tools:text="Försäkrade\n2 personer" />
 
-        <TextView
-            android:id="@+id/amountInsured"
-            style="@style/Body.Small.Negative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/base_margin"
-            tools:text="2 personer" />
     </FrameLayout>
 
     <Button
