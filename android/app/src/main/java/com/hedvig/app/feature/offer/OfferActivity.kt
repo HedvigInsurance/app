@@ -51,7 +51,6 @@ class OfferActivity : AppCompatActivity() {
 
     private val offerViewModel: OfferViewModel by viewModel()
 
-    private val baseMargin by lazy { resources.getDimensionPixelSize(R.dimen.base_margin) }
     private val doubleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_double) }
     private val perilTotalWidth: Int by lazy { resources.getDimensionPixelSize(R.dimen.peril_width) + (doubleMargin * 2) }
     private val rowWidth: Int by lazy {
