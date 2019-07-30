@@ -34,8 +34,8 @@
     <TextView
         android:id="@+id/bulletOne"
         style="@style/Headline.Medium.Negative"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/offer_switch_bullet_size"
+        android:layout_height="@dimen/offer_switch_bullet_size"
         android:layout_marginStart="@dimen/base_margin_double"
         android:background="@drawable/circle_background"
         android:backgroundTint="@color/purple"
@@ -58,8 +58,8 @@
     <TextView
         android:id="@+id/bulletTwo"
         style="@style/Headline.Medium.Negative"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/offer_switch_bullet_size"
+        android:layout_height="@dimen/offer_switch_bullet_size"
         android:layout_marginStart="@dimen/base_margin_double"
         android:background="@drawable/circle_background"
         android:backgroundTint="@color/purple"
@@ -84,8 +84,8 @@
     <TextView
         android:id="@+id/bulletThree"
         style="@style/Headline.Medium.Negative"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/offer_switch_bullet_size"
+        android:layout_height="@dimen/offer_switch_bullet_size"
         android:layout_marginStart="@dimen/base_margin_double"
         android:layout_marginTop="@dimen/base_margin"
         android:background="@drawable/circle_background"
