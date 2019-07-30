@@ -1,11 +1,15 @@
 package com.hedvig.app.feature.chat
 
+import android.app.Activity
 import android.content.Context
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import android.text.InputType
 import android.util.AttributeSet
+import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.hedvig.android.owldroid.fragment.ChatMessageFragment
@@ -47,7 +51,18 @@ class ChatInputView : FrameLayout {
     init {
         inflate(context, R.layout.chat_input_view, this)
         inputText.sendClickListener = {
-            sendTextMessage(inputText.currentMessage)
+            performTextMessageSend()
+        }
+        inputText.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                performTextMessageSend()
+                return@setOnEditorActionListener true
+            }
+            if (actionId == EditorInfo.IME_NULL && event.action == KeyEvent.ACTION_UP && event.keyCode == KeyEvent.KEYCODE_ENTER) {
+                performTextMessageSend()
+                return@setOnEditorActionListener true
+            }
+            true
         }
         uploadFile.setHapticClickListener {
             inputText.clearFocus()
@@ -112,10 +127,10 @@ class ChatInputView : FrameLayout {
     private fun bindTextInput(input: TextInput) {
         if (input.richTextSupport) {
             uploadFile.show()
-            sendGif.show()
+            //sendGif.show()
         } else {
             uploadFile.remove()
-            sendGif.remove()
+            //sendGif.remove()
         }
         inputText.hint = input.hint ?: ""
         inputText.inputType = when (input.keyboardType) {
@@ -126,6 +141,7 @@ class ChatInputView : FrameLayout {
             KeyboardType.DECIMALPAD -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
             else -> InputType.TYPE_CLASS_TEXT
         }
+        inputText.requestFocus()
     }
 
     private fun bindSingleSelect(input: SingleSelect) {
@@ -171,6 +187,16 @@ class ChatInputView : FrameLayout {
 
     fun rotateFileUploadIcon(isOpening: Boolean) {
         SpringAnimation(uploadFile, DynamicAnimation.ROTATION).animateToFinalPosition(if (isOpening) 135f else 0f)
+    }
+
+    private fun performTextMessageSend() {
+        sendTextMessage(inputText.currentMessage)
+        dismissKeyboard()
+    }
+
+    private fun dismissKeyboard() {
+        val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
     }
 }
 

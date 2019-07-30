@@ -31,7 +31,6 @@ import android.os.Environment
 import java.io.File
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.hedvig.app.SplashActivity
 import com.hedvig.app.service.LoginStatusService
 import com.hedvig.app.util.extensions.view.show
 import java.io.IOException
@@ -343,7 +342,6 @@ class ChatActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.stay_in_place, R.anim.activity_slide_down_out)
         }
     }
-
 
     override fun onDestroy() {
         preventOpenAttachFileHandler.removeCallbacks(resetPreventOpenAttachFile)
