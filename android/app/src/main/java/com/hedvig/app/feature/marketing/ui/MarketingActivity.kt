@@ -1,10 +1,10 @@
 package com.hedvig.app.feature.marketing.ui
 
 import android.animation.ValueAnimator
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.animation.FastOutSlowInInterpolator
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import android.view.GestureDetector
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
@@ -12,6 +12,7 @@ import android.widget.ProgressBar
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import com.hedvig.app.BaseActivity
 import com.hedvig.app.R
+import com.hedvig.app.authenticate.AuthenticateDialog
 import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.marketing.service.MarketingTracker
 import com.hedvig.app.util.OnSwipeListener
@@ -28,7 +29,7 @@ import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class MarketingActivity: BaseActivity() {
+class MarketingActivity : BaseActivity() {
 
     enum class MarketingResult {
         ONBOARD,
@@ -281,14 +282,7 @@ class MarketingActivity: BaseActivity() {
         getHedvig.show()
 
         login.setHapticClickListener {
-            tracker.loginClick(
-                marketingStoriesViewModel.page.value,
-                marketingStoriesViewModel.blurred.value
-            )
-            val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("intent", "login")
-            intent.putExtra("show_restart", true)
-            startActivity(intent)
+            AuthenticateDialog().show(supportFragmentManager, AuthenticateDialog.TAG)
         }
 
         getHedvig.setHapticClickListener {
@@ -297,8 +291,7 @@ class MarketingActivity: BaseActivity() {
                 marketingStoriesViewModel.blurred.value
             )
             val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("intent", "onboarding")
-            intent.putExtra("show_restart", true)
+            intent.putExtra(ChatActivity.EXTRA_SHOW_RESTART, true)
             startActivity(intent)
         }
     }

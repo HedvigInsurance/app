@@ -1,11 +1,11 @@
 package com.hedvig.app.feature.profile.ui
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import android.net.Uri
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.graphql.RedeemReferralCodeMutation
-import com.hedvig.app.data.chat.ChatRepository
+import com.hedvig.app.feature.chat.ChatRepository
 import com.hedvig.app.feature.profile.data.ProfileRepository
 import com.hedvig.app.service.Referrals
 import com.hedvig.app.service.RemoteConfig
@@ -149,16 +149,6 @@ class ProfileViewModel(
                     Timber.e(error)
                 })
         }
-    }
-
-    fun logout(callback: () -> Unit) {
-        disposables += profileRepository
-            .logout()
-            .subscribe({
-                callback()
-            }, { error ->
-                Timber.e(error, "Failed to log out")
-            })
     }
 
     fun triggerFreeTextChat(done: () -> Unit) {

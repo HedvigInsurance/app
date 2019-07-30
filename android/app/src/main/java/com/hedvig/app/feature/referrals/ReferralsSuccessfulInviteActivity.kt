@@ -3,7 +3,8 @@ package com.hedvig.app.feature.referrals
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import com.hedvig.app.BaseActivity
 import com.hedvig.app.LoggedInActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.referrals_successful_invite_actvity.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
+class ReferralsSuccessfulInviteActivity : BaseActivity() {
 
     private val profileViewModel: ProfileViewModel by viewModel()
     private val tracker: ReferralsTracker by inject()
@@ -77,6 +78,7 @@ class ReferralsSuccessfulInviteActivity : AppCompatActivity() {
             putExtra(EXTRA_REFERRAL_NAME, name)
             putExtra(EXTRA_REFERRAL_INCENTIVE, incentive)
         }
+
         fun newInstance(context: Context) = Intent(context, ReferralsSuccessfulInviteActivity::class.java)
     }
 }

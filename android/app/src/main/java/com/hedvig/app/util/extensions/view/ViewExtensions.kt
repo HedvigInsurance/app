@@ -2,18 +2,21 @@ package com.hedvig.app.util.extensions.view
 
 import android.graphics.Rect
 import android.os.Build
-import android.support.annotation.ColorInt
-import android.support.annotation.Dimension
-import android.support.annotation.DrawableRes
-import android.support.annotation.FontRes
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.ColorInt
+import androidx.annotation.Dimension
+import androidx.annotation.DrawableRes
+import androidx.annotation.FontRes
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.app.AppCompatActivity
 import android.view.HapticFeedbackConstants
 import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.RelativeLayout
 import com.hedvig.app.util.extensions.compatFont
 import com.hedvig.app.util.whenApiVersion
+import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.app_bar.view.*
 
 fun View.show(): View {
@@ -93,6 +96,28 @@ fun View.updatePadding(
     bottom ?: paddingBottom
 )
 
+fun View.updateMargin(
+    @Dimension start: Int? = null,
+    @Dimension top: Int? = null,
+    @Dimension end: Int? = null,
+    @Dimension bottom: Int? = null
+) {
+    val prevLayoutParams = layoutParams as? ViewGroup.MarginLayoutParams
+    when (parent) {
+        is ConstraintLayout -> ConstraintLayout.LayoutParams(
+            layoutParams.width,
+            layoutParams.height
+        )
+        is RelativeLayout -> RelativeLayout.LayoutParams(layoutParams.width, layoutParams.height)
+        else -> ViewGroup.MarginLayoutParams(layoutParams.width, layoutParams.height)
+    }.apply {
+        (start ?: prevLayoutParams?.marginStart)?.let { marginStart = it }
+        (top ?: prevLayoutParams?.topMargin)?.let { topMargin = it }
+        (end ?: prevLayoutParams?.marginEnd)?.let { marginEnd = it }
+        (bottom ?: prevLayoutParams?.bottomMargin)?.let { bottomMargin = it }
+    }
+}
+
 inline fun <reified T : ViewGroup.LayoutParams> View.setSize(
     @Dimension width: Int? = null,
     @Dimension height: Int? = null
@@ -137,4 +162,25 @@ fun View.setupLargeTitle(
 
     icon?.let { toolbar.setNavigationIcon(it) }
     backAction?.let { toolbar.setNavigationOnClickListener { it() } }
+}
+
+fun View.fadeIn(endAction: (() -> Unit)? = null) {
+    alpha = 0f
+    show()
+    val animation = animate().setDuration(225).alpha(1f)
+    endAction?.let { animation.withEndAction(it) }
+    animation.start()
+}
+
+fun View.fadeOut(endAction: (() -> Unit)? = null, removeOnEnd: Boolean = true) {
+    alpha = 1f
+    show()
+    val animation = animate().setDuration(225).alpha(0f)
+    animation.withEndAction {
+        if (removeOnEnd) {
+            this.remove()
+        }
+        endAction?.invoke()
+    }
+    animation.start()
 }

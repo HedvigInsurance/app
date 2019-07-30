@@ -7,6 +7,8 @@
     <dimen name="base_margin_double">16dp</dimen>
     <dimen name="base_margin_triple">24dp</dimen>
     <dimen name="base_margin_quadruple">32dp</dimen>
+    <dimen name="base_margin_quintuple">40dp</dimen>
+    <dimen name="base_margin_sextuple">48dp</dimen>
 
     <dimen name="background_rounded_corners_radius">20dp</dimen>
 
@@ -97,4 +99,38 @@
     <dimen name="news_close_button_size">28dp</dimen>
 
     <dimen name="referrals_button_bottom_margin">80dp</dimen>
+    <dimen name="chat_attach_icon_size">40dp</dimen>
+    <dimen name="chat_background_edit_text_rounded_corner_radius">28dp</dimen>
+    <dimen name="chat_message_corner_radius">20dp</dimen>
+    <dimen name="chat_single_select_corner_radius">32dp</dimen>
+    <dimen name="default_attach_file_height">280dp</dimen>
+    <dimen name="is_keyboard_brake_point_height">120dp</dimen>
+    <dimen name="nav_height_div">2dp</dimen>
+
+    <dimen name="camera_and_misc_button_width">120dp</dimen>
+    <dimen name="camera_and_misc_button_background_stroke_width">1dp</dimen>
+    <dimen name="attach_file_rounded_corners_radius">20dp</dimen>
+    <dimen name="audio_recorder_button_size">56dp</dimen>
+    <dimen name="terms_icon_size">100dp</dimen>
+    <dimen name="offer_bottom_padding">90dp</dimen>
+    <dimen name="price_bubble_size">180dp</dimen>
+    <dimen name="discount_bubble_size">97dp</dimen>
+    <dimen name="deductible_bubble_size">90dp</dimen>
+    <dimen name="deductibe_bubble_top_offset">175dp</dimen>
+    <dimen name="deductible_bubble_end_offset">70dp</dimen>
+    <dimen name="binding_period_bubble_size">135dp</dimen>
+    <dimen name="binding_period_bubble_top_offset">60dp</dimen>
+    <dimen name="binding_period_bubble_end_offset">170dp</dimen>
+    <dimen name="coverage_or_travel_bubble_size">135dp</dimen>
+    <dimen name="coverage_or_travel_bubble_top_offset">125dp</dimen>
+    <dimen name="coverage_or_travel_bubble_start_offset">130dp</dimen>
+    <dimen name="start_date_bubble_size">130dp</dimen>
+    <dimen name="start_date_bubble_start_offset">130dp</dimen>
+    <dimen name="number_insured_bubble_size">90dp</dimen>
+    <dimen name="button_shadow_offset">2dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
+    <dimen name="chat_input_min_height">60dp</dimen>
+    <dimen name="offer_sign_button_off_screen_translation">100dp</dimen>
+    <dimen name="offer_switch_bullet_size">40dp</dimen>
+    <dimen name="image_upload_corner_radius">20dp</dimen>
 </resources>

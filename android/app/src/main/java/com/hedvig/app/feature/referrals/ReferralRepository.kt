@@ -5,9 +5,10 @@ import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.RedeemReferralCodeMutation
 import com.hedvig.android.owldroid.graphql.ReferralCampaignMemberInformationQuery
+import com.hedvig.app.ApolloClientWrapper
 import io.reactivex.Observable
 
-class ReferralRepository(private val apolloClient: ApolloClient) {
+class ReferralRepository(private val apolloClientWrapper: ApolloClientWrapper) {
     fun redeemReferralCode(code: String): Observable<Response<RedeemReferralCodeMutation.Data>> {
         val redeemReferralCodeMutation = RedeemReferralCodeMutation
             .builder()
@@ -15,7 +16,7 @@ class ReferralRepository(private val apolloClient: ApolloClient) {
             .build()
 
         return Rx2Apollo
-            .from(apolloClient.mutate(redeemReferralCodeMutation))
+            .from(apolloClientWrapper.apolloClient.mutate(redeemReferralCodeMutation))
     }
 
     fun fetchReferralCampaignMemberInformation(code: String): Observable<Response<ReferralCampaignMemberInformationQuery.Data>> {
@@ -25,6 +26,6 @@ class ReferralRepository(private val apolloClient: ApolloClient) {
             .build()
 
         return Rx2Apollo
-            .from(apolloClient.query(campaignMemberInformationQuery))
+            .from(apolloClientWrapper.apolloClient.query(campaignMemberInformationQuery))
     }
 }

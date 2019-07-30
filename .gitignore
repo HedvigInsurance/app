@@ -68,6 +68,8 @@ sentry.properties
 schema.json
 mapping.txt
 
-#branch
-branch_key.xml
+# graphql
+.graphqlconfig
 
+#branch file
+branch_key.xml

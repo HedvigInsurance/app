@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.res.Resources
 import android.os.Build
 import android.view.WindowInsets
+import kotlin.math.roundToInt
 
 @Suppress("MagicNumber", "USELESS_CAST")
 fun Activity.hasNotch(): Boolean {
@@ -26,5 +27,5 @@ fun Activity.hasNotch(): Boolean {
 fun convertDpToPixel(dp: Float): Int {
     val metrics = Resources.getSystem().displayMetrics
     val px = dp * (metrics.densityDpi / 160f)
-    return Math.round(px)
+    return px.roundToInt()
 }

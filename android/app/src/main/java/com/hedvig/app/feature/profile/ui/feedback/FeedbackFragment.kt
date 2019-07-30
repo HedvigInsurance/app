@@ -4,7 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +14,7 @@ import com.hedvig.app.util.extensions.setupLargeTitle
 import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.fragment_feedback.*
 
-class FeedbackFragment : Fragment() {
+class FeedbackFragment : androidx.fragment.app.Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_feedback, container, false)
 

@@ -14,10 +14,6 @@ class LoggedInActivity : BaseActivity() {
 
     private val navController by lazy { findNavController(R.id.loggedNavigationHost) }
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(Restring.wrapContext(newBase))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.logged_in_navigation_host)

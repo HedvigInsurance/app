@@ -1,7 +1,6 @@
 package com.hedvig.app
 
 import android.content.Context
-import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.cache.normalized.NormalizedCacheFactory
 import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCache
@@ -9,10 +8,8 @@ import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.hedvig.android.owldroid.type.CustomType
+import com.hedvig.app.data.analytics.AnalyticsRepository
 import com.hedvig.app.data.debit.DirectDebitRepository
-import com.hedvig.app.feature.chat.ChatRepository
-import com.hedvig.app.feature.chat.ChatViewModel
 import com.hedvig.app.feature.chat.UserRepository
 import com.hedvig.app.feature.claims.data.ClaimsRepository
 import com.hedvig.app.feature.claims.service.ClaimsTracker
@@ -43,10 +40,6 @@ import com.hedvig.app.service.Referrals
 import com.hedvig.app.service.RemoteConfig
 import com.hedvig.app.service.TextKeys
 import com.hedvig.app.terminated.TerminatedTracker
-import com.hedvig.app.util.apollo.ApolloTimberLogger
-import com.hedvig.app.util.apollo.PromiscuousLocalDateAdapter
-import com.hedvig.app.util.react.AsyncStorageNative
-import com.hedvig.app.util.react.AsyncStorageNativeImpl
 import com.hedvig.app.viewmodel.DirectDebitViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -54,6 +47,14 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import timber.log.Timber
 import java.io.File
+import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport
+import com.hedvig.app.feature.offer.OfferRepository
+import com.hedvig.app.feature.offer.OfferViewModel
+import com.hedvig.app.feature.chat.ChatRepository
+import com.hedvig.app.feature.chat.ChatViewModel
+import com.hedvig.app.feature.chat.UserViewModel
+import com.hedvig.app.util.extensions.getAuthenticationToken
+import com.hedvig.app.viewmodel.AnalyticsViewModel
 
 fun isDebug() = BuildConfig.DEBUG || BuildConfig.APP_ID == "com.hedvig.test.app"
 
@@ -65,7 +66,6 @@ val applicationModule = module {
             LeastRecentlyUsedCacheEvictor((10 * 1024 * 1024).toLong())
         )
     }
-    single<AsyncStorageNative> { AsyncStorageNativeImpl(get()) }
     single<NormalizedCacheFactory<LruNormalizedCache>> {
         LruNormalizedCacheFactory(
             EvictionPolicy.builder().maxSizeBytes(
@@ -80,12 +80,7 @@ val applicationModule = module {
                 val builder = original
                     .newBuilder()
                     .method(original.method(), original.body())
-                try {
-                    get<AsyncStorageNative>().getKey("@hedvig:token")
-                } catch (exception: Exception) {
-                    Timber.e(exception, "Got an exception while trying to retrieve token")
-                    null
-                }?.let { token ->
+                get<Context>().getAuthenticationToken()?.let { token ->
                     builder.header("Authorization", token)
                 }
                 chain.proceed(builder.build())
@@ -98,17 +93,7 @@ val applicationModule = module {
         builder.build()
     }
     single {
-        val builder = ApolloClient
-            .builder()
-            .serverUrl(BuildConfig.GRAPHQL_URL)
-            .okHttpClient(get())
-            .addCustomTypeAdapter(CustomType.LOCALDATE, PromiscuousLocalDateAdapter())
-            .normalizedCache(get())
-
-        if (isDebug()) {
-            builder.logger(ApolloTimberLogger())
-        }
-        builder.build()
+        ApolloClientWrapper(get(), get(), get())
     }
 }
 
@@ -118,25 +103,27 @@ val viewModelModule = module {
     viewModel { ClaimsViewModel(get(), get()) }
     viewModel { DirectDebitViewModel(get()) }
     viewModel { DashboardViewModel(get(), get()) }
-    viewModel { ChatViewModel(get(), get()) }
     viewModel { WhatsNewViewModel(get()) }
     viewModel { BaseTabViewModel(get(), get()) }
+    viewModel { ChatViewModel(get()) }
+    viewModel { UserViewModel(get(), get()) }
     viewModel { ReferralViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
+    viewModel { OfferViewModel(get()) }
 }
 
 val serviceModule = module {
     single { FileService(get()) }
-    single { LoginStatusService(get(), get(), get()) }
+    single { LoginStatusService(get(), get()) }
     single { Referrals(get()) }
     single { RemoteConfig() }
     single { TextKeys(get()) }
     single { TabNotificationService(get()) }
+    single { AnalyticsViewModel(get()) }
 }
 
 val repositoriesModule = module {
     single { ChatRepository(get(), get(), get()) }
-    single { com.hedvig.app.data.chat.ChatRepository(get()) }
     single { DirectDebitRepository(get()) }
     single { ClaimsRepository(get()) }
     single { DashboardRepository(get()) }
@@ -146,6 +133,8 @@ val repositoriesModule = module {
     single { UserRepository(get()) }
     single { WhatsNewRepository(get(), get()) }
     single { WelcomeRepository(get()) }
+    single { OfferRepository(get()) }
+    single { AnalyticsRepository(get()) }
 }
 
 val trackerModule = module {

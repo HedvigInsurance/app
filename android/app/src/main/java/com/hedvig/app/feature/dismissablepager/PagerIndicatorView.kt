@@ -1,7 +1,7 @@
 package com.hedvig.app.feature.dismissablepager
 
 import android.content.Context
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -25,7 +25,7 @@ class PagerIndicatorView : LinearLayout {
     private val purple = context.compatColor(R.color.purple)
     private val gray = context.compatColor(R.color.gray)
 
-    var pager: ViewPager? = null
+    var pager: androidx.viewpager.widget.ViewPager? = null
         set(value) {
             field = value
             value?.let { pager ->
@@ -43,7 +43,7 @@ class PagerIndicatorView : LinearLayout {
             }
         }
 
-    inner class PageChangeListener : ViewPager.OnPageChangeListener {
+    inner class PageChangeListener : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(p0: Int) {}
 
         override fun onPageScrolled(position: Int, offsetPercentage: Float, offsetPixels: Int) {

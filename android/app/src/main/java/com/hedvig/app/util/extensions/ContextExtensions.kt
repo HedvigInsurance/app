@@ -8,15 +8,18 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.FontRes
-import android.support.annotation.StringRes
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.content.res.AppCompatResources
+import android.net.Uri
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.FontRes
+import androidx.annotation.StringRes
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.appcompat.content.res.AppCompatResources
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -25,6 +28,10 @@ import kotlin.system.exitProcess
 
 private const val SHARED_PREFERENCE_NAME = "hedvig_shared_preference"
 private const val SHARED_PREFERENCE_IS_LOGGED_IN = "shared_preference_is_logged_in"
+
+private const val SHARED_PREFERENCE_AUTHENTICATION_TOKEN = "shared_preference_authentication_token"
+const val SHARED_PREFERENCE_TRIED_MIGRATION_OF_TOKEN = "shared_preference_tried_migration_of_token"
+const val SHARED_PREFERENCE_ASKED_FOR_PERMISSION_PREFIX_KEY = "shared_preference_asked_for_permission_prefix"
 
 fun Context.compatColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
@@ -39,13 +46,20 @@ fun Context.hideKeyboard(view: View) {
 
 fun Context.triggerRestartActivity(activity: Class<*> = SplashActivity::class.java) {
     val startActivity = Intent(this, activity)
+    startActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
     val pendingIntentId = 56665 // Randomly chosen identifier, this number has no significance.
     val pendingIntent =
-        PendingIntent.getActivity(this, pendingIntentId, startActivity, PendingIntent.FLAG_CANCEL_CURRENT)
+        PendingIntent.getActivity(this.applicationContext, pendingIntentId, startActivity, PendingIntent.FLAG_CANCEL_CURRENT)
     val mgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, pendingIntent)
     exitProcess(0)
 }
+
+fun Context.setAuthenticationToken(token: String?) =
+    getSharedPreferences().edit().putString(SHARED_PREFERENCE_AUTHENTICATION_TOKEN, token).commit()
+
+fun Context.getAuthenticationToken(): String? =
+    getSharedPreferences().getString(SHARED_PREFERENCE_AUTHENTICATION_TOKEN, null)
 
 fun Context.setIsLoggedIn(isLoggedIn: Boolean) =
     getSharedPreferences().edit().putBoolean(SHARED_PREFERENCE_IS_LOGGED_IN, isLoggedIn).commit()
@@ -74,7 +88,7 @@ fun Context.showShareSheet(title: String, configureClosure: ((Intent) -> Unit)?)
  */
 fun Context.showAlert(
     @StringRes title: Int,
-    @StringRes message: Int,
+    @StringRes message: Int? = null,
     @StringRes positiveLabel: Int = android.R.string.ok,
     @StringRes negativeLabel: Int = android.R.string.cancel,
     positiveAction: () -> Unit,
@@ -83,12 +97,14 @@ fun Context.showAlert(
     AlertDialog
         .Builder(this)
         .setTitle(resources.getString(title))
-        .setMessage(resources.getString(message))
         .setPositiveButton(resources.getString(positiveLabel)) { _, _ ->
             positiveAction()
         }
         .setNegativeButton(resources.getString(negativeLabel)) { _, _ ->
             negativeAction?.let { it() }
+        }
+        .apply {
+            message?.let { setMessage(it) }
         }
         .show()
         .apply {
@@ -111,3 +127,20 @@ fun Context.makeToast(
     text: String,
     length: Int = Toast.LENGTH_LONG
 ) = Toast.makeText(this, text, length).show()
+
+fun Context.openUri(uri: Uri) = startActivity(Intent(Intent.ACTION_VIEW, uri))
+
+fun Context.getStoredBoolean(key: String): Boolean =
+    getSharedPreferences().getBoolean(key, false)
+
+fun Context.storeBoolean(key: String, value: Boolean): Boolean =
+    getSharedPreferences().edit().putBoolean(key, value).commit()
+
+fun Context.hasPermissions(vararg permissions: String): Boolean {
+    for (permission in permissions) {
+        if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            return false
+        }
+    }
+    return true
+}
