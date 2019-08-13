@@ -19,6 +19,8 @@
 		B56386491DB9693800A0598C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56386481DB9693800A0598C /* AppDelegate.swift */; };
 		B56386511DB9693800A0598C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B56386501DB9693800A0598C /* Assets.xcassets */; };
 		BBAFAB7DAC15463DAA2348E5 /* CircularStd-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B57D15156864FA4B906A3EC /* CircularStd-Book.ttf */; };
+		EB00CC782302D70D000DBE4B /* UIView+AnimationSafeIsHidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB00CC772302D70D000DBE4B /* UIView+AnimationSafeIsHidden.swift */; };
+		EB00CC7A2302D7A6000DBE4B /* RenewalsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB00CC792302D7A6000DBE4B /* RenewalsSection.swift */; };
 		EB11EA432277047700D95365 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB11E94D2277047700D95365 /* LaunchScreen.storyboard */; };
 		EB11EA442277047700D95365 /* LoggedIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E9512277047700D95365 /* LoggedIn.swift */; };
 		EB11EA452277047700D95365 /* Launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB11E9532277047700D95365 /* Launch.swift */; };
@@ -344,6 +346,8 @@
 		B563865C1DB96A5E00A0598C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D398F87383C7495A9938B698 /* Merriweather-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Merriweather-Light.ttf"; path = "../assets/fonts/Merriweather-Light.ttf"; sourceTree = "<group>"; };
 		E7D1DC928F6C1DB18EBE8064 /* libPods-hedvig.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hedvig.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB00CC772302D70D000DBE4B /* UIView+AnimationSafeIsHidden.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+AnimationSafeIsHidden.swift"; sourceTree = "<group>"; };
+		EB00CC792302D7A6000DBE4B /* RenewalsSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenewalsSection.swift; sourceTree = "<group>"; };
 		EB11E94E2277047700D95365 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB11E9512277047700D95365 /* LoggedIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedIn.swift; sourceTree = "<group>"; };
 		EB11E9532277047700D95365 /* Launch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Launch.swift; sourceTree = "<group>"; };
@@ -1203,6 +1207,7 @@
 		EB11E9E32277047700D95365 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EB00CC772302D70D000DBE4B /* UIView+AnimationSafeIsHidden.swift */,
 				EBF7ED9822E84769000469D2 /* UIViewController+PresentOptionalMatter.swift */,
 				EB8E2A9F22C3BF50009F6180 /* UIModalPresentationStyle+FormSheetOrModal.swift */,
 				EB8E2A9122C3BC77009F6180 /* Bundle+Version.swift */,
@@ -1400,6 +1405,7 @@
 				EBCAA8922281C28D003C4833 /* PerilCollection.swift */,
 				EBCAA8912281C28D003C4833 /* PerilExpandableRow.swift */,
 				EBCAA8972281C28D003C4833 /* PerilInformation.swift */,
+				EB00CC792302D7A6000DBE4B /* RenewalsSection.swift */,
 			);
 			path = Viewables;
 			sourceTree = "<group>";
@@ -2084,6 +2090,7 @@
 				EB11EA6D2277047700D95365 /* NameCircle.swift in Sources */,
 				EB11EA722277047700D95365 /* FeedbackHeader.swift in Sources */,
 				EB11EA452277047700D95365 /* Launch.swift in Sources */,
+				EB00CC7A2302D7A6000DBE4B /* RenewalsSection.swift in Sources */,
 				EB8E2A8722C229C5009F6180 /* ReferralsInvitation.swift in Sources */,
 				EB11EAF62277047800D95365 /* API.swift in Sources */,
 				EB11EAD72277047800D95365 /* TranslationsRepo.swift in Sources */,
@@ -2099,6 +2106,7 @@
 				EB11EA6B2277047700D95365 /* PhoneNumberRow.swift in Sources */,
 				EB11EAB42277047700D95365 /* ApolloClient+Flow.swift in Sources */,
 				EBCAA8A72281C28E003C4833 /* MoreInfo.swift in Sources */,
+				EB00CC782302D70D000DBE4B /* UIView+AnimationSafeIsHidden.swift in Sources */,
 				EB11EAB22277047700D95365 /* Result+Success.swift in Sources */,
 				EB8E2A8A22C229C5009F6180 /* ReferralsNotification.swift in Sources */,
 				EB11EA4F2277047700D95365 /* HappyAvatar.swift in Sources */,
