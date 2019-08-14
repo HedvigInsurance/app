@@ -102,7 +102,7 @@
     "jsdom-global": "^3.0.2",
     "lint-staged": "^7.2.0",
     "lodash": "^4.17.10",
-    "lottie-react-native": "^2.5.6",
+    "lottie-react-native": "^3.1.0",
     "metro-react-native-babel-preset": "^0.48.3",
     "mime-types": "^2.1.20",
     "path": "^0.12.7",
