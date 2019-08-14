@@ -7,11 +7,10 @@ import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.graphql.TriggerCallMeChatMutation
 import com.hedvig.android.owldroid.graphql.TriggerClaimChatMutation
 import com.hedvig.android.owldroid.type.TriggerClaimChatInput
+import com.hedvig.app.ApolloClientWrapper
 import io.reactivex.Observable
-import javax.inject.Singleton
 
-@Singleton
-class ClaimsRepository(private val apolloClient: ApolloClient) {
+class ClaimsRepository(private val apolloClientWrapper: ApolloClientWrapper) {
     private lateinit var claimsQuery: CommonClaimQuery
 
     fun fetchCommonClaims(): Observable<CommonClaimQuery.Data?> {
@@ -20,7 +19,7 @@ class ClaimsRepository(private val apolloClient: ApolloClient) {
             .build()
 
         return Rx2Apollo
-            .from(apolloClient.query(claimsQuery))
+            .from(apolloClientWrapper.apolloClient.query(claimsQuery))
             .map { it.data() }
     }
 
@@ -32,9 +31,10 @@ class ClaimsRepository(private val apolloClient: ApolloClient) {
             .input(inputBuilder.build())
             .build()
 
-        return Rx2Apollo.from(apolloClient.mutate(triggerClaimsChatMutation))
+        return Rx2Apollo.from(apolloClientWrapper.apolloClient.mutate(triggerClaimsChatMutation))
     }
 
-    fun triggerCallMeChat() = Rx2Apollo.from(apolloClient.mutate(TriggerCallMeChatMutation()))
+    fun triggerCallMeChat() = Rx2Apollo.from(
+        apolloClientWrapper.apolloClient.mutate(TriggerCallMeChatMutation()))
 }
 

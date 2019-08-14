@@ -2,9 +2,11 @@ package com.hedvig.app
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
+import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.android.owldroid.graphql.WhatsNewQuery
+import com.hedvig.app.feature.offer.OfferActivity
 import com.hedvig.app.feature.referrals.ReferralsReceiverActivity
 import com.hedvig.app.feature.referrals.ReferralsSuccessfulInviteActivity
 import com.hedvig.app.feature.whatsnew.WhatsNewDialog
@@ -56,6 +58,14 @@ class DevelopmentActivity : AppCompatActivity() {
         }
         findViewById<Button>(R.id.openReferralNotification).setHapticClickListener {
             startActivity(ReferralsSuccessfulInviteActivity.newInstance(this, "Fredrik", "10.00"))
+        }
+
+        findViewById<Button>(R.id.openNativeChat).setHapticClickListener {
+            startActivity(Intent(this, ChatActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.openNativeOffer).setHapticClickListener {
+            startActivity(Intent(this, OfferActivity::class.java))
         }
     }
 }

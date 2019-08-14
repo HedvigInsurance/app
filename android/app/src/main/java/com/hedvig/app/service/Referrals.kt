@@ -6,7 +6,6 @@ import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.hedvig.app.R
 import io.reactivex.Single
-import javax.inject.Inject
 
 class Referrals(val context: Context) {
     fun generateFirebaseLink(memberId: String, remoteConfigData: RemoteConfigData): Single<Uri> {

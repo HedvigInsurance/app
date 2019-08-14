@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.app.R
-import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.util.extensions.*
 import com.hedvig.app.util.extensions.view.disable
 import com.hedvig.app.util.extensions.view.enable

@@ -5,10 +5,9 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.hedvig.android.owldroid.graphql.NewSessionMutation
 import com.hedvig.android.owldroid.graphql.RegisterPushTokenMutation
-import com.hedvig.app.feature.whatsnew.WhatsNewRepository
-import com.hedvig.app.util.react.AsyncStorageNative
+import com.hedvig.app.ApolloClientWrapper
+import com.hedvig.app.util.extensions.getAuthenticationToken
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import org.koin.core.KoinComponent
@@ -16,48 +15,26 @@ import org.koin.core.inject
 import timber.log.Timber
 
 class PushNotificationWorker(
-    context: Context,
+    val context: Context,
     params: WorkerParameters
 ) : Worker(context, params), KoinComponent {
 
-    private val apolloClient: ApolloClient by inject()
-    private val asyncStorageNative: AsyncStorageNative by inject()
-    private val whatsNewRepository: WhatsNewRepository by inject()
+    private val apolloClientWrapper: ApolloClientWrapper by inject()
 
     private val disposables = CompositeDisposable()
 
     override fun doWork(): Result {
         val pushToken = inputData.getString(PUSH_TOKEN) ?: throw Exception("No token provided")
         if (!hasHedvigToken()) {
-            whatsNewRepository.removeNewsForNewUser()
-            acquireHedvigToken {
-                registerPushToken(pushToken)
-            }
-            return Result.success()
+            return Result.retry()
         }
         registerPushToken(pushToken)
         return Result.success()
     }
 
-    private fun acquireHedvigToken(done: () -> Unit) {
-        disposables += Rx2Apollo
-            .from(apolloClient.mutate(NewSessionMutation()))
-            .subscribe({ response ->
-                if (response.hasErrors()) {
-                    Timber.e("Failed to register a hedvig token: %s", response.errors().toString())
-                    return@subscribe
-                }
-                response.data()?.createSessionV2?.token?.let { hedvigToken ->
-                    asyncStorageNative.setKey(HEDVIG_TOKEN, hedvigToken)
-                    Timber.i("Successfully saved hedvig token")
-                    done()
-                } ?: Timber.e("createSession returned no token")
-            }, { Timber.e(it) })
-    }
-
     private fun hasHedvigToken(): Boolean {
         try {
-            val hedvigToken = asyncStorageNative.getKey(HEDVIG_TOKEN)
+            val hedvigToken = context.getAuthenticationToken()
             if (hedvigToken != null) {
                 return true
             }
@@ -75,7 +52,7 @@ class PushNotificationWorker(
             .build()
 
         disposables += Rx2Apollo
-            .from(apolloClient.mutate(registerPushTokenMutation))
+            .from(apolloClientWrapper.apolloClient.mutate(registerPushTokenMutation))
             .subscribe({ response ->
                 if (response.hasErrors()) {
                     Timber.e("Failed to handleExpandWithKeyboard push token: %s", response.errors().toString())
@@ -86,7 +63,6 @@ class PushNotificationWorker(
     }
 
     companion object {
-        private const val HEDVIG_TOKEN = "@hedvig:token"
         const val PUSH_TOKEN = "push_token"
     }
 }

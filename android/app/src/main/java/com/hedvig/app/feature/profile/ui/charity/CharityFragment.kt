@@ -1,9 +1,9 @@
 package com.hedvig.app.feature.profile.ui.charity
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.loading_spinner.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class CharityFragment : Fragment() {
+class CharityFragment : androidx.fragment.app.Fragment() {
     val tracker: ProfileTracker by inject()
 
     val profileViewModel: ProfileViewModel by sharedViewModel()
@@ -82,7 +82,7 @@ class CharityFragment : Fragment() {
 
     private fun showCharityPicker(options: List<ProfileQuery.CashbackOption>) {
         selectCharityContainer.show()
-        cashbackOptions.layoutManager = LinearLayoutManager(requireContext())
+        cashbackOptions.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
         cashbackOptions.adapter =
             CharityAdapter(options, requireContext()) { id ->
                 profileViewModel.selectCashback(id)

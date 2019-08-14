@@ -1,7 +1,7 @@
 package com.hedvig.app.feature.claims.ui.commonclaim
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,7 +54,7 @@ class CommonClaimFragment : BaseCommonClaimFragment() {
         }
 
 
-        bulletPointsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        bulletPointsRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
         bulletPointsRecyclerView.adapter =
             BulletPointsAdapter(
                 layout.bulletPoints,

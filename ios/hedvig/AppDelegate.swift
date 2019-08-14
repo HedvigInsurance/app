@@ -53,15 +53,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
                 toastsView.snp.remakeConstraints { make in
                     let position: CGFloat = 69
-                    if #available(iOS 11.0, *) {
-                        let hasModal = self.rootWindow.rootViewController?.presentedViewController != nil
-                        let safeAreaBottom = self.rootWindow.rootViewController?.view.safeAreaInsets.bottom ?? 0
-                        let extraPadding: CGFloat = hasModal ? 0 : position
-                        make.bottom.equalTo(-(safeAreaBottom + extraPadding))
-                    } else {
-                        make.bottom.equalTo(-position)
-                    }
+                    let hasModal = self.rootWindow.rootViewController?.presentedViewController != nil
+                    let safeAreaBottom = self.rootWindow.rootViewController?.view.safeAreaInsets.bottom ?? 0
+                    let extraPadding: CGFloat = hasModal ? 0 : position
 
+                    make.bottom.equalTo(-(safeAreaBottom + extraPadding))
                     make.centerX.equalToSuperview()
                 }
             }
@@ -226,12 +222,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
 
-        if #available(iOS 10, *) {
-            UNUserNotificationCenter.current().delegate = self
-        }
+        UNUserNotificationCenter.current().delegate = self
 
-        // Set the last seen news version to current if we dont have a token indicating this is a first launch
-        bag += RCTApolloClient.getToken().valueSignal.filter { $0 == nil }.onValue { _ in
+        // Set the last seen news version to current if we dont have a previous state indicating this is a first launch
+        if !ApplicationState.hasPreviousState() {
             ApplicationState.setLastNewsSeen()
         }
 
@@ -290,17 +284,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func registerForPushNotifications() {
-        if #available(iOS 10.0, *) {
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: { _, _ in }
-            )
-        } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            UIApplication.shared.registerUserNotificationSettings(settings)
-        }
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { _, _ in }
+        )
 
         UIApplication.shared.registerForRemoteNotifications()
     }

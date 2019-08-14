@@ -1,6 +1,6 @@
 package com.hedvig.app.feature.profile.ui.referral
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +25,11 @@ import kotlin.math.min
 class InvitesAdapter(
     private val monthlyCost: Int,
     private val data: ProfileQuery.ReferralInformation
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, position: Int): RecyclerView.ViewHolder = when (position) {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        position: Int
+    ): androidx.recyclerview.widget.RecyclerView.ViewHolder = when (position) {
         HEADER -> {
             HeaderViewHolder(
                 LayoutInflater.from(parent.context).inflate(R.layout.referral_header, parent, false)
@@ -60,7 +63,7 @@ class InvitesAdapter(
         return count
     }
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         when (viewHolder.itemViewType) {
             HEADER -> (viewHolder as? HeaderViewHolder)?.apply {
                 val incentive =
@@ -76,7 +79,7 @@ class InvitesAdapter(
                     referralProgressHighPremiumContainer.remove()
                 } else {
                     referralProgressHighPremiumContainer.show()
-                    val highPremiumStringKey = if(calculateDiscount() == 0) {
+                    val highPremiumStringKey = if (calculateDiscount() == 0) {
                         R.string.REFERRAL_PROGRESS_HIGH_PREMIUM_DISCOUNT_NO_MINUS
                     } else {
                         R.string.REFERRAL_PROGRESS_HIGH_PREMIUM_DISCOUNT
@@ -133,8 +136,10 @@ class InvitesAdapter(
                             false
                         )
                         is ProfileQuery.AsInProgressReferral1 -> bindInProgress(this, invite.name)
-                        is ProfileQuery.AsAcceptedReferral1 -> bindNotInitiated(this, invite.quantity
-                            ?: 0)
+                        is ProfileQuery.AsAcceptedReferral1 -> bindNotInitiated(
+                            this, invite.quantity
+                                ?: 0
+                        )
                         is ProfileQuery.AsTerminatedReferral1 -> bindTerminated(this, invite.name)
                         else -> { /* Should never happen */
                         }
@@ -155,8 +160,10 @@ class InvitesAdapter(
                     )
                     is ProfileQuery.AsInProgressReferral -> bindInProgress(this, referredBy.name)
                     is ProfileQuery.AsTerminatedReferral -> bindTerminated(this, referredBy.name)
-                    is ProfileQuery.AsAcceptedReferral -> bindNotInitiated(this, referredBy.quantity
-                        ?: 0)
+                    is ProfileQuery.AsAcceptedReferral -> bindNotInitiated(
+                        this, referredBy.quantity
+                            ?: 0
+                    )
                     else -> { /* Should never happen */
                     }
                 }
@@ -164,12 +171,20 @@ class InvitesAdapter(
         }
     }
 
-    private fun bindActiveRow(viewHolder: ItemViewHolder, nameString: String?, discountString: String?, referredBy: Boolean) =
+    private fun bindActiveRow(
+        viewHolder: ItemViewHolder,
+        nameString: String?,
+        discountString: String?,
+        referredBy: Boolean
+    ) =
         viewHolder.apply {
             setupAvatarWithLetter(this, nameString)
 
             name.text = nameString
-            statusText.text = if (referredBy) statusText.resources.getString(R.string.REFERRAL_INVITE_INVITEDYOUSTATE) else statusText.resources.getString(R.string.REFERRAL_INVITE_NEWSTATE)
+            statusText.text =
+                if (referredBy) statusText.resources.getString(R.string.REFERRAL_INVITE_INVITEDYOUSTATE) else statusText.resources.getString(
+                    R.string.REFERRAL_INVITE_NEWSTATE
+                )
 
             statusIconContainer.setBackgroundResource(R.drawable.background_rounded_corners)
             statusIconContainer.background.setTint(
@@ -268,7 +283,7 @@ class InvitesAdapter(
         private const val PROGRESS_TANK_MAX_SEGMENTS = 20
     }
 
-    inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class HeaderViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val progressTankView: ProgressTankView = view.discountView
         val referralProgressHighPremiumContainer: LinearLayout = view.referralProgressHighPremiumContainer
         val referralProgressHighPremiumDiscount: TextView = view.referralProgressHighPremiumDiscount
@@ -286,11 +301,11 @@ class InvitesAdapter(
         val emptyStateTitle: TextView = view.referralSmallHeader
     }
 
-    inner class SmallHeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class SmallHeaderViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val headerTextView: TextView = view as TextView
     }
 
-    inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ItemViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val avatar: ImageView = view.avatar
         val avatarLetter: TextView = view.avatarLetter
         val name: TextView = view.name
@@ -300,5 +315,5 @@ class InvitesAdapter(
         val statusIcon: ImageView = view.statusIcon
     }
 
-    inner class EmptyViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class EmptyViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 }

@@ -1,23 +1,19 @@
 package com.hedvig.app.feature.profile.ui.myhome
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import com.hedvig.app.R
-import com.hedvig.app.feature.chat.ChatActivity
 import com.hedvig.app.feature.profile.ui.ProfileViewModel
-import com.hedvig.app.util.extensions.proxyNavigate
 import com.hedvig.app.util.extensions.startClosableChat
 import com.hedvig.app.util.whenApiVersion
 import kotlinx.android.synthetic.main.dialog_change_home_info.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class ChangeHomeInfoDialog : DialogFragment() {
+class ChangeHomeInfoDialog : androidx.fragment.app.DialogFragment() {
     val profileViewModel: ProfileViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="@color/off_white"
-             tools:context="com.hedvig.app.feature.profile.ui.payment.TrustlyFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/off_white"
+    tools:context="com.hedvig.app.feature.profile.ui.payment.TrustlyFragment">
 
     <WebView
         android:id="@id/trustlyContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/resultScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/icon_success"/>
+            tools:src="@drawable/icon_success" />
 
         <TextView
             android:id="@+id/resultTitle"
@@ -41,7 +41,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resultIcon"
-            tools:text="@string/PROFILE_TRUSTLY_SUCCESS_TITLE"/>
+            tools:text="@string/PROFILE_TRUSTLY_SUCCESS_TITLE" />
 
         <TextView
             android:id="@+id/resultParagraph"
@@ -55,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resultTitle"
-            tools:text="@string/PROFILE_TRUSTLY_SUCCESS_DESCRIPTION"/>
+            tools:text="@string/PROFILE_TRUSTLY_SUCCESS_DESCRIPTION" />
 
         <Button
             android:id="@+id/resultClose"
@@ -63,19 +63,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:background="@drawable/button_primary"
-            android:theme="@style/HedvigButton"
             android:text="@string/PROFILE_TRUSTLY_CLOSE"
+            android:theme="@style/HedvigButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resultParagraph"
-            tools:backgroundTint="@color/green"/>
+            tools:backgroundTint="@color/green" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
         layout="@layout/loading_spinner"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
 </FrameLayout>

@@ -36,6 +36,16 @@
         android:text="Open native chat screen" />
 
     <Button
+        android:id="@+id/openNativeOffer"
+        style="@style/HedvigButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:backgroundTint="@color/purple"
+        android:text="Open native offer screen" />
+
+    <Button
         android:id="@+id/openAlert"
         style="@style/HedvigButton"
         android:layout_width="wrap_content"

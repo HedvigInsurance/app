@@ -1,6 +1,6 @@
 package com.hedvig.app.feature.profile.ui.aboutapp
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import com.hedvig.app.BaseActivity

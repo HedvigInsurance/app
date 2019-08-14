@@ -1,9 +1,9 @@
 package com.hedvig.app.feature.dashboard.ui
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.hedvig.android.owldroid.graphql.DashboardQuery
-import com.hedvig.app.data.chat.ChatRepository
+import com.hedvig.app.feature.chat.ChatRepository
 import com.hedvig.app.feature.dashboard.data.DashboardRepository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign

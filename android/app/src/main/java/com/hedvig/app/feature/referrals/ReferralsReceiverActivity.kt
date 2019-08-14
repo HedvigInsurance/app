@@ -3,7 +3,6 @@ package com.hedvig.app.feature.referrals
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import com.hedvig.app.BaseActivity
 import com.hedvig.app.R
 import com.hedvig.app.feature.chat.ChatActivity
@@ -25,7 +24,7 @@ class ReferralsReceiverActivity : BaseActivity() {
         setContentView(R.layout.referrals_receiver_activity)
 
         referralViewModel.apply {
-            redeemCodeStatus.observe(this@ReferralsReceiverActivity) { data ->
+            redeemCodeStatus.observe(lifecycleOwner = this@ReferralsReceiverActivity) { data ->
                 if (data != null) {
                     startChat()
                 } else {

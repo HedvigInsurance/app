@@ -1,9 +1,9 @@
 package com.hedvig.app.feature.profile.ui.myinfo
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.view.menu.ActionMenuItemView
+import androidx.fragment.app.Fragment
+import androidx.appcompat.view.menu.ActionMenuItemView
 import android.text.TextWatcher
 import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.loading_spinner.*
 import kotlinx.android.synthetic.main.sphere_container.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class MyInfoFragment : Fragment() {
+class MyInfoFragment : androidx.fragment.app.Fragment() {
     private val profileViewModel: ProfileViewModel by sharedViewModel()
 
     private var emailTextWatcher: TextWatcher? = null

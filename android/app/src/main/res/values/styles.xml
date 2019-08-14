@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Theme.Exponent.Light.V21" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Hedvig.Theme.V21" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccentLight</item>
@@ -9,9 +9,11 @@
         <item name="android:alertDialogTheme">@style/AlertDialog</item>
     </style>
 
-    <style name="Theme.Exponent.Light" parent="Theme.Exponent.Light.V21" />
+    <style name="Hedvig.Theme" parent="Hedvig.Theme.V21" />
 
-    <style name="Theme.Exponent.Splash" parent="Theme.Exponent.Light">
+    <style name="Hedvig.Theme.Offer" />
+
+    <style name="Theme.Exponent.Splash" parent="Hedvig.Theme">
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
@@ -22,7 +24,7 @@
         <item name="android:padding">0dp</item>
     </style>
 
-    <style name="FullScreenDialog" parent="Theme.Exponent.Light">
+    <style name="FullScreenDialog" parent="Hedvig.Theme">
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
@@ -94,6 +96,21 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="HedvigButton.Negative">
+        <item name="android:textColor">@color/off_black_dark</item>
+    </style>
+
+    <style name="HedvigButton.Small">
+        <item name="android:textSize">12sp</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+    </style>
+
+    <style name="HedvigButton.Small.Negative">
+        <item name="android:textColor">@color/off_black_dark</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -210,4 +227,28 @@
         <item name="android:background">@drawable/background_rounded_corners</item>
         <item name="android:fontFamily">@font/circular_book</item>
     </style>
+
+
+    <style name="DialogNoAnimation">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
+    </style>
+
+    <style name="TransparentDialog" parent="TransparentDialog.V21" />
+
+    <style name="TransparentDialog.V21" parent="Hedvig.Theme">
+        <item name="android:background">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
 </resources>

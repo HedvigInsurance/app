@@ -1,9 +1,9 @@
 package com.hedvig.app.util
 
 import android.graphics.Color
-import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
-import android.support.v4.graphics.ColorUtils
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.core.graphics.ColorUtils
 import com.hedvig.android.owldroid.type.HedvigColor
 import com.hedvig.app.R
 import kotlin.math.abs

@@ -1,11 +1,17 @@
 package com.hedvig.app.feature.chat
 
-import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.hedvig.android.owldroid.graphql.LogoutMutation
-import javax.inject.Inject
+import com.hedvig.android.owldroid.graphql.*
+import com.hedvig.app.ApolloClientWrapper
 
-class UserRepository(private val apolloClient: ApolloClient) {
+class UserRepository(private val apolloClientWrapper: ApolloClientWrapper) {
 
-    fun logout() = Rx2Apollo.from(apolloClient.mutate(LogoutMutation()))
+    fun newUserSession() = Rx2Apollo.from(apolloClientWrapper.apolloClient.mutate(NewSessionMutation()))
+
+    fun fetchAutoStartToken() = Rx2Apollo.from(apolloClientWrapper.apolloClient.mutate(BankIdAuthMutation()))
+
+    fun subscribeAuthStatus() =
+        Rx2Apollo.from(apolloClientWrapper.apolloClient.subscribe(AuthStatusSubscription.builder().build()))
+
+    fun logout() = Rx2Apollo.from(apolloClientWrapper.apolloClient.mutate(LogoutMutation()))
 }
