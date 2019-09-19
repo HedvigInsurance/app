@@ -1,4 +1,4 @@
-# this repository is no longer in use, to see the code for Hedvig's apps follow the links:
+## This repository is no longer in use, to see the code for Hedvig's apps follow the links:
 
 [Android](https://github.com/HedvigInsurance/android)
 
