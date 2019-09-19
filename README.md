@@ -1,3 +1,4 @@
-[![Test & Lint status](https://travis-ci.org/HedvigInsurance/app.svg?branch=marketing-carousel)](https://travis-ci.org/HedvigInsurance/app)
+# this repository is no longer in use, to see the code for Hedvig's apps follow the links:
 
-# Hedvig app
+[Android](https://github.com/HedvigInsurance/android)
+[iOS](https://github.com/HedvigInsurance/ugglan)
