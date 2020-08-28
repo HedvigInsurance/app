@@ -1014,10 +1014,10 @@
   dependencies:
     "@types/react-native" "*"
 
-"@types/react-native-video@^2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@types/react-native-video/-/react-native-video-2.0.7.tgz#e7a41c3c2eac82ee116e9dae20cc0934cfef45f7"
-  integrity sha512-dj3ZGF16zy3nBO9wgX4HsmFdpdlQW2llwSo5lO8zl9sYiEBdBhrDHm26pjXaQZ5GDKpYOczQYHNOjgLWbNOG7A==
+"@types/react-native-video@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@types/react-native-video/-/react-native-video-3.1.4.tgz#17049b708d22f7254971b823523d7afe9a8a9bb6"
+  integrity sha512-bFAgMtItNyHDhg9XV2EYw+o4ARZD26h4AEAuQkYBBs3DXe3cdFfiDKD1SKMV25hu2JjGsfQ/n6Si+N+s+tFWaA==
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
